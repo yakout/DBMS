@@ -10,6 +10,10 @@ public class XMLConnection implements Connection {
 
 	private static XMLConnection instance = null;
 
+	private XMLConnection() {
+
+	}
+
 	public static XMLConnection getInstance() {
 		if (instance == null)
 			instance = new XMLConnection();
