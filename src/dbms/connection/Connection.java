@@ -3,42 +3,73 @@ package dbms.connection;
 import java.util.Collection;
 import java.util.HashMap;
 
+import dbms.exception.DatabaseAlreadyCreatedException;
+import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.TableAlreadyCreatedException;
+import dbms.exception.TableNotFoundException;
+import dbms.exception.TypeNotSupportedException;
 import dbms.util.Result;
 import dbms.util.sql.Condition;
 
 public interface Connection {
-	public void createDatabase(String dbName);
+	public void createDatabase(String dbName)
+			throws DatabaseAlreadyCreatedException;
 
-	public void dropDatabase(String dbName);
+	public void dropDatabase(String dbName)
+			throws DatabaseNotFoundException;
 
 	public void createTable(String dbName, String tableName,
-			HashMap<String, Class> columns);
+			HashMap<String, Class> columns)
+				throws TableAlreadyCreatedException,
+				DatabaseNotFoundException,
+				TypeNotSupportedException;
 
-	public void dropTable(String tableName);
+	public void dropTable(String tableName)
+			throws TableNotFoundException,
+			DatabaseNotFoundException;
 
 	public void insertIntoTable(String dbName, String tableName,
-			HashMap<String, Object> entryMap);
+			HashMap<String, Object> entryMap)
+				throws TableNotFoundException,
+				DatabaseNotFoundException,
+				TypeNotSupportedException;
 
-	public Result selectAll(String dbName, String tableName);
+	public Result selectAll(String dbName, String tableName)
+			throws TableNotFoundException,
+			DatabaseNotFoundException;
 
 	public Result selectAll(String dbName, String tableName,
-			Condition condition);
+			Condition condition)
+				throws TableNotFoundException,
+				DatabaseNotFoundException;
 
 	public Result select(String dbName, String tableName,
-			Collection<String> columns);
+			Collection<String> columns)
+				throws TableNotFoundException,
+				DatabaseNotFoundException;
 
 	public Result select(String dbName, String tableName,
-			Collection<String> columns, Condition condition);
+			Collection<String> columns, Condition condition)
+				throws TableNotFoundException,
+				DatabaseNotFoundException;
 
 	public void delete(String dbName, String tableName,
-			Collection<String> columns);
+			Collection<String> columns)
+				throws TableNotFoundException,
+				DatabaseNotFoundException;
 
 	public void delete(String dbName, String tableName,
-			Collection<String> columns, Condition condition);
+			Collection<String> columns, Condition condition)
+				throws TableNotFoundException,
+				DatabaseNotFoundException;
 
 	public void update(String dbName, String tableName,
-			Collection<String> columns);
+			Collection<String> columns)
+				throws TableNotFoundException,
+				DatabaseNotFoundException;
 
 	public void update(String dbName, String tableName,
-			Collection<String> columnns, Condition condition);
+			Collection<String> columnns, Condition condition)
+				throws TableNotFoundException,
+				DatabaseNotFoundException;
 }

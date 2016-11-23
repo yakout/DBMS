@@ -33,7 +33,8 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public void createTable(String dbName, String tableName, HashMap<String, Class> columns) {
+	public void createTable(String dbName,
+			String tableName, HashMap<String, Class> columns) {
 		// TODO Auto-generated method stub
 
 	}
@@ -45,7 +46,8 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public void insertIntoTable(String dbName, String tableName, HashMap<String, Object> entryMap) {
+	public void insertIntoTable(String dbName,
+			String tableName, HashMap<String, Object> entryMap) {
 		// TODO Auto-generated method stub
 
 	}
@@ -69,7 +71,8 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public Result select(String dbName, String tableName, Collection<String> columns, Condition condition) {
+	public Result select(String dbName, String tableName,
+			Collection<String> columns, Condition condition) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -81,19 +84,22 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public void delete(String dbName, String tableName, Collection<String> columns, Condition condition) {
+	public void delete(String dbName, String tableName,
+			Collection<String> columns, Condition condition) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void update(String dbName, String tableName, Collection<String> columns) {
+	public void update(String dbName, String tableName,
+			Collection<String> columns) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void update(String dbName, String tableName, Collection<String> columnns, Condition condition) {
+	public void update(String dbName, String tableName,
+			Collection<String> columnns, Condition condition) {
 		// TODO Auto-generated method stub
 
 	}
