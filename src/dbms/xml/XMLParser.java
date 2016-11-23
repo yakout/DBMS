@@ -3,15 +3,18 @@ package dbms.xml;
 import java.io.File;
 import java.util.HashMap;
 
-import dbms.exception.DatabaseAlreadyFoundException;
+import dbms.exception.DatabaseAlreadyCreatedException;
+import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.TableAlreadyCreatedException;
 
 public class XMLParser {
-	private static final String WORKSPACE_DIR =
-			System.getProperty("user.home") + "\\databases";
+
 	private static XMLParser instance = null;
 
-	private XMLParser() {
+	private static final String WORKSPACE_DIR =
+			System.getProperty("user.home") + "\\databases";
 
+	private XMLParser() {
 	}
 
 	public static XMLParser getInstance() {
@@ -21,7 +24,7 @@ public class XMLParser {
 		return instance;
 	}
 
-	public void createDatabase(String dbName) throws DatabaseAlreadyFoundException {
+	public void createDatabase(String dbName) throws DatabaseAlreadyCreatedException {
 		File workspace = new File(WORKSPACE_DIR);
 		if (!workspace.exists()) {
 			workspace.mkdir();
@@ -30,11 +33,14 @@ public class XMLParser {
 		if (!database.exists()) {
 			database.mkdir();
 		} else {
-			throw new DatabaseAlreadyFoundException();
+			throw new DatabaseAlreadyCreatedException();
 		}
 	}
 
-	public void createTable(String dbName, String tableName, HashMap<String, Class> columns) {
-		DOMParser.getInstance().createTable(dbName, tableName);
+	public void createTable(String dbName, String tableName,
+			HashMap<String, Class> columns) throws DatabaseNotFoundException, TableAlreadyCreatedException {
+		SchemaParser.getInstance().createSchema(dbName,
+				tableName, columns);
+		TableParser.getInstance().createTable(dbName, tableName);
 	}
 }
