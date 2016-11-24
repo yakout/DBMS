@@ -39,6 +39,17 @@ public class TableParser {
 
 
 	private TableParser() {
+		initialize();
+	}
+	
+	public static TableParser getInstance() {
+		if (instance == null) {
+			instance = new TableParser();
+		}
+		return instance;
+	}
+	
+	private void initialize() {
 		try {
 			docBuilder = DocumentBuilderFactory
 					.newInstance().newDocumentBuilder();
@@ -54,14 +65,7 @@ public class TableParser {
 			e.printStackTrace();
 		}
 	}
-
-	public static TableParser getInstance() {
-		if (instance == null) {
-			instance = new TableParser();
-		}
-		return instance;
-	}
-
+	
 	public void createTable(String dbName, String tableName)
 			throws DatabaseNotFoundException, TableAlreadyCreatedException {
 		File database = new File(WORKSPACE_DIR + "\\" + dbName);

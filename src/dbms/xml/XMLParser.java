@@ -3,6 +3,8 @@ package dbms.xml;
 import java.io.File;
 import java.util.HashMap;
 
+import javax.xml.transform.TransformerException;
+
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.TableAlreadyCreatedException;
@@ -38,9 +40,12 @@ public class XMLParser {
 	}
 
 	public void createTable(String dbName, String tableName,
-			HashMap<String, Class> columns) throws DatabaseNotFoundException, TableAlreadyCreatedException {
+			HashMap<String, Class> columns) throws
+			DatabaseNotFoundException, TableAlreadyCreatedException,
+			TransformerException {
+		
 		SchemaParser.getInstance().createSchema(dbName,
-				tableName, columns);
+				tableName);
 		TableParser.getInstance().createTable(dbName, tableName);
 	}
 }

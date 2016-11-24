@@ -1,12 +1,15 @@
 package dbms.test;
 
+import javax.xml.transform.TransformerException;
+
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.xml.XMLParser;
 
 public class Test {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws
+		TransformerException {
 
 		try {
 			XMLParser.getInstance().createDatabase("db");
