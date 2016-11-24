@@ -3,7 +3,6 @@ package dbms.xml;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -25,6 +24,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 
@@ -45,6 +45,7 @@ public class TableParser {
 	private static final String DB_ATTR = "database";
 	private static final String ROWS_ATTR = "rows";
 	private static final String TYPE_ATTR = "type";
+	private static final String INDEX_ATTR = "index";
 
 	private TableParser() {
 		try {
@@ -94,7 +95,7 @@ public class TableParser {
 
 	public void insertIntoTable(String dbName, String tableName,
 			Map<String, Object> entryMap)
-			throws DatabaseNotFoundException, TableNotFoundException {
+			throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
 		File tableFile = new File(openDB(dbName), tableName);
 		if (!tableFile.exists()) {
 			throw new TableNotFoundException();
@@ -108,17 +109,15 @@ public class TableParser {
 		addRow(doc, entryMap);
 	}
 
-	private Element addRow(Document doc,
-			Map<String, Object> entryMap) {
+	private void addRow(Document doc,
+			Map<String, Object> entryMap) throws SyntaxErrorException {
 		//Changing rows attribute value in <table>
 		Node rowsAttr = doc.getFirstChild()
 				.getAttributes().getNamedItem(ROWS_ATTR);
 		int index = Integer.parseInt(
-				rowsAttr.getTextContent()) + 1;
-		rowsAttr.setTextContent(Integer.toString(index));
+				rowsAttr.getTextContent());
+		rowsAttr.setTextContent(Integer.toString(index + 1));
 		//Adding a row to <col>s
-		Element row =
-				doc.createElement(ROW_ELEMENT);
 		NodeList cols = doc.getElementsByTagName(
 				COLUMN_ELEMENT);
 		for (int i = 0; i < cols.getLength(); i++) {
@@ -127,8 +126,27 @@ public class TableParser {
 					.getNamedItem(NAME_ATTR).getTextContent();
 			String type = col.getAttributes()
 					.getNamedItem(TYPE_ATTR).getTextContent();
+			Object value = entryMap.get(name);
+			if (value == null) {
+				throw new SyntaxErrorException();
+			}
+			Node newRow =
+					getNewRowContent(doc, index, type, value);
+			col.appendChild(newRow);
 		}
-		return null;
+	}
+
+	private Node getNewRowContent(Document doc, int index,
+			String type, Object value) throws SyntaxErrorException {
+		Element row =
+				doc.createElement(ROW_ELEMENT);
+		row.setAttribute(INDEX_ATTR, Integer.toString(index));
+		String content = getObjectStringValue(value, type);
+		if (content == null) {
+			throw new SyntaxErrorException();
+		}
+		row.setTextContent(content);
+		return row;
 	}
 
 	private File openDB(String dbName)
@@ -140,24 +158,15 @@ public class TableParser {
 		return database;
 	}
 
-	private HashMap<String, Class> getColumns(
-			Document doc) {
-		HashMap<String, Class> columns =
-				new HashMap<>();
-		NodeList cols = doc.getElementsByTagName(
-				COLUMN_ELEMENT);
-		for (int i = 0; i < cols.getLength(); i++) {
-			Node col = cols.item(i);
-			String name = col.getAttributes()
-					.getNamedItem(NAME_ATTR).getTextContent();
-			String type = col.getAttributes()
-					.getNamedItem(TYPE_ATTR).getTextContent();
-			if (type.equals("String")) {
-				columns.put(name, String.class);
-			} else if (type.equals("Integer")) {
-				columns.put(name, Integer.class);
-			}
+	private String getObjectStringValue(Object x, String type) {
+		if (x instanceof Integer
+				&& type.equals("Integer")) {
+			return ((Integer) x).toString();
 		}
-		return columns;
+		if (x instanceof String
+				&& type.equals("String")) {
+			return ((String) x);
+		}
+		return null;
 	}
 }

@@ -19,8 +19,12 @@ public class Test {
 //		} catch (TableAlreadyCreatedException e) {
 //			System.err.println("TABLE ALREADY FOUND");
 //		}
-		HashMap<String, String> x = new HashMap<>();
-		x.put("a", "b");
-		System.out.print(x.get("x"));
+		HashMap<String, Object> x = new HashMap<>();
+		x.put("col1", new Integer(5));
+		get(x.get("col2"));
+	}
+
+	private static void get(Object n) {
+		System.out.println();
 	}
 }
