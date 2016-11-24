@@ -47,12 +47,17 @@ public class Test {
 		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException e) {
 			e.printStackTrace();
 		}
-		ResultSet x = XMLParser.getInstance().selectAll("testDB", "table1");
-		for (Result ind : x) {
-			System.out.println(ind);
-//			System.out.println(ind.getInt("ID"));
-//			System.out.println(ind.getString("Name"));
-//			System.out.println(ind.getString("Organization"));
+		ResultSet x = null;
+		try {
+			x = XMLParser.getInstance().select("testDB", "table1", null);
+		} catch (DatabaseNotFoundException | TableNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (Result res : x) {
+			System.out.println(res.getInt("ID"));
+			System.out.println(res.getString("Name"));
+			System.out.println(res.getString("Organization"));
 		}
 	}
 }

@@ -3,7 +3,7 @@ package dbms.xml;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -20,7 +20,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -29,6 +28,7 @@ import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
+import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.util.Result;
 import dbms.util.ResultSet;
 
@@ -93,13 +93,11 @@ public class TableParser {
 		addColumns(doc, table, columns);
 		transform(doc, tableFile);
 	}
-	
-	public ResultSet selectAll(String dbName, String tableName)
-			throws DatabaseNotFoundException, TableNotFoundException {
-		File tableFile = new File(openDB(dbName), tableName + EXTENSION);
-		if (!tableFile.exists()) {
-			throw new TableNotFoundException();
-		}
+
+	public ResultSet select(String dbName,
+			String tableName, Condition condition)
+					throws TableNotFoundException, DatabaseNotFoundException {
+		File tableFile = openTable(dbName, tableName);
 		Document doc = null;
 		try {
 			doc = docBuilder.parse(tableFile);
@@ -107,30 +105,48 @@ public class TableParser {
 			e.printStackTrace();
 		}
 		doc.getDocumentElement().normalize();
-		ResultSet resultSet = new ResultSet();
-		NodeList rowList = doc.getElementsByTagName(ROW_ELEMENT);
 		int size = Integer.parseInt(doc.getFirstChild().
 				getAttributes().getNamedItem(ROWS_ATTR).getTextContent());
-		System.out.println(size);
+		NodeList rowList = doc.getElementsByTagName(ROW_ELEMENT);
 		Result[] rows = new Result[size];
+		Boolean[] conditionMet = new Boolean[size];
+		Arrays.fill(conditionMet, true);
 		for (int i = 0; i < rowList.getLength(); i++) {
-			Node currChild = rowList.item(i);
-			if (currChild.getNodeType() == Node.ELEMENT_NODE) {
-				Node parentNode = currChild.getParentNode();
-				Element parentNodeElement = (Element)parentNode;
-				Element e = (Element)currChild;
-				int index = Integer.parseInt(e.getAttribute(INDEX_ATTR));
-				if (rows[index] == null) {
-					rows[index] = new Result();
-				}
-				rows[index].add(parentNodeElement.getAttribute(NAME_ATTR),
-						currChild.getTextContent().toString());
+			Node row = rowList.item(i);
+			Node col = row.getParentNode();
+			int index = Integer.parseInt(((Element) row).getAttribute(INDEX_ATTR));
+			if (!conditionMet[index]) {
+				continue;
 			}
+			if (rows[index] == null) {
+				rows[index] = new Result();
+			}
+			String name = col.getAttributes()
+					.getNamedItem(NAME_ATTR).getTextContent();
+			String type = col.getAttributes()
+					.getNamedItem(TYPE_ATTR).getTextContent();
+			if (type.equals("Integer")) {
+				rows[index].add(name, Integer.parseInt(
+						row.getTextContent()));
+			} else if (type.equals("String")) {
+				rows[index].add(name, row.getTextContent());
+			}
+			//if condition doesn't meet --> conditionMet[index] = false, set result at this index with null;
 		}
+		ResultSet results =
+				new ResultSet();
 		for (int i = 0; i < size; i++) {
-			resultSet.add(rows[i]);
+			results.add(rows[i]);
 		}
-		return resultSet;
+		return results;
+	}
+
+	private File openTable(String dbName, String tableName) throws DatabaseNotFoundException, TableNotFoundException {
+		File tableFile = new File(openDB(dbName), tableName + EXTENSION);
+		if (!tableFile.exists()) {
+			throw new TableNotFoundException();
+		}
+		return tableFile;
 	}
 
 	private void addColumns(Document doc, Node table,
@@ -152,10 +168,7 @@ public class TableParser {
 			Map<String, Object> entryMap)
 			throws DatabaseNotFoundException,
 			TableNotFoundException, SyntaxErrorException {
-		File tableFile = new File(openDB(dbName), tableName + EXTENSION);
-		if (!tableFile.exists()) {
-			throw new TableNotFoundException();
-		}
+		File tableFile = openTable(dbName, tableName);
 		Document doc = null;
 		try {
 			doc = docBuilder.parse(tableFile);
