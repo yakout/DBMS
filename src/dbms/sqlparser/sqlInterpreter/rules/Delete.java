@@ -5,18 +5,31 @@ import dbms.sqlparser.sqlInterpreter.Expression;
 import java.util.Collection;
 
 public class Delete implements Expression {
-    private String dbName;
     private String tableName;
-    private Collection<String> columns;
     private Where where;
 
+    public Delete(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public void setWhere(Where where) {
+        this.where = where;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public Where getWhere() {
+        return where;
+    }
 
     @Override
     public void execute() {
         if (where == null) {
-            XMLConnection.getInstance().delete(dbName, tableName, columns);
+            XMLConnection.getInstance().delete(tableName);
         } else {
-            XMLConnection.getInstance().delete(dbName, tableName, columns, where);
+            XMLConnection.getInstance().delete(tableName, where);
         }
     }
 }

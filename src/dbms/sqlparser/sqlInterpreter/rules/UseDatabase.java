@@ -10,6 +10,10 @@ public class UseDatabase implements Expression {
         this.dbName = dbName;
     }
 
+    public String getDbName() {
+        return dbName;
+    }
+
     @Override
     public void execute() {
         XMLConnection.getInstance().useDatabase(dbName);
