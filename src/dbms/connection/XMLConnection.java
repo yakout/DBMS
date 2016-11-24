@@ -6,7 +6,7 @@ import java.util.Map;
 
 import dbms.exception.DatabaseNotFoundException;
 import dbms.sqlparser.sqlInterpreter.Condition;
-import dbms.util.Result;
+import dbms.util.ResultSet;
 
 public class XMLConnection implements Connection {
 
@@ -55,25 +55,25 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public Result selectAll(String tableName) {
+	public ResultSet selectAll(String tableName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Result selectAll(String tableName, Condition condition) {
+	public ResultSet selectAll(String tableName, Condition condition) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Result select(String tableName, Collection<String> columns) {
+	public ResultSet select(String tableName, Collection<String> columns) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Result select(String tableName,
+	public ResultSet select(String tableName,
 			Collection<String> columns, Condition condition) {
 		// TODO Auto-generated method stub
 		return null;

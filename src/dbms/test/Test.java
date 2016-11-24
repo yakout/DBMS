@@ -1,30 +1,33 @@
 package dbms.test;
 
-import java.util.HashMap;
-
-import javax.xml.transform.TransformerException;
+import dbms.util.ResultSet;
 
 public class Test {
-	public static void main(String[] args) throws
-		TransformerException {
+	public static void main(String[] args) {
 //		try {
-//			XMLParser.getInstance().createDatabase("db");
+//			XMLParser.getInstance().createDatabase("testDB");
 //		} catch (DatabaseAlreadyCreatedException e) {
-//			System.err.println("DATABASE ALREADY CREATED");
+//			e.printStackTrace();
 //		}
+//		Map<String, Class> columns = new HashMap<>();
+//		columns.put("ID", Integer.class);
+//		columns.put("Name", String.class);
+//		columns.put("Organization", String.class);
 //		try {
-//			XMLParser.getInstance().createTable("db", "table1", null);
-//		} catch (DatabaseNotFoundException e) {
-//			System.err.println("DATABASE NOT FOUND");
-//		} catch (TableAlreadyCreatedException e) {
-//			System.err.println("TABLE ALREADY FOUND");
+//			XMLParser.getInstance().createTable("testDB", "table1", columns);
+//		} catch (DatabaseNotFoundException | TableAlreadyCreatedException | TransformerException | SyntaxErrorException e) {
+//			e.printStackTrace();
 //		}
-		HashMap<String, Object> x = new HashMap<>();
-		x.put("col1", new Integer(5));
-		get(x.get("col2"));
-	}
-
-	private static void get(Object n) {
-		System.out.println();
+//		Map<String, Object> rows = new HashMap<>();
+//		rows.put("ID", 125);
+//		rows.put("Name", "hamada14");
+//		rows.put("Organization", "AlexU");
+//		try {
+//			XMLParser.getInstance().insertIntoTable("testDB", "table1", rows);
+//		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		ResultSet set = new ResultSet();
 	}
 }

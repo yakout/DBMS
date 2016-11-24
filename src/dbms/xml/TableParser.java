@@ -39,7 +39,7 @@ public class TableParser {
 			"{http://xml.apache.org/xslt}indent-amount";
 	private static final String INDENTATION_VAL = "4";
 	private static final String TABLE_ELEMENT = "table";
-	private static final String COLUMN_ELEMENT = "column";
+	private static final String COLUMN_ELEMENT = "col";
 	private static final String ROW_ELEMENT = "row";
 	private static final String NAME_ATTR = "name";
 	private static final String DB_ATTR = "database";
@@ -71,32 +71,45 @@ public class TableParser {
 		return instance;
 	}
 
-	public void createTable(String dbName, String tableName, Map<String, Class> columns)
-			throws DatabaseNotFoundException, TableAlreadyCreatedException {
-		File table = new File(openDB(dbName), tableName);
-		if (table.exists()) {
+	public void createTable(String dbName, String tableName,
+			Map<String, Class> columns)
+			throws DatabaseNotFoundException,
+			TableAlreadyCreatedException, SyntaxErrorException {
+		File tableFile = new File(openDB(dbName), tableName + EXTENSION);
+		if (tableFile.exists()) {
 			throw new TableAlreadyCreatedException();
 		}
 		Document doc = docBuilder.newDocument();
 		//Table element
-		Element root = doc.createElement(TABLE_ELEMENT);
-		root.setAttribute(NAME_ATTR, tableName);
-		root.setAttribute(DB_ATTR, dbName);
-		doc.appendChild(root);
-		DOMSource source = new DOMSource(doc);
-		StreamResult result =
-				new StreamResult(table);
-		try {
-			transformer.transform(source, result);
-		} catch (TransformerException e) {
-			e.printStackTrace();
+		Element table = doc.createElement(TABLE_ELEMENT);
+		table.setAttribute(NAME_ATTR, tableName);
+		table.setAttribute(DB_ATTR, dbName);
+		table.setAttribute(ROWS_ATTR, "0");
+		doc.appendChild(table);
+		addColumns(doc, table, columns);
+		transform(doc, tableFile);
+	}
+
+	private void addColumns(Document doc, Node table,
+			Map<String, Class> columns) throws SyntaxErrorException {
+		for (Map.Entry<String, Class> col : columns.entrySet()) {
+			String name = col.getKey();
+			String type = getClassName(col.getValue());
+			if (type == null) {
+				throw new SyntaxErrorException();
+			}
+			Element column = doc.createElement(COLUMN_ELEMENT);
+			column.setAttribute(NAME_ATTR, name);
+			column.setAttribute(TYPE_ATTR, type);
+			table.appendChild(column);
 		}
 	}
 
 	public void insertIntoTable(String dbName, String tableName,
 			Map<String, Object> entryMap)
-			throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
-		File tableFile = new File(openDB(dbName), tableName);
+			throws DatabaseNotFoundException,
+			TableNotFoundException, SyntaxErrorException {
+		File tableFile = new File(openDB(dbName), tableName + EXTENSION);
 		if (!tableFile.exists()) {
 			throw new TableNotFoundException();
 		}
@@ -107,6 +120,7 @@ public class TableParser {
 			e.printStackTrace();
 		}
 		addRow(doc, entryMap);
+		transform(doc, tableFile);
 	}
 
 	private void addRow(Document doc,
@@ -158,15 +172,36 @@ public class TableParser {
 		return database;
 	}
 
-	private String getObjectStringValue(Object x, String type) {
-		if (x instanceof Integer
+	private String getObjectStringValue(Object o, String type) {
+		if (o instanceof Integer
 				&& type.equals("Integer")) {
-			return ((Integer) x).toString();
+			return ((Integer) o).toString();
 		}
-		if (x instanceof String
+		if (o instanceof String
 				&& type.equals("String")) {
-			return ((String) x);
+			return ((String) o);
 		}
 		return null;
+	}
+
+	private String getClassName(Class c) {
+		if (c.equals(Integer.class)) {
+			return "Integer";
+		}
+		if (c.equals(String.class)) {
+			return "String";
+		}
+		return null;
+	}
+
+	private void transform(Document doc, File tableFile) {
+		DOMSource source = new DOMSource(doc);
+		StreamResult result =
+				new StreamResult(tableFile);
+		try {
+			transformer.transform(source, result);
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		}
 	}
 }

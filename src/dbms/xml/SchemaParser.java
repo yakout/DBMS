@@ -42,7 +42,7 @@ public class SchemaParser {
 	private static final String INT_TYPE = "xs:integer";
 	/** Tag elements.*/
 	private static final String TABLE_ELEMENT = "table";
-	private static final String COLUMN_ELEMENT = "column";
+	private static final String COLUMN_ELEMENT = "col";
 	private static final String ROW_ELEMENT = "row";
 	/** XS nodes.*/
 	private static final String FORMDEFAULT_ATTR = "attributeFormDefault";

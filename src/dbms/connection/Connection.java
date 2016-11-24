@@ -10,7 +10,7 @@ import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.exception.TypeNotSupportedException;
 import dbms.sqlparser.sqlInterpreter.Condition;
-import dbms.util.Result;
+import dbms.util.ResultSet;
 
 
 public interface Connection {
@@ -36,21 +36,21 @@ public interface Connection {
 				DatabaseNotFoundException,
 				TypeNotSupportedException;
 
-	public Result selectAll(String tableName)
+	public ResultSet selectAll(String tableName)
 			throws TableNotFoundException,
 			DatabaseNotFoundException;
 
-	public Result selectAll(String tableName,
+	public ResultSet selectAll(String tableName,
 			Condition condition)
 				throws TableNotFoundException,
 				DatabaseNotFoundException;
 
-	public Result select(String tableName,
+	public ResultSet select(String tableName,
 			Collection<String> columns)
 				throws TableNotFoundException,
 				DatabaseNotFoundException;
 
-	public Result select(String tableName,
+	public ResultSet select(String tableName,
 			Collection<String> columns, Condition condition)
 				throws TableNotFoundException,
 				DatabaseNotFoundException;
