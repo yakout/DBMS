@@ -113,6 +113,9 @@ public class TableParser {
 		Arrays.fill(conditionMet, true);
 		for (int i = 0; i < rowList.getLength(); i++) {
 			Node row = rowList.item(i);
+			if (row.getTextContent() == "") {
+				continue;
+			}
 			Node col = row.getParentNode();
 			int index = Integer.parseInt(((Element) row).getAttribute(INDEX_ATTR));
 			if (!conditionMet[index]) {
@@ -141,7 +144,8 @@ public class TableParser {
 		return results;
 	}
 
-	private File openTable(String dbName, String tableName) throws DatabaseNotFoundException, TableNotFoundException {
+	private File openTable(String dbName, String tableName)
+			throws DatabaseNotFoundException, TableNotFoundException {
 		File tableFile = new File(openDB(dbName), tableName + EXTENSION);
 		if (!tableFile.exists()) {
 			throw new TableNotFoundException();
@@ -181,27 +185,53 @@ public class TableParser {
 
 	private void addRow(Document doc,
 			Map<String, Object> entryMap) throws SyntaxErrorException {
-		//Changing rows attribute value in <table>
 		Node rowsAttr = doc.getFirstChild()
 				.getAttributes().getNamedItem(ROWS_ATTR);
 		int index = Integer.parseInt(
 				rowsAttr.getTextContent());
 		rowsAttr.setTextContent(Integer.toString(index + 1));
-		//Adding a row to <col>s
 		NodeList cols = doc.getElementsByTagName(
 				COLUMN_ELEMENT);
-		for (int i = 0; i < cols.getLength(); i++) {
-			Node col = cols.item(i);
-			String name = col.getAttributes()
-					.getNamedItem(NAME_ATTR).getTextContent();
-			String type = col.getAttributes()
-					.getNamedItem(TYPE_ATTR).getTextContent();
-			Object value = entryMap.get(name);
-			if (value == null) {
+		insertRowData(doc, index, cols, entryMap);
+
+	}
+
+	private void insertRowData(Document doc, int index,
+			NodeList cols, Map<String, Object> entryMap)
+					throws SyntaxErrorException {
+		Boolean[] insertedInCol = new Boolean[cols.getLength()];
+		Arrays.fill(insertedInCol, false);
+		for (Map.Entry<String, Object> entry : entryMap.entrySet()) {
+			String entryName = entry.getKey();
+			boolean foundCol = false;
+			for (int i = 0; i < cols.getLength(); i++) {
+				Node col = cols.item(i);
+				String name = col.getAttributes()
+						.getNamedItem(NAME_ATTR).getTextContent();
+				if (name.equals(entryName)) {
+					foundCol = true;
+					insertedInCol[i] = true;
+					String type = col.getAttributes()
+							.getNamedItem(TYPE_ATTR).getTextContent();
+					Node newRow =
+							getNewRowContent(doc, index, type, entry.getValue());
+					col.appendChild(newRow);
+					break;
+				}
+			}
+			if (!foundCol) {
 				throw new SyntaxErrorException();
 			}
+		}
+		for (int i = 0; i < cols.getLength(); i++) {
+			if (insertedInCol[i]) {
+				continue;
+			}
+			Node col = cols.item(i);
+			String type = col.getAttributes()
+					.getNamedItem(TYPE_ATTR).getTextContent();
 			Node newRow =
-					getNewRowContent(doc, index, type, value);
+					getNewRowContent(doc, index, type, null);
 			col.appendChild(newRow);
 		}
 	}
@@ -229,6 +259,9 @@ public class TableParser {
 	}
 
 	private String getObjectStringValue(Object o, String type) {
+		if (o == null) {
+			return "";
+		}
 		if (o instanceof Integer
 				&& type.equals("Integer")) {
 			return ((Integer) o).toString();

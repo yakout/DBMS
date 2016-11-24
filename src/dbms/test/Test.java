@@ -39,8 +39,7 @@ public class Test {
 		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException e) {
 			e.printStackTrace();
 		}
-		rows.put("ID", 1532);
-		rows.put("Name", "tryyy");
+		rows.clear();
 		rows.put("Organization", "zzzzzzz");
 		try {
 			XMLParser.getInstance().insertIntoTable("testDB", "table1", rows);
