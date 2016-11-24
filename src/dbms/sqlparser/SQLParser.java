@@ -208,13 +208,13 @@ public class SQLParser {
             Operator operator = toOperator(matcher.group(9));
             if (predicates[1].trim().startsWith("'")) {
                 Object value = predicates[1].trim();
-                sqlPredicate = new SQLPredicate(predicates[0], operator, value);
+                sqlPredicate = new SQLPredicate(predicates[0].trim(), operator, value);
             } else {
                 try {
-                    sqlPredicate = new SQLPredicate(predicates[0], operator,
+                    sqlPredicate = new SQLPredicate(predicates[0].trim(), operator,
                             Integer.parseInt(predicates[1].trim()));
                 } catch (NumberFormatException e) {
-                    sqlPredicate = new SQLPredicate(predicates[0], operator, predicates[1].trim());
+                    sqlPredicate = new SQLPredicate(predicates[0].trim(), operator, predicates[1].trim());
                 }
             }
             update.setWhere(new Where(Arrays.asList(sqlPredicate)));
