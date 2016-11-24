@@ -138,22 +138,24 @@ public class SchemaParser {
 		Element sequence = doc.createElement(XS_SEQUENCE);
 		cmplx.appendChild(sequence);
 		
-		Element row = doc.createElement(XS_ELEMENT);
-		setRowAttribute(row, doc);
-		sequence.appendChild(row);
+		
+		Element column1 = doc.createElement(XS_ELEMENT);
+		setColumnAttribute(column1, doc);
+		sequence.appendChild(column1);
+		
 		
 		Element cmplx2 = doc.createElement(XS_COMPLEX);
-		row.appendChild(cmplx2);
+		column1.appendChild(cmplx2);
 		
 		Element sequence2 = doc.createElement(XS_SEQUENCE);
 		cmplx2.appendChild(sequence2);
 		
-		Element column1 = doc.createElement(XS_ELEMENT);
-		setColumnAttribute(column1, doc);
-		sequence2.appendChild(column1);
+		Element row = doc.createElement(XS_ELEMENT);
+		setRowAttribute(row, doc);
+		sequence2.appendChild(row);
 		
 		Element cmplx3 = doc.createElement(XS_COMPLEX);
-		column1.appendChild(cmplx3);
+		row.appendChild(cmplx3);
 		
 		Element simpleContent = doc.createElement(XS_SIMPLE);
 		cmplx3.appendChild(simpleContent);
@@ -162,17 +164,17 @@ public class SchemaParser {
 		setExtensionAttribute(extension, doc);
 		simpleContent.appendChild(extension);
 		
-		Element colAttribute1 = doc.createElement(XS_ATTR);
-		setAttrsToAttribute(colAttribute1, doc, NAME_ATTR);
-		extension.appendChild(colAttribute1);
+		Element rowAttribute = doc.createElement(XS_ATTR);
+		setAttrsToAttribute(rowAttribute, doc, INDEX_VAL);
+		extension.appendChild(rowAttribute);
 		
-		Element colAttribute2 = doc.createElement(XS_ATTR);
-		setAttrsToAttribute(colAttribute2, doc, TYPE_ATTR);
-		extension.appendChild(colAttribute2);
+		Element colAttr = doc.createElement(XS_ATTR);
+		setAttrsToAttribute(colAttr, doc, NAME_ATTR);
+		cmplx2.appendChild(colAttr);
 		
-		Element rowAttr = doc.createElement(XS_ATTR);
-		setAttrsToAttribute(rowAttr, doc, INDEX_VAL);
-		cmplx2.appendChild(rowAttr);
+		Element colAttr2 = doc.createElement(XS_ATTR);
+		setAttrsToAttribute(colAttr2, doc, TYPE_ATTR);
+		cmplx2.appendChild(colAttr2);
 		
 		Element tableAttr1 = doc.createElement(XS_ATTR);
 		setAttrsToAttribute(tableAttr1, doc, NAME_ATTR);
@@ -180,8 +182,7 @@ public class SchemaParser {
 		
 		Element tableAttr2 = doc.createElement(XS_ATTR);
 		setAttrsToAttribute(tableAttr2, doc, DB_ATTR);
-		cmplx.appendChild(tableAttr2);
-		
+		cmplx.appendChild(tableAttr2);	
 	}
 	
 	private void setAttrsToAttribute(Element attribute, Document doc, String attrName) {
