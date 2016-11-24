@@ -2,11 +2,11 @@ package dbms.sqlparser;
 
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.sqlInterpreter.Expression;
+import dbms.sqlparser.sqlInterpreter.SQLPredicate;
 import dbms.sqlparser.sqlInterpreter.rules.*;
+import dbms.util.Operator;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,7 +37,7 @@ public class SQLParser {
         for (int i = 0; i <= query.length(); i++) {
             Matcher m = regex.matcher(query.substring(0, i));
             if (!m.matches() && !m.hitEnd()) {
-                throw new SyntaxErrorException("Error: near \"" + query.substring(i - 2, i) +
+                throw new SyntaxErrorException("Error: near \"" + query.substring(i - 1, i) +
                         "\" : syntax error");
             }
         }
@@ -76,11 +76,27 @@ public class SQLParser {
             case "use":
                 Pattern usePattern = Pattern.compile(SQLRegexProperties.getString("use.database.regex"));
                 return parseUse(validate(usePattern, query));
+            case "where":
+                Pattern wherePattern = Pattern.compile(SQLRegexProperties.getString("where.regex"));
+                return parseWhere(validate(wherePattern, query));
             default:
                 return null;
         }
     }
+    private Expression parseWhere(Matcher matcher) {
+        matcher.matches();
+        System.out.println(matcher.group(0));
+        System.out.println(matcher.group(1)); //
+        System.out.println(matcher.group(2)); //
+        System.out.println(matcher.group(3)); //
+        System.out.println(matcher.group(4)); //
+        System.out.println(matcher.group(5));
+        System.out.println(matcher.group(6));
+        System.out.println(matcher.group(7));
 
+
+        return null;
+    }
     private Expression parseSelect(Matcher matcher) {
         matcher.matches();
 //        String dbName = matcher.group(5).split("\\.")[0];
@@ -134,19 +150,72 @@ public class SQLParser {
 
     private Expression parseDelete(Matcher matcher) {
         matcher.matches();
-        // TODO
-        return null;
+        Delete delete = new Delete(matcher.group(2));
+
+        if (matcher.group(4) != null) {
+            SQLPredicate predicate;
+            if (matcher.group(7).startsWith("'")) {
+                // the value is String
+                predicate = new SQLPredicate(matcher.group(5), toOperator(matcher.group(6)),
+                        matcher.group(7));
+            } else {
+                // the value is Integer
+                predicate = new SQLPredicate(matcher.group(5), toOperator(matcher.group(6)),
+                        Integer.parseInt(matcher.group(7)));
+            }
+            List<SQLPredicate> predicates = new ArrayList<>();
+            predicates.add(predicate);
+            delete.setWhere(new Where(predicates));
+        }
+
+        return delete;
     }
 
     private Expression parseUpdate(Matcher matcher) {
         matcher.matches();
-        // TODO
-        return null;
+        Map<String, Object> entryMap = new HashMap<>();
+
+        String[] setValues = matcher.group(2).split(",");
+
+        for (int i = 0; i < setValues.length; i++) {
+            String key = setValues[i].split("=")[0].trim();
+            Object value = setValues[i].split("=")[1].trim();
+            if (value.toString().startsWith("'")) {
+                entryMap.put(key, value.toString());
+            } else {
+                entryMap.put(key, Integer.parseInt(value.toString()));
+            }
+        }
+
+        String[] predicates = matcher.group(7).split(",");
+        // TODO set where
+
+        Update update = new Update(matcher.group(1), entryMap);
+
+        return update;
     }
 
     private Expression parseCreate(Matcher matcher) {
         matcher.matches();
-        // TODO
+        System.out.println(matcher.group(0));
+        System.out.println(matcher.group(1)); // database dbname
+        System.out.println(matcher.group(2)); // database dbname
+        System.out.println(matcher.group(3)); // dbName
+        System.out.println(matcher.group(4)); //
+        System.out.println(matcher.group(5)); // tableName
+        System.out.println(matcher.group(6)); // col1Name dataType
+        System.out.println(matcher.group(7));
+
+        if (matcher.group(1).startsWith("database")) {
+            return new CreateDatabase(matcher.group(3));
+        } else if (matcher.group(1).startsWith("table")) {
+            String[] columns = matcher.group(6).split(",");
+//            for (int i = 0; i < columns.length; i++) {
+//                columns[i].trim().split(" ");
+//            }
+//
+//            return new CreateTable(matcher.group(5), );
+        }
         return null;
     }
 
@@ -156,10 +225,23 @@ public class SQLParser {
         return useDatabase;
     }
 
+    private Operator toOperator(String operator) {
+        switch (operator) {
+            case "<":
+                return Operator.SmallerThan;
+            case ">":
+                return Operator.GreaterThan;
+            case "=":
+                return Operator.Equal;
+            default:
+                return null;
+        }
+    }
+
     public static void main(String[] args) {
         try {
-            System.out.println(new SQLParser().parse("insert into table_name (col1, col2) values (1, 'val2')"));
 //                    "select col1,col2,col3,col4, col " +
+            System.out.println(new SQLParser().parse("where a < b ;")); // "delete * from tableName where a < b;"));//"insert into table_name (col1, col2) values (1, 'val2')"));
 //                    "from db.fuck where fuck  > fuck" +
 //                    " ;"));
         } catch (SyntaxErrorException e) {

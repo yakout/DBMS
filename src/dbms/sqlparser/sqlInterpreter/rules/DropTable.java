@@ -10,6 +10,10 @@ public class DropTable implements Expression {
         this.tableName = tableName;
     }
 
+    public String getTableName() {
+        return tableName;
+    }
+
     @Override
     public void execute() {
         XMLConnection.getInstance().dropTable(tableName);

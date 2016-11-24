@@ -7,7 +7,6 @@ import dbms.sqlparser.sqlInterpreter.Expression;
 import java.util.Collection;
 
 public class Select implements Expression {
-    private String dbName;
     private String tableName;
     private Collection<String> columns;
 
@@ -34,15 +33,15 @@ public class Select implements Expression {
     public void execute() {
         if (where == null) {
             if (selectAll) {
-                XMLConnection.getInstance().selectAll(dbName, tableName);
+                XMLConnection.getInstance().selectAll(tableName);
             } else  {
-                XMLConnection.getInstance().select(dbName, tableName, columns);
+                XMLConnection.getInstance().select(tableName, columns);
             }
         } else {
             if (selectAll) {
-                XMLConnection.getInstance().selectAll(dbName, tableName, where);
+                XMLConnection.getInstance().selectAll(tableName, where);
             } else  {
-                XMLConnection.getInstance().select(dbName, tableName, columns, where);
+                XMLConnection.getInstance().select(tableName, columns, where);
             }
         }
     }

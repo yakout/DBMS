@@ -7,7 +7,7 @@ import java.util.Collection;
 public class Where implements Condition {
     private Collection<SQLPredicate> predicates;
 
-    Where(Collection<SQLPredicate> predicates) {
+    public Where(Collection<SQLPredicate> predicates) {
         this.predicates = predicates;
     }
 
