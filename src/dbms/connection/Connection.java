@@ -63,15 +63,17 @@ public interface Connection {
 				throws TableNotFoundException,
 				DatabaseNotFoundException;
 
-	public void update(String tableName, Map<String, Object> entryMap)
+	public void update(String tableName, Map<String, Object> values,
+					   Map<String, String> columns)
 				throws TableNotFoundException,
 				DatabaseNotFoundException;
 
-	public void update(String tableName,
-					   Map<String, Object> entryMap, Condition condition)
-				throws TableNotFoundException,
-				DatabaseNotFoundException;
+	public void update(String tableName, Map<String, Object> values,
+					   Map<String, String> columns, Condition condition)
+			throws TableNotFoundException,
+			DatabaseNotFoundException;
 
 	public void useDatabase(String dbName);
+
 	public String getDatabaseName() throws DatabaseNotFoundException;
 }
