@@ -188,11 +188,14 @@ public class SQLParser {
             String key = setValues[i].split("=")[0].trim();
             String value = setValues[i].split("=")[1].trim();
             if (value.startsWith("'")) {
+                System.out.println("val" + value);
                 values.put(key, value);
             } else {
                 try {
+                    System.out.println("int" + value);
                     values.put(key, Integer.parseInt(value));
                 } catch (NumberFormatException e) {
+                    System.out.println("col" + value);
                     columns.put(key, value);
                 }
             }
@@ -204,13 +207,14 @@ public class SQLParser {
             SQLPredicate sqlPredicate;
             Operator operator = toOperator(matcher.group(9));
             if (predicates[1].trim().startsWith("'")) {
-                sqlPredicate = new SQLPredicate(predicates[0], operator, predicates[1]);
+                Object value = predicates[1].trim();
+                sqlPredicate = new SQLPredicate(predicates[0], operator, value);
             } else {
                 try {
                     sqlPredicate = new SQLPredicate(predicates[0], operator,
-                            Integer.parseInt(predicates[1]));
+                            Integer.parseInt(predicates[1].trim()));
                 } catch (NumberFormatException e) {
-                    sqlPredicate = new SQLPredicate(predicates[0], operator, predicates[1]);
+                    sqlPredicate = new SQLPredicate(predicates[0], operator, predicates[1].trim());
                 }
             }
             update.setWhere(new Where(Arrays.asList(sqlPredicate)));
@@ -264,7 +268,7 @@ public class SQLParser {
 
     public static void main(String[] args) {
         try {
-            System.out.println(new SQLParser().parse("DELETE FROM table_name WHERE some_column=3;"));
+            System.out.println(new SQLParser().parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL = 'SOME_VALUE';"));
         } catch (SyntaxErrorException e) {
             System.out.println(e.toString());
         }
