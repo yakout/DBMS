@@ -8,12 +8,14 @@ import java.util.Map;
 
 public class Update implements Expression {
     private String tableName;
-    private Map<String, Object> entryMap;
+    private Map<String, Object> values;
+    private Map<String, String> columns;
     private Where where;
 
-    public Update(String tableName, Map<String, Object> entryMap) {
+    public Update(String tableName, Map<String, Object> values, Map<String, String> columns) {
         this.tableName = tableName;
-        this.entryMap = entryMap;
+        this.values = values;
+        this.columns = columns;
     }
 
     public void setWhere(Where where) {
@@ -24,8 +26,12 @@ public class Update implements Expression {
         return where;
     }
 
-    public Map<String, Object> getEntryMap() {
-        return entryMap;
+    public Map<String, Object> getValues() {
+        return values;
+    }
+
+    public Map<String, String> getColumns() {
+        return columns;
     }
 
     public String getTableName() {
@@ -35,9 +41,9 @@ public class Update implements Expression {
     @Override
     public void execute() {
         if (where == null) {
-            XMLConnection.getInstance().update(tableName, entryMap);
+            XMLConnection.getInstance().update(tableName, values, columns);
         } else {
-            XMLConnection.getInstance().update(tableName, entryMap, where);
+            XMLConnection.getInstance().update(tableName, values, columns, where);
         }
     }
 }

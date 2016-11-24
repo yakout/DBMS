@@ -158,15 +158,15 @@ public class SQLParser {
             if (matcher.group(7).startsWith("'")) {
                 // the value is String
                 predicate = new SQLPredicate(matcher.group(5), toOperator(matcher.group(6)),
-                        matcher.group(7), null);
+                        matcher.group(7));
             } else {
                 // the value is Integer or it's a column name
                 try {
                     predicate = new SQLPredicate(matcher.group(5), toOperator(matcher.group(6)),
-                            Integer.parseInt(matcher.group(7)), null);
+                            Integer.parseInt(matcher.group(7)));
                 } catch (NumberFormatException e) {
                     predicate = new SQLPredicate(matcher.group(5), toOperator(matcher.group(6)),
-                            null, matcher.group(7));
+                            matcher.group(7));
                 }
             }
             List<SQLPredicate> predicates = new ArrayList<>();
@@ -179,33 +179,38 @@ public class SQLParser {
 
     private Expression parseUpdate(Matcher matcher) {
         matcher.matches();
-        Map<String, Object> entryMap = new HashMap<>();
+        Map<String, Object> values = new HashMap<>();
+        Map<String, String> columns = new HashMap<>();
 
         String[] setValues = matcher.group(2).split(",");
 
         for (int i = 0; i < setValues.length; i++) {
             String key = setValues[i].split("=")[0].trim();
-            Object value = setValues[i].split("=")[1].trim();
-            if (value.toString().startsWith("'")) {
-                entryMap.put(key, value.toString());
+            String value = setValues[i].split("=")[1].trim();
+            if (value.startsWith("'")) {
+                values.put(key, value);
             } else {
-                entryMap.put(key, Integer.parseInt(value.toString()));
+                try {
+                    values.put(key, Integer.parseInt(value));
+                } catch (NumberFormatException e) {
+                    columns.put(key, value);
+                }
             }
         }
-        Update update = new Update(matcher.group(1), entryMap);
+        Update update = new Update(matcher.group(1), values, columns);
 
         if (matcher.group(7) != null) {
             String[] predicates = matcher.group(7).split("(>|=|<)");
             SQLPredicate sqlPredicate;
             Operator operator = toOperator(matcher.group(9));
             if (predicates[1].trim().startsWith("'")) {
-                sqlPredicate = new SQLPredicate(predicates[0], operator, predicates[1], null);
+                sqlPredicate = new SQLPredicate(predicates[0], operator, predicates[1]);
             } else {
                 try {
                     sqlPredicate = new SQLPredicate(predicates[0], operator,
-                            Integer.parseInt(predicates[1]), null);
+                            Integer.parseInt(predicates[1]));
                 } catch (NumberFormatException e) {
-                    sqlPredicate = new SQLPredicate(predicates[0], operator, null, predicates[1]);
+                    sqlPredicate = new SQLPredicate(predicates[0], operator, predicates[1]);
                 }
             }
             update.setWhere(new Where(Arrays.asList(sqlPredicate)));

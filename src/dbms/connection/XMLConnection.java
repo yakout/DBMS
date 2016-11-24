@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.util.ResultSet;
 
@@ -92,16 +93,16 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public void update(String tableName, Map<String, Object> entryMap) {
+	public void update(String tableName, Map<String, Object> values,
+					   Map<String, String> columns) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void update(String tableName,
-					   Map<String, Object> entryMap, Condition condition) {
+	public void update(String tableName, Map<String, Object> values,
+					   Map<String, String> columns, Condition condition) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
