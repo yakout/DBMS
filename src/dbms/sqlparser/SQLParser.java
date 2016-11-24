@@ -271,12 +271,10 @@ public class SQLParser {
 
     public static void main(String[] args) {
         try {
-            System.out.println(new SQLParser().parse("wazzzap"));
+            System.out.println(new SQLParser().parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL = pOME_COL2;"));
         } catch (SyntaxErrorException e) {
             System.out.println(e.toString());
         }
 
     }
 }
-
-

@@ -1,15 +1,11 @@
 package dbms.xml;
 
 import java.io.File;
-import java.util.Map;
-
-import javax.xml.transform.TransformerException;
+import java.util.HashMap;
 
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
-import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
-import dbms.exception.TableNotFoundException;
 
 public class XMLParser {
 
@@ -19,7 +15,6 @@ public class XMLParser {
 			System.getProperty("user.home") + "\\databases";
 
 	private XMLParser() {
-
 	}
 
 	public static XMLParser getInstance() {
@@ -43,17 +38,9 @@ public class XMLParser {
 	}
 
 	public void createTable(String dbName, String tableName,
-			Map<String, Class> columns) throws
-			DatabaseNotFoundException, TableAlreadyCreatedException,
-			TransformerException, SyntaxErrorException {
-
-		TableParser.getInstance().createTable(dbName, tableName, columns);
+			HashMap<String, Class> columns) throws DatabaseNotFoundException, TableAlreadyCreatedException {
 		SchemaParser.getInstance().createSchema(dbName,
-				tableName);
-	}
-
-	public void insertIntoTable(String dbName, String tableName,
-			Map<String, Object> entryMap) throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
-		TableParser.getInstance().insertIntoTable(dbName, tableName, entryMap);
+				tableName, columns);
+		TableParser.getInstance().createTable(dbName, tableName);
 	}
 }
