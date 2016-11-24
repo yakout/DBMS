@@ -17,6 +17,7 @@ public class XMLParser {
 			System.getProperty("user.home") + "\\databases";
 
 	private XMLParser() {
+
 	}
 
 	public static XMLParser getInstance() {
@@ -43,9 +44,8 @@ public class XMLParser {
 			HashMap<String, Class> columns) throws
 			DatabaseNotFoundException, TableAlreadyCreatedException,
 			TransformerException {
-		
+
 		SchemaParser.getInstance().createSchema(dbName,
 				tableName);
-		TableParser.getInstance().createTable(dbName, tableName);
 	}
 }

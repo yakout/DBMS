@@ -1,7 +1,6 @@
 package dbms.xml;
 
 import java.io.File;
-import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,7 +19,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import dbms.exception.DatabaseNotFoundException;
-import dbms.exception.TableAlreadyCreatedException;
 
 public class SchemaParser {
 	private static SchemaParser instance  = null;
@@ -52,6 +50,7 @@ public class SchemaParser {
 	private static final String XMLNS_ATTR = "xmlns:xs";
 	private static final String NAME_ATTR = "name";
 	private static final String DB_ATTR = "database";
+	private static final String ROWS_ATTR = "rows";
 	private static final String TYPE_ATTR = "type";
 	private static final String USE_ATTR = "use";
 	private static final String MAXOCCURS_ATTR = "maxOccurs";
@@ -64,6 +63,7 @@ public class SchemaParser {
 	private static final String UNBOUNDED_VAL = "unbounded";
 	private static final String OPTIONAL_VAL = "optional";
 	private static final String INDEX_VAL = "index";
+	private static final String DEFAULT_ATTR = "default";
 	/** Indentations.*/
 	private static final String INDENTATION_VAL = "4";
 	private static final String INDENTATION =
@@ -74,14 +74,14 @@ public class SchemaParser {
 	private SchemaParser() {
 		initialize();
 	}
-	
+
 	public static SchemaParser getInstance() {
 		if (instance == null) {
 			instance = new SchemaParser();
 		}
 		return instance;
 	}
-	
+
 	private void initialize() {
         try {
         	docBuilder = DocumentBuilderFactory
@@ -97,12 +97,12 @@ public class SchemaParser {
                 "yes");
         transformer.setOutputProperty(INDENTATION,
                 INDENTATION_VAL);
-		
+
 	}
 
 	public void createSchema(String dbName, String tableName) throws
-			 DatabaseNotFoundException {	
-		
+			 DatabaseNotFoundException {
+
 		File database = new File(WORKSPACE_DIR + "\\" + dbName);
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException();
@@ -124,87 +124,96 @@ public class SchemaParser {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void setAllElements(Element root, Document doc) {
 		setRootAttribute(root, doc);
 		Element table = doc.createElement(XS_ELEMENT);
-		
+
 		setTableAtrribute(table, doc);
 		root.appendChild(table);
-		
+
 		Element cmplx = doc.createElement(XS_COMPLEX);
 		table.appendChild(cmplx);
-		
+
 		Element sequence = doc.createElement(XS_SEQUENCE);
 		cmplx.appendChild(sequence);
-		
-		
+
 		Element column1 = doc.createElement(XS_ELEMENT);
 		setColumnAttribute(column1, doc);
 		sequence.appendChild(column1);
-		
-		
+
 		Element cmplx2 = doc.createElement(XS_COMPLEX);
 		column1.appendChild(cmplx2);
-		
+
 		Element sequence2 = doc.createElement(XS_SEQUENCE);
 		cmplx2.appendChild(sequence2);
-		
+
 		Element row = doc.createElement(XS_ELEMENT);
 		setRowAttribute(row, doc);
 		sequence2.appendChild(row);
-		
+
 		Element cmplx3 = doc.createElement(XS_COMPLEX);
 		row.appendChild(cmplx3);
-		
+
 		Element simpleContent = doc.createElement(XS_SIMPLE);
 		cmplx3.appendChild(simpleContent);
-		
+
 		Element extension = doc.createElement(XS_EXTENSION);
 		setExtensionAttribute(extension, doc);
 		simpleContent.appendChild(extension);
-		
+
 		Element rowAttribute = doc.createElement(XS_ATTR);
 		setAttrsToAttribute(rowAttribute, doc, INDEX_VAL);
 		extension.appendChild(rowAttribute);
-		
+
 		Element colAttr = doc.createElement(XS_ATTR);
 		setAttrsToAttribute(colAttr, doc, NAME_ATTR);
 		cmplx2.appendChild(colAttr);
-		
+
 		Element colAttr2 = doc.createElement(XS_ATTR);
 		setAttrsToAttribute(colAttr2, doc, TYPE_ATTR);
 		cmplx2.appendChild(colAttr2);
-		
+
 		Element tableAttr1 = doc.createElement(XS_ATTR);
 		setAttrsToAttribute(tableAttr1, doc, NAME_ATTR);
 		cmplx.appendChild(tableAttr1);
-		
+
 		Element tableAttr2 = doc.createElement(XS_ATTR);
 		setAttrsToAttribute(tableAttr2, doc, DB_ATTR);
-		cmplx.appendChild(tableAttr2);	
+		cmplx.appendChild(tableAttr2);
+
+		Element tableAttr3 = doc.createElement(XS_ATTR);
+        setAttrsToAttribute(tableAttr3, doc, ROWS_ATTR);
+        cmplx.appendChild(tableAttr3);
 	}
-	
+
 	private void setAttrsToAttribute(Element attribute, Document doc, String attrName) {
 		Attr type = doc.createAttribute(TYPE_ATTR);
-		type.setValue(STRING_TYPE);
-		attribute.setAttributeNode(type);
-		
-		Attr name = doc.createAttribute(NAME_ATTR);
-		name.setValue(attrName);
-		attribute.setAttributeNode(name);
-		
-		Attr use = doc.createAttribute(USE_ATTR);
-		use.setValue(OPTIONAL_VAL);
-		attribute.setAttributeNode(use);
+
+   		Attr name = doc.createAttribute(NAME_ATTR);
+   		name.setValue(attrName);
+   		attribute.setAttributeNode(name);
+
+   		if (attrName.equals(ROWS_ATTR)) {
+   			type.setValue(INT_TYPE);
+   			Attr defaultVal = doc.createAttribute(DEFAULT_ATTR);
+   			defaultVal.setValue("0");
+   			attribute.setAttributeNode(defaultVal);
+       } else {
+    	   	type.setValue(STRING_TYPE);
+    	   	Attr use = doc.createAttribute(USE_ATTR);
+    	   	use.setValue(OPTIONAL_VAL);
+    	   	attribute.setAttributeNode(use);
+       }
+   		attribute.setAttributeNode(type);
 	}
-	
+
 	private void setExtensionAttribute(Element extension, Document doc) {
 		Attr base = doc.createAttribute(BASE_ATTR);
 		base.setValue(STRING_TYPE);
 		extension.setAttributeNode(base);
 	}
-	
+
 	private void setColumnAttribute(Element column, Document doc) {
 		Attr name = doc.createAttribute(NAME_ATTR);
 		name.setValue(COLUMN_ELEMENT);
@@ -213,14 +222,14 @@ public class SchemaParser {
 		Attr maxOccurs = doc.createAttribute(MAXOCCURS_ATTR);
 		maxOccurs.setValue(UNBOUNDED_VAL);
 		column.setAttributeNode(maxOccurs);
-		
+
 		Attr minOccurs = doc.createAttribute(MINOCCURS_ATTR);
 		minOccurs.setValue(NOTHING);
 		column.setAttributeNode(minOccurs);
 	}
-	
-	private void setRowAttribute(Element sequence, Document doc) {	
-		
+
+	private void setRowAttribute(Element sequence, Document doc) {
+
 		Attr name = doc.createAttribute(NAME_ATTR);
 		name.setValue(ROW_ELEMENT);
 		sequence.setAttributeNode(name);
@@ -228,12 +237,13 @@ public class SchemaParser {
 		Attr maxOccurs = doc.createAttribute(MAXOCCURS_ATTR);
 		maxOccurs.setValue(UNBOUNDED_VAL);
 		sequence.setAttributeNode(maxOccurs);
-		
+
 		Attr minOccurs = doc.createAttribute(MINOCCURS_ATTR);
 		minOccurs.setValue(NOTHING);
 		sequence.setAttributeNode(minOccurs);
 
 	}
+
 	private void setRootAttribute(Element root, Document doc) {
 		Attr xmlns = doc.createAttribute(XMLNS_ATTR);
 		xmlns.setValue(XMLNS_VAL);
@@ -245,7 +255,7 @@ public class SchemaParser {
 		formAttr.setValue(FORMDEFAULT_VAL);
 		root.setAttributeNode(formAttr);
 	}
-	
+
 	private void setTableAtrribute(Element table, Document doc) {
 		Attr name = doc.createAttribute(NAME_ATTR);
 		name.setValue(TABLE_ELEMENT);
