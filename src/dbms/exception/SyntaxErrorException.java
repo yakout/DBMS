@@ -1,7 +1,11 @@
 package dbms.exception;
 
-/**
- * Created by khlailmohammedyakout on 11/23/16.
- */
-public class SyntaxErrorException extends RuntimeException {
+public class SyntaxErrorException extends Exception {
+    public SyntaxErrorException() {
+        super();
+    }
+
+    public SyntaxErrorException(String message) {
+        super(message);
+    }
 }

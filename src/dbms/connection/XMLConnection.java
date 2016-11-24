@@ -3,12 +3,15 @@ package dbms.connection;
 import java.util.Collection;
 import java.util.HashMap;
 
+import dbms.exception.DatabaseNotFoundException;
+import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.util.Result;
-import dbms.util.sql.Condition;
 
 public class XMLConnection implements Connection {
 
 	private static XMLConnection instance = null;
+
+	private String dbName;
 
 	private XMLConnection() {
 
@@ -102,5 +105,18 @@ public class XMLConnection implements Connection {
 			Collection<String> columnns, Condition condition) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void useDatabase(String dbName) {
+		this.dbName = dbName;
+	}
+
+	@Override
+	public String getDatabaseName() throws DatabaseNotFoundException {
+		if (dbName == null) {
+			throw new DatabaseNotFoundException();
+		}
+		return dbName;
 	}
 }

@@ -1,12 +1,9 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
 import dbms.connection.XMLConnection;
-
+import dbms.sqlparser.sqlInterpreter.Expression;
 import java.util.Collection;
 
-/**
- * Created by khlailmohammedyakout on 11/23/16.
- */
 public class Update implements Expression {
     private String dbName;
     private String tableName;

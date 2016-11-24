@@ -1,12 +1,14 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
 import dbms.connection.XMLConnection;
+import dbms.sqlparser.sqlInterpreter.Expression;
 
-/**
- * Created by ahmedyakout on 11/23/16.
- */
 public class DropDatabase implements Expression {
     private String dbName;
+
+    public DropDatabase(String dbName) {
+        this.dbName = dbName;
+    }
 
     @Override
     public void execute() {

@@ -8,8 +8,9 @@ import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.exception.TypeNotSupportedException;
+import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.util.Result;
-import dbms.util.sql.Condition;
+
 
 public interface Connection {
 	public void createDatabase(String dbName)
@@ -72,4 +73,7 @@ public interface Connection {
 			Collection<String> columnns, Condition condition)
 				throws TableNotFoundException,
 				DatabaseNotFoundException;
+
+	public void useDatabase(String dbName);
+	public String getDatabaseName() throws DatabaseNotFoundException;
 }
