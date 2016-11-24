@@ -9,10 +9,16 @@ public class SQLPredicate implements Predicate {
     private Object value;
 
     public SQLPredicate(String columnName, Operator operator,
-                        Object value, String columnName2) {
+                        Object value) {
         this.columnName = columnName;
         this.operator = operator;
         this.value = value;
+    }
+
+    public SQLPredicate(String columnName, Operator operator,
+                        String columnName2) {
+        this.columnName = columnName;
+        this.operator = operator;
         this.columnName2 = columnName2;
     }
 
