@@ -10,6 +10,8 @@ import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
+import dbms.util.Result;
+import dbms.util.ResultSet;
 import dbms.xml.XMLParser;
 
 public class Test {
@@ -35,8 +37,22 @@ public class Test {
 		try {
 			XMLParser.getInstance().insertIntoTable("testDB", "table1", rows);
 		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		rows.put("ID", 1532);
+		rows.put("Name", "tryyy");
+		rows.put("Organization", "zzzzzzz");
+		try {
+			XMLParser.getInstance().insertIntoTable("testDB", "table1", rows);
+		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException e) {
+			e.printStackTrace();
+		}
+		ResultSet x = XMLParser.getInstance().selectAll("testDB", "table1");
+		for (Result ind : x) {
+			System.out.println(ind);
+//			System.out.println(ind.getInt("ID"));
+//			System.out.println(ind.getString("Name"));
+//			System.out.println(ind.getString("Organization"));
 		}
 	}
 }

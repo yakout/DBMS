@@ -10,6 +10,7 @@ import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
+import dbms.util.ResultSet;
 
 public class XMLParser {
 
@@ -50,6 +51,15 @@ public class XMLParser {
 		TableParser.getInstance().createTable(dbName, tableName, columns);
 		SchemaParser.getInstance().createSchema(dbName,
 				tableName);
+	}
+	
+	public ResultSet selectAll(String dbName, String tableName) {
+		try {
+			return TableParser.getInstance().selectAll(dbName, tableName);
+		} catch (DatabaseNotFoundException | TableNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public void insertIntoTable(String dbName, String tableName,

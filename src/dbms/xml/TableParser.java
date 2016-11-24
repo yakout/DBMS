@@ -3,6 +3,7 @@ package dbms.xml;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -19,6 +20,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -27,6 +29,8 @@ import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
+import dbms.util.Result;
+import dbms.util.ResultSet;
 
 public class TableParser {
 	private static TableParser instance  = null;
@@ -88,6 +92,45 @@ public class TableParser {
 		doc.appendChild(table);
 		addColumns(doc, table, columns);
 		transform(doc, tableFile);
+	}
+	
+	public ResultSet selectAll(String dbName, String tableName)
+			throws DatabaseNotFoundException, TableNotFoundException {
+		File tableFile = new File(openDB(dbName), tableName + EXTENSION);
+		if (!tableFile.exists()) {
+			throw new TableNotFoundException();
+		}
+		Document doc = null;
+		try {
+			doc = docBuilder.parse(tableFile);
+		} catch (SAXException | IOException e) {
+			e.printStackTrace();
+		}
+		doc.getDocumentElement().normalize();
+		ResultSet resultSet = new ResultSet();
+		NodeList rowList = doc.getElementsByTagName(ROW_ELEMENT);
+		int size = Integer.parseInt(doc.getFirstChild().
+				getAttributes().getNamedItem(ROWS_ATTR).getTextContent());
+		System.out.println(size);
+		Result[] rows = new Result[size];
+		for (int i = 0; i < rowList.getLength(); i++) {
+			Node currChild = rowList.item(i);
+			if (currChild.getNodeType() == Node.ELEMENT_NODE) {
+				Node parentNode = currChild.getParentNode();
+				Element parentNodeElement = (Element)parentNode;
+				Element e = (Element)currChild;
+				int index = Integer.parseInt(e.getAttribute(INDEX_ATTR));
+				if (rows[index] == null) {
+					rows[index] = new Result();
+				}
+				rows[index].add(parentNodeElement.getAttribute(NAME_ATTR),
+						currChild.getTextContent().toString());
+			}
+		}
+		for (int i = 0; i < size; i++) {
+			resultSet.add(rows[i]);
+		}
+		return resultSet;
 	}
 
 	private void addColumns(Document doc, Node table,
