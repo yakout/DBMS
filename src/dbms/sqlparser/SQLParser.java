@@ -92,6 +92,7 @@ public class SQLParser {
      */
     private Expression parseWhere(Matcher matcher) {
         matcher.matches();
+        // just for testing
         System.out.println(matcher.group(0));
         System.out.println(matcher.group(1)); //
         System.out.println(matcher.group(2)); //
@@ -100,20 +101,25 @@ public class SQLParser {
 
     private Expression parseSelect(Matcher matcher) {
         matcher.matches();
-//        String dbName = matcher.group(5).split("\\.")[0];
-//        String tableName = matcher.group(5).split("\\.")[1];
+        String tableName = matcher.group(5);
+        Select select = new Select(tableName);
 
-        Select select = new Select(matcher.group(5));
         if (matcher.group(4) != null) {
             select.setSelectAll(true);
         } else {
-            select.setColumns(Arrays.asList(matcher.group(2).split(",")));
+            String[] columnsTemp = matcher.group(2).split(",");
+            Collection<String> columns = new ArrayList<>();
+            for (int i = 0; i < columnsTemp.length; i++) {
+                columns.add(columnsTemp[i].trim());
+            }
+            select.setColumns(columns);
         }
-        if (matcher.group(7) != null) {
-            // SQLPredicate sqlPredicate = new SQLPredicate(ma)
-            // select.setWhere(matcher.group(7));
+        if (matcher.group(7) != null) { // if there is where condition
+            Operator operator = toOperator(matcher.group(9));
+            SQLPredicate sqlPredicate = new SQLPredicate(matcher.group(8),
+                    operator, matcher.group(10));
+            select.setWhere(new Where(Arrays.asList(sqlPredicate)));
         }
-
         return select;
     }
 
@@ -139,10 +145,12 @@ public class SQLParser {
         }
         HashMap<String, Object> entryMap = new HashMap<>();
         for (int i = 0; i < columns.length; i++) {
-            if (values[i].trim().startsWith("'")) {
-                entryMap.put(columns[i], values[i]);
+            String column = columns[i].trim();
+            String value = values[i].trim();
+            if (value.startsWith("'")) {
+                entryMap.put(column, value.replaceAll("'", ""));
             } else {
-                entryMap.put(columns[i], Integer.parseInt(values[i]));
+                entryMap.put(column, Integer.parseInt(value));
             }
         }
         InsertIntoTable insertIntoTable = new InsertIntoTable(tableName, entryMap);
@@ -155,25 +163,24 @@ public class SQLParser {
 
         if (matcher.group(4) != null) {
             SQLPredicate predicate;
-            if (matcher.group(7).startsWith("'")) {
-                // the value is String
-                predicate = new SQLPredicate(matcher.group(5), toOperator(matcher.group(6)),
-                        matcher.group(7));
-            } else {
-                // the value is Integer or it's a column name
+            String columnName = matcher.group(5).trim();
+            String value = matcher.group(7).trim();
+            if (value.startsWith("'")) { // the value is String
+                predicate = new SQLPredicate(columnName,
+                        toOperator(matcher.group(6)), (Object) value.replaceAll("'", ""));
+            } else { // the value is Integer or it's a column name
                 try {
-                    predicate = new SQLPredicate(matcher.group(5), toOperator(matcher.group(6)),
-                            Integer.parseInt(matcher.group(7)));
+                    predicate = new SQLPredicate(columnName, toOperator(matcher.group(6)),
+                            Integer.parseInt(value));
                 } catch (NumberFormatException e) {
-                    predicate = new SQLPredicate(matcher.group(5), toOperator(matcher.group(6)),
-                            matcher.group(7));
+                    predicate = new SQLPredicate(columnName,
+                            toOperator(matcher.group(6)), value);
                 }
             }
             List<SQLPredicate> predicates = new ArrayList<>();
             predicates.add(predicate);
             delete.setWhere(new Where(predicates));
         }
-
         return delete;
     }
 
@@ -183,19 +190,15 @@ public class SQLParser {
         Map<String, String> columns = new HashMap<>();
 
         String[] setValues = matcher.group(2).split(",");
-
         for (int i = 0; i < setValues.length; i++) {
             String key = setValues[i].split("=")[0].trim();
             String value = setValues[i].split("=")[1].trim();
             if (value.startsWith("'")) {
-                System.out.println("val" + value);
-                values.put(key, value);
+                values.put(key, value.replaceAll("'", ""));
             } else {
                 try {
-                    System.out.println("int" + value);
                     values.put(key, Integer.parseInt(value));
                 } catch (NumberFormatException e) {
-                    System.out.println("col" + value);
                     columns.put(key, value);
                 }
             }
@@ -205,10 +208,11 @@ public class SQLParser {
         if (matcher.group(7) != null) {
             String[] predicates = matcher.group(7).split("(>|=|<)");
             SQLPredicate sqlPredicate;
+            String value = predicates[1].trim();
             Operator operator = toOperator(matcher.group(9));
-            if (predicates[1].trim().startsWith("'")) {
-                Object value = predicates[1].trim();
-                sqlPredicate = new SQLPredicate(predicates[0].trim(), operator, value);
+            if (value.startsWith("'")) {
+                sqlPredicate = new SQLPredicate(predicates[0].trim(),
+                        operator, (Object) value.replaceAll("'", ""));
             } else {
                 try {
                     sqlPredicate = new SQLPredicate(predicates[0].trim(), operator,
@@ -219,7 +223,6 @@ public class SQLParser {
             }
             update.setWhere(new Where(Arrays.asList(sqlPredicate)));
         }
-
         return update;
     }
 
@@ -268,12 +271,10 @@ public class SQLParser {
 
     public static void main(String[] args) {
         try {
-            System.out.println(new SQLParser().parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL = 'SOME_VALUE';"));
+            System.out.println(new SQLParser().parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL = pOME_COL2;"));
         } catch (SyntaxErrorException e) {
             System.out.println(e.toString());
         }
 
     }
 }
-
-
