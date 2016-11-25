@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -42,6 +43,7 @@ class ParserUtil {
 			NodeList cols) {
 		return validateColumnEntries(entryMap, getColsNodeListMap(cols));
 	}
+	
 
 	protected static boolean validateSQLPredicate() {
 		return false;
@@ -99,6 +101,22 @@ class ParserUtil {
 		}
 		return null;
 	}
+	
+//	protected static Node getRowFromNodeListWithGivenColumn(String name,
+//			NodeList rows) {
+//		int size = rows.getLength();
+//		for (int i = 0; i < rows.getLength(); i++) {
+//			Node row = rows.item(i);
+//			Node columnNode = row.getParentNode();
+//			String colName = columnNode.getAttributes().getNamedItem(
+//					CONSTANTS.getString("name.attr")).getTextContent();
+//			String val = row.getAttributes().getNamedItem(CONSTANTS.getString("index.val")).getTextContent();
+//			if (colName.equals(name)) {
+//				return row;
+//			}
+//		}
+//		return null;
+//	}
 
 	protected static String getObjectClassName(Object o) {
 		if (o instanceof Integer) {

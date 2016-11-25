@@ -32,7 +32,7 @@ public class SQLPredicate implements Predicate {
         if (o instanceof String && value instanceof String) {
             switch (operator) {
                 case GreaterThan:
-                    return (o.toString().compareTo(value.toString())) > 0;
+                	return (o.toString().compareTo(value.toString())) > 0;
                 case Equal:
                     return o.equals(value);
                 case SmallerThan:

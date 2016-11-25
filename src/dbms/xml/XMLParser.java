@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import javax.xml.transform.TransformerException;
 
+import dbms.exception.DataTypeNotSupportedException;
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.SyntaxErrorException;
@@ -63,7 +64,15 @@ public class XMLParser {
 	}
 
 	public void insertIntoTable(String dbName, String tableName,
-			Map<String, Object> entryMap) throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
+			Map<String, Object> entryMap) throws DatabaseNotFoundException,
+			TableNotFoundException, SyntaxErrorException {
 		TableParser.getInstance().insertIntoTable(dbName, tableName, entryMap);
+	}
+	
+	public void update(String dbName, String tableName, Map<String, Object> values,
+			   Map<String, String> columns, Condition condition)
+					   throws DatabaseNotFoundException,TableNotFoundException,
+					   SyntaxErrorException, DataTypeNotSupportedException {
+		TableParser.getInstance().update(dbName, tableName, values, columns, condition);
 	}
 }
