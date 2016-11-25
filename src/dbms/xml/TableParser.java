@@ -88,6 +88,31 @@ public class TableParser {
 		transform(doc, tableFile);
 	}
 
+	/**
+	 * Adds columns to the XML table when it's created.
+	 * @param doc {@link Document} DOM Document
+	 * @param table {@link Node} DOM Node representing table element
+	 * @param columns Columns map indicating names and types.
+	 * @throws SyntaxErrorException
+	 */
+	private void addColumns(Document doc, Node table,
+			Map<String, Class> columns) throws SyntaxErrorException {
+		for (Map.Entry<String, Class> col : columns.entrySet()) {
+			String name = col.getKey();
+			String type = ParserUtil.getClassName(col.getValue());
+			if (type == null) {
+				throw new SyntaxErrorException();
+			}
+			Element column = doc.createElement(
+					CONSTANTS.getString("column.element"));
+			column.setAttribute(
+					CONSTANTS.getString("name.attr"), name);
+			column.setAttribute(
+					CONSTANTS.getString("type.attr"), type);
+			table.appendChild(column);
+		}
+	}
+
 	public ResultSet select(String dbName,
 			String tableName, Condition condition)
 					throws TableNotFoundException, DatabaseNotFoundException {
@@ -141,7 +166,6 @@ public class TableParser {
 		}
 		return results;
 	}
-	
 
 	private File openTable(String dbName, String tableName)
 			throws DatabaseNotFoundException,
@@ -152,24 +176,6 @@ public class TableParser {
 			throw new TableNotFoundException();
 		}
 		return tableFile;
-	}
-
-	private void addColumns(Document doc, Node table,
-			Map<String, Class> columns) throws SyntaxErrorException {
-		for (Map.Entry<String, Class> col : columns.entrySet()) {
-			String name = col.getKey();
-			String type = ParserUtil.getClassName(col.getValue());
-			if (type == null) {
-				throw new SyntaxErrorException();
-			}
-			Element column = doc.createElement(
-					CONSTANTS.getString("column.element"));
-			column.setAttribute(
-					CONSTANTS.getString("name.attr"), name);
-			column.setAttribute(
-					CONSTANTS.getString("type.attr"), type);
-			table.appendChild(column);
-		}
 	}
 
 	public void insertIntoTable(String dbName, String tableName,
@@ -187,6 +193,9 @@ public class TableParser {
 		transform(doc, tableFile);
 	}
 
+	/* Modifies the 'rows' attribute in the table
+	 * root element, calls insertRowData after
+	 * to append a row to each column*/
 	private void addRow(Document doc,
 			Map<String, Object> entryMap) throws SyntaxErrorException {
 		Node rowsAttr = doc.getFirstChild()
@@ -197,11 +206,14 @@ public class TableParser {
 		rowsAttr.setTextContent(Integer.toString(index + 1));
 		NodeList cols = doc.getElementsByTagName(
 				CONSTANTS.getString("column.element"));
-		insertRowData(doc, index, cols, entryMap);
-
+		appendRowData(doc, index, cols, entryMap);
 	}
 
-	private void insertRowData(Document doc, int index,
+	/*
+	 * Appends a new row to each column in the
+	 * table.
+	 */
+	private void appendRowData(Document doc, int index,
 			NodeList cols, Map<String, Object> entryMap)
 					throws SyntaxErrorException {
 		if (!ParserUtil.validateColumnEntries(entryMap, cols)) {
@@ -213,7 +225,7 @@ public class TableParser {
 					.getColumnFromNodeList(entry.getKey(), cols);
 			inserted.put(col, true);
 			Node newRow =
-					getNewRowContent(doc, index, ParserUtil
+					constructNewRow(doc, index, ParserUtil
 							.getObjectClassName(entry.getValue()), entry.getValue());
 			col.appendChild(newRow);
 		}
@@ -223,13 +235,16 @@ public class TableParser {
 				String type = col.getAttributes()
 						.getNamedItem(CONSTANTS.getString("type.attr")).getTextContent();
 				Node newRow =
-						getNewRowContent(doc, index, type, null);
+						constructNewRow(doc, index, type, null);
 				col.appendChild(newRow);
 			}
 		}
 	}
 
-	private Node getNewRowContent(Document doc, int index,
+	/*
+	 * Constructs a new row given its data.
+	 */
+	private Node constructNewRow(Document doc, int index,
 			String type, Object value) throws SyntaxErrorException {
 		Element row =
 				doc.createElement(CONSTANTS.getString("row.element"));
