@@ -4,6 +4,7 @@ package dbms.xml;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -55,7 +56,8 @@ public class TableParser {
 		}
 		transformer.setOutputProperty(OutputKeys.INDENT,
 				"yes");
-		transformer.setOutputProperty(CONSTANTS.getString("indentation"),
+		transformer.setOutputProperty(
+				CONSTANTS.getString("indentation"),
 				CONSTANTS.getString("indentation.val"));
 	}
 
@@ -70,7 +72,8 @@ public class TableParser {
 			Map<String, Class> columns)
 			throws DatabaseNotFoundException,
 			TableAlreadyCreatedException, SyntaxErrorException {
-		File tableFile = new File(openDB(dbName), tableName + CONSTANTS.getString("extension.xml"));
+		File tableFile = new File(openDB(dbName), tableName
+				+ CONSTANTS.getString("extension.xml"));
 		if (tableFile.exists()) {
 			throw new TableAlreadyCreatedException();
 		}
@@ -97,8 +100,10 @@ public class TableParser {
 		}
 		doc.getDocumentElement().normalize();
 		int size = Integer.parseInt(doc.getFirstChild().
-				getAttributes().getNamedItem(CONSTANTS.getString("rows.attr")).getTextContent());
-		NodeList rowList = doc.getElementsByTagName(CONSTANTS.getString("row.element"));
+				getAttributes().getNamedItem(
+						CONSTANTS.getString("rows.attr")).getTextContent());
+		NodeList rowList = doc.getElementsByTagName(
+				CONSTANTS.getString("row.element"));
 		Result[] rows = new Result[size];
 		Boolean[] conditionMet = new Boolean[size];
 		Arrays.fill(conditionMet, true);
@@ -108,7 +113,8 @@ public class TableParser {
 				continue;
 			}
 			Node col = row.getParentNode();
-			int index = Integer.parseInt(((Element) row).getAttribute(CONSTANTS.getString("index.val")));
+			int index = Integer.parseInt(((Element) row).getAttribute(
+					CONSTANTS.getString("index.val")));
 			if (!conditionMet[index]) {
 				continue;
 			}
@@ -116,9 +122,11 @@ public class TableParser {
 				rows[index] = new Result();
 			}
 			String name = col.getAttributes()
-					.getNamedItem(CONSTANTS.getString("name.attr")).getTextContent();
+					.getNamedItem(CONSTANTS
+							.getString("name.attr")).getTextContent();
 			String type = col.getAttributes()
-					.getNamedItem(CONSTANTS.getString("type.attr")).getTextContent();
+					.getNamedItem(CONSTANTS
+							.getString("type.attr")).getTextContent();
 			if (type.equals("Integer")) {
 				rows[index].add(name, Integer.parseInt(
 						row.getTextContent()));
@@ -135,8 +143,10 @@ public class TableParser {
 	}
 
 	private File openTable(String dbName, String tableName)
-			throws DatabaseNotFoundException, TableNotFoundException {
-		File tableFile = new File(openDB(dbName), tableName + CONSTANTS.getString("extension.xml"));
+			throws DatabaseNotFoundException,
+			TableNotFoundException {
+		File tableFile = new File(openDB(dbName), tableName
+				+ CONSTANTS.getString("extension.xml"));
 		if (!tableFile.exists()) {
 			throw new TableNotFoundException();
 		}
@@ -147,13 +157,16 @@ public class TableParser {
 			Map<String, Class> columns) throws SyntaxErrorException {
 		for (Map.Entry<String, Class> col : columns.entrySet()) {
 			String name = col.getKey();
-			String type = getClassName(col.getValue());
+			String type = ParserUtil.getClassName(col.getValue());
 			if (type == null) {
 				throw new SyntaxErrorException();
 			}
-			Element column = doc.createElement(CONSTANTS.getString("column.element"));
-			column.setAttribute(CONSTANTS.getString("name.attr"), name);
-			column.setAttribute(CONSTANTS.getString("type.attr"), type);
+			Element column = doc.createElement(
+					CONSTANTS.getString("column.element"));
+			column.setAttribute(
+					CONSTANTS.getString("name.attr"), name);
+			column.setAttribute(
+					CONSTANTS.getString("type.attr"), type);
 			table.appendChild(column);
 		}
 	}
@@ -176,7 +189,8 @@ public class TableParser {
 	private void addRow(Document doc,
 			Map<String, Object> entryMap) throws SyntaxErrorException {
 		Node rowsAttr = doc.getFirstChild()
-				.getAttributes().getNamedItem(CONSTANTS.getString("rows.attr"));
+				.getAttributes().getNamedItem(
+						CONSTANTS.getString("rows.attr"));
 		int index = Integer.parseInt(
 				rowsAttr.getTextContent());
 		rowsAttr.setTextContent(Integer.toString(index + 1));
@@ -189,40 +203,28 @@ public class TableParser {
 	private void insertRowData(Document doc, int index,
 			NodeList cols, Map<String, Object> entryMap)
 					throws SyntaxErrorException {
-		Boolean[] insertedInCol = new Boolean[cols.getLength()];
-		Arrays.fill(insertedInCol, false);
+		if (!ParserUtil.validateColumnEntries(entryMap, cols)) {
+			throw new SyntaxErrorException();
+		}
+		Map<Node, Boolean> inserted = new HashMap<Node, Boolean>();
 		for (Map.Entry<String, Object> entry : entryMap.entrySet()) {
-			String entryName = entry.getKey();
-			boolean foundCol = false;
-			for (int i = 0; i < cols.getLength(); i++) {
-				Node col = cols.item(i);
-				String name = col.getAttributes()
-						.getNamedItem(CONSTANTS.getString("name.attr")).getTextContent();
-				if (name.equals(entryName)) {
-					foundCol = true;
-					insertedInCol[i] = true;
-					String type = col.getAttributes()
-							.getNamedItem(CONSTANTS.getString("type.attr")).getTextContent();
-					Node newRow =
-							getNewRowContent(doc, index, type, entry.getValue());
-					col.appendChild(newRow);
-					break;
-				}
-			}
-			if (!foundCol) {
-				throw new SyntaxErrorException();
-			}
+			Node col = ParserUtil
+					.getColumnFromNodeList(entry.getKey(), cols);
+			inserted.put(col, true);
+			Node newRow =
+					getNewRowContent(doc, index, ParserUtil
+							.getObjectClassName(entry.getValue()), entry.getValue());
+			col.appendChild(newRow);
 		}
 		for (int i = 0; i < cols.getLength(); i++) {
-			if (insertedInCol[i]) {
-				continue;
-			}
 			Node col = cols.item(i);
-			String type = col.getAttributes()
-					.getNamedItem(CONSTANTS.getString("type.attr")).getTextContent();
-			Node newRow =
-					getNewRowContent(doc, index, type, null);
-			col.appendChild(newRow);
+			if (inserted.get(col) == null) {
+				String type = col.getAttributes()
+						.getNamedItem(CONSTANTS.getString("type.attr")).getTextContent();
+				Node newRow =
+						getNewRowContent(doc, index, type, null);
+				col.appendChild(newRow);
+			}
 		}
 	}
 
@@ -231,7 +233,7 @@ public class TableParser {
 		Element row =
 				doc.createElement(CONSTANTS.getString("row.element"));
 		row.setAttribute(CONSTANTS.getString("index.val"), Integer.toString(index));
-		String content = getObjectStringValue(value, type);
+		String content = ParserUtil.getObjectStringValue(value, type);
 		if (content == null) {
 			throw new SyntaxErrorException();
 		}
@@ -248,30 +250,6 @@ public class TableParser {
 		return database;
 	}
 
-	private String getObjectStringValue(Object o, String type) {
-		if (o == null) {
-			return "";
-		}
-		if (o instanceof Integer
-				&& type.equals("Integer")) {
-			return ((Integer) o).toString();
-		}
-		if (o instanceof String
-				&& type.equals("String")) {
-			return ((String) o);
-		}
-		return null;
-	}
-
-	private String getClassName(Class c) {
-		if (c.equals(Integer.class)) {
-			return "Integer";
-		}
-		if (c.equals(String.class)) {
-			return "String";
-		}
-		return null;
-	}
 
 	private void transform(Document doc, File tableFile) {
 		DOMSource source = new DOMSource(doc);
@@ -282,5 +260,55 @@ public class TableParser {
 		} catch (TransformerException e) {
 			e.printStackTrace();
 		}
+	}
+
+	protected Document getDocument(String dbName, String tableName)
+			throws DatabaseNotFoundException {
+		File database = new File(WORKSPACE_DIR + "\\" + dbName);
+		if (!database.exists()) {
+			throw new DatabaseNotFoundException();
+		}
+		File schema = new File(database, tableName
+				+ CONSTANTS.getString("extension.schema"));
+		if (!schema.exists()) {
+			return null;
+		}
+		Document doc = docBuilder.newDocument();
+		return doc;
+	}
+
+	private NodeList getColumnsNodeList(String dbName, String tableName)
+			throws DatabaseNotFoundException {
+		Document doc = getDocument(dbName, tableName);
+		if (doc == null) {
+			return null;
+		}
+		NodeList cols = doc.getElementsByTagName(
+				CONSTANTS.getString("column.element"));
+		return cols;
+	}
+
+	protected Map<String, String> getColumns(String dbName, String tableName)
+			throws DatabaseNotFoundException {
+		NodeList colsList = getColumnsNodeList(dbName, tableName);
+		return getColumns(colsList);
+	}
+
+	private Map<String, String> getColumns(NodeList colsList) {
+		if (colsList == null) {
+			return null;
+		}
+		Map<String, String> cols = new HashMap<String, String>();
+		for (int i = 0; i < colsList.getLength(); i++) {
+			Node col = colsList.item(i);
+			String name = col.getAttributes()
+					.getNamedItem(CONSTANTS.getString("name.attr"))
+					.getTextContent();
+			String type = col.getAttributes()
+					.getNamedItem(CONSTANTS.getString("type.attr"))
+					.getTextContent();
+			cols.put(name, type);
+		}
+		return cols;
 	}
 }
