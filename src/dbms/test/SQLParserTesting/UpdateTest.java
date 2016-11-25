@@ -29,16 +29,14 @@ public class UpdateTest extends SqlParserRef {
 			sqlParserObjTest
 					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL = 'SOME_VALUE';");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 		try {
 			sqlParserObjTest.parse(
 					"        UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2  =       'VALUE2'   WHERE      SOME_COL    =         'SOME_VALUE'         ;         ");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 	}
@@ -49,16 +47,14 @@ public class UpdateTest extends SqlParserRef {
 			sqlParserObjTest
 					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL > 'SOME_VALUE';");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 		try {
 			sqlParserObjTest.parse(
 					"       UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2  =       'VALUE2'   WHERE      SOME_COL    >        'SOME_VALUE'         ;         ");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 	}
@@ -69,16 +65,14 @@ public class UpdateTest extends SqlParserRef {
 			sqlParserObjTest
 					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL < 'SOME_VALUE';");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 		try {
 			sqlParserObjTest.parse(
 					"      UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2  =       'VALUE2'   WHERE      SOME_COL    <         'SOME_VALUE'         ;         ");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 	}
@@ -92,18 +86,15 @@ public class UpdateTest extends SqlParserRef {
 		try {
 			sqlParserObjTest
 					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL  'SOME_VALUE';");
-			fail("Syntax error exception thrown!");
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
-
-			e.printStackTrace();
 		}
 
 		try {
 			sqlParserObjTest.parse(
 					"        UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2         'VALUE2'   WHERE      SOME_COL    =         'SOME_VALUE'         ;         ");
-			fail("Syntax error exception thrown!");
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
 		}
 
 	}
@@ -113,18 +104,15 @@ public class UpdateTest extends SqlParserRef {
 		try {
 			sqlParserObjTest
 					.parse("UPDATE TABLE_NAME  COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL  'SOME_VALUE';");
-			fail("Syntax error exception thrown!");
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
-
-			e.printStackTrace();
 		}
 
 		try {
 			sqlParserObjTest.parse(
 					"        UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2         'VALUE2'         SOME_COL    =         'SOME_VALUE'         ;         ");
-			fail("Syntax error exception thrown!");
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
 		}
 
 	}
@@ -133,17 +121,15 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableSyntaxValidateSix() {
 		try {
 			sqlParserObjTest.parse("UPDATE TABLE_NAME  WHERE SOME_COL = 'SOME_VALUE';");
-			fail("Syntax error exception thrown!");
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
 		}
 
 		try {
 			sqlParserObjTest.parse(
 					"        UPDATE      TABLE_NAME           WHERE      SOME_COL    =         'SOME_VALUE'         ;         ");
-			fail("Syntax error exception thrown!");
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
 		}
 
 	}
@@ -158,16 +144,15 @@ public class UpdateTest extends SqlParserRef {
 			sqlParserObjTest
 					.parse("UPDaTe tAbLE_nAMe SeT CoLUMn1='VAlUe1',CoLUmN2='VaLUe2' WhErE SOME_col = 'SOME_VALUE';");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
+
 		}
 
 		try {
 			sqlParserObjTest.parse(
 					"          UPDaTe        tAbLE_nAMe            SeT          CoLUMn1='VAlUe1'         , CoLUmN2='VaLUe2'        WhErE          SOME_col          =         'SOME_VALUE'       ;   ");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 	}
 
@@ -181,19 +166,18 @@ public class UpdateTest extends SqlParserRef {
 		try {
 			updateObjAct = sqlParserObjTest
 					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL = 'SOME_VALUE';");
-			assertEquals("table_name", ((Update) updateObjAct).getTableName());
+			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, Object> entryMapCpy = ((Update) updateObjAct).getValues();
 			Map<String, Object> expectedEntryMap = new HashMap<String, Object>();
-			expectedEntryMap.put("column1", "value1");
-			expectedEntryMap.put("column2", "value2");
+			expectedEntryMap.put("COLUMN1", "VALUE1");
+			expectedEntryMap.put("COLUMN2", "VALUE2");
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Object[] sqlPredicateArray = ((Update) updateObjAct).getWhere().getPredicates().toArray();
-			assertEquals("some_col", ((SQLPredicate) sqlPredicateArray[0]).getColumnName());
-			assertEquals("some_value", ((SQLPredicate) sqlPredicateArray[0]).getValue());
+			assertEquals("some_col", ((SQLPredicate) sqlPredicateArray[0]).getColumnName().toLowerCase());
+			assertEquals("SOME_VALUE", ((SQLPredicate) sqlPredicateArray[0]).getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateArray[0]).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 	}
 
@@ -201,20 +185,19 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateTwo() {
 		try {
 			updateObjAct = sqlParserObjTest.parse(
-					"        UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2  =       'VALUE2'   WHERE      SOME_COL    =         'SOME_VALUE'         ;         ");
-			assertEquals("table_name", ((Update) updateObjAct).getTableName());
+					"        UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2  =       'VALUE2'   WHERE      SOME_COL    =         'SOME_vaLUE'         ;         ");
+			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, Object> entryMapCpy = ((Update) updateObjAct).getValues();
 			Map<String, Object> expectedEntryMap = new HashMap<String, Object>();
-			expectedEntryMap.put("column1", "value1");
-			expectedEntryMap.put("column2", "value2");
+			expectedEntryMap.put("COLUMN1", "VALUE1");
+			expectedEntryMap.put("COLUMN2", "VALUE2");
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Object[] sqlPredicateArray = ((Update) updateObjAct).getWhere().getPredicates().toArray();
-			assertEquals("some_col", ((SQLPredicate) sqlPredicateArray[0]).getColumnName());
-			assertEquals("some_value", ((SQLPredicate) sqlPredicateArray[0]).getValue());
+			assertEquals("some_col", ((SQLPredicate) sqlPredicateArray[0]).getColumnName().toLowerCase());
+			assertEquals("SOME_vaLUE", ((SQLPredicate) sqlPredicateArray[0]).getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateArray[0]).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 	}
@@ -224,19 +207,18 @@ public class UpdateTest extends SqlParserRef {
 		try {
 			updateObjAct = sqlParserObjTest
 					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL = SOME_COL2;");
-			assertEquals("table_name", ((Update) updateObjAct).getTableName());
+			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, Object> entryMapCpy = ((Update) updateObjAct).getValues();
 			Map<String, Object> expectedEntryMap = new HashMap<String, Object>();
-			expectedEntryMap.put("column1", "value1");
-			expectedEntryMap.put("column2", "value2");
+			expectedEntryMap.put("COLUMN1", "VALUE1");
+			expectedEntryMap.put("COLUMN2", "VALUE2");
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Object[] sqlPredicateArray = ((Update) updateObjAct).getWhere().getPredicates().toArray();
-			assertEquals("some_col", ((SQLPredicate) sqlPredicateArray[0]).getColumnName());
-			assertEquals("some_col2", ((SQLPredicate) sqlPredicateArray[0]).getColumnName2());
+			assertEquals("some_col", ((SQLPredicate) sqlPredicateArray[0]).getColumnName().toLowerCase());
+			assertEquals("some_col2", ((SQLPredicate) sqlPredicateArray[0]).getColumnName2().toLowerCase());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateArray[0]).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 	}
 
@@ -245,19 +227,18 @@ public class UpdateTest extends SqlParserRef {
 		try {
 			updateObjAct = sqlParserObjTest
 					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL < 5;");
-			assertEquals("table_name", ((Update) updateObjAct).getTableName());
+			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, Object> entryMapCpy = ((Update) updateObjAct).getValues();
 			Map<String, Object> expectedEntryMap = new HashMap<String, Object>();
-			expectedEntryMap.put("column1", "value1");
-			expectedEntryMap.put("column2", "value2");
+			expectedEntryMap.put("COLUMN1", "VALUE1");
+			expectedEntryMap.put("COLUMN2", "VALUE2");
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Object[] sqlPredicateArray = ((Update) updateObjAct).getWhere().getPredicates().toArray();
-			assertEquals("some_col", ((SQLPredicate) sqlPredicateArray[0]).getColumnName());
+			assertEquals("some_col", ((SQLPredicate) sqlPredicateArray[0]).getColumnName().toLowerCase());
 			assertEquals(5, ((SQLPredicate) sqlPredicateArray[0]).getValue());
 			assertEquals(Operator.SmallerThan, ((SQLPredicate) sqlPredicateArray[0]).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 	}
 
@@ -265,81 +246,94 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateFive() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL > 5;");
-			assertEquals("table_name", ((Update) updateObjAct).getTableName());
+					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',column2='VALUE2' WHERE SOME_COL > 5;");
+			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, Object> entryMapCpy = ((Update) updateObjAct).getValues();
 			Map<String, Object> expectedEntryMap = new HashMap<String, Object>();
-			expectedEntryMap.put("column1", "value1");
-			expectedEntryMap.put("column2", "value2");
+			expectedEntryMap.put("COLUMN1", "value1");
+			expectedEntryMap.put("column2", "VALUE2");
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Object[] sqlPredicateArray = ((Update) updateObjAct).getWhere().getPredicates().toArray();
-			assertEquals("some_col", ((SQLPredicate) sqlPredicateArray[0]).getColumnName());
+			assertEquals("some_col", ((SQLPredicate) sqlPredicateArray[0]).getColumnName().toLowerCase());
 			assertEquals(5, ((SQLPredicate) sqlPredicateArray[0]).getValue());
 			assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateArray[0]).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 	}
-	
-	
+
 	@Test
 	public void testUpdateTableParsingValidateSix() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL = 5;");
-			assertEquals("table_name", ((Update) updateObjAct).getTableName());
+					.parse("UPDATE TABLE_NAME SET column1='value1',column2='value2' WHERE SOME_COL = 5;");
+			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, Object> entryMapCpy = ((Update) updateObjAct).getValues();
 			Map<String, Object> expectedEntryMap = new HashMap<String, Object>();
 			expectedEntryMap.put("column1", "value1");
 			expectedEntryMap.put("column2", "value2");
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Object[] sqlPredicateArray = ((Update) updateObjAct).getWhere().getPredicates().toArray();
-			assertEquals("some_col", ((SQLPredicate) sqlPredicateArray[0]).getColumnName());
+			assertEquals("some_col", ((SQLPredicate) sqlPredicateArray[0]).getColumnName().toLowerCase());
 			assertEquals(5, ((SQLPredicate) sqlPredicateArray[0]).getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateArray[0]).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 	}
-
 
 	@Test
 	public void testUpdateTableParsingValidateSeven() {
 		try {
 			updateObjAct = sqlParserObjTest.parse("UPDATE TABLE_NAME SET COLUMN1 =     COLUMN2;");
-			assertEquals("table_name", ((Update) updateObjAct).getTableName());
+			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, String> entryMapCpy = ((Update) updateObjAct).getColumns();
 			Map<String, String> expectedEntryMap = new HashMap<String, String>();
-			expectedEntryMap.put("column1", "column2");
+			expectedEntryMap.put("COLUMN1", "COLUMN2");
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 	}
-	
+
 	@Test
 	public void testUpdateTableParsingValidateEight() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL > 5;");
-			assertEquals("table_name", ((Update) updateObjAct).getTableName());
+					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',COLUMN2='value2' WHERE SOME_COL > 5;");
+			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, Object> entryMapCpy = ((Update) updateObjAct).getValues();
 			Map<String, Object> expectedEntryMap = new HashMap<String, Object>();
-			expectedEntryMap.put("column1", "value1");
-			expectedEntryMap.put("column2", "value2");
+			expectedEntryMap.put("COLUMN1", "value1");
+			expectedEntryMap.put("COLUMN2", "value2");
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Object[] sqlPredicateArray = ((Update) updateObjAct).getWhere().getPredicates().toArray();
-			assertEquals("some_col", ((SQLPredicate) sqlPredicateArray[0]).getColumnName());
+			assertEquals("some_col", ((SQLPredicate) sqlPredicateArray[0]).getColumnName().toLowerCase());
 			assertEquals(5, ((SQLPredicate) sqlPredicateArray[0]).getValue());
 			assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateArray[0]).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 	}
-	
+
+	@Test
+	public void testUpdateTableParsingValidateNine() {
+		try {
+			updateObjAct = sqlParserObjTest
+					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',COLUMN2='value2' WHERE SOME_COL > 'HEYYY';");
+			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
+			Map<String, Object> entryMapCpy = ((Update) updateObjAct).getValues();
+			Map<String, Object> expectedEntryMap = new HashMap<String, Object>();
+			expectedEntryMap.put("COLUMN1", "value1");
+			expectedEntryMap.put("COLUMN2", "value2");
+			assertTrue(expectedEntryMap.equals(entryMapCpy));
+			Object[] sqlPredicateArray = ((Update) updateObjAct).getWhere().getPredicates().toArray();
+			assertEquals("some_col", ((SQLPredicate) sqlPredicateArray[0]).getColumnName().toLowerCase());
+			assertEquals("HEYYY", ((SQLPredicate) sqlPredicateArray[0]).getValue());
+			assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateArray[0]).getOperator());
+		} catch (SyntaxErrorException e) {
+			fail("SyntaxErrorException thrown or AssertionError occured!");
+		}
+	}
 
 }

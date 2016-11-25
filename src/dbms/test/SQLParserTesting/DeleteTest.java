@@ -27,15 +27,13 @@ public class DeleteTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("DELETE FROM TABLE_NAME;");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 		try {
 			sqlParserObjTest.parse("DELETE * FROM TABLE_NAME;");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 	}
@@ -50,8 +48,7 @@ public class DeleteTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("DELETE FROM TABLE_NAME WHERE SOME_COL='SOME_VALUE';");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 		/*
@@ -61,8 +58,7 @@ public class DeleteTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("DELETE FROM TABLE_NAME WHERE SOME_COL=999;");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 	}
 
@@ -80,9 +76,8 @@ public class DeleteTest extends SqlParserRef {
 
 		try {
 			sqlParserObjTest.parse("DELETE FROM TABLE_NAME");
-			fail("Syntax error exception thrown!");
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
 		}
 
 		/*
@@ -91,9 +86,8 @@ public class DeleteTest extends SqlParserRef {
 
 		try {
 			sqlParserObjTest.parse(";EMAN_ELBAT MORF ETELED");
-			fail("Syntax error exception thrown!");
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
 		}
 
 	}
@@ -108,9 +102,8 @@ public class DeleteTest extends SqlParserRef {
 
 		try {
 			sqlParserObjTest.parse("DELETE * FROM TABLE_NAME");
-			fail("Syntax error exception thrown!");
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
 		}
 
 		/*
@@ -119,9 +112,8 @@ public class DeleteTest extends SqlParserRef {
 
 		try {
 			sqlParserObjTest.parse(";EMAN_ELBAT MORF * ETELED");
-			fail("Syntax error exception thrown!");
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
 		}
 
 	}
@@ -136,9 +128,8 @@ public class DeleteTest extends SqlParserRef {
 
 		try {
 			sqlParserObjTest.parse("DELETE FROM TABLE_NAME WHERE COL='VAL'");
-			fail("Syntax error exception thrown!");
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
 		}
 
 		/*
@@ -147,9 +138,8 @@ public class DeleteTest extends SqlParserRef {
 
 		try {
 			sqlParserObjTest.parse("; LOC EREHW EMAN_ELBAT MORF ETELED");
-			fail("Syntax error exception thrown!");
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
 		}
 
 	}
@@ -165,15 +155,13 @@ public class DeleteTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("                 DELETE                  FROM          TABLE_NAME     ;      ");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 		try {
 			sqlParserObjTest.parse("       DELETE         *       FROM         TABLE_NAME      ;         ");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 	}
@@ -194,8 +182,7 @@ public class DeleteTest extends SqlParserRef {
 			sqlParserObjTest.parse(
 					"          DELETE            FROM            TABLE_NAME           WHERE     SOME_COL     =  'SOME_VALUE'    ;       ");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 		/*
@@ -206,13 +193,13 @@ public class DeleteTest extends SqlParserRef {
 			sqlParserObjTest
 					.parse("       DELETE        FROM      TABLE_NAME      WHERE     SOME_COL   =   999  ;     ");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 	}
-	
+
 	/*
-	 * These tests check the case insensitivity of the DELETE SQL command in different forms.
+	 * These tests check the case insensitivity of the DELETE SQL command in
+	 * different forms.
 	 */
 
 	@Test
@@ -220,35 +207,31 @@ public class DeleteTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("DElEte FrOm taBlE_NaME;");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
-		
+
 		try {
 			sqlParserObjTest.parse("DelETe * FrOm TaBlE_NAmE;");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 	}
-	
+
 	@Test
 	public void testDeleteTableSyntaxValidateNine() {
 		try {
 			sqlParserObjTest.parse("DElEte FrOm taBlE_NaME WherE NaMecol1 = 'NamE';");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
+
 		}
-		
+
 		try {
 			sqlParserObjTest.parse("DelETe FrOm TaBlE_NAmE wheRE namecOL2 = 55555;");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 	}
-	
 
 	/*
 	 * these tests check the multiple forms the DELETE SQL command can take and
@@ -260,18 +243,16 @@ public class DeleteTest extends SqlParserRef {
 
 		try {
 			deleteObjAct = sqlParserObjTest.parse("DELETE FROM TABLE_NAME;");
-			assertEquals("table_name", ((Delete) deleteObjAct).getTableName());
+			assertEquals("table_name", ((Delete) deleteObjAct).getTableName().toLowerCase());
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 		try {
 			deleteObjAct = sqlParserObjTest.parse("DELETE * FROM TABLE_NAME;");
-			assertEquals("table_name", ((Delete) deleteObjAct).getTableName());
+			assertEquals("table_name", ((Delete) deleteObjAct).getTableName().toLowerCase());
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 	}
@@ -285,28 +266,26 @@ public class DeleteTest extends SqlParserRef {
 	public void testDeleteTableSyntaxParsingTwo() {
 
 		try {
-			deleteObjAct = sqlParserObjTest.parse("DELETE FROM TABLE_NAME Where col1 = 'value_1';");
-			assertEquals("table_name", ((Delete) deleteObjAct).getTableName());
+			deleteObjAct = sqlParserObjTest.parse("DELETE FROM TABLE_NAME Where coL1 = 'vALUe_1';");
+			assertEquals("table_name", ((Delete) deleteObjAct).getTableName().toLowerCase());
 			Object[] sqlPredicateArray = ((Delete) deleteObjAct).getWhere().getPredicates().toArray();
-			assertEquals("col1", ((SQLPredicate) sqlPredicateArray[0]).getColumnName());
-			assertEquals("value_1", ((SQLPredicate) sqlPredicateArray[0]).getValue());
+			assertEquals("col1", ((SQLPredicate) sqlPredicateArray[0]).getColumnName().toLowerCase());
+			assertEquals("vALUe_1", ((SQLPredicate) sqlPredicateArray[0]).getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateArray[0]).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 		try {
 			deleteObjAct = sqlParserObjTest.parse("DELETE * FROM TABLE_NAME_88 wHeRe AGE = 5856263;");
-			assertEquals("table_name_88", ((Delete) deleteObjAct).getTableName());
+			assertEquals("table_name_88", ((Delete) deleteObjAct).getTableName().toLowerCase());
 			Object[] sqlPredicateArray = ((Delete) deleteObjAct).getWhere().getPredicates().toArray();
-			assertEquals("age", ((SQLPredicate) sqlPredicateArray[0]).getColumnName());
+			assertEquals("age", ((SQLPredicate) sqlPredicateArray[0]).getColumnName().toLowerCase());
 			assertEquals(5856263, ((SQLPredicate) sqlPredicateArray[0]).getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateArray[0]).getOperator());
 
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 	}
@@ -321,31 +300,63 @@ public class DeleteTest extends SqlParserRef {
 
 		try {
 			deleteObjAct = sqlParserObjTest.parse(
-					"         DELETE         FROM       TABLE_NAME        Where     col1     =         'value_1'           ;               ");
-			assertEquals("table_name", ((Delete) deleteObjAct).getTableName());
+					"         DELETE         FROM       TABLE_NAME        Where     col1     =         'valUE_1'           ;               ");
+			assertEquals("table_name", ((Delete) deleteObjAct).getTableName().toLowerCase());
 			Object[] sqlPredicateArray = ((Delete) deleteObjAct).getWhere().getPredicates().toArray();
-			assertEquals("col1", ((SQLPredicate) sqlPredicateArray[0]).getColumnName());
-			assertEquals("value_1", ((SQLPredicate) sqlPredicateArray[0]).getValue());
+			assertEquals("col1", ((SQLPredicate) sqlPredicateArray[0]).getColumnName().toLowerCase());
+			assertEquals("valUE_1", ((SQLPredicate) sqlPredicateArray[0]).getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateArray[0]).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 		try {
 			deleteObjAct = sqlParserObjTest.parse(
 					"       DELETE         * FROM             TABLE_NAME_88          wHeRe      AGE =       5856263      ;     ");
-			assertEquals("table_name_88", ((Delete) deleteObjAct).getTableName());
+			assertEquals("table_name_88", ((Delete) deleteObjAct).getTableName().toLowerCase());
 			Object[] sqlPredicateArray = ((Delete) deleteObjAct).getWhere().getPredicates().toArray();
-			assertEquals("age", ((SQLPredicate) sqlPredicateArray[0]).getColumnName());
+			assertEquals("age", ((SQLPredicate) sqlPredicateArray[0]).getColumnName().toLowerCase());
 			assertEquals(5856263, ((SQLPredicate) sqlPredicateArray[0]).getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateArray[0]).getOperator());
 
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
+	}
+
+	@Test
+	public void testDeleteTableSyntaxParsingFour() {
+		try {
+			deleteObjAct = sqlParserObjTest.parse(
+					"       DELETE         * FROM             TABLE_NAME_88          wHeRe      AGE >       MONEY      ;     ");
+			assertEquals("table_name_88", ((Delete) deleteObjAct).getTableName().toLowerCase());
+			Object[] sqlPredicateArray = ((Delete) deleteObjAct).getWhere().getPredicates().toArray();
+			assertEquals("age", ((SQLPredicate) sqlPredicateArray[0]).getColumnName().toLowerCase());
+			assertEquals("money", ((SQLPredicate) sqlPredicateArray[0]).getColumnName2().toLowerCase());
+			assertEquals(null, ((SQLPredicate) sqlPredicateArray[0]).getValue());
+			assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateArray[0]).getOperator());
+
+		} catch (SyntaxErrorException e) {
+			fail("SyntaxErrorException thrown or AssertionError occured!");
+		}
+	}
+
+	@Test
+	public void testDeleteTableSyntaxParsingFive() {
+		try {
+			deleteObjAct = sqlParserObjTest.parse(
+					"       DELETE         * FROM             TABLE_NAME_88          wHeRe      AGE >       'MONEY'      ;     ");
+			assertEquals("table_name_88", ((Delete) deleteObjAct).getTableName().toLowerCase());
+			Object[] sqlPredicateArray = ((Delete) deleteObjAct).getWhere().getPredicates().toArray();
+			assertEquals("age", ((SQLPredicate) sqlPredicateArray[0]).getColumnName().toLowerCase());
+			assertEquals(null, ((SQLPredicate) sqlPredicateArray[0]).getColumnName2());
+			assertEquals("MONEY", ((SQLPredicate) sqlPredicateArray[0]).getValue());
+			assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateArray[0]).getOperator());
+
+		} catch (SyntaxErrorException e) {
+			fail("SyntaxErrorException thrown or AssertionError occured!");
+		}
 	}
 
 }

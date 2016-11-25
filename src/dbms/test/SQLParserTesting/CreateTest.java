@@ -28,22 +28,19 @@ public class CreateTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("CREATE DATABASE DATABASE_NAME;");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");		 
 		}
 
 		try {
 			sqlParserObjTest.parse("CREATE DATABASE DATABASE_6565;");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");			 
 		}
 
 		try {
 			sqlParserObjTest.parse("CREATE DATABASE 6565;");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");			 
 		}
 
 	}
@@ -57,23 +54,22 @@ public class CreateTest extends SqlParserRef {
 
 		try {
 			sqlParserObjTest.parse("CREATE DATABASE DATABASE_NAME");
-			fail("Syntax error exception thrown!");
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
+			 
 		}
 
 		try {
 			sqlParserObjTest.parse("CREATE DATABASE ;");
-			fail("Syntax error exception thrown!");
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
+			 
 		}
 
 		try {
 			sqlParserObjTest.parse("CREATE  6565;");
-			fail("Syntax error exception thrown!");
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
+		} catch (SyntaxErrorException e) {		 
 		}
 
 	}
@@ -83,16 +79,14 @@ public class CreateTest extends SqlParserRef {
 
 		try {
 			sqlParserObjTest.parse("CR DATABASE DATABASE_NAME");
-			fail("Syntax error exception thrown!");
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
+		} catch (SyntaxErrorException e) {			 
 		}
 
 		try {
 			sqlParserObjTest.parse("CREATE DATABASE *****;");
-			fail("Syntax error exception thrown!");
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
+		} catch (SyntaxErrorException e) {	 
 		}
 		
 		/*
@@ -102,8 +96,7 @@ public class CreateTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("        CREATE              DATABASE                   DATABASE_NAME          ;    ");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");		 
 		}
 
 	}
@@ -117,15 +110,13 @@ public class CreateTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("CREaTe DaTabASE DATaBAsE_NAmE;");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");			 
 		}
 
 		try {
 			sqlParserObjTest.parse("          CREaTe          DaTabASE            DATaBAsE_NAmE;          ");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");			 
 		}
 	}
 	
@@ -138,26 +129,23 @@ public class CreateTest extends SqlParserRef {
 
 		try {
 			createDbObj = sqlParserObjTest.parse("CREATE DATABASE DATABASE_NAME;");
-			assertEquals("database_name", ((CreateDatabase) createDbObj).getDbName());
+			assertEquals("database_name", ((CreateDatabase) createDbObj).getDbName().toLowerCase());
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");		 
 		}
 
 		try {
 			createDbObj = sqlParserObjTest.parse("CREATE DATABASE DATABASE_6565;");
-			assertEquals("database_6565", ((CreateDatabase) createDbObj).getDbName());
+			assertEquals("database_6565", ((CreateDatabase) createDbObj).getDbName().toLowerCase());
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");	 
 		}
 
 		try {
 			createDbObj = sqlParserObjTest.parse("      CReaTe         DaTaBaSe         DATABASE_NAME885   ;     ");
-			assertEquals("database_name885", ((CreateDatabase) createDbObj).getDbName());
+			assertEquals("database_name885", ((CreateDatabase) createDbObj).getDbName().toLowerCase());
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");			 
 		}
 
 	}
@@ -172,22 +160,19 @@ public class CreateTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("CREATE TABLE TABLE_NAME (COL1 INT, COL2 VARCHAR);");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");		 
 		}
 
 		try {
 			sqlParserObjTest.parse("          CREATE          TABLE    TABLE_NAME  (    COL1       INT     ,   COL2        VARCHAR       )      ;       ");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");			 
 		}
 
 		try {
 			sqlParserObjTest.parse("          CrEaTE          TAbLe    TAblE_NAmE  (    bOL1       InT     ,   COl2        VARcHAr       )      ;       ");
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");			 
 		}
 
 	}
@@ -202,23 +187,20 @@ public class CreateTest extends SqlParserRef {
 
 		try {
 			sqlParserObjTest.parse("CREATE TABLE  (COL1 INT, COL2 VARCHAR);");
-			fail("Syntax error exception thrown!");
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
+		} catch (SyntaxErrorException e) {		 
 		}
 
 		try {
 			sqlParserObjTest.parse("          CREATE          TABLE    TABLE_NAME  (    COL1       INT     ,   COL2        VARCHAR       )             ");
-			fail("Syntax error exception thrown!");
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
+		} catch (SyntaxErrorException e) {			 
 		}
 
 		try {
 			sqlParserObjTest.parse("          CrEaTE          TAbLe    TAblE_NAmE  (    bOL1       InT     ,   COl2              )      ;       ");
-			fail("Syntax error exception thrown!");
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
+		} catch (SyntaxErrorException e) {		 
 		}
 
 	}
@@ -231,38 +213,36 @@ public class CreateTest extends SqlParserRef {
 
 		try {
 			createTblObj = sqlParserObjTest.parse("CREATE TABLE TABLE_NAME (COL1 INT, COL2 VARCHAR);");
-			assertEquals("table_name", ((CreateTable) createTblObj).getTableName());
+			assertEquals("table_name", ((CreateTable) createTblObj).getTableName().toLowerCase());
 			Map<String,Class> columnsCpy = new  HashMap<String, Class>();
-			columnsCpy.put("col1", Integer.class);
-			columnsCpy.put("col2", String.class);
+			columnsCpy.put("COL1", Integer.class);
+			columnsCpy.put("COL2", String.class);
+			System.out.println("columns ;" + ((CreateTable)createTblObj).getColumns());
 			assertTrue(columnsCpy.equals(((CreateTable)createTblObj).getColumns()));
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");	 
 		}
 
 		try {
 			createTblObj = sqlParserObjTest.parse("          CREATE          TABLE    TABLE_NAME999  (    COL1       VARCHAR     ,   COL2        VARCHAR       )      ;       ");
-			assertEquals("table_name999", ((CreateTable) createTblObj).getTableName());
+			assertEquals("table_name999", ((CreateTable) createTblObj).getTableName().toLowerCase());
 			Map<String,Class> columnsCpy = new  HashMap<String, Class>();
-			columnsCpy.put("col1", String.class);
-			columnsCpy.put("col2", String.class);
+			columnsCpy.put("COL1", String.class);
+			columnsCpy.put("COL2", String.class);
 			assertTrue(columnsCpy.equals(((CreateTable)createTblObj).getColumns()));
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");	 
 		}
 
 		try {
 			createTblObj = sqlParserObjTest.parse("          CrEaTE          TAbLe    COUNTRIES  (    bOL1       InT     ,   COl2        inT       )      ;       ");
-			assertEquals("countries", ((CreateTable) createTblObj).getTableName());
+			assertEquals("countries", ((CreateTable) createTblObj).getTableName().toLowerCase());
 			Map<String,Class> columnsCpy = new  HashMap<String, Class>();
-			columnsCpy.put("bol1", Integer.class);
-			columnsCpy.put("col2", Integer.class);
+			columnsCpy.put("bOL1", Integer.class);
+			columnsCpy.put("COl2", Integer.class);
 			assertTrue(columnsCpy.equals(((CreateTable)createTblObj).getColumns()));
 		} catch (SyntaxErrorException e) {
-			fail("Syntax error exception thrown!");
-			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 	}
