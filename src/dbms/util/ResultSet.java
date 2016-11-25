@@ -15,7 +15,13 @@ public class ResultSet implements Iterable<Result> {
 	}
 
 	public ResultSet(ArrayList<Result> results) {
-		this.results = results;
+		this.results = new ArrayList<>();
+		for (Result res : results) {
+			if (res == null) {
+				continue;
+			}
+			this.results.add(res);
+		}
 	}
 
 	public void add(Result result) {
