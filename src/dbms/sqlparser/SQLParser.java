@@ -33,7 +33,6 @@ public class SQLParser {
     private static SQLParser instance;
 
     private SQLParser() {
-
     }
 
     public static SQLParser getInstace() {
@@ -119,7 +118,7 @@ public class SQLParser {
         matcher.matches();
         String tableName = matcher.group(5);
         Select select = new Select(tableName);
-
+        SQLPredicate sqlPredicate;
         if (matcher.group(4) != null) {
             select.setSelectAll(true);
         } else {
@@ -131,9 +130,24 @@ public class SQLParser {
             select.setColumns(columns);
         }
         if (matcher.group(7) != null) { // if there is where condition
-            Operator operator = toOperator(matcher.group(9));
-            SQLPredicate sqlPredicate = new SQLPredicate(matcher.group(8),
-                    operator, matcher.group(10));
+        	System.out.println("Group7 : " + matcher.group(7));
+        	String value = matcher.group(10).trim();
+        	System.out.println("Group10 : " + matcher.group(10));
+        	System.out.println("Group9 : " + matcher.group(9));
+        	System.out.println("Group8 : " + matcher.group(8));
+        	if (value.startsWith("'")) { // the value is String
+        		 sqlPredicate = new SQLPredicate(matcher.group(8).trim(),
+                        toOperator(matcher.group(9)), (Object) value.replaceAll("'", "").trim());
+        	} else {
+        		 try {
+                     sqlPredicate = new SQLPredicate(matcher.group(8).trim(), toOperator(matcher.group(9)),
+                             Integer.parseInt(value));
+                 } catch (NumberFormatException e) {
+                     sqlPredicate = new SQLPredicate(matcher.group(8).trim(),
+                             toOperator(matcher.group(9)), value);
+                 }
+        	}
+
             select.setWhere(new Where(Arrays.asList(sqlPredicate)));
         }
         return select;
@@ -287,7 +301,7 @@ public class SQLParser {
 
     public static void main(String[] args) {
         try {
-            System.out.println(new SQLParser().parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL = pOME_COL2;"));
+            System.out.println(new SQLParser().parse("SELECT COL_NAME FROM TABLE_NAME WHERE COL1 = COL2;"));
         } catch (SyntaxErrorException e) {
             System.out.println(e.toString());
         }

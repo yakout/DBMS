@@ -28,6 +28,22 @@ public class Select implements Expression {
     public void setWhere(Where where) {
         this.where = where;
     }
+    
+    public Where getWhere() {
+    	return where;
+    }
+    
+    public Collection<String> getColumns() {
+    	return columns;
+    }
+    
+    public boolean getSelectAll() {
+    	return selectAll;
+    }
+    
+    public String getTableName() {
+    	return tableName;
+    }
 
     @Override
     public void execute() {
