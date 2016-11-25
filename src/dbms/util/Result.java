@@ -33,4 +33,8 @@ public class Result {
 		}
 		return null;
 	}
+
+	public Map<String, Object> getResult() {
+		return result;
+	}
 }
