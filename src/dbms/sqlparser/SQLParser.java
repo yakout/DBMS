@@ -49,12 +49,11 @@ public class SQLParser {
     }
 
     public Expression parse(String query) throws SyntaxErrorException {
-        query = query.toLowerCase();
         Pattern rulePattern = Pattern.compile(SQLRegexProperties.getString("rule.regex"));
         Matcher ruleMatcher = validate(rulePattern, query);
 
         ruleMatcher.matches();
-        switch (ruleMatcher.group(1)) {
+        switch (ruleMatcher.group(1).toLowerCase()) {
             case "select":
                 Pattern selectPattern = Pattern.compile(SQLRegexProperties.getString("select.regex"));
                 return parseSelect(validate(selectPattern, query));
@@ -115,11 +114,7 @@ public class SQLParser {
             select.setColumns(columns);
         }
         if (matcher.group(7) != null) { // if there is where condition
-        	System.out.println("Group7 : " + matcher.group(7));
         	String value = matcher.group(10).trim();
-        	System.out.println("Group10 : " + matcher.group(10));
-        	System.out.println("Group9 : " + matcher.group(9));
-        	System.out.println("Group8 : " + matcher.group(8));
         	if (value.startsWith("'")) { // the value is String
         		 sqlPredicate = new SQLPredicate(matcher.group(8).trim(),
                         toOperator(matcher.group(9)), (Object) value.replaceAll("'", "").trim());
@@ -252,7 +247,7 @@ public class SQLParser {
         Map<String, Class> columns = new HashMap<>();
         for (int i = 0; i < columnsDesc.length; i++) {
             String key = columnsDesc[i].trim().split("\\s+")[0];
-            switch (columnsDesc[i].trim().split("\\s+")[1]) {
+            switch (columnsDesc[i].trim().split("\\s+")[1].toLowerCase()) {
                 case "int":
                     columns.put(key, Integer.class);
                     break;

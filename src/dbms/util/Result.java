@@ -1,13 +1,13 @@
 package dbms.util;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Result {
 	private Map<String, Object> result;
 
 	public Result() {
-		result = new HashMap<>();
+		result = new LinkedHashMap<>();
 	}
 
 	public Result(Map<String, Object> result) {

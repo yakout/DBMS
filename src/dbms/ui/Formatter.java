@@ -2,75 +2,143 @@ package dbms.ui;
 
 import dbms.util.Result;
 import dbms.util.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.Iterator;
 
-import java.util.*;
 
 public class Formatter {
 
-    private int lengthOfColumn(Object key, ResultSet resultSet) {
-        int max = 0;
+    private List<String> getKeys(Map<String, Object> map){
+        List<String> keys = new ArrayList<>();
+        for(String key : map.keySet()){
+            keys.add(key);
+        }
+        return keys;
+    }
+
+    private int getColumnWidth(Object key, ResultSet resultSet, Result firstResult) {
+        int max = getKeys(firstResult.getResult()).get(0).length();
         for(Result result : resultSet) {
-            int currentLength = result.getString(key.toString()).length();
-            if (result.getString(key.toString()).length() > max) {
+            int currentLength = result.getResult().get(key).toString().length();
+            if (currentLength > max) {
                 max = currentLength;
             }
         }
         return max;
     }
 
-    void printTable(ResultSet resultSet) {
-        // print upper border
-        int numberOfColumns = 0;
-        int widthOfCurrentColumn = 0;
-        Result firstRow = resultSet.next();
-        Iterator it = firstRow.getResult().entrySet().iterator();
+    private void printTableLine(Result firstResult, List<Integer> widthOfColumns) {
+        Iterator it = firstResult.getResult().entrySet().iterator();
+        int currentColumn = 0;
         while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            widthOfCurrentColumn = lengthOfColumn(pair.getKey(), resultSet);
+            it.next();
             System.out.print("+");
-            for (int i = 0; i < widthOfCurrentColumn; i++) {
+            for (int i = 0; i < widthOfColumns.get(currentColumn); i++) {
                 System.out.print("-");
             }
-            it.remove(); // avoids a ConcurrentModificationException
-            numberOfColumns++;
+            currentColumn++;
         }
-        System.out.print("+");
+        System.out.println("+");
+    }
 
-        // print column names
+    private List<Integer> getAllColumnsWidth(ResultSet resultSet, Result firstResult) {
+        Iterator it = firstResult.getResult().entrySet().iterator();
+        List<Integer> widthOfColumns = new ArrayList<>();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            widthOfColumns.add(getColumnWidth(pair.getKey(), resultSet, firstResult));
+        }
+        return widthOfColumns;
+    }
 
+    private void printFirstRow(Result firstResult, List<Integer> widthOfColumns) {
+        Iterator it = firstResult.getResult().entrySet().iterator();
+        int currentColumn = 0;
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            System.out.print("|");
+            System.out.print(pair.getValue());
+            for (int i = 0; i < widthOfColumns.get(currentColumn) - pair.getValue().toString().length(); i++) {
+                System.out.print(" ");
+            }
+            currentColumn++;
+        }
+        System.out.println("|");
+    }
+
+    private void printAllRows(ResultSet resultSet, Result firstResult, List<Integer> widthOfColumns) {
+        int currentColumn = 0;
+        while(resultSet.hasNext()) {
+            Iterator it4 = resultSet.next().getResult().entrySet().iterator();
+            while (it4.hasNext()) {
+                Map.Entry pair = (Map.Entry)it4.next();
+                System.out.print("|");
+                System.out.print(pair.getValue());
+                for (int i = 0; i < widthOfColumns.get(currentColumn) - pair.getValue().toString().length(); i++) {
+                    System.out.print(" ");
+                }
+                currentColumn++;
+            }
+            System.out.println("|");
+            currentColumn = 0;
+            printTableLine(firstResult, widthOfColumns);
+        }
+    }
+
+    private void printHeaders(Result firstResult, List<Integer> widthOfColumns) {
+        int currentColumn = 0;
+        Iterator it = firstResult.getResult().entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             System.out.print("|");
             System.out.print(pair.getKey());
-            for (int i = 0; i < widthOfCurrentColumn - pair.getKey().toString().length(); i++) {
+            for (int i = 0; i < widthOfColumns.get(currentColumn) - pair.getKey().toString().length(); i++) {
                 System.out.print(" ");
             }
-            it.remove(); // avoids a ConcurrentModificationException
+            currentColumn++;
         }
-        System.out.print("|");
+        System.out.println("|");
+    }
 
+    void printTable(ResultSet resultSet) {
+        Result firstResult = resultSet.next();
+
+        List<Integer> widthOfColumns = getAllColumnsWidth(resultSet, firstResult);
+
+        printTableLine(firstResult, widthOfColumns);
+
+        printHeaders(firstResult, widthOfColumns);
+        printTableLine(firstResult, widthOfColumns);
+
+        printFirstRow(firstResult, widthOfColumns);
+        printTableLine(firstResult, widthOfColumns);
+
+        printAllRows(resultSet, firstResult, widthOfColumns);
     }
 
     public static void main(String[] args) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new LinkedHashMap<>();
         map.put("ID", 1);
         map.put("Name", "Yakout");
         map.put("Part", "SQL Parser");
 
-        Map<String, Object> map2 = new HashMap<>();
+        Map<String, Object> map2 = new LinkedHashMap<>();
         map2.put("ID", 2);
         map2.put("Name", "Tolba");
         map2.put("Part", "SQL Parser");
 
-        Map<String, Object> map3 = new HashMap<>();
+        Map<String, Object> map3 = new LinkedHashMap<>();
         map3.put("ID", 3);
         map3.put("Name", "Anas");
         map3.put("Part", "XML Parser");
 
-        Map<String, Object> map4 = new HashMap<>();
+        Map<String, Object> map4 = new LinkedHashMap<>();
         map4.put("ID", 4);
         map4.put("Name", "Khaled");
-        map4.put("Part", "XML Parser");
+        map4.put("Part", "XML Parser                          ");
 
         Result result = new Result(map);
         Result result2 = new Result(map2);

@@ -27,7 +27,6 @@ public class SQLPredicate implements Predicate {
      * @param o object for left-side column of this predicate
      * @return
      */
-    @Override
     public boolean test(Object o) {
         if (o instanceof String && value instanceof String) {
             switch (operator) {
@@ -142,5 +141,9 @@ public class SQLPredicate implements Predicate {
 
     public String getColumnName2() {
         return columnName2;
+    }
+
+    public boolean compareWithValue() {
+        return (getColumnName2() == null);
     }
 }
