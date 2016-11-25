@@ -77,7 +77,7 @@ public class CreateTest extends SqlParserRef {
 		}
 
 	}
-	
+
 	@Test
 	public void testCreateDbSyntaxValidateThree() {
 
@@ -94,7 +94,7 @@ public class CreateTest extends SqlParserRef {
 		} catch (SyntaxErrorException e) {
 			e.printStackTrace();
 		}
-		
+
 		/*
 		 * Check the validity of CREATE DATABASE SQL command with multiple white spaces.
 		 */
@@ -110,7 +110,7 @@ public class CreateTest extends SqlParserRef {
 	/*
 	 * These tests check the case insensitivity of the CREATE DATABASE SQL command.
 	 */
-	
+
 	@Test
 	public void testCreateDbSyntaxValidateFour() {
 
@@ -128,11 +128,11 @@ public class CreateTest extends SqlParserRef {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/*
 	 * These tests check the correctness of the parsed data from the SQL command.
 	 */
-	
+
 	@Test
 	public void testCreateDbParsingValidateOne() {
 
@@ -161,11 +161,11 @@ public class CreateTest extends SqlParserRef {
 		}
 
 	}
-	
+
 	/*
 	 * These tests check the validity of Syntax of CREATE TABLE SQL command.
 	 */
-	
+
 	@Test
 	public void testCreateTblSyntaxValidateOne() {
 
@@ -191,12 +191,12 @@ public class CreateTest extends SqlParserRef {
 		}
 
 	}
-	
-	
+
+
 	/*
 	 * This test checks that the catch clause will get the SyntaxErrorException.
 	 */
-	
+
 	@Test
 	public void testCreateTblSyntaxValidateTwo() {
 
@@ -222,7 +222,7 @@ public class CreateTest extends SqlParserRef {
 		}
 
 	}
-	
+
 	/*
 	 * These tests check the correctness of the parsed data from the SQL command.
 	 */
@@ -266,10 +266,10 @@ public class CreateTest extends SqlParserRef {
 		}
 
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 
 }

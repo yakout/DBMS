@@ -40,7 +40,9 @@ public class Test {
 			e.printStackTrace();
 		}
 		rows.clear();
-		rows.put("Organization", "zzzzzzz");
+		rows.put("ID", 126);
+		rows.put("Name", "hamada15");
+		rows.put("Organization", "CU");
 		try {
 			XMLParser.getInstance().insertIntoTable("testDB", "table1", rows);
 		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException e) {

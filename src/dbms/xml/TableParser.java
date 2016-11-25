@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -38,18 +39,8 @@ public class TableParser {
 	private static DocumentBuilder docBuilder = null;
 	private static final String WORKSPACE_DIR =
 			System.getProperty("user.home") + "\\databases";
-	private static final String EXTENSION = ".xml";
-	private static final String INDENTATION =
-			"{http://xml.apache.org/xslt}indent-amount";
-	private static final String INDENTATION_VAL = "4";
-	private static final String TABLE_ELEMENT = "table";
-	private static final String COLUMN_ELEMENT = "col";
-	private static final String ROW_ELEMENT = "row";
-	private static final String NAME_ATTR = "name";
-	private static final String DB_ATTR = "database";
-	private static final String ROWS_ATTR = "rows";
-	private static final String TYPE_ATTR = "type";
-	private static final String INDEX_ATTR = "index";
+	private static final ResourceBundle CONSTANTS =
+			ResourceBundle.getBundle("dbms.xml.Constants");
 
 	private TableParser() {
 		try {
@@ -64,8 +55,8 @@ public class TableParser {
 		}
 		transformer.setOutputProperty(OutputKeys.INDENT,
 				"yes");
-		transformer.setOutputProperty(INDENTATION,
-				INDENTATION_VAL);
+		transformer.setOutputProperty(CONSTANTS.getString("indentation"),
+				CONSTANTS.getString("indentation.val"));
 	}
 
 	public static TableParser getInstance() {
@@ -79,16 +70,16 @@ public class TableParser {
 			Map<String, Class> columns)
 			throws DatabaseNotFoundException,
 			TableAlreadyCreatedException, SyntaxErrorException {
-		File tableFile = new File(openDB(dbName), tableName + EXTENSION);
+		File tableFile = new File(openDB(dbName), tableName + CONSTANTS.getString("extension.xml"));
 		if (tableFile.exists()) {
 			throw new TableAlreadyCreatedException();
 		}
 		Document doc = docBuilder.newDocument();
 		//Table element
-		Element table = doc.createElement(TABLE_ELEMENT);
-		table.setAttribute(NAME_ATTR, tableName);
-		table.setAttribute(DB_ATTR, dbName);
-		table.setAttribute(ROWS_ATTR, "0");
+		Element table = doc.createElement(CONSTANTS.getString("table.element"));
+		table.setAttribute(CONSTANTS.getString("name.attr"), tableName);
+		table.setAttribute(CONSTANTS.getString("db.attr"), dbName);
+		table.setAttribute(CONSTANTS.getString("rows.attr"), "0");
 		doc.appendChild(table);
 		addColumns(doc, table, columns);
 		transform(doc, tableFile);
@@ -106,8 +97,8 @@ public class TableParser {
 		}
 		doc.getDocumentElement().normalize();
 		int size = Integer.parseInt(doc.getFirstChild().
-				getAttributes().getNamedItem(ROWS_ATTR).getTextContent());
-		NodeList rowList = doc.getElementsByTagName(ROW_ELEMENT);
+				getAttributes().getNamedItem(CONSTANTS.getString("rows.attr")).getTextContent());
+		NodeList rowList = doc.getElementsByTagName(CONSTANTS.getString("row.element"));
 		Result[] rows = new Result[size];
 		Boolean[] conditionMet = new Boolean[size];
 		Arrays.fill(conditionMet, true);
@@ -117,7 +108,7 @@ public class TableParser {
 				continue;
 			}
 			Node col = row.getParentNode();
-			int index = Integer.parseInt(((Element) row).getAttribute(INDEX_ATTR));
+			int index = Integer.parseInt(((Element) row).getAttribute(CONSTANTS.getString("index.val")));
 			if (!conditionMet[index]) {
 				continue;
 			}
@@ -125,16 +116,15 @@ public class TableParser {
 				rows[index] = new Result();
 			}
 			String name = col.getAttributes()
-					.getNamedItem(NAME_ATTR).getTextContent();
+					.getNamedItem(CONSTANTS.getString("name.attr")).getTextContent();
 			String type = col.getAttributes()
-					.getNamedItem(TYPE_ATTR).getTextContent();
+					.getNamedItem(CONSTANTS.getString("type.attr")).getTextContent();
 			if (type.equals("Integer")) {
 				rows[index].add(name, Integer.parseInt(
 						row.getTextContent()));
 			} else if (type.equals("String")) {
 				rows[index].add(name, row.getTextContent());
 			}
-			//if condition doesn't meet --> conditionMet[index] = false, set result at this index with null;
 		}
 		ResultSet results =
 				new ResultSet();
@@ -146,7 +136,7 @@ public class TableParser {
 
 	private File openTable(String dbName, String tableName)
 			throws DatabaseNotFoundException, TableNotFoundException {
-		File tableFile = new File(openDB(dbName), tableName + EXTENSION);
+		File tableFile = new File(openDB(dbName), tableName + CONSTANTS.getString("extension.xml"));
 		if (!tableFile.exists()) {
 			throw new TableNotFoundException();
 		}
@@ -161,9 +151,9 @@ public class TableParser {
 			if (type == null) {
 				throw new SyntaxErrorException();
 			}
-			Element column = doc.createElement(COLUMN_ELEMENT);
-			column.setAttribute(NAME_ATTR, name);
-			column.setAttribute(TYPE_ATTR, type);
+			Element column = doc.createElement(CONSTANTS.getString("column.element"));
+			column.setAttribute(CONSTANTS.getString("name.attr"), name);
+			column.setAttribute(CONSTANTS.getString("type.attr"), type);
 			table.appendChild(column);
 		}
 	}
@@ -186,12 +176,12 @@ public class TableParser {
 	private void addRow(Document doc,
 			Map<String, Object> entryMap) throws SyntaxErrorException {
 		Node rowsAttr = doc.getFirstChild()
-				.getAttributes().getNamedItem(ROWS_ATTR);
+				.getAttributes().getNamedItem(CONSTANTS.getString("rows.attr"));
 		int index = Integer.parseInt(
 				rowsAttr.getTextContent());
 		rowsAttr.setTextContent(Integer.toString(index + 1));
 		NodeList cols = doc.getElementsByTagName(
-				COLUMN_ELEMENT);
+				CONSTANTS.getString("column.element"));
 		insertRowData(doc, index, cols, entryMap);
 
 	}
@@ -207,12 +197,12 @@ public class TableParser {
 			for (int i = 0; i < cols.getLength(); i++) {
 				Node col = cols.item(i);
 				String name = col.getAttributes()
-						.getNamedItem(NAME_ATTR).getTextContent();
+						.getNamedItem(CONSTANTS.getString("name.attr")).getTextContent();
 				if (name.equals(entryName)) {
 					foundCol = true;
 					insertedInCol[i] = true;
 					String type = col.getAttributes()
-							.getNamedItem(TYPE_ATTR).getTextContent();
+							.getNamedItem(CONSTANTS.getString("type.attr")).getTextContent();
 					Node newRow =
 							getNewRowContent(doc, index, type, entry.getValue());
 					col.appendChild(newRow);
@@ -229,7 +219,7 @@ public class TableParser {
 			}
 			Node col = cols.item(i);
 			String type = col.getAttributes()
-					.getNamedItem(TYPE_ATTR).getTextContent();
+					.getNamedItem(CONSTANTS.getString("type.attr")).getTextContent();
 			Node newRow =
 					getNewRowContent(doc, index, type, null);
 			col.appendChild(newRow);
@@ -239,8 +229,8 @@ public class TableParser {
 	private Node getNewRowContent(Document doc, int index,
 			String type, Object value) throws SyntaxErrorException {
 		Element row =
-				doc.createElement(ROW_ELEMENT);
-		row.setAttribute(INDEX_ATTR, Integer.toString(index));
+				doc.createElement(CONSTANTS.getString("row.element"));
+		row.setAttribute(CONSTANTS.getString("index.val"), Integer.toString(index));
 		String content = getObjectStringValue(value, type);
 		if (content == null) {
 			throw new SyntaxErrorException();
