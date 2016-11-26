@@ -1,9 +1,10 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
+import java.util.Collection;
+import java.util.Queue;
+
 import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.sqlparser.sqlInterpreter.SQLPredicate;
-import java.util.Collection;
-import java.util.Stack;
 
 public class Where implements Condition {
     private Collection<SQLPredicate> predicates;
@@ -18,7 +19,7 @@ public class Where implements Condition {
     }
 
     @Override
-    public Stack<Object> getPostfix() {
+    public Queue<Object> getPostfix() {
         return null;
     }
 }

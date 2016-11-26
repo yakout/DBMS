@@ -1,9 +1,9 @@
 package dbms.sqlparser.sqlInterpreter;
 
 import java.util.Collection;
-import java.util.Stack;
+import java.util.Queue;
 
 public interface Condition {
     public Collection<SQLPredicate> getPredicates();
-    public Stack<Object> getPostfix();
+    public Queue<Object> getPostfix();
 }

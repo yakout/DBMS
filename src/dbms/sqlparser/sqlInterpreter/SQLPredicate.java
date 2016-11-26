@@ -138,18 +138,18 @@ public class SQLPredicate implements Comparable<SQLPredicate> {
      * @return boolean value true/false
      */
     public boolean and(SQLPredicate sqlPredicate, Object o1, Object o2, Object o3, Object o4) {
-        if (o2 == null) {
-            return test(o1) && sqlPredicate.test(o3, o4);
-        } else if (o4 == null) {
-            return test(o1, o2) && sqlPredicate.test(o3);
-        } else if (o4 == null && o2 == null) {
-            return test(o1) && sqlPredicate.test(o3);
-        } else if (o1 == null && o2 == null) {
-            return !isAlwaysFalse && sqlPredicate.test(o3, o4);
+        if (o1 == null && o2 == null) {
+        	return !isAlwaysFalse && sqlPredicate.test(o3, o4);
+        } else if (o2 == null && o4 == null) {
+        	return test(o1) && sqlPredicate.test(o3);
         } else if (o3 == null && o4 == null) {
-            return test(o1, o2) && !sqlPredicate.isAlwaysFalse();
+        	return test(o1, o2) && !sqlPredicate.isAlwaysFalse();
+        } else if (o2 == null) {
+        	return test(o1) && sqlPredicate.test(o3, o4);
+        } else if (o4 == null) {
+        	return test(o1, o2) && sqlPredicate.test(o3);
         } else {
-            return test(o1, o2) && sqlPredicate.test(o3, o4);
+        	return test(o1, o2) && sqlPredicate.test(o3, o4);
         }
     }
 

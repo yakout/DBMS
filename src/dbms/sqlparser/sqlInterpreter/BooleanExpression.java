@@ -1,21 +1,24 @@
 package dbms.sqlparser.sqlInterpreter;
 
-import dbms.exception.SyntaxErrorException;
-import dbms.sqlparser.sqlInterpreter.rules.BooleanOperator;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import dbms.exception.SyntaxErrorException;
+import dbms.sqlparser.sqlInterpreter.rules.BooleanOperator;
 
 public class BooleanExpression {
     private final String predicateRegex = "((\\w+)\\s*(<|>|=)\\s*(\\w+|'\\w+'|\\d+))";
     private final String errorMessage = "invalid condition syntax";
 
-    public Stack<Object> toPostfix(String infix) throws SyntaxErrorException {
+    public Queue<Object> toPostfix(String infix) throws SyntaxErrorException {
         List<SQLPredicate> sqlPredicates = getPredicates(infix);
-        Stack<Object> postfix = new Stack<>();
+        Queue<Object> postfix = new LinkedList<Object>();
         Stack<Object> helperStack = new Stack<>();
 
         int predicateNumber = 0;
@@ -26,7 +29,7 @@ public class BooleanExpression {
             } else if (currentChar == ')') {
                 try {
                     while (!(helperStack.peek() instanceof Character)) {
-                        postfix.push(helperStack.pop());
+                        postfix.add(helperStack.pop());
                     }
                 } catch (EmptyStackException e) {
                     throw new SyntaxErrorException(errorMessage);
@@ -36,7 +39,7 @@ public class BooleanExpression {
                 if (helperStack.isEmpty() || helperStack.peek() instanceof Character) {
                     helperStack.push(new BooleanOperator(BooleanOperator.Operator.And));
                 } else if (((BooleanOperator) helperStack.peek()).getOperator() == BooleanOperator.Operator.And) {
-                    postfix.push(new BooleanOperator(BooleanOperator.Operator.And));
+                    postfix.add(new BooleanOperator(BooleanOperator.Operator.And));
                 } else {
                     helperStack.push(new BooleanOperator(BooleanOperator.Operator.And));
                 }
@@ -46,10 +49,10 @@ public class BooleanExpression {
                     helperStack.push(new BooleanOperator(BooleanOperator.Operator.Or));
                 } else {
                     if (((BooleanOperator) helperStack.peek()).getOperator() == BooleanOperator.Operator.And) {
-                        postfix.push(helperStack.pop());
+                        postfix.add(helperStack.pop());
                         helperStack.push(new BooleanOperator(BooleanOperator.Operator.Or));
                     } else { // or in helper stack
-                        postfix.push(new BooleanOperator(BooleanOperator.Operator.Or));
+                        postfix.add(new BooleanOperator(BooleanOperator.Operator.Or));
                     }
                 }
                 i++;
@@ -57,7 +60,7 @@ public class BooleanExpression {
                 continue;
             } else {
                 if (predicateNumber + 1 <= sqlPredicates.size())
-                    postfix.push(sqlPredicates.get(predicateNumber++));
+                    postfix.add(sqlPredicates.get(predicateNumber++));
                 while(i + 1 != infix.length() && infix.charAt(++i) != ')');
                 if (!(i + 1 == infix.length())) i--;
             }
@@ -68,7 +71,7 @@ public class BooleanExpression {
             } else { // in case the user didn't put parenthesis
                 // around the whole expression some operator will remain in helper stack
                 while (!helperStack.isEmpty()) {
-                    postfix.push(helperStack.pop());
+                    postfix.add(helperStack.pop());
                 }
             }
         }
@@ -86,7 +89,7 @@ public class BooleanExpression {
     }
 
     public static void main(String[] args) {
-        Stack<Object> postfix = new Stack<>();
+        Queue<Object> postfix = new LinkedList<>();
         try {
             postfix = new BooleanExpression().toPostfix("((col1 = 5) and (col2 = test))");
         } catch (SyntaxErrorException e) {
@@ -94,8 +97,8 @@ public class BooleanExpression {
         }
         int size = postfix.size();
         for (int i = 0; i < size; i++) {
-            System.out.println(postfix.firstElement());
-            postfix.remove(postfix.firstElement());
+            System.out.println(postfix.poll());
+            postfix.remove(postfix.poll());
         }
     }
 }
