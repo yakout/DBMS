@@ -1,10 +1,8 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import dbms.connection.XMLConnection;
-import dbms.sqlparser.sqlInterpreter.Expression;
 
 public class CreateTable implements Expression {
     private String tableName;

@@ -1,29 +1,21 @@
 package dbms.sqlparser;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import dbms.exception.SyntaxErrorException;
+import dbms.sqlparser.sqlInterpreter.rules.Expression;
+import dbms.sqlparser.sqlInterpreter.SQLPredicate;
+import dbms.sqlparser.sqlInterpreter.rules.*;
+import dbms.util.Operator;
+
 import java.util.ResourceBundle;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import dbms.exception.SyntaxErrorException;
-import dbms.sqlparser.sqlInterpreter.Expression;
-import dbms.sqlparser.sqlInterpreter.SQLPredicate;
-import dbms.sqlparser.sqlInterpreter.rules.CreateDatabase;
-import dbms.sqlparser.sqlInterpreter.rules.CreateTable;
-import dbms.sqlparser.sqlInterpreter.rules.Delete;
-import dbms.sqlparser.sqlInterpreter.rules.DropDatabase;
-import dbms.sqlparser.sqlInterpreter.rules.DropTable;
-import dbms.sqlparser.sqlInterpreter.rules.InsertIntoTable;
-import dbms.sqlparser.sqlInterpreter.rules.Select;
-import dbms.sqlparser.sqlInterpreter.rules.Update;
-import dbms.sqlparser.sqlInterpreter.rules.UseDatabase;
-import dbms.sqlparser.sqlInterpreter.rules.Where;
-import dbms.util.Operator;
 
 public class SQLParser {
     private final String propFileName = "dbms.sqlparser.SQLRegex";
@@ -142,7 +134,7 @@ public class SQLParser {
                              toOperator(matcher.group(9)), value);
                  }
         	}
-
+    
             select.setWhere(new Where(Arrays.asList(sqlPredicate)));
         }
         return select;

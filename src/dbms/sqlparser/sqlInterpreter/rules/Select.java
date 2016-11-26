@@ -1,8 +1,6 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
 import dbms.connection.XMLConnection;
-import dbms.sqlparser.sqlInterpreter.Condition;
-import dbms.sqlparser.sqlInterpreter.Expression;
 
 import java.util.Collection;
 

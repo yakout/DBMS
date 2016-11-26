@@ -1,9 +1,7 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
 import dbms.connection.XMLConnection;
-import dbms.sqlparser.sqlInterpreter.Expression;
-import java.util.Collection;
-import java.util.HashMap;
+
 import java.util.Map;
 
 public class Update implements Expression {

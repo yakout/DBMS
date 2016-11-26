@@ -1,7 +1,7 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
 import dbms.connection.XMLConnection;
-import dbms.sqlparser.sqlInterpreter.Expression;
+
 import java.util.Map;
 
 public class InsertIntoTable implements Expression {

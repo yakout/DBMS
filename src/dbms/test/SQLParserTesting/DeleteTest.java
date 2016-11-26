@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.SQLParser;
-import dbms.sqlparser.sqlInterpreter.Expression;
+import dbms.sqlparser.sqlInterpreter.rules.Expression;
 import dbms.sqlparser.sqlInterpreter.SQLPredicate;
 import dbms.sqlparser.sqlInterpreter.rules.Delete;
 import dbms.util.Operator;

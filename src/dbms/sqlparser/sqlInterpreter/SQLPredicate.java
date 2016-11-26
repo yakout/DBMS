@@ -2,11 +2,12 @@ package dbms.sqlparser.sqlInterpreter;
 
 import dbms.util.Operator;
 
-public class SQLPredicate implements Predicate {
+public class SQLPredicate {
     private String columnName;
     private String columnName2;
     private Operator operator;
     private Object value;
+    private boolean isAlwaysTrue = false;
 
     public SQLPredicate(String columnName, Operator operator,
                         Object value) {
@@ -22,6 +23,14 @@ public class SQLPredicate implements Predicate {
         this.columnName2 = columnName2;
     }
 
+    public SQLPredicate() {
+        this.isAlwaysTrue = true;
+    }
+
+    public boolean isAlwaysTrue() {
+        return isAlwaysTrue;
+    }
+
     /**
      *
      * @param o object for left-side column of this predicate
@@ -31,7 +40,7 @@ public class SQLPredicate implements Predicate {
         if (o instanceof String && value instanceof String) {
             switch (operator) {
                 case GreaterThan:
-                	return (o.toString().compareTo(value.toString())) > 0;
+                    return (o.toString().compareTo(value.toString())) > 0;
                 case Equal:
                     return o.equals(value);
                 case SmallerThan:
@@ -145,5 +154,15 @@ public class SQLPredicate implements Predicate {
 
     public boolean compareWithValue() {
         return (getColumnName2() == null);
+    }
+
+    @Override
+    public String toString() {
+        return "SQLPredicate{" +
+                "columnName='" + columnName + '\'' +
+                ", columnName2='" + columnName2 + '\'' +
+                ", operator=" + operator +
+                ", value=" + value +
+                '}';
     }
 }
