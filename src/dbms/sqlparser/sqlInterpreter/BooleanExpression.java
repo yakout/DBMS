@@ -82,7 +82,12 @@ public class BooleanExpression {
         Matcher matcher = Pattern.compile(predicateRegex).matcher(infix);
         List<SQLPredicate> sqlPredicates = new ArrayList<>();
         while (matcher.find()) {
-            SQLPredicate sqlPredicate = new SQLPredicate(matcher.group(2), matcher.group(3), matcher.group(4));
+            SQLPredicate sqlPredicate;
+            if (matcher.group(4).startsWith("'")) {
+                sqlPredicate = new SQLPredicate(matcher.group(2), matcher.group(3), (Object) matcher.group(4));
+            } else {
+                sqlPredicate = new SQLPredicate(matcher.group(2), matcher.group(3), matcher.group(4));
+            }
             sqlPredicates.add(sqlPredicate);
         }
         return sqlPredicates;
