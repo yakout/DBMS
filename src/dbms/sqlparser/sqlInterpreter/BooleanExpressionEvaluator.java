@@ -1,15 +1,16 @@
 package dbms.sqlparser.sqlInterpreter;
 
-import dbms.sqlparser.sqlInterpreter.BooleanExpression;
+import java.util.Stack;
 
 public class BooleanExpressionEvaluator {
-    private BooleanExpression booleanExpression;
+    private Stack<Object> postfix;
 
-    public BooleanExpressionEvaluator(BooleanExpression booleanExpression) {
-        this.booleanExpression = booleanExpression;
+    public BooleanExpressionEvaluator(Stack<Object> postfix) {
+        this.postfix = postfix;
     }
 
     public boolean evaluate() {
+
         // TODO: 11/26/16
         return false;
     }
