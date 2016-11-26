@@ -2,9 +2,11 @@ package dbms.xml;
 
 import java.io.File;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.xml.transform.TransformerException;
 
+import dbms.exception.DataTypeNotSupportedException;
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.SyntaxErrorException;
@@ -19,6 +21,8 @@ public class XMLParser {
 
 	private static final String WORKSPACE_DIR =
 			System.getProperty("user.home") + "\\databases";
+	private static final ResourceBundle CONSTANTS =
+			ResourceBundle.getBundle("dbms.xml.Constants");
 
 	private XMLParser() {
 
@@ -54,12 +58,21 @@ public class XMLParser {
 				tableName);
 	}
 
-	public ResultSet select(String dbName, String tableName, Condition condition) throws DatabaseNotFoundException, TableNotFoundException {
+	public ResultSet select(String dbName, String tableName, Condition condition)
+			throws DatabaseNotFoundException, TableNotFoundException {
 		return TableParser.getInstance().select(dbName, tableName, null);
 	}
 
 	public void insertIntoTable(String dbName, String tableName,
-			Map<String, Object> entryMap) throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
+			Map<String, Object> entryMap) throws DatabaseNotFoundException,
+			TableNotFoundException, SyntaxErrorException {
 		TableParser.getInstance().insertIntoTable(dbName, tableName, entryMap);
+	}
+	
+	public void update(String dbName, String tableName, Map<String, Object> values,
+			   Map<String, String> columns, Condition condition)
+					   throws DatabaseNotFoundException,TableNotFoundException,
+					   SyntaxErrorException, DataTypeNotSupportedException {
+		TableParser.getInstance().update(dbName, tableName, values, columns, condition);
 	}
 }

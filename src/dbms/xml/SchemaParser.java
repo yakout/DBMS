@@ -1,6 +1,7 @@
 package dbms.xml;
 
 import java.io.File;
+import java.util.ResourceBundle;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -24,52 +25,10 @@ public class SchemaParser {
 	private static SchemaParser instance  = null;
 	private static Transformer transformer = null;
 	private static DocumentBuilder docBuilder = null;
-	private static final String EXTENSION = ".xsd";
 	private static final String WORKSPACE_DIR =
 			System.getProperty("user.home") + "\\databases";
-	/** XS nodes.*/
-	private static final String XS_SCHEMA = "xs:schema";
-	private static final String XS_ELEMENT = "xs:element";
-	private static final String XS_EXTENSION = "xs:extension";
-	private static final String XS_COMPLEX = "xs:complexType";
-	private static final String XS_SEQUENCE = "xs:sequence";
-	private static final String XS_SIMPLE = "xs:simpleContent";
-	private static final String XS_ATTR = "xs:attribute";
-
-	private static final String NOTHING = "0";
-	/** XS types.*/
-	private static final String STRING_TYPE = "xs:string";
-	private static final String INT_TYPE = "xs:integer";
-	/** Tag elements.*/
-	private static final String TABLE_ELEMENT = "table";
-	private static final String COLUMN_ELEMENT = "col";
-	private static final String ROW_ELEMENT = "row";
-	/** XS nodes.*/
-	private static final String FORMDEFAULT_ATTR = "attributeFormDefault";
-	private static final String ELEMENTFORMDEFAULT_ATTR = "elementFormDefault";
-	private static final String XMLNS_ATTR = "xmlns:xs";
-	private static final String NAME_ATTR = "name";
-	private static final String DB_ATTR = "database";
-	private static final String ROWS_ATTR = "rows";
-	private static final String TYPE_ATTR = "type";
-	private static final String USE_ATTR = "use";
-	private static final String MAXOCCURS_ATTR = "maxOccurs";
-	private static final String MINOCCURS_ATTR = "minOccurs";
-	private static final String BASE_ATTR = "base";
-	/** Attribute values.*/
-	private static final String FORMDEFAULT_VAL = "unqualified";
-	private static final String ELEMENTFORMDEFAULT_VAL = "qualified";
-	private static final String XMLNS_VAL = "http://www.w3.org/2001/XMLSchema";
-	private static final String UNBOUNDED_VAL = "unbounded";
-	private static final String OPTIONAL_VAL = "optional";
-	private static final String INDEX_VAL = "index";
-	private static final String DEFAULT_ATTR = "default";
-	/** Indentations.*/
-	private static final String INDENTATION_VAL = "4";
-	private static final String INDENTATION =
-            "{http://xml.apache.org/xslt}indent-amount";
-	private static final String TABLE = null;
-//	private static final String MAXOCCURS_ATTR = null;
+	private static final ResourceBundle CONSTANTS =
+			ResourceBundle.getBundle("dbms.xml.Constants");
 
 	private SchemaParser() {
 		initialize();
@@ -95,8 +54,8 @@ public class SchemaParser {
 		}
         transformer.setOutputProperty(OutputKeys.INDENT,
                 "yes");
-        transformer.setOutputProperty(INDENTATION,
-                INDENTATION_VAL);
+        transformer.setOutputProperty(CONSTANTS.getString("indentation"),
+                CONSTANTS.getString("indentation.val"));
 
 	}
 
@@ -107,12 +66,12 @@ public class SchemaParser {
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException();
 		}
-		File schema = new File(database, tableName + EXTENSION);
+		File schema = new File(database, tableName + CONSTANTS.getString("extension.schema"));
 		if (schema.exists()) {
 			return;
 		}
 		Document doc = docBuilder.newDocument();
-		Element root = doc.createElement(XS_SCHEMA);
+		Element root = doc.createElement(CONSTANTS.getString("xs.schema"));
 		doc.appendChild(root);
 		setAllElements(root, doc);
 		DOMSource source = new DOMSource(doc);
@@ -127,138 +86,138 @@ public class SchemaParser {
 
 	private void setAllElements(Element root, Document doc) {
 		setRootAttribute(root, doc);
-		Element table = doc.createElement(XS_ELEMENT);
+		Element table = doc.createElement(CONSTANTS.getString("xs.element"));
 
 		setTableAtrribute(table, doc);
 		root.appendChild(table);
 
-		Element cmplx = doc.createElement(XS_COMPLEX);
+		Element cmplx = doc.createElement(CONSTANTS.getString("xs.complex"));
 		table.appendChild(cmplx);
 
-		Element sequence = doc.createElement(XS_SEQUENCE);
+		Element sequence = doc.createElement(CONSTANTS.getString("xs.sequence"));
 		cmplx.appendChild(sequence);
 
-		Element column1 = doc.createElement(XS_ELEMENT);
+		Element column1 = doc.createElement(CONSTANTS.getString("xs.element"));
 		setColumnAttribute(column1, doc);
 		sequence.appendChild(column1);
 
-		Element cmplx2 = doc.createElement(XS_COMPLEX);
+		Element cmplx2 = doc.createElement(CONSTANTS.getString("xs.complex"));
 		column1.appendChild(cmplx2);
 
-		Element sequence2 = doc.createElement(XS_SEQUENCE);
+		Element sequence2 = doc.createElement(CONSTANTS.getString("xs.sequence"));
 		cmplx2.appendChild(sequence2);
 
-		Element row = doc.createElement(XS_ELEMENT);
+		Element row = doc.createElement(CONSTANTS.getString("xs.element"));
 		setRowAttribute(row, doc);
 		sequence2.appendChild(row);
 
-		Element cmplx3 = doc.createElement(XS_COMPLEX);
+		Element cmplx3 = doc.createElement(CONSTANTS.getString("xs.complex"));
 		row.appendChild(cmplx3);
 
-		Element simpleContent = doc.createElement(XS_SIMPLE);
+		Element simpleContent = doc.createElement(CONSTANTS.getString("xs.simple"));
 		cmplx3.appendChild(simpleContent);
 
-		Element extension = doc.createElement(XS_EXTENSION);
+		Element extension = doc.createElement(CONSTANTS.getString("xs.extension"));
 		setExtensionAttribute(extension, doc);
 		simpleContent.appendChild(extension);
 
-		Element rowAttribute = doc.createElement(XS_ATTR);
-		setAttrsToAttribute(rowAttribute, doc, INDEX_VAL);
+		Element rowAttribute = doc.createElement(CONSTANTS.getString("xs.attr"));
+		setAttrsToAttribute(rowAttribute, doc, CONSTANTS.getString("index.val"));
 		extension.appendChild(rowAttribute);
 
-		Element colAttr = doc.createElement(XS_ATTR);
-		setAttrsToAttribute(colAttr, doc, NAME_ATTR);
+		Element colAttr = doc.createElement(CONSTANTS.getString("xs.attr"));
+		setAttrsToAttribute(colAttr, doc, CONSTANTS.getString("name.attr"));
 		cmplx2.appendChild(colAttr);
 
-		Element colAttr2 = doc.createElement(XS_ATTR);
-		setAttrsToAttribute(colAttr2, doc, TYPE_ATTR);
+		Element colAttr2 = doc.createElement(CONSTANTS.getString("xs.attr"));
+		setAttrsToAttribute(colAttr2, doc, CONSTANTS.getString("type.attr"));
 		cmplx2.appendChild(colAttr2);
 
-		Element tableAttr1 = doc.createElement(XS_ATTR);
-		setAttrsToAttribute(tableAttr1, doc, NAME_ATTR);
+		Element tableAttr1 = doc.createElement(CONSTANTS.getString("xs.attr"));
+		setAttrsToAttribute(tableAttr1, doc, CONSTANTS.getString("name.attr"));
 		cmplx.appendChild(tableAttr1);
 
-		Element tableAttr2 = doc.createElement(XS_ATTR);
-		setAttrsToAttribute(tableAttr2, doc, DB_ATTR);
+		Element tableAttr2 = doc.createElement(CONSTANTS.getString("xs.attr"));
+		setAttrsToAttribute(tableAttr2, doc, CONSTANTS.getString("db.attr"));
 		cmplx.appendChild(tableAttr2);
 
-		Element tableAttr3 = doc.createElement(XS_ATTR);
-        setAttrsToAttribute(tableAttr3, doc, ROWS_ATTR);
+		Element tableAttr3 = doc.createElement(CONSTANTS.getString("xs.attr"));
+        setAttrsToAttribute(tableAttr3, doc, CONSTANTS.getString("rows.attr"));
         cmplx.appendChild(tableAttr3);
 	}
 
 	private void setAttrsToAttribute(Element attribute, Document doc, String attrName) {
-		Attr type = doc.createAttribute(TYPE_ATTR);
+		Attr type = doc.createAttribute(CONSTANTS.getString("type.attr"));
 
-   		Attr name = doc.createAttribute(NAME_ATTR);
+   		Attr name = doc.createAttribute(CONSTANTS.getString("name.attr"));
    		name.setValue(attrName);
    		attribute.setAttributeNode(name);
 
-   		if (attrName.equals(ROWS_ATTR)) {
-   			type.setValue(INT_TYPE);
-   			Attr defaultVal = doc.createAttribute(DEFAULT_ATTR);
+   		if (attrName.equals(CONSTANTS.getString("rows.attr"))) {
+   			type.setValue(CONSTANTS.getString("int.type"));
+   			Attr defaultVal = doc.createAttribute(CONSTANTS.getString("default.attr"));
    			defaultVal.setValue("0");
    			attribute.setAttributeNode(defaultVal);
        } else {
-    	   	type.setValue(STRING_TYPE);
-    	   	Attr use = doc.createAttribute(USE_ATTR);
-    	   	use.setValue(OPTIONAL_VAL);
+    	   	type.setValue(CONSTANTS.getString("string.type"));
+    	   	Attr use = doc.createAttribute(CONSTANTS.getString("use.attr"));
+    	   	use.setValue(CONSTANTS.getString("optional.val"));
     	   	attribute.setAttributeNode(use);
        }
    		attribute.setAttributeNode(type);
 	}
 
 	private void setExtensionAttribute(Element extension, Document doc) {
-		Attr base = doc.createAttribute(BASE_ATTR);
-		base.setValue(STRING_TYPE);
+		Attr base = doc.createAttribute(CONSTANTS.getString("base.attr"));
+		base.setValue(CONSTANTS.getString("string.type"));
 		extension.setAttributeNode(base);
 	}
 
 	private void setColumnAttribute(Element column, Document doc) {
-		Attr name = doc.createAttribute(NAME_ATTR);
-		name.setValue(COLUMN_ELEMENT);
+		Attr name = doc.createAttribute(CONSTANTS.getString("name.attr"));
+		name.setValue(CONSTANTS.getString("column.element"));
 		column.setAttributeNode(name);
 
-		Attr maxOccurs = doc.createAttribute(MAXOCCURS_ATTR);
-		maxOccurs.setValue(UNBOUNDED_VAL);
+		Attr maxOccurs = doc.createAttribute(CONSTANTS.getString("maxOccurs.attr"));
+		maxOccurs.setValue(CONSTANTS.getString("unbounded.val"));
 		column.setAttributeNode(maxOccurs);
 
-		Attr minOccurs = doc.createAttribute(MINOCCURS_ATTR);
-		minOccurs.setValue(NOTHING);
+		Attr minOccurs = doc.createAttribute(CONSTANTS.getString("minOccurs.attr"));
+		minOccurs.setValue(CONSTANTS.getString("nothing"));
 		column.setAttributeNode(minOccurs);
 	}
 
 	private void setRowAttribute(Element sequence, Document doc) {
 
-		Attr name = doc.createAttribute(NAME_ATTR);
-		name.setValue(ROW_ELEMENT);
+		Attr name = doc.createAttribute(CONSTANTS.getString("name.attr"));
+		name.setValue(CONSTANTS.getString("row.element"));
 		sequence.setAttributeNode(name);
 
-		Attr maxOccurs = doc.createAttribute(MAXOCCURS_ATTR);
-		maxOccurs.setValue(UNBOUNDED_VAL);
+		Attr maxOccurs = doc.createAttribute(CONSTANTS.getString("maxOccurs.attr"));
+		maxOccurs.setValue(CONSTANTS.getString("unbounded.val"));
 		sequence.setAttributeNode(maxOccurs);
 
-		Attr minOccurs = doc.createAttribute(MINOCCURS_ATTR);
-		minOccurs.setValue(NOTHING);
+		Attr minOccurs = doc.createAttribute(CONSTANTS.getString("minOccurs.attr"));
+		minOccurs.setValue(CONSTANTS.getString("nothing"));
 		sequence.setAttributeNode(minOccurs);
 
 	}
 
 	private void setRootAttribute(Element root, Document doc) {
-		Attr xmlns = doc.createAttribute(XMLNS_ATTR);
-		xmlns.setValue(XMLNS_VAL);
+		Attr xmlns = doc.createAttribute(CONSTANTS.getString("xmlns.attr"));
+		xmlns.setValue(CONSTANTS.getString("xmlns.val"));
 		root.setAttributeNode(xmlns);
-		Attr eFormDefault = doc.createAttribute(ELEMENTFORMDEFAULT_ATTR);
-		eFormDefault.setValue(ELEMENTFORMDEFAULT_VAL);
+		Attr eFormDefault = doc.createAttribute(CONSTANTS.getString("elementFormDefault.attr"));
+		eFormDefault.setValue(CONSTANTS.getString("elementFormDefault.val"));
 		root.setAttributeNode(eFormDefault);
-		Attr formAttr = doc.createAttribute(FORMDEFAULT_ATTR);
-		formAttr.setValue(FORMDEFAULT_VAL);
+		Attr formAttr = doc.createAttribute(CONSTANTS.getString("formDefault.attr"));
+		formAttr.setValue(CONSTANTS.getString("formDefault.val"));
 		root.setAttributeNode(formAttr);
 	}
 
 	private void setTableAtrribute(Element table, Document doc) {
-		Attr name = doc.createAttribute(NAME_ATTR);
-		name.setValue(TABLE_ELEMENT);
+		Attr name = doc.createAttribute(CONSTANTS.getString("name.attr"));
+		name.setValue(CONSTANTS.getString("table.element"));
 		table.setAttributeNode(name);
 	}
 }
