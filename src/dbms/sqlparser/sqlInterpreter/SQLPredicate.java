@@ -2,7 +2,12 @@ package dbms.sqlparser.sqlInterpreter;
 
 import dbms.util.Operator;
 
-public class SQLPredicate {
+public class SQLPredicate implements Comparable<SQLPredicate> {
+    @Override
+    public int compareTo(SQLPredicate o) {
+        return 0;
+    }
+
     private String columnName;
     private String columnName2;
     private Operator operator;
@@ -10,17 +15,17 @@ public class SQLPredicate {
     private boolean isAlwaysTrue = false;
     private boolean isAlwaysFalse = false;
 
-    public SQLPredicate(String columnName, Operator operator,
+    public SQLPredicate(String columnName, String operator,
                         Object value) {
         this.columnName = columnName;
-        this.operator = operator;
+        this.operator = toOperator(operator);
         this.value = value;
     }
 
-    public SQLPredicate(String columnName, Operator operator,
+    public SQLPredicate(String columnName, String operator,
                         String columnName2) {
         this.columnName = columnName;
-        this.operator = operator;
+        this.operator = toOperator(operator);
         this.columnName2 = columnName2;
     }
 
@@ -166,6 +171,26 @@ public class SQLPredicate {
 
     public boolean compareWithValue() {
         return (getColumnName2() == null);
+    }
+
+
+    private Operator toOperator(String operator) {
+        switch (operator) {
+            case "<":
+                return Operator.SmallerThan;
+            case ">":
+                return Operator.GreaterThan;
+            case "==":
+                return Operator.Equal;
+            case "<=":
+                return Operator.SmallerThanOrEqual;
+            case ">=":
+                return Operator.GreaterThanOrEqual;
+            case "!=":
+                return Operator.NotEqual;
+            default:
+                return null;
+        }
     }
 
     @Override
