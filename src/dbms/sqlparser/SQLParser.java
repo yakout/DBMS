@@ -124,14 +124,14 @@ public class SQLParser {
         	String value = matcher.group(10).trim();
         	if (value.startsWith("'")) { // the value is String
         		 sqlPredicate = new SQLPredicate(matcher.group(8).trim(),
-                        toOperator(matcher.group(9)), (Object) value.replaceAll("'", "").trim());
+                        matcher.group(9), (Object) value.replaceAll("'", "").trim());
         	} else {
         		 try {
-                     sqlPredicate = new SQLPredicate(matcher.group(8).trim(), toOperator(matcher.group(9)),
+                     sqlPredicate = new SQLPredicate(matcher.group(8).trim(), matcher.group(9),
                              Integer.parseInt(value));
                  } catch (NumberFormatException e) {
                      sqlPredicate = new SQLPredicate(matcher.group(8).trim(),
-                             toOperator(matcher.group(9)), value);
+                             matcher.group(9), value);
                  }
         	}
     
@@ -184,14 +184,14 @@ public class SQLParser {
             String value = matcher.group(7).trim();
             if (value.startsWith("'")) { // the value is String
                 predicate = new SQLPredicate(columnName,
-                        toOperator(matcher.group(6)), (Object) value.replaceAll("'", ""));
+                        matcher.group(6), (Object) value.replaceAll("'", ""));
             } else { // the value is Integer or it's a column name
                 try {
-                    predicate = new SQLPredicate(columnName, toOperator(matcher.group(6)),
+                    predicate = new SQLPredicate(columnName, matcher.group(6),
                             Integer.parseInt(value));
                 } catch (NumberFormatException e) {
                     predicate = new SQLPredicate(columnName,
-                            toOperator(matcher.group(6)), value);
+                            matcher.group(6), value);
                 }
             }
             List<SQLPredicate> predicates = new ArrayList<>();
@@ -226,7 +226,7 @@ public class SQLParser {
             String[] predicates = matcher.group(7).split("(>|=|<)");
             SQLPredicate sqlPredicate;
             String value = predicates[1].trim();
-            Operator operator = toOperator(matcher.group(9));
+            String operator = matcher.group(9);
             if (value.startsWith("'")) {
                 sqlPredicate = new SQLPredicate(predicates[0].trim(),
                         operator, (Object) value.replaceAll("'", ""));
@@ -271,19 +271,6 @@ public class SQLParser {
         matcher.matches();
         UseDatabase useDatabase = new UseDatabase(matcher.group(1));
         return useDatabase;
-    }
-
-    private Operator toOperator(String operator) {
-        switch (operator) {
-            case "<":
-                return Operator.SmallerThan;
-            case ">":
-                return Operator.GreaterThan;
-            case "=":
-                return Operator.Equal;
-            default:
-                return null;
-        }
     }
 
     public static void main(String[] args) {

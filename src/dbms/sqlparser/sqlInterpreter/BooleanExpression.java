@@ -2,7 +2,6 @@ package dbms.sqlparser.sqlInterpreter;
 
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.sqlInterpreter.rules.BooleanOperator;
-import dbms.util.Operator;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.List;
@@ -80,29 +79,16 @@ public class BooleanExpression {
         Matcher matcher = Pattern.compile(predicateRegex).matcher(infix);
         List<SQLPredicate> sqlPredicates = new ArrayList<>();
         while (matcher.find()) {
-            SQLPredicate sqlPredicate = new SQLPredicate(matcher.group(2), toOperator(matcher.group(3)), matcher.group(4));
+            SQLPredicate sqlPredicate = new SQLPredicate(matcher.group(2), matcher.group(3), matcher.group(4));
             sqlPredicates.add(sqlPredicate);
         }
         return sqlPredicates;
     }
 
-    private Operator toOperator(String operator) {
-        switch (operator) {
-            case "<":
-                return Operator.SmallerThan;
-            case ">":
-                return Operator.GreaterThan;
-            case "=":
-                return Operator.Equal;
-            default:
-                return null;
-        }
-    }
-
     public static void main(String[] args) {
         Stack<Object> postfix = new Stack<>();
         try {
-            postfix = new BooleanExpression().toPostfix("((a < r) or (d < d))");
+            postfix = new BooleanExpression().toPostfix("((col1 = 5) and (col2 = test))");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
         }
