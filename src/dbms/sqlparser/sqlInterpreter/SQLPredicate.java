@@ -8,6 +8,7 @@ public class SQLPredicate {
     private Operator operator;
     private Object value;
     private boolean isAlwaysTrue = false;
+    private boolean isAlwaysFalse = false;
 
     public SQLPredicate(String columnName, Operator operator,
                         Object value) {
@@ -23,12 +24,20 @@ public class SQLPredicate {
         this.columnName2 = columnName2;
     }
 
-    public SQLPredicate() {
-        this.isAlwaysTrue = true;
+    public SQLPredicate(boolean predicateValue) {
+        if (predicateValue) {
+            isAlwaysTrue = true;
+        } else {
+            isAlwaysFalse = true;
+        }
     }
 
     public boolean isAlwaysTrue() {
         return isAlwaysTrue;
+    }
+
+    public boolean isAlwaysFalse() {
+        return isAlwaysFalse;
     }
 
     /**
@@ -88,16 +97,6 @@ public class SQLPredicate {
         return false;
     }
 
-    /**
-     *
-     * @param sqlPredicate
-     * @param o1 object for left-side column of this predicate
-     * @param o2 object for left-side column of predicate argument.
-     * @return
-     */
-    public boolean or(SQLPredicate sqlPredicate, Object o1, Object o2) {
-        return test(o1) || sqlPredicate.test(o2);
-    }
 
     /**
      *
@@ -109,18 +108,19 @@ public class SQLPredicate {
      * @return boolean value true/false
      */
     public boolean or(SQLPredicate sqlPredicate, Object o1, Object o2, Object o3, Object o4) {
-        return test(o1, o2) || sqlPredicate.test(o3, o4);
-    }
-
-    /**
-     *
-     * @param sqlPredicate
-     * @param o1 object for left-side column of this predicate
-     * @param o2 object for left-side column of predicate argument.
-     * @return
-     */
-    public boolean and(SQLPredicate sqlPredicate, Object o1, Object o2) {
-        return test(o1) && sqlPredicate.test(o2);
+        if (o2 == null) {
+            return test(o1) || sqlPredicate.test(o3, o4);
+        } else if (o4 == null) {
+            return test(o1, o2) || sqlPredicate.test(o3);
+        } else if (o4 == null && o2 == null) {
+            return test(o1) || sqlPredicate.test(o3);
+        } else if (o1 == null && o2 == null) {
+            return !isAlwaysFalse || sqlPredicate.test(o3, o4);
+        } else if (o3 == null && o4 == null) {
+            return test(o1, o2) || !sqlPredicate.isAlwaysFalse();
+        } else {
+            return test(o1, o2) || sqlPredicate.test(o3, o4);
+        }
     }
 
     /**
@@ -133,7 +133,19 @@ public class SQLPredicate {
      * @return boolean value true/false
      */
     public boolean and(SQLPredicate sqlPredicate, Object o1, Object o2, Object o3, Object o4) {
-        return test(o1, o2) && sqlPredicate.test(o3, o4);
+        if (o2 == null) {
+            return test(o1) && sqlPredicate.test(o3, o4);
+        } else if (o4 == null) {
+            return test(o1, o2) && sqlPredicate.test(o3);
+        } else if (o4 == null && o2 == null) {
+            return test(o1) && sqlPredicate.test(o3);
+        } else if (o1 == null && o2 == null) {
+            return !isAlwaysFalse && sqlPredicate.test(o3, o4);
+        } else if (o3 == null && o4 == null) {
+            return test(o1, o2) && !sqlPredicate.isAlwaysFalse();
+        } else {
+            return test(o1, o2) && sqlPredicate.test(o3, o4);
+        }
     }
 
     public String getColumnName() {

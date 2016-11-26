@@ -33,8 +33,7 @@ public class BooleanExpression {
                     throw new SyntaxErrorException(errorMessage);
                 }
                 helperStack.pop();
-            } else if (currentChar == 'a' && infix.charAt(i + 1) == 'n'
-                    && infix.charAt(i + 2) == 'd') {
+            } else if (infix.substring(i, i + 3).equals("and")) {
                 if (helperStack.isEmpty() || helperStack.peek() instanceof Character) {
                     helperStack.push(new BooleanOperator(BooleanOperator.Operator.And));
                 } else if (((BooleanOperator) helperStack.peek()).getOperator() == BooleanOperator.Operator.And) {
@@ -43,7 +42,7 @@ public class BooleanExpression {
                     helperStack.push(new BooleanOperator(BooleanOperator.Operator.And));
                 }
                 i += 2;
-            } else if (currentChar == 'o' && infix.charAt(i + 1) == 'r') {
+            } else if (infix.substring(i, i + 2).equals("or")) {
                 if (helperStack.isEmpty() || helperStack.peek() instanceof Character) {
                     helperStack.push(new BooleanOperator(BooleanOperator.Operator.Or));
                 } else {
@@ -103,7 +102,7 @@ public class BooleanExpression {
     public static void main(String[] args) {
         Stack<Object> postfix = new Stack<>();
         try {
-            postfix = new BooleanExpression().toPostfix("a<d");
+            postfix = new BooleanExpression().toPostfix("((a < r) or (d < d))");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
         }
