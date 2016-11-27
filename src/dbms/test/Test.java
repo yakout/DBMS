@@ -76,14 +76,14 @@ public class Test {
 //		}
 
 		try {
-			SQLParser.getInstace().parse("CREATE DATABASE testDB;").execute();
-			SQLParser.getInstace().parse("USE DATABASE testDB;").execute();
-			SQLParser.getInstace().parse("CREATE TABLE table1 (ID int, Name varchar, Gender varchar);").execute();
-			SQLParser.getInstace().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (15, 'hamada14', 'Male');").execute();
-			SQLParser.getInstace().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (16, 'what_ever', 'Male');").execute();
-			SQLParser.getInstace().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (17, 'awalid', 'Male');").execute();
-			SQLParser.getInstace().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolba', 'Female');").execute();
-			SQLParser.getInstace().parse("SELECT ID FROM table1;").execute();
+			SQLParser.getInstance().parse("CREATE DATABASE testDB;").execute();
+			SQLParser.getInstance().parse("USE DATABASE testDB;").execute();
+			SQLParser.getInstance().parse("CREATE TABLE table1 (ID int, Name varchar, Gender varchar);").execute();
+			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (15, 'hamada14', 'Male');").execute();
+			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (16, 'what_ever', 'Male');").execute();
+			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (17, 'awalid', 'Male');").execute();
+			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolba', 'Female');").execute();
+			SQLParser.getInstance().parse("SELECT ID FROM table1;").execute();
 		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException | DataTypeNotSupportedException | TableAlreadyCreatedException | DatabaseAlreadyCreatedException e) {
 			e.printStackTrace();
 		}

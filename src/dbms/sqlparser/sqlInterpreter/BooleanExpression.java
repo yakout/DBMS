@@ -35,7 +35,7 @@ public class BooleanExpression {
                     throw new SyntaxErrorException(errorMessage);
                 }
                 helperStack.pop();
-            } else if (infix.substring(i, i + 3).equals("and")) {
+            } else if (i + 3 < infix.length() && infix.substring(i, i + 3).toLowerCase().equals("and")) {
                 if (helperStack.isEmpty() || helperStack.peek() instanceof Character) {
                     helperStack.push(new BooleanOperator(BooleanOperator.Operator.And));
                 } else if (((BooleanOperator) helperStack.peek()).getOperator() == BooleanOperator.Operator.And) {
@@ -44,7 +44,7 @@ public class BooleanExpression {
                     helperStack.push(new BooleanOperator(BooleanOperator.Operator.And));
                 }
                 i += 2;
-            } else if (infix.substring(i, i + 2).equals("or")) {
+            } else if (i + 2 < infix.length() && infix.substring(i, i + 2).toLowerCase().equals("or")) {
                 if (helperStack.isEmpty() || helperStack.peek() instanceof Character) {
                     helperStack.push(new BooleanOperator(BooleanOperator.Operator.Or));
                 } else {

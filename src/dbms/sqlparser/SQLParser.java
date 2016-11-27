@@ -32,7 +32,7 @@ public class SQLParser {
     private SQLParser() {
     }
 
-    public static SQLParser getInstace() {
+    public static SQLParser getInstance() {
         if (instance == null) {
             instance = new SQLParser();
         }
@@ -118,7 +118,7 @@ public class SQLParser {
 
     private Expression parseDrop(Matcher matcher) {
         matcher.matches();
-        switch (matcher.group(1)) {
+        switch (matcher.group(1).toLowerCase()) {
             case "database":
                 return new DropDatabase(matcher.group(2));
             case "table":
@@ -190,7 +190,7 @@ public class SQLParser {
     private Expression parseCreate(Matcher matcher) {
         matcher.matches();
 
-        if (matcher.group(1).startsWith("database")) {
+        if (matcher.group(1).toLowerCase().startsWith("database")) {
             return new CreateDatabase(matcher.group(3));
         }
 
@@ -219,7 +219,7 @@ public class SQLParser {
 
     public static void main(String[] args) {
         try {
-            System.out.println(new SQLParser().parse("SELECT * FROM table1 WHERE ((Gender == 'Male') AND (ID > 10));"));
+            System.out.println(((Select) new SQLParser().parse("SELECT * FROM table1 WHERE ((Gender == 'Male') and (ID > 10));")).getWhere().getPostfix());
         } catch (SyntaxErrorException e) {
             System.out.println(e.toString());
         }

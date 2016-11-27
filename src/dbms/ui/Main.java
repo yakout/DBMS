@@ -7,7 +7,7 @@ import dbms.sqlparser.SQLParser;
 import dbms.sqlparser.sqlInterpreter.rules.Expression;
 
 public class Main {
-	private final static SQLParser sqlParserObj = SQLParser.getInstace();
+	private final static SQLParser sqlParserObj = SQLParser.getInstance();
 	private static Expression expressionRef;
 
 	private static void printHelpPanel() {
