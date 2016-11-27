@@ -16,6 +16,10 @@ public class InsertTest extends SqlParserRef {
 
 	private final SQLParser sqlParserObjTest = super.getSqlParserReference();
 	private Expression insertObjAct;
+	
+	/*
+	 * The time taken by this tests include the time consumed by the Validate method.
+	 */
 
 	/*
 	 * This test checks the validity of the syntax of the SQL command in
@@ -95,6 +99,53 @@ public class InsertTest extends SqlParserRef {
 		} catch (SyntaxErrorException e) {		 
 		}
 	}
+	
+	@Test
+	public void testInsertSyntaxValidateFour() {
+		try {
+			sqlParserObjTest.parse("INSERT INTO TABLE_NAME (COL1 , COL2) VALUES (\"VAL1',\"VAL2\");");
+			fail("SyntaxErrorException thrown or AssertionError occured!");	
+		} catch (SyntaxErrorException e) {		 
+		}
+		try {
+			sqlParserObjTest
+					.parse("        INSERT            INTO        TABLE_NAME           (       COL1  ,            COL2       )              values              (          'VAL1'         ,      "
+							+ "             'VAL2\"             )             ;             ");
+			fail("SyntaxErrorException thrown or AssertionError occured!");	
+		} catch (SyntaxErrorException e) {		 
+		}
+		try {
+			sqlParserObjTest
+					.parse("         insert           InTo        table_name         (       CoL1  ,            COl2       )             VaLueS                   (          \"VaL1'         ,      "
+							+ "             'VAl2'             )             ;             ");
+			fail("SyntaxErrorException thrown or AssertionError occured!");	
+		} catch (SyntaxErrorException e) {		 
+		}
+	}
+	
+	
+	@Test
+	public void testInsertSyntaxValidateFive() {
+		try {
+			sqlParserObjTest.parse("INSERT INTO TABLE_NAME (COL1,COL2) VALUES (\"VAL1\",'VAL2');");
+		} catch (SyntaxErrorException e) {
+			fail("SyntaxErrorException thrown or AssertionError occured!");				 
+		}
+		try {
+			sqlParserObjTest
+					.parse("        INSERT            INTO        TABLE_NAME           (       COL1  ,            COL2       )             VALUES                   (         \"VAL1\"         ,      "
+							+ "             50000             )             ;             ");
+		} catch (SyntaxErrorException e) {
+			fail("SyntaxErrorException thrown or AssertionError occured!");			 
+		}
+		try {
+			sqlParserObjTest
+					.parse("        InSeRT            InTo        TaBlE_NAmE           (       CoL1  ,            COl2       )             VaLueS                   (          500         ,      "
+							+ "             \"VAl2\"             )             ;             ");
+		} catch (SyntaxErrorException e) {
+			fail("SyntaxErrorException thrown or AssertionError occured!");				 
+		}
+	}
 
 	/*
 	 * These tests check the correctness of the parsed data from the INSERT SQL
@@ -158,6 +209,38 @@ public class InsertTest extends SqlParserRef {
 			Map<String, Object> entryMapCpy = new HashMap<String, Object>();
 			entryMapCpy.put("CoL1", 5);
 			entryMapCpy.put("num1", 888);
+			assertTrue(entryMapCpy.equals(((InsertIntoTable) insertObjAct).getEntryMap()));
+		} catch (SyntaxErrorException e) {
+			fail("SyntaxErrorException thrown or AssertionError occured!");	
+		}
+	}
+	
+	@Test
+	public void testInsertParsingValidateFive() {
+		try {
+			insertObjAct = sqlParserObjTest
+					.parse("        InSeRT            InTo        TaBlE_NAmE           (       CoL1  ,            num1       )             VaLueS                   (         5        ,      "
+							+ "             \"HELLO\"             )             ;             ");
+			assertEquals("table_name", ((InsertIntoTable) insertObjAct).getTableName().toLowerCase());
+			Map<String, Object> entryMapCpy = new HashMap<String, Object>();
+			entryMapCpy.put("CoL1", 5);
+			entryMapCpy.put("num1", "HELLO");
+			assertTrue(entryMapCpy.equals(((InsertIntoTable) insertObjAct).getEntryMap()));
+		} catch (SyntaxErrorException e) {
+			fail("SyntaxErrorException thrown or AssertionError occured!");	
+		}
+	}
+	
+	@Test
+	public void testInsertParsingValidateSix() {
+		try {
+			insertObjAct = sqlParserObjTest
+					.parse("        InSeRT            InTo        TaBlE_NAmE           (       CoL1  ,            num1       )             VaLueS                   (         'Hey'        ,      "
+							+ "             \"HELLO\"             )             ;             ");
+			assertEquals("table_name", ((InsertIntoTable) insertObjAct).getTableName().toLowerCase());
+			Map<String, Object> entryMapCpy = new HashMap<String, Object>();
+			entryMapCpy.put("CoL1", "Hey");
+			entryMapCpy.put("num1", "HELLO");
 			assertTrue(entryMapCpy.equals(((InsertIntoTable) insertObjAct).getEntryMap()));
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");	
