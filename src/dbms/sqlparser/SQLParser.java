@@ -219,10 +219,9 @@ public class SQLParser {
 
     public static void main(String[] args) {
         try {
-            System.out.println(new SQLParser().parse("SELECT COL_NAME FROM TABLE_NAME WHERE COL1 = COL2;"));
+            System.out.println(new SQLParser().parse("SELECT * FROM table1 WHERE ((Gender == 'Male') AND (ID > 10));"));
         } catch (SyntaxErrorException e) {
             System.out.println(e.toString());
         }
-
     }
 }
