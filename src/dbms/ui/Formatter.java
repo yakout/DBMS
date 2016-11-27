@@ -20,10 +20,11 @@ public class Formatter {
         return keys;
     }
 
-    private int getColumnWidth(Object key, ResultSet resultSet, Result firstResult) {
-        int max = getKeys(firstResult.getResult()).get(0).length();
+    private int getColumnWidth(Object key, ResultSet resultSet) {
+        int max = key.toString().length();
         for(Result result : resultSet) {
-            int currentLength = result.getResult().get(key).toString().length();
+            Object value = result.getResult().get(key);
+            int currentLength = value == null ? 0 : value.toString().length();
             if (currentLength > max) {
                 max = currentLength;
             }
@@ -50,7 +51,7 @@ public class Formatter {
         List<Integer> widthOfColumns = new ArrayList<>();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
-            widthOfColumns.add(getColumnWidth(pair.getKey(), resultSet, firstResult));
+            widthOfColumns.add(getColumnWidth(pair.getKey(), resultSet));
         }
         return widthOfColumns;
     }
@@ -60,10 +61,16 @@ public class Formatter {
         int currentColumn = 0;
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
+            Object value = pair.getValue();
             System.out.print("|");
-            System.out.print(pair.getValue());
-            for (int i = 0; i < widthOfColumns.get(currentColumn) - pair.getValue().toString().length(); i++) {
-                System.out.print(" ");
+            if (value == null) {
+                System.out.print("");
+                for (int i = 0; i < widthOfColumns.get(currentColumn); i++)
+                    System.out.print(" ");
+            } else {
+                System.out.print(value);
+                for (int i = 0; i < widthOfColumns.get(currentColumn) - value.toString().length(); i++)
+                    System.out.print(" ");
             }
             currentColumn++;
         }
@@ -77,9 +84,15 @@ public class Formatter {
             while (it4.hasNext()) {
                 Map.Entry pair = (Map.Entry)it4.next();
                 System.out.print("|");
-                System.out.print(pair.getValue());
-                for (int i = 0; i < widthOfColumns.get(currentColumn) - pair.getValue().toString().length(); i++) {
-                    System.out.print(" ");
+                Object value = pair.getValue();
+                if (value == null) {
+                    System.out.print("");
+                    for (int i = 0; i < widthOfColumns.get(currentColumn); i++)
+                        System.out.print(" ");
+                } else {
+                    System.out.print(value);
+                    for (int i = 0; i < widthOfColumns.get(currentColumn) - value.toString().length(); i++)
+                        System.out.print(" ");
                 }
                 currentColumn++;
             }
@@ -123,11 +136,11 @@ public class Formatter {
     public static void main(String[] args) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("ID", 1);
-        map.put("Name", "Yakout");
+        map.put("Name", null);
         map.put("Part", "SQL Parser");
 
         Map<String, Object> map2 = new LinkedHashMap<>();
-        map2.put("ID", 2);
+        map2.put("ID", null);
         map2.put("Name", "Tolba");
         map2.put("Part", "SQL Parser");
 
@@ -137,7 +150,7 @@ public class Formatter {
         map3.put("Part", "XML Parser");
 
         Map<String, Object> map4 = new LinkedHashMap<>();
-        map4.put("ID", 4);
+        map4.put("ID", null);
         map4.put("Name", "Khaled");
         map4.put("Part", "XML Parser                          ");
 
