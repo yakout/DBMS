@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.xml.transform.TransformerException;
-
 import dbms.exception.DataTypeNotSupportedException;
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
@@ -49,7 +47,7 @@ public class XMLParser {
 	public void createTable(String dbName, String tableName,
 			Map<String, Class> columns) throws
 			DatabaseNotFoundException, TableAlreadyCreatedException,
-			TransformerException, SyntaxErrorException {
+			SyntaxErrorException {
 
 		TableParser.getInstance().createTable(dbName, tableName, columns);
 		SchemaParser.getInstance().createSchema(dbName,

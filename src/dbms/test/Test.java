@@ -1,14 +1,12 @@
 package dbms.test;
 
-import dbms.exception.*;
+import dbms.exception.DataTypeNotSupportedException;
+import dbms.exception.DatabaseAlreadyCreatedException;
+import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.SyntaxErrorException;
+import dbms.exception.TableAlreadyCreatedException;
+import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.SQLParser;
-import dbms.util.Result;
-import dbms.util.ResultSet;
-import dbms.xml.XMLParser;
-
-import javax.xml.transform.TransformerException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Test {
 	public static void main(String[] args) {
@@ -76,9 +74,15 @@ public class Test {
 //		}
 
 		try {
+			SQLParser.getInstace().parse("CREATE DATABASE testDB;").execute();
 			SQLParser.getInstace().parse("USE DATABASE testDB;").execute();
-			SQLParser.getInstace().parse("SELECT Name FROM table1 where ((ID > 40) or ((ID < 24) and (ID > 90)));").execute();
-		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException e) {
+			SQLParser.getInstace().parse("CREATE TABLE table1 (ID int, Name varchar, Gender varchar);").execute();
+			SQLParser.getInstace().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (15, 'hamada14', 'Male');").execute();
+			SQLParser.getInstace().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (16, 'what_ever', 'Male');").execute();
+			SQLParser.getInstace().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (17, 'awalid', 'Male');").execute();
+			SQLParser.getInstace().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolba');").execute();
+			SQLParser.getInstace().parse("SELECT * FROM table1;").execute();
+		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException | DataTypeNotSupportedException | TableAlreadyCreatedException | DatabaseAlreadyCreatedException e) {
 			e.printStackTrace();
 		}
 //		Map<String, Object> values = new HashMap<String, Object>();

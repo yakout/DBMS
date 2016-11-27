@@ -1,8 +1,11 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
-import dbms.connection.XMLConnection;
-
 import java.util.Map;
+
+import dbms.connection.XMLConnection;
+import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.SyntaxErrorException;
+import dbms.exception.TableNotFoundException;
 
 public class InsertIntoTable implements Expression {
     private String tableName;
@@ -22,7 +25,7 @@ public class InsertIntoTable implements Expression {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
         XMLConnection.getInstance().insertIntoTable(tableName, entryMap);
     }
 }

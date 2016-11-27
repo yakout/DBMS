@@ -3,8 +3,11 @@ package dbms.connection;
 import java.util.Collection;
 import java.util.Map;
 
+import dbms.exception.DataTypeNotSupportedException;
+import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.SyntaxErrorException;
+import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.util.ResultSet;
@@ -27,9 +30,9 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public void createDatabase(String dbName) {
-		// TODO Auto-generated method stub
-
+	public void createDatabase(String dbName) throws DatabaseAlreadyCreatedException {
+		this.useDatabase(dbName);
+		XMLParser.getInstance().createDatabase(dbName);
 	}
 
 	@Override
@@ -39,9 +42,10 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public void createTable(String tableName, Map<String, Class> columns) {
-		// TODO Auto-generated method stub
-
+	public void createTable(String tableName, Map<String, Class> columns)
+			throws DatabaseNotFoundException, TableAlreadyCreatedException,
+			SyntaxErrorException {
+		XMLParser.getInstance().createTable(dbName, tableName, columns);
 	}
 
 	@Override
@@ -51,32 +55,17 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public void insertIntoTable(String tableName, Map<String, Object> entryMap) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public ResultSet selectAll(String tableName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ResultSet selectAll(String tableName, Condition condition) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ResultSet select(String tableName, Collection<String> columns) {
-		// TODO Auto-generated method stub
-		return null;
+	public void insertIntoTable(String tableName, Map<String, Object> entryMap)
+			throws DatabaseNotFoundException,
+			TableNotFoundException, SyntaxErrorException {
+		XMLParser.getInstance().insertIntoTable(dbName, tableName, entryMap);
 	}
 
 	@Override
 	public ResultSet select(String tableName,
-			Collection<String> columns, Condition condition) throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
+			Collection<String> columns, Condition condition)
+					throws DatabaseNotFoundException,TableNotFoundException,
+					SyntaxErrorException {
 		return XMLParser.getInstance().select(dbName, tableName, condition, columns);
 	}
 
@@ -94,15 +83,10 @@ public class XMLConnection implements Connection {
 
 	@Override
 	public void update(String tableName, Map<String, Object> values,
-					   Map<String, String> columns) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void update(String tableName, Map<String, Object> values,
-					   Map<String, String> columns, Condition condition) {
-		// TODO Auto-generated method stub
+					   Map<String, String> columns, Condition condition)
+							   throws DatabaseNotFoundException, TableNotFoundException,
+							   SyntaxErrorException, DataTypeNotSupportedException {
+		XMLParser.getInstance().update(dbName, tableName, values, columns, condition);
 	}
 
 	@Override

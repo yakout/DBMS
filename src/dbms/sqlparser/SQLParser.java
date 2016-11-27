@@ -187,7 +187,7 @@ public class SQLParser {
     private Expression parseCreate(Matcher matcher) {
         matcher.matches();
 
-        if (matcher.group(1).startsWith("database")) {
+        if (matcher.group(1).toLowerCase().startsWith("database")) {
             return new CreateDatabase(matcher.group(3));
         }
 

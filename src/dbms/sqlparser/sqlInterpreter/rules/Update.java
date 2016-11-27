@@ -1,8 +1,12 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
-import dbms.connection.XMLConnection;
-
 import java.util.Map;
+
+import dbms.connection.XMLConnection;
+import dbms.exception.DataTypeNotSupportedException;
+import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.SyntaxErrorException;
+import dbms.exception.TableNotFoundException;
 
 public class Update implements Expression {
     private String tableName;
@@ -37,11 +41,7 @@ public class Update implements Expression {
     }
 
     @Override
-    public void execute() {
-        if (where == null) {
-            XMLConnection.getInstance().update(tableName, values, columns);
-        } else {
-            XMLConnection.getInstance().update(tableName, values, columns, where);
-        }
+    public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, DataTypeNotSupportedException {
+    	XMLConnection.getInstance().update(tableName, values, columns, where);
     }
 }
