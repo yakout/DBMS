@@ -26,7 +26,7 @@ public class SchemaParser {
 	private static Transformer transformer = null;
 	private static DocumentBuilder docBuilder = null;
 	private static final String WORKSPACE_DIR =
-			System.getProperty("user.home") + "\\databases";
+			System.getProperty("user.home") + File.separator + "databases";
 	private static final ResourceBundle CONSTANTS =
 			ResourceBundle.getBundle("dbms.xml.Constants");
 

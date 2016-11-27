@@ -20,7 +20,7 @@ public class XMLParser {
 	private static XMLParser instance = null;
 
 	private static final String WORKSPACE_DIR =
-			System.getProperty("user.home") + "\\databases";
+			System.getProperty("user.home") + File.separator + "databases";
 
 	private XMLParser() {
 
