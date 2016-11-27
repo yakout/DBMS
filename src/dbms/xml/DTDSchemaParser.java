@@ -5,21 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ResourceBundle;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import dbms.exception.DatabaseNotFoundException;
 
 public class DTDSchemaParser {
@@ -29,9 +14,9 @@ public class DTDSchemaParser {
 	private static final ResourceBundle CONSTANTS =
 			ResourceBundle.getBundle("dbms.xml.Constants");
 	private PrintWriter out;
-	
+
 	private DTDSchemaParser() {}
-	
+
 	public static DTDSchemaParser getInstance(){
 		if (instance == null) {
 			instance = new DTDSchemaParser();
@@ -40,26 +25,30 @@ public class DTDSchemaParser {
 	}
 
 	public void createDTDSchema(String dbName, String tableName)
-		throws DatabaseNotFoundException, FileNotFoundException {
+		throws DatabaseNotFoundException {
 		File database = new File(WORKSPACE_DIR + "\\" + dbName);
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException();
 		}
-		File schema = new File(database, tableName 
+		File schema = new File(database, tableName
 				+ CONSTANTS.getString("extensionDTD.schema"));
 		if (schema.exists()) {
 			return;
 		}
-		out = new PrintWriter(schema);
-		RootCreator.createRoot(CONSTANTS.getString("table.element"),
-				out);
-		writeElements(schema, out);
-		writeAttributes(schema, out);
-		RootCreator.terminateFile(out);
+		try {
+			out = new PrintWriter(schema);
+			RootCreator.createRoot(CONSTANTS.getString("table.element"),
+					out);
+			writeElements(schema, out);
+			writeAttributes(schema, out);
+			RootCreator.terminateFile(out);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	private void writeElements(File schema, PrintWriter pWriter) throws FileNotFoundException {
-		
+
 		DTDElementCreator.createElement(
 				CONSTANTS.getString("table.element"),
 				CONSTANTS.getString("optional.col"), pWriter);
@@ -83,6 +72,6 @@ public class DTDSchemaParser {
 				CONSTANTS.getString("type.attr"), CONSTANTS.getString("req.type"), pWriter);
 		DTDAttributeCreator.createElement(CONSTANTS.getString("row.element"),
 				CONSTANTS.getString("index.val"), CONSTANTS.getString("req.type"), pWriter);
-		
+
 	}
 }
