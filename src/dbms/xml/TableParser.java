@@ -115,7 +115,7 @@ public class TableParser {
 	}
 	private File openDB(String dbName)
 			throws DatabaseNotFoundException {
-		File database = new File(WORKSPACE_DIR + "\\" + dbName);
+		File database = new File(WORKSPACE_DIR + File.separator + dbName);
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException();
 		}
@@ -353,7 +353,7 @@ public class TableParser {
 
 	protected Document getDocument(String dbName, String tableName)
 			throws DatabaseNotFoundException {
-		File database = new File(WORKSPACE_DIR + "\\" + dbName);
+		File database = new File(WORKSPACE_DIR + File.separator + dbName);
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException();
 		}
