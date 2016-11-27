@@ -124,7 +124,7 @@ public class TableParser {
 
 	public ResultSet select(String dbName,
 			String tableName, Condition condition, Collection<String> columns)
-					throws TableNotFoundException, DatabaseNotFoundException {
+					throws TableNotFoundException, DatabaseNotFoundException, SyntaxErrorException {
 		File tableFile = openTable(dbName, tableName);
 		Document doc = null;
 		try {
@@ -145,7 +145,7 @@ public class TableParser {
 	}
 
 	private ResultSet getData(Document doc, Condition condition,
-			Collection<String> columns, int size) {
+			Collection<String> columns, int size) throws SyntaxErrorException {
 		NodeList colList = doc.getElementsByTagName(CONSTANTS.getString(
 				"column.element"));
 		ResultSet res = new ResultSet();

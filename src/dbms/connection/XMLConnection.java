@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.util.ResultSet;
@@ -75,8 +76,8 @@ public class XMLConnection implements Connection {
 
 	@Override
 	public ResultSet select(String tableName,
-			Collection<String> columns, Condition condition) throws DatabaseNotFoundException, TableNotFoundException {
-		return XMLParser.getInstance().select(tableName, tableName, condition, columns);
+			Collection<String> columns, Condition condition) throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
+		return XMLParser.getInstance().select(dbName, tableName, condition, columns);
 	}
 
 	@Override

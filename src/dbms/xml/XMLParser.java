@@ -57,7 +57,7 @@ public class XMLParser {
 	}
 
 	public ResultSet select(String dbName, String tableName, Condition condition, Collection<String> columns)
-			throws DatabaseNotFoundException, TableNotFoundException {
+			throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
 		return TableParser.getInstance().select(dbName, tableName, condition ,columns);
 	}
 

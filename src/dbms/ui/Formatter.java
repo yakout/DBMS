@@ -1,12 +1,13 @@
 package dbms.ui;
 
-import dbms.util.Result;
-import dbms.util.ResultSet;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.LinkedHashMap;
-import java.util.Iterator;
+
+import dbms.util.Result;
+import dbms.util.ResultSet;
 
 
 public class Formatter {
@@ -103,7 +104,7 @@ public class Formatter {
         System.out.println("|");
     }
 
-    void printTable(ResultSet resultSet) {
+    public void printTable(ResultSet resultSet) {
         Result firstResult = resultSet.next();
 
         List<Integer> widthOfColumns = getAllColumnsWidth(resultSet, firstResult);

@@ -4,7 +4,9 @@ import java.util.Collection;
 
 import dbms.connection.XMLConnection;
 import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableNotFoundException;
+import dbms.ui.Formatter;
 
 public class Select implements Expression {
     private String tableName;
@@ -46,18 +48,18 @@ public class Select implements Expression {
     }
 
     @Override
-    public void execute() throws DatabaseNotFoundException, TableNotFoundException {
+    public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
         if (where == null) {
             if (selectAll) {
-                XMLConnection.getInstance().selectAll(tableName);
+                new Formatter().printTable(XMLConnection.getInstance().select(tableName, null, null));
             } else  {
-                XMLConnection.getInstance().select(tableName, columns);
+            	new Formatter().printTable(XMLConnection.getInstance().select(tableName, columns, null));
             }
         } else {
             if (selectAll) {
-                XMLConnection.getInstance().selectAll(tableName, where);
+            	new Formatter().printTable(XMLConnection.getInstance().select(tableName, null, where));
             } else  {
-                XMLConnection.getInstance().select(tableName, columns, where);
+            	new Formatter().printTable(XMLConnection.getInstance().select(tableName, columns, where));
             }
         }
     }
