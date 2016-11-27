@@ -18,6 +18,10 @@ public class CreateTest extends SqlParserRef {
 	private final SQLParser sqlParserObjTest = super.getSqlParserReference();
 	private Expression createDbObj;
 	private Expression createTblObj;
+	
+	/*
+	 * The time taken by this tests include the time consumed by the Validate method.
+	 */
 
 	/*
 	 * These tests check the validity of Syntax of CREATE DATABASE SQL command.
@@ -217,7 +221,6 @@ public class CreateTest extends SqlParserRef {
 			Map<String,Class> columnsCpy = new  HashMap<String, Class>();
 			columnsCpy.put("COL1", Integer.class);
 			columnsCpy.put("COL2", String.class);
-			System.out.println("columns ;" + ((CreateTable)createTblObj).getColumns());
 			assertTrue(columnsCpy.equals(((CreateTable)createTblObj).getColumns()));
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");	 

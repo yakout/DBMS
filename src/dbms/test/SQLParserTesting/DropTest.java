@@ -16,6 +16,10 @@ public class DropTest extends SqlParserRef {
 	private final SQLParser sqlParserObjTest = super.getSqlParserReference();
 	private Expression dropDatabaseObjAct;
 	private Expression dropTableObjAct;
+	
+	/*
+	 * The time taken by this tests include the time consumed by the Validate method.
+	 */
 
 	/*
 	 * This test checks the DROP DATABASE SQL command validation
@@ -234,7 +238,7 @@ public class DropTest extends SqlParserRef {
 
 		try {
 			dropDatabaseObjAct = sqlParserObjTest.parse("DROP DATABASE DATABASE_NAME;");
-			assertEquals("database_name", ((DropDatabase) dropDatabaseObjAct).getDbName());
+			assertEquals("DATABASE_NAME", ((DropDatabase) dropDatabaseObjAct).getDbName());
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -264,7 +268,7 @@ public class DropTest extends SqlParserRef {
 		try {
 			dropDatabaseObjAct = sqlParserObjTest
 					.parse("    dRoP          DaTAbASe           database_One11111111     ;        ");
-			assertEquals("database_one11111111", ((DropDatabase) dropDatabaseObjAct).getDbName());
+			assertEquals("database_one11111111", ((DropDatabase) dropDatabaseObjAct).getDbName().toLowerCase());
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -284,7 +288,7 @@ public class DropTest extends SqlParserRef {
 
 		try {
 			dropTableObjAct = sqlParserObjTest.parse("DROP TABLE TABLE_NAME;");
-			assertEquals("table_name", ((DropTable) dropTableObjAct).getTableName());
+			assertEquals("table_name", ((DropTable) dropTableObjAct).getTableName().toLowerCase());
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");			 
 		}
@@ -314,7 +318,7 @@ public class DropTest extends SqlParserRef {
 		try {
 			dropTableObjAct = sqlParserObjTest
 					.parse("    dRoP          TaBlE           table_One11111111     ;        ");
-			assertEquals("table_one11111111", ((DropTable) dropTableObjAct).getTableName());
+			assertEquals("table_one11111111", ((DropTable) dropTableObjAct).getTableName().toLowerCase());
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
