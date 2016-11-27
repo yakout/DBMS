@@ -67,7 +67,8 @@ public class SQLParser {
         ruleMatcher.matches();
         switch (ruleMatcher.group(1).toLowerCase()) {
             case "select":
-                Pattern selectPattern = Pattern.compile(SQLRegexProperties.getString("select.regex"));
+                Pattern selectPattern = Pattern.compile(
+                        SQLRegexProperties.getString("select.regex") + SQLRegexProperties.getString("where.regex"));
                 return parseSelect(validate(selectPattern, query));
             case "drop":
                 Pattern dropPattern = Pattern.compile(SQLRegexProperties.getString("drop.regex"));
@@ -76,10 +77,12 @@ public class SQLParser {
                 Pattern insertPattern = Pattern.compile(SQLRegexProperties.getString("insert.regex"));
                 return parseInsert(validate(insertPattern, query));
             case "delete":
-                Pattern deletePattern = Pattern.compile(SQLRegexProperties.getString("delete.regex"));
+                Pattern deletePattern = Pattern.compile(
+                        SQLRegexProperties.getString("delete.regex") + SQLRegexProperties.getString("where.regex"));
                 return parseDelete(validate(deletePattern, query));
             case "update":
-                Pattern updatePattern = Pattern.compile(SQLRegexProperties.getString("update.regex"));
+                Pattern updatePattern = Pattern.compile(
+                        SQLRegexProperties.getString("update.regex") + SQLRegexProperties.getString("where.regex"));
                 return parseUpdate(validate(updatePattern, query));
             case "create":
                 Pattern createPattern = Pattern.compile(SQLRegexProperties.getString("create.regex"));
@@ -187,7 +190,7 @@ public class SQLParser {
     private Expression parseCreate(Matcher matcher) {
         matcher.matches();
 
-        if (matcher.group(1).toLowerCase().startsWith("database")) {
+        if (matcher.group(1).startsWith("database")) {
             return new CreateDatabase(matcher.group(3));
         }
 
