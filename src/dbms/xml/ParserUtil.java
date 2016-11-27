@@ -1,5 +1,6 @@
 package dbms.xml;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -19,7 +20,7 @@ class ParserUtil {
 	protected static boolean validateColumnEntries(Map<String, Object> entryMap,
 			Map<String, String> columns) {
 		if (columns == null) {
-			return false;
+			return true;
 		}
 		for (Map.Entry<String, Object> entry : entryMap.entrySet()) {
 			String entryName = entry.getKey();
@@ -43,11 +44,6 @@ class ParserUtil {
 		return validateColumnEntries(entryMap, getColsNodeListMap(cols));
 	}
 
-
-	protected static boolean validateSQLPredicate() {
-		return false;
-	}
-
 	protected static Map<String, String> getColsNodeListMap(NodeList cols) {
 		Map<String, String> columns = new HashMap<String, String>();
 		for (int i = 0; i < cols.getLength(); i++) {
@@ -61,6 +57,17 @@ class ParserUtil {
 			columns.put(name, type);
 		}
 		return columns;
+	}
+
+	protected static boolean validateColumns(NodeList columnList,
+			Collection<String> columns) {
+		Map<String, String> colsMap = getColsNodeListMap(columnList);
+		for (String col : columns) {
+			if (colsMap.get(col) == null) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	protected static String getObjectStringValue(Object o, String type) {

@@ -82,8 +82,8 @@ public class Test {
 			SQLParser.getInstace().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (15, 'hamada14', 'Male');").execute();
 			SQLParser.getInstace().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (16, 'what_ever', 'Male');").execute();
 			SQLParser.getInstace().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (17, 'awalid', 'Male');").execute();
-			SQLParser.getInstace().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolba');").execute();
-			SQLParser.getInstace().parse("SELECT * FROM table1;").execute();
+			SQLParser.getInstace().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolba', 'Female');").execute();
+			SQLParser.getInstace().parse("SELECT ID FROM table1;").execute();
 		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException | DataTypeNotSupportedException | TableAlreadyCreatedException | DatabaseAlreadyCreatedException e) {
 			e.printStackTrace();
 		}

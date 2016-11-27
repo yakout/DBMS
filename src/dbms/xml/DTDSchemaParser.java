@@ -26,7 +26,7 @@ public class DTDSchemaParser {
 
 	public void createDTDSchema(String dbName, String tableName)
 		throws DatabaseNotFoundException {
-		File database = new File(WORKSPACE_DIR + "\\" + dbName);
+		File database = new File(WORKSPACE_DIR + File.separator + dbName);
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException();
 		}
@@ -57,7 +57,7 @@ public class DTDSchemaParser {
 				CONSTANTS.getString("optional.row"), pWriter);
 		DTDElementCreator.createElement(
 				CONSTANTS.getString("row.element"),
-				CONSTANTS.getString("c.data"), pWriter);
+				CONSTANTS.getString("pc.data"), pWriter);
 	}
 	private void writeAttributes(File schema, PrintWriter pWriter) throws FileNotFoundException {
 		DTDAttributeCreator.createElement(CONSTANTS.getString("table.element"),

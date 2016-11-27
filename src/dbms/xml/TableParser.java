@@ -79,7 +79,6 @@ public class TableParser {
 			throw new TableAlreadyCreatedException();
 		}
 		Document doc = docBuilder.newDocument();
-		Element docType = doc.createElement("!DOCTYPE " + tableName + " SYSTEM " + tableName + ".dtd");
 		//Table element
 		Element table = doc.createElement(CONSTANTS.getString("table.element"));
 		table.setAttribute(CONSTANTS.getString("name.attr"), tableName);
@@ -87,7 +86,7 @@ public class TableParser {
 		table.setAttribute(CONSTANTS.getString("rows.attr"), "0");
 		doc.appendChild(table);
 		addColumns(doc, table, columns);
-		transform(doc, tableFile);
+		transform(doc, tableFile, tableName);
 	}
 
 	/*
@@ -137,11 +136,6 @@ public class TableParser {
 		int size = Integer.parseInt(doc.getFirstChild().
 				getAttributes().getNamedItem(
 						CONSTANTS.getString("rows.attr")).getTextContent());
-//		Result[] rows = new Result[size];
-//		Boolean[] conditionMet = new Boolean[size];
-//		Arrays.fill(conditionMet, true);
-//		fetchData(rows, conditionMet, doc);
-//		return convertToResultSet(rows, size);
 		return getData(doc, condition, columns, size);
 	}
 
@@ -149,6 +143,9 @@ public class TableParser {
 			Collection<String> columns, int size) throws SyntaxErrorException {
 		NodeList colList = doc.getElementsByTagName(CONSTANTS.getString(
 				"column.element"));
+		if (!ParserUtil.validateColumns(colList, columns)) {
+			throw new SyntaxErrorException();
+		}
 		ResultSet res = new ResultSet();
 		int i = 0;
 		boolean reachedEnd = false;
@@ -196,63 +193,6 @@ public class TableParser {
 		return res;
 	}
 
-	/*
-	 * Collects the data from nodes.
-	 */
-	private void fetchData(Result[] rows,
-			Boolean[] conditionMet, Document doc) {
-		NodeList rowList = doc.getElementsByTagName(
-				CONSTANTS.getString("row.element"));
-		for (int i = 0; i < rowList.getLength(); i++) {
-			Node row = rowList.item(i);
-			if (row.getTextContent() == "") {
-				continue;
-			}
-			Node col = row.getParentNode();
-			int index = Integer.parseInt(((Element) row).getAttribute(
-					CONSTANTS.getString("index.val")));
-			// where is the condition??????????????
-			if (!conditionMet[index]) {
-				continue;
-			}
-			if (rows[index] == null) {
-				rows[index] = new Result();
-			}
-			fillData(rows, index, col, row);
-		}
-	}
-
-	/*
-	 * Fills data into row array.
-	 */
-	private void fillData(Result[] rows,
-			int index, Node col, Node row) {
-		String name = col.getAttributes()
-				.getNamedItem(CONSTANTS
-						.getString("name.attr")).getTextContent();
-		String type = col.getAttributes()
-				.getNamedItem(CONSTANTS
-						.getString("type.attr")).getTextContent();
-		if (type.equals("Integer")) {
-			rows[index].add(name, Integer.parseInt(
-					row.getTextContent()));
-		} else if (type.equals("String")) {
-			rows[index].add(name, row.getTextContent());
-		}
-	}
-
-	/*
-	 * Fills the result set by values in row array.
-	 */
-	private ResultSet convertToResultSet(Result[] rows, int size) {
-		ResultSet results =
-				new ResultSet();
-		for (int i = 0; i < size; i++) {
-			results.add(rows[i]);
-		}
-		return results;
-	}
-
 	private File openTable(String dbName, String tableName)
 			throws DatabaseNotFoundException,
 			TableNotFoundException {
@@ -276,7 +216,7 @@ public class TableParser {
 			e.printStackTrace();
 		}
 		addRow(doc, entryMap);
-		transform(doc, tableFile);
+		transform(doc, tableFile, tableName);
 	}
 
 	/* Modifies the 'rows' attribute in the table
@@ -343,7 +283,14 @@ public class TableParser {
 		return row;
 	}
 
-	private void transform(Document doc, File tableFile) {
+	private void transform(Document doc, File tableFile, String tableName) {
+//		DocumentType doctype = doc.getImplementation().createDocumentType(
+//				"doctype", CONSTANTS.getString("publicId.dtd"),
+//				tableName + CONSTANTS.getString("extensionDTD.schema"));
+//		transformer.setOutputProperty(
+//				OutputKeys.DOCTYPE_PUBLIC, doctype.getPublicId());
+//		transformer.setOutputProperty(
+//				OutputKeys.DOCTYPE_SYSTEM, doctype.getSystemId());
 		DOMSource source = new DOMSource(doc);
 		StreamResult result =
 				new StreamResult(tableFile);
@@ -505,7 +452,7 @@ public class TableParser {
 	}
 	// Must be  handled for Conditions.
 	public void update(String dbName, String tableName,
-			Map<String, Object> values,Map<String, String> columns,
+			Map<String, Object> values, Map<String, String> columns,
 			Condition condition) throws DatabaseNotFoundException,
 					   TableNotFoundException, SyntaxErrorException,
 					   DataTypeNotSupportedException {
@@ -525,6 +472,6 @@ public class TableParser {
 		validateColumns(columnList, columns);
 		updateByValue(rowList, values);
 		updateByColumns(rowList, columns);
-		transform(doc, tableFile);
+		transform(doc, tableFile, tableName);
 	}
 }
