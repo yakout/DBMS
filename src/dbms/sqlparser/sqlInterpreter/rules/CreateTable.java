@@ -3,6 +3,9 @@ package dbms.sqlparser.sqlInterpreter.rules;
 import java.util.Map;
 
 import dbms.connection.XMLConnection;
+import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.SyntaxErrorException;
+import dbms.exception.TableAlreadyCreatedException;
 
 public class CreateTable implements Expression {
     private String tableName;
@@ -22,7 +25,7 @@ public class CreateTable implements Expression {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws DatabaseNotFoundException, TableAlreadyCreatedException, SyntaxErrorException {
         XMLConnection.getInstance().createTable(tableName, columns);
     }
 }

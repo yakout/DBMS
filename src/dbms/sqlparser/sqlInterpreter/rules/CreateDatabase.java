@@ -1,6 +1,7 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
 import dbms.connection.XMLConnection;
+import dbms.exception.DatabaseAlreadyCreatedException;
 
 public class CreateDatabase implements Expression {
     private String dbName;
@@ -14,7 +15,7 @@ public class CreateDatabase implements Expression {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws DatabaseAlreadyCreatedException {
         XMLConnection.getInstance().createDatabase(dbName);
     }
 }

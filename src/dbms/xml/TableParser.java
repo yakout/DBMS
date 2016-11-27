@@ -170,7 +170,9 @@ public class TableParser {
 				}
 				Object value = null;
 				if (type.equals("Integer")) {
-					value = Integer.parseInt(row.getTextContent());
+					if (!row.getTextContent().equals("")) {
+						value = Integer.parseInt(row.getTextContent());
+					}
 				} else if (type.equals("String")) {
 					value = row.getTextContent();
 				}
