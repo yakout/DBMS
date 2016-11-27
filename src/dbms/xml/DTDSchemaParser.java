@@ -51,7 +51,7 @@ public class DTDSchemaParser {
 			return;
 		}
 		out = new PrintWriter(schema);
-		RootCreator.createRoot(CONSTANTS.getString("table.element"),	
+		RootCreator.createRoot(CONSTANTS.getString("table.element"),
 				out);
 		writeElements(schema, out);
 		writeAttributes(schema, out);

@@ -13,7 +13,7 @@ import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.sqlInterpreter.rules.BooleanOperator;
 
 public class BooleanExpression {
-    private final String predicateRegex = "((\\w+)\\s*(<|>|==)\\s*(\\w+|'\\w+'|\\d+))";
+    private final String predicateRegex = "((\\w+)\\s*(!=|>=|<=|<|>|==)\\s*(\\w+|'\\w+'|\"\\w+\"|\\d+))";
     private final String errorMessage = "invalid condition syntax";
 
     public Queue<Object> toPostfix(String infix) throws SyntaxErrorException {
@@ -83,8 +83,8 @@ public class BooleanExpression {
         List<SQLPredicate> sqlPredicates = new ArrayList<>();
         while (matcher.find()) {
             SQLPredicate sqlPredicate;
-            if (matcher.group(4).startsWith("'")) {
-                Object value = matcher.group(4).replaceAll("'", "");
+            if (matcher.group(4).startsWith("'") || matcher.group(4).startsWith("\"")) {
+                Object value = matcher.group(4).replaceAll("('|\")", "");
                 sqlPredicate = new SQLPredicate(matcher.group(2), matcher.group(3), value);
             } else {
                 try {
@@ -102,7 +102,7 @@ public class BooleanExpression {
     public static void main(String[] args) {
         Queue<Object> postfix = new LinkedList<>();
         try {
-            postfix = new BooleanExpression().toPostfix("((col1 = 5) and (col2 = test))");
+            postfix = new BooleanExpression().toPostfix("col1 == \"6\"");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
         }

@@ -3,23 +3,19 @@ package dbms.sqlparser.sqlInterpreter.rules;
 import java.util.Collection;
 import java.util.Queue;
 
+import dbms.exception.SyntaxErrorException;
+import dbms.sqlparser.sqlInterpreter.BooleanExpression;
 import dbms.sqlparser.sqlInterpreter.Condition;
-import dbms.sqlparser.sqlInterpreter.SQLPredicate;
 
 public class Where implements Condition {
-    private Collection<SQLPredicate> predicates;
+    private String infix;
 
-    public Where(Collection<SQLPredicate> predicates) {
-        this.predicates = predicates;
+    public Where(String infix) {
+        this.infix = infix;
     }
 
     @Override
-    public Collection<SQLPredicate> getPredicates() {
-        return predicates;
-    }
-
-    @Override
-    public Queue<Object> getPostfix() {
-        return null;
+    public Queue<Object> getPostfix() throws SyntaxErrorException {
+    	return new BooleanExpression().toPostfix(infix);
     }
 }

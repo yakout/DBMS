@@ -1,20 +1,11 @@
 package dbms.test;
 
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.xml.transform.TransformerException;
-
-import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.SyntaxErrorException;
-import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.SQLParser;
-import dbms.util.Result;
-import dbms.util.ResultSet;
-import dbms.xml.XMLParser;
 
 public class Test {
 	public static void main(String[] args) throws FileNotFoundException {
@@ -36,62 +27,56 @@ public class Test {
 //			System.out.println(res.getString("Name"));
 //			System.out.println(res.getString("Organization"));
 //		}
-		try {
-			XMLParser.getInstance().createDatabase("testDB");
-		} catch (DatabaseAlreadyCreatedException e) {
-			e.printStackTrace();
-		}
-		Map<String, Class> columns = new HashMap<>();
-		columns.put("ID", Integer.class);
-		columns.put("Name", String.class);
-		columns.put("Organization", String.class);
-		columns.put("Team", String.class);
-		try {
-			XMLParser.getInstance().createTable("testDB", "table1", columns);
-		} catch (DatabaseNotFoundException | TableAlreadyCreatedException | TransformerException | SyntaxErrorException e) {
-			e.printStackTrace();
-		}
-		Map<String, Object> rows = new HashMap<>();
-		rows.put("ID", 125);
-		rows.put("Name", "hamada14");
-		rows.put("Organization", "AlexU");
-		rows.put("Team", "SQL");
-		try {
-			XMLParser.getInstance().insertIntoTable("testDB", "table1", rows);
-		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException e) {
-			e.printStackTrace();
-		}
-		rows.put("ID", 99);
-		rows.put("Name", "Ahmed");
-		rows.put("Organization", "myHome");
-		rows.put("Team", "XML");
-		try {
-			XMLParser.getInstance().insertIntoTable("testDB", "table1", rows);
-		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException e) {
-			e.printStackTrace();
-		}
-		rows.put("ID", 35);
-		rows.put("Name", "x");
-		rows.put("Organization", "AlexU");
-		rows.put("Team", "UI");
-		try {
-			XMLParser.getInstance().insertIntoTable("testDB", "table1", rows);
-		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException e) {
-			e.printStackTrace();
-		}
+//
+//		try {
+//			XMLParser.getInstance().createDatabase("testDB");
+//		} catch (DatabaseAlreadyCreatedException e) {
+//			e.printStackTrace();
+//		}
+//		Map<String, Class> columns = new HashMap<>();
+//		columns.put("ID", Integer.class);
+//		columns.put("Name", String.class);
+//		columns.put("Organization", String.class);
+//		columns.put("Team", String.class);
+//		try {
+//			XMLParser.getInstance().createTable("testDB", "table1", columns);
+//		} catch (DatabaseNotFoundException | TableAlreadyCreatedException | TransformerException | SyntaxErrorException e) {
+//			e.printStackTrace();
+//		}
+//		Map<String, Object> rows = new HashMap<>();
+//		rows.put("ID", 125);
+//		rows.put("Name", "hamada14");
+//		rows.put("Organization", "AlexU");
+//		rows.put("Team", "SQL");
+//		try {
+//			XMLParser.getInstance().insertIntoTable("testDB", "table1", rows);
+//		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException e) {
+//			e.printStackTrace();
+//		}
+//		rows.put("ID", 99);
+//		rows.put("Name", "Ahmed");
+//		rows.put("Organization", "myHome");
+//		rows.put("Team", "XML");
+//		try {
+//			XMLParser.getInstance().insertIntoTable("testDB", "table1", rows);
+//		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException e) {
+//			e.printStackTrace();
+//		}
+//		rows.put("ID", 35);
+//		rows.put("Name", "x");
+//		rows.put("Organization", "AlexU");
+//		rows.put("Team", "UI");
+//		try {
+//			XMLParser.getInstance().insertIntoTable("testDB", "table1", rows);
+//		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException e) {
+//			e.printStackTrace();
+//		}
 
 		try {
-			SQLParser.getInstace().parse("SELECT FROM table1 where Organization = 'AlexU'").execute();;
-			ResultSet set = XMLParser.getInstance().select("testDB", "table1", null, null);
-			for (Result res : set) {
-				System.out.print(res.getInt("ID") + " ");
-				System.out.print(res.getString("Name") + " ");
-				System.out.print(res.getString("Organization") + " ");
-				System.out.println(res.getString("Team"));
-			}
-		} catch (DatabaseNotFoundException | TableNotFoundException |
-				SyntaxErrorException e) {
-
+			SQLParser.getInstace().parse("USE DATABASE testDB;").execute();
+			SQLParser.getInstace().parse("SELECT Name FROM table1 where ((ID > 40) or ((ID < 24) and (ID > 90)));").execute();
+		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException e) {
+			e.printStackTrace();
 		}
 //		Map<String, Object> values = new HashMap<String, Object>();
 //		values.put("ID", "s");

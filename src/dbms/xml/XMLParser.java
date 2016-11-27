@@ -21,7 +21,7 @@ public class XMLParser {
 	private static XMLParser instance = null;
 
 	private static final String WORKSPACE_DIR =
-			System.getProperty("user.home") + "\\databases";
+			System.getProperty("user.home") + File.separator + "databases";
 
 	private XMLParser() {
 
@@ -59,7 +59,7 @@ public class XMLParser {
 	}
 
 	public ResultSet select(String dbName, String tableName, Condition condition, Collection<String> columns)
-			throws DatabaseNotFoundException, TableNotFoundException {
+			throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
 		return TableParser.getInstance().select(dbName, tableName, condition ,columns);
 	}
 

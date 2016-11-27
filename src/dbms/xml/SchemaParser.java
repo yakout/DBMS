@@ -26,7 +26,7 @@ public class SchemaParser {
 	private static Transformer transformer = null;
 	private static DocumentBuilder docBuilder = null;
 	private static final String WORKSPACE_DIR =
-			System.getProperty("user.home") + "\\databases";
+			System.getProperty("user.home") + File.separator + "databases";
 	private static final ResourceBundle CONSTANTS =
 			ResourceBundle.getBundle("dbms.xml.Constants");
 
@@ -62,7 +62,7 @@ public class SchemaParser {
 	public void createSchema(String dbName, String tableName) throws
 			 DatabaseNotFoundException {
 
-		File database = new File(WORKSPACE_DIR + "\\" + dbName);
+		File database = new File(WORKSPACE_DIR + File.separator + dbName);
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException();
 		}

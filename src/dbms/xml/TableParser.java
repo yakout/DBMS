@@ -40,7 +40,7 @@ public class TableParser {
 	private static Transformer transformer = null;
 	private static DocumentBuilder docBuilder = null;
 	private static final String WORKSPACE_DIR =
-			System.getProperty("user.home") + "\\databases";
+			System.getProperty("user.home") + File.separator + "databases";
 	private static final ResourceBundle CONSTANTS =
 			ResourceBundle.getBundle("dbms.xml.Constants");
 
@@ -79,6 +79,7 @@ public class TableParser {
 			throw new TableAlreadyCreatedException();
 		}
 		Document doc = docBuilder.newDocument();
+		Element docType = doc.createElement("!DOCTYPE " + tableName + " SYSTEM " + tableName + ".dtd");
 		//Table element
 		Element table = doc.createElement(CONSTANTS.getString("table.element"));
 		table.setAttribute(CONSTANTS.getString("name.attr"), tableName);
@@ -115,7 +116,7 @@ public class TableParser {
 	}
 	private File openDB(String dbName)
 			throws DatabaseNotFoundException {
-		File database = new File(WORKSPACE_DIR + "\\" + dbName);
+		File database = new File(WORKSPACE_DIR + File.separator + dbName);
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException();
 		}
@@ -124,7 +125,7 @@ public class TableParser {
 
 	public ResultSet select(String dbName,
 			String tableName, Condition condition, Collection<String> columns)
-					throws TableNotFoundException, DatabaseNotFoundException {
+					throws TableNotFoundException, DatabaseNotFoundException, SyntaxErrorException {
 		File tableFile = openTable(dbName, tableName);
 		Document doc = null;
 		try {
@@ -145,7 +146,7 @@ public class TableParser {
 	}
 
 	private ResultSet getData(Document doc, Condition condition,
-			Collection<String> columns, int size) {
+			Collection<String> columns, int size) throws SyntaxErrorException {
 		NodeList colList = doc.getElementsByTagName(CONSTANTS.getString(
 				"column.element"));
 		ResultSet res = new ResultSet();
@@ -353,7 +354,7 @@ public class TableParser {
 
 	protected Document getDocument(String dbName, String tableName)
 			throws DatabaseNotFoundException {
-		File database = new File(WORKSPACE_DIR + "\\" + dbName);
+		File database = new File(WORKSPACE_DIR + File.separator + dbName);
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException();
 		}

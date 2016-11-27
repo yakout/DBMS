@@ -1,11 +1,11 @@
 package dbms.connection;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.exception.TypeNotSupportedException;
@@ -53,7 +53,7 @@ public interface Connection {
 	public ResultSet select(String tableName,
 			Collection<String> columns, Condition condition)
 				throws TableNotFoundException,
-				DatabaseNotFoundException;
+				DatabaseNotFoundException, SyntaxErrorException;
 
 	public void delete(String tableName)
 				throws TableNotFoundException,
