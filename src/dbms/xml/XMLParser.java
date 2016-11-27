@@ -1,8 +1,8 @@
 package dbms.xml;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javax.xml.transform.TransformerException;
 
@@ -21,8 +21,6 @@ public class XMLParser {
 
 	private static final String WORKSPACE_DIR =
 			System.getProperty("user.home") + "\\databases";
-	private static final ResourceBundle CONSTANTS =
-			ResourceBundle.getBundle("dbms.xml.Constants");
 
 	private XMLParser() {
 
@@ -58,9 +56,9 @@ public class XMLParser {
 				tableName);
 	}
 
-	public ResultSet select(String dbName, String tableName, Condition condition)
+	public ResultSet select(String dbName, String tableName, Condition condition, Collection<String> columns)
 			throws DatabaseNotFoundException, TableNotFoundException {
-		return TableParser.getInstance().select(dbName, tableName, null);
+		return TableParser.getInstance().select(dbName, tableName, condition ,columns);
 	}
 
 	public void insertIntoTable(String dbName, String tableName,
@@ -68,7 +66,7 @@ public class XMLParser {
 			TableNotFoundException, SyntaxErrorException {
 		TableParser.getInstance().insertIntoTable(dbName, tableName, entryMap);
 	}
-	
+
 	public void update(String dbName, String tableName, Map<String, Object> values,
 			   Map<String, String> columns, Condition condition)
 					   throws DatabaseNotFoundException,TableNotFoundException,

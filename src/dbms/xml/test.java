@@ -14,10 +14,9 @@ public class test {
 		row.put("col2", "test");
 		row.put("col3", "test2");
 		try {
-			Queue<Object> postfix = new BooleanExpression().toPostfix("((col1 = 5) and (col2 = 'test'))");
+			Queue<Object> postfix = new BooleanExpression().toPostfix("((col1 > 7) or (col2 == 'x'))");
 			System.out.println(Evaluator.getInstance().evaluate(row, postfix));
 		} catch (SyntaxErrorException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}

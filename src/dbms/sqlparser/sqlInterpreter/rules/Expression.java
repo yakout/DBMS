@@ -1,5 +1,8 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
+import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.TableNotFoundException;
+
 public interface Expression {
-    void execute();
+    void execute() throws DatabaseNotFoundException, TableNotFoundException;
 }

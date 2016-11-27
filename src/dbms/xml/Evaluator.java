@@ -28,7 +28,7 @@ class Evaluator {
 		Queue<Object> postfixClone = new LinkedList<Object>(postfix);
         while(!postfixClone.isEmpty()) {
             Object object = postfixClone.poll();
-
+            System.out.println(object);
             if (object instanceof SQLPredicate) {
                 helperStack.push(object);
             } else {

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -43,7 +42,7 @@ class ParserUtil {
 			NodeList cols) {
 		return validateColumnEntries(entryMap, getColsNodeListMap(cols));
 	}
-	
+
 
 	protected static boolean validateSQLPredicate() {
 		return false;
@@ -101,7 +100,7 @@ class ParserUtil {
 		}
 		return null;
 	}
-	
+
 //	protected static Node getRowFromNodeListWithGivenColumn(String name,
 //			NodeList rows) {
 //		int size = rows.getLength();

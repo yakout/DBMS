@@ -3,7 +3,7 @@ package dbms.xml;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -123,7 +123,7 @@ public class TableParser {
 	}
 
 	public ResultSet select(String dbName,
-			String tableName, Condition condition)
+			String tableName, Condition condition, Collection<String> columns)
 					throws TableNotFoundException, DatabaseNotFoundException {
 		File tableFile = openTable(dbName, tableName);
 		Document doc = null;
@@ -136,13 +136,63 @@ public class TableParser {
 		int size = Integer.parseInt(doc.getFirstChild().
 				getAttributes().getNamedItem(
 						CONSTANTS.getString("rows.attr")).getTextContent());
-		Result[] rows = new Result[size];
-		Boolean[] conditionMet = new Boolean[size];
-		Arrays.fill(conditionMet, true);
-		fetchData(rows, conditionMet, doc);
-		return convertToResultSet(rows, size);
+//		Result[] rows = new Result[size];
+//		Boolean[] conditionMet = new Boolean[size];
+//		Arrays.fill(conditionMet, true);
+//		fetchData(rows, conditionMet, doc);
+//		return convertToResultSet(rows, size);
+		return getData(doc, condition, columns, size);
 	}
-	
+
+	private ResultSet getData(Document doc, Condition condition,
+			Collection<String> columns, int size) {
+		NodeList colList = doc.getElementsByTagName(CONSTANTS.getString(
+				"column.element"));
+		ResultSet res = new ResultSet();
+		int i = 0;
+		boolean reachedEnd = false;
+		while (!reachedEnd) {
+			Map<String, Object> rowMap = new HashMap<String, Object>();
+			for (int j = 0; j < colList.getLength(); j++) {
+				Node col = colList.item(j);
+				if (i >= col.getChildNodes().getLength()) {
+					reachedEnd = true;
+					break;
+				}
+				String name = col.getAttributes().getNamedItem(
+						CONSTANTS.getString("name.attr")).getTextContent();
+				String type = col.getAttributes().getNamedItem(
+						CONSTANTS.getString("type.attr")).getTextContent();
+				Node row = col.getChildNodes().item(i);
+				if (row instanceof Element == false) {
+					continue;
+				}
+				Object value = null;
+				if (type.equals("Integer")) {
+					value = Integer.parseInt(row.getTextContent());
+				} else if (type.equals("String")) {
+					value = row.getTextContent();
+				}
+				rowMap.put(name, value);
+			}
+			if (condition == null
+					|| Evaluator.getInstance().evaluate(
+							rowMap, condition.getPostfix())) {
+				Map<String, Object> resMap = new HashMap<String, Object>();
+				for (Map.Entry<String, Object> entry : rowMap.entrySet()) {
+					if (columns == null || columns.contains(entry.getKey())) {
+						resMap.put(entry.getKey(), entry.getValue());
+					}
+				}
+				if (!resMap.isEmpty()) {
+					res.add(new Result(resMap));
+				}
+			}
+			i++;
+		}
+		return res;
+	}
+
 	/*
 	 * Collects the data from nodes.
 	 */
@@ -168,7 +218,7 @@ public class TableParser {
 			fillData(rows, index, col, row);
 		}
 	}
-	
+
 	/*
 	 * Fills data into row array.
 	 */
@@ -185,9 +235,9 @@ public class TableParser {
 					row.getTextContent()));
 		} else if (type.equals("String")) {
 			rows[index].add(name, row.getTextContent());
-		}		
+		}
 	}
-	
+
 	/*
 	 * Fills the result set by values in row array.
 	 */
@@ -197,7 +247,7 @@ public class TableParser {
 		for (int i = 0; i < size; i++) {
 			results.add(rows[i]);
 		}
-		return results;		
+		return results;
 	}
 
 	private File openTable(String dbName, String tableName)
@@ -333,7 +383,7 @@ public class TableParser {
 		return getColumns(colsList);
 	}
 
-	
+
 	private Map<String, String> getColumns(NodeList colsList) {
 		if (colsList == null) {
 			return null;
@@ -360,13 +410,13 @@ public class TableParser {
 				} catch (DataTypeNotSupportedException e) {
 					e.printStackTrace();
 				}
-			}			
+			}
 		}
 	}
 	private void validateColumns(NodeList columnList, Map<String, String> columns) {
 		// For validating syntax of columns map.
 		if (columns != null) {
-			for (Map.Entry<String, String> entry : columns.entrySet()) {	
+			for (Map.Entry<String, String> entry : columns.entrySet()) {
 				if (ParserUtil.getColumnFromNodeList(
 						entry.getKey(), columnList) == null
 						|| ParserUtil.getColumnFromNodeList(
@@ -395,10 +445,10 @@ public class TableParser {
 							e.setTextContent(entry.getValue().toString());
 						}
 					}
-				}			
+				}
 			}
 	}
-	
+
 	private void modifyData(NodeList rowList, Map.Entry<String, String> entry,
 			String rowIndex, String colType, Node row) {
 		for (int k = 0; k < rowList.getLength(); k++) {
@@ -446,8 +496,8 @@ public class TableParser {
 					if (entry.getKey().equals(colName)) {
 						modifyData(rowList, entry, rowIndex, colType, row);
 					}
-				}			
-			}			
+				}
+			}
 		}
 	}
 	// Must be  handled for Conditions.

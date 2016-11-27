@@ -1,13 +1,13 @@
 package dbms.connection;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.util.ResultSet;
+import dbms.xml.XMLParser;
 
 public class XMLConnection implements Connection {
 
@@ -75,9 +75,8 @@ public class XMLConnection implements Connection {
 
 	@Override
 	public ResultSet select(String tableName,
-			Collection<String> columns, Condition condition) {
-		// TODO Auto-generated method stub
-		return null;
+			Collection<String> columns, Condition condition) throws DatabaseNotFoundException, TableNotFoundException {
+		return XMLParser.getInstance().select(tableName, tableName, condition, columns);
 	}
 
 	@Override

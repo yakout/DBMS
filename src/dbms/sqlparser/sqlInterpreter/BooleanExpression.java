@@ -13,7 +13,7 @@ import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.sqlInterpreter.rules.BooleanOperator;
 
 public class BooleanExpression {
-    private final String predicateRegex = "((\\w+)\\s*(<|>|=)\\s*(\\w+|'\\w+'|\\d+))";
+    private final String predicateRegex = "((\\w+)\\s*(<|>|==)\\s*(\\w+|'\\w+'|\\d+))";
     private final String errorMessage = "invalid condition syntax";
 
     public Queue<Object> toPostfix(String infix) throws SyntaxErrorException {
@@ -84,9 +84,15 @@ public class BooleanExpression {
         while (matcher.find()) {
             SQLPredicate sqlPredicate;
             if (matcher.group(4).startsWith("'")) {
-                sqlPredicate = new SQLPredicate(matcher.group(2), matcher.group(3), (Object) matcher.group(4));
+                Object value = matcher.group(4).replaceAll("'", "");
+                sqlPredicate = new SQLPredicate(matcher.group(2), matcher.group(3), value);
             } else {
-                sqlPredicate = new SQLPredicate(matcher.group(2), matcher.group(3), matcher.group(4));
+                try {
+                    sqlPredicate = new SQLPredicate(matcher.group(2), matcher.group(3),
+                            Integer.parseInt(matcher.group(4)));
+                } catch (NumberFormatException e) {
+                    sqlPredicate = new SQLPredicate(matcher.group(2), matcher.group(3), matcher.group(4));
+                }
             }
             sqlPredicates.add(sqlPredicate);
         }
