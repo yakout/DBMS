@@ -2,12 +2,7 @@ package dbms.sqlparser.sqlInterpreter;
 
 import dbms.util.Operator;
 
-public class SQLPredicate implements Comparable<SQLPredicate> {
-    @Override
-    public int compareTo(SQLPredicate o) {
-        return 0;
-    }
-
+public class SQLPredicate {
     private String columnName;
     private String columnName2;
     private Operator operator;
@@ -52,56 +47,107 @@ public class SQLPredicate implements Comparable<SQLPredicate> {
      */
     public boolean test(Object o) {
         if (o instanceof String && value instanceof String) {
-            switch (operator) {
-                case GreaterThan:
-                    return (o.toString().compareTo(value.toString())) > 0;
-                case Equal:
-                    return o.equals(value);
-                case SmallerThan:
-                    return (o.toString().compareTo(value.toString())) < 0;
-            }
+            return test((String) o);
         } else if (o instanceof Integer && value instanceof Integer) {
-            switch (operator) {
-                case GreaterThan:
-                    return (Integer) o > (Integer) value;
-                case Equal:
-                    return o.equals(value);
-                case SmallerThan:
-                    return (Integer) o < (Integer) value;
-            }
+            return test((Integer) o);
         }
-        return false;
+        return false; // the two values are not of the same type.
+    }
+
+    private boolean test(Integer intValue) {
+        switch (operator) {
+            case GreaterThan:
+                return intValue > (Integer) value;
+            case Equal:
+                return intValue.equals(value);
+            case SmallerThan:
+                return intValue < (Integer) value;
+            case SmallerThanOrEqual:
+                return intValue <= (Integer) value;
+            case GreaterThanOrEqual:
+                return intValue >= (Integer) value;
+            case NotEqual:
+                return !intValue.equals(value);
+            default:
+                return false;
+        }
+    }
+
+    private boolean test(String stringValue) {
+        switch (operator) {
+            case GreaterThan:
+                return (stringValue.toString().compareTo(value.toString())) > 0;
+            case Equal:
+                return stringValue.equals(value);
+            case SmallerThan:
+                return (stringValue.toString().compareTo(value.toString())) < 0;
+            case SmallerThanOrEqual:
+                return stringValue.toString().compareTo(value.toString()) < 0
+                        || stringValue.equals(value);
+            case GreaterThanOrEqual:
+                return stringValue.toString().compareTo(value.toString()) > 0
+                        || stringValue.equals(value);
+            case NotEqual:
+                return !stringValue.equals(value);
+            default:
+                return false;
+        }
     }
 
     /**
      *
      * @param o1 object for left-side column of this predicate
-     * @param o2 object for left-side column of predicate argument.
+     * @param o2 object for right-side column of this predicate.
      * @return
      */
     public boolean test(Object o1, Object o2) {
         if (o1 instanceof String && o2 instanceof String) {
-            switch (operator) {
-                case GreaterThan:
-                    return (o1.toString().compareTo(o2.toString())) > 0;
-                case Equal:
-                    return o1.equals(o2);
-                case SmallerThan:
-                    return (o1.toString().compareTo(o2.toString())) < 0;
-            }
+            return test((String) o1, (String) o2);
         } else if (o1 instanceof Integer && o2 instanceof Integer) {
-            switch (operator) {
-                case GreaterThan:
-                    return (Integer) o1 > (Integer) o2;
-                case Equal:
-                    return o1.equals(o2);
-                case SmallerThan:
-                    return (Integer) o1 < (Integer) o2;
-            }
+            return test((Integer) o1, (Integer) o2);
         }
         return false;
     }
 
+    private boolean test(Integer intValue1, Integer intValue2) {
+        switch (operator) {
+            case GreaterThan:
+                return intValue1 > intValue2;
+            case Equal:
+                return intValue1.equals(intValue2);
+            case SmallerThan:
+                return intValue1 < intValue2;
+            case SmallerThanOrEqual:
+                return intValue1 <= intValue2;
+            case GreaterThanOrEqual:
+                return intValue1 >= intValue2;
+            case NotEqual:
+                return !intValue1.equals(intValue2);
+            default:
+                return false;
+        }
+    }
+
+    private boolean test(String stringValue1, String stringValue2) {
+        switch (operator) {
+            case GreaterThan:
+                return (stringValue1.compareTo(stringValue2)) > 0;
+            case Equal:
+                return stringValue1.equals(stringValue2);
+            case SmallerThan:
+                return (stringValue1.compareTo(stringValue2)) < 0;
+            case SmallerThanOrEqual:
+                return stringValue1.compareTo(stringValue2) < 0
+                        || stringValue1.equals(stringValue2);
+            case GreaterThanOrEqual:
+                return stringValue1.compareTo(stringValue2) > 0
+                        || stringValue1.equals(stringValue2);
+            case NotEqual:
+                return !stringValue1.equals(stringValue2);
+            default:
+                return false;
+        }
+    }
 
     /**
      *
@@ -113,16 +159,20 @@ public class SQLPredicate implements Comparable<SQLPredicate> {
      * @return boolean value true/false
      */
     public boolean or(SQLPredicate sqlPredicate, Object o1, Object o2, Object o3, Object o4) {
-    	if (o1 == null && o2 == null) {
-        	return !isAlwaysFalse || sqlPredicate.test(o3, o4);
+        if (o4 == null && o3 == null && o2 == null) {
+            return test(o1) || sqlPredicate.isAlwaysTrue();
+        } else if (o1 == null && o2 == null && o4 == null) {
+            return isAlwaysTrue() || sqlPredicate.test(o3);
+        } else if (o1 == null && o2 == null) {
+            return isAlwaysTrue || sqlPredicate.test(o3, o4);
         } else if (o2 == null && o4 == null) {
-        	return test(o1) || sqlPredicate.test(o3);
+            return test(o1) || sqlPredicate.test(o3);
         } else if (o3 == null && o4 == null) {
-        	return test(o1, o2) || !sqlPredicate.isAlwaysFalse();
+            return test(o1, o2) || sqlPredicate.isAlwaysTrue();
         } else if (o2 == null) {
-        	return test(o1) || sqlPredicate.test(o3, o4);
+            return test(o1) || sqlPredicate.test(o3, o4);
         } else if (o4 == null) {
-        	return test(o1, o2) || sqlPredicate.test(o3);
+            return test(o1, o2) || sqlPredicate.test(o3);
         } else {
         	return test(o1, o2) || sqlPredicate.test(o3, o4);
         }
@@ -138,12 +188,16 @@ public class SQLPredicate implements Comparable<SQLPredicate> {
      * @return boolean value true/false
      */
     public boolean and(SQLPredicate sqlPredicate, Object o1, Object o2, Object o3, Object o4) {
-        if (o1 == null && o2 == null) {
-        	return !isAlwaysFalse && sqlPredicate.test(o3, o4);
+        if (o4 == null && o3 == null && o2 == null) {
+            return test(o1) && sqlPredicate.isAlwaysTrue();
+        } else if (o1 == null && o2 == null && o4 == null) {
+            return isAlwaysTrue() && sqlPredicate.test(o3);
+        } else if (o1 == null && o2 == null) {
+        	return isAlwaysTrue && sqlPredicate.test(o3, o4);
         } else if (o2 == null && o4 == null) {
         	return test(o1) && sqlPredicate.test(o3);
         } else if (o3 == null && o4 == null) {
-        	return test(o1, o2) && !sqlPredicate.isAlwaysFalse();
+        	return test(o1, o2) && sqlPredicate.isAlwaysTrue();
         } else if (o2 == null) {
         	return test(o1) && sqlPredicate.test(o3, o4);
         } else if (o4 == null) {
@@ -172,7 +226,6 @@ public class SQLPredicate implements Comparable<SQLPredicate> {
     public boolean compareWithValue() {
         return (getColumnName2() == null);
     }
-
 
     private Operator toOperator(String operator) {
         switch (operator) {
