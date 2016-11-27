@@ -1,5 +1,6 @@
 package dbms.test;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ import dbms.util.ResultSet;
 import dbms.xml.XMLParser;
 
 public class Test {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 //		try {
 //			XMLParser.getInstance().insertIntoTable("testDB", "table1", rows);
 //		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException e) {

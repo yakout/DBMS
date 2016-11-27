@@ -1,6 +1,7 @@
 package dbms.xml;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.Map;
 
@@ -49,11 +50,12 @@ public class XMLParser {
 	public void createTable(String dbName, String tableName,
 			Map<String, Class> columns) throws
 			DatabaseNotFoundException, TableAlreadyCreatedException,
-			TransformerException, SyntaxErrorException {
+			TransformerException, SyntaxErrorException, FileNotFoundException {
 
 		TableParser.getInstance().createTable(dbName, tableName, columns);
 		SchemaParser.getInstance().createSchema(dbName,
 				tableName);
+		DTDSchemaParser.getInstance().createDTDSchema(dbName, tableName);
 	}
 
 	public ResultSet select(String dbName, String tableName, Condition condition, Collection<String> columns)
