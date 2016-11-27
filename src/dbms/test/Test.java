@@ -1,9 +1,14 @@
 package dbms.test;
 
-import dbms.exception.DatabaseNotFoundException;
-import dbms.exception.SyntaxErrorException;
-import dbms.exception.TableNotFoundException;
+import dbms.exception.*;
 import dbms.sqlparser.SQLParser;
+import dbms.util.Result;
+import dbms.util.ResultSet;
+import dbms.xml.XMLParser;
+
+import javax.xml.transform.TransformerException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Test {
 	public static void main(String[] args) {
@@ -25,7 +30,7 @@ public class Test {
 //			System.out.println(res.getString("Name"));
 //			System.out.println(res.getString("Organization"));
 //		}
-
+//
 //		try {
 //			XMLParser.getInstance().createDatabase("testDB");
 //		} catch (DatabaseAlreadyCreatedException e) {
@@ -72,7 +77,7 @@ public class Test {
 
 		try {
 			SQLParser.getInstace().parse("USE DATABASE testDB;").execute();
-			SQLParser.getInstace().parse("SELECT * FROM table1 where ((ID > 40) or ((ID < 24) and (ID > 90)));").execute();
+			SQLParser.getInstace().parse("SELECT Name FROM table1 where ((ID > 40) or ((ID < 24) and (ID > 90)));").execute();
 		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException e) {
 			e.printStackTrace();
 		}

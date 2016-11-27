@@ -26,9 +26,26 @@ class Evaluator {
     protected boolean evaluate(Map<String, Object> row, Queue<Object> postfix) {
         Stack<Object> helperStack = new Stack<>();
 		Queue<Object> postfixClone = new LinkedList<Object>(postfix);
+
+        // in case if only on predicate
+        if(postfix.size() == 1) {
+            SQLPredicate sqlPredicate =((SQLPredicate) postfix.poll());
+            if (sqlPredicate.isAlwaysTrue() || sqlPredicate.isAlwaysFalse()) {
+                return sqlPredicate.isAlwaysTrue();
+
+            } else if (sqlPredicate.getColumnName2() == null) {
+                Object o = row.get(sqlPredicate.getColumnName());
+                return sqlPredicate.test(o);
+            } else {
+                Object o1 = row.get(sqlPredicate.getColumnName());
+                Object o2 = row.get(sqlPredicate.getColumnName2());
+
+                return sqlPredicate.test(o1, o2);
+            }
+        }
+
         while(!postfixClone.isEmpty()) {
             Object object = postfixClone.poll();
-            System.out.println(object);
             if (object instanceof SQLPredicate) {
                 helperStack.push(object);
             } else {

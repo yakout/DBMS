@@ -21,6 +21,24 @@ public class BooleanExpressionEvaluator {
     public boolean evaluate() {
         Stack<Object> helperStack = new Stack<>();
 
+        // in case if only on predicate
+        if(postfix.size() == 1) {
+            SQLPredicate sqlPredicate =((SQLPredicate) postfix.poll());
+            if (sqlPredicate.isAlwaysTrue() || sqlPredicate.isAlwaysTrue()) {
+                return sqlPredicate.isAlwaysTrue();
+
+            } else if (sqlPredicate.getColumnName2() == null) {
+                Object o = fetchFromColumn(sqlPredicate.getColumnName());
+                sqlPredicate.test(o);
+            } else {
+                Object o1 = fetchFromColumn(sqlPredicate.getColumnName());
+                Object o2 = fetchFromColumn(sqlPredicate.getColumnName2());
+
+                sqlPredicate.test(o1, o2);
+            }
+        }
+
+
         while(!postfix.isEmpty()) {
             Object object = postfix.poll();
 

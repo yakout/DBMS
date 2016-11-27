@@ -3,7 +3,6 @@ package dbms.sqlparser;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -88,27 +87,9 @@ public class SQLParser {
             case "use":
                 Pattern usePattern = Pattern.compile(SQLRegexProperties.getString("use.database.regex"));
                 return parseUse(validate(usePattern, query));
-            case "where":
-                // TODO: remove after finish testing
-                Pattern wherePattern = Pattern.compile(SQLRegexProperties.getString("where.regex"));
-                return parseWhere(validate(wherePattern, query));
             default:
                 return null;
         }
-    }
-
-    /**
-     * just for testing
-     * @param matcher
-     * @return
-     */
-    private Expression parseWhere(Matcher matcher) {
-        matcher.matches();
-        // just for testing
-        System.out.println(matcher.group(0));
-        System.out.println(matcher.group(1)); //
-        System.out.println(matcher.group(2)); //
-        return null;
     }
 
     private Expression parseSelect(Matcher matcher) {
@@ -127,20 +108,6 @@ public class SQLParser {
             select.setColumns(columns);
         }
         if (matcher.group(7) != null) { // if there is where condition
-        	String value = matcher.group(10).trim();
-        	if (value.startsWith("'")) { // the value is String
-        		 sqlPredicate = new SQLPredicate(matcher.group(8).trim(),
-                        matcher.group(9), (Object) value.replaceAll("'", "").trim());
-        	} else {
-        		 try {
-                     sqlPredicate = new SQLPredicate(matcher.group(8).trim(), matcher.group(9),
-                             Integer.parseInt(value));
-                 } catch (NumberFormatException e) {
-                     sqlPredicate = new SQLPredicate(matcher.group(8).trim(),
-                             matcher.group(9), value);
-                 }
-        	}
-
             select.setWhere(new Where(matcher.group(7)));
         }
         return select;
@@ -170,8 +137,8 @@ public class SQLParser {
         for (int i = 0; i < columns.length; i++) {
             String column = columns[i].trim();
             String value = values[i].trim();
-            if (value.startsWith("'")) {
-                entryMap.put(column, value.replaceAll("'", ""));
+            if (value.startsWith("'") || value.startsWith("\"")) {
+                entryMap.put(column, value.replaceAll("('|\")", ""));
             } else {
                 entryMap.put(column, Integer.parseInt(value));
             }
@@ -185,24 +152,7 @@ public class SQLParser {
         Delete delete = new Delete(matcher.group(2));
 
         if (matcher.group(4) != null) {
-            SQLPredicate predicate;
-            String columnName = matcher.group(5).trim();
-            String value = matcher.group(7).trim();
-            if (value.startsWith("'")) { // the value is String
-                predicate = new SQLPredicate(columnName,
-                        matcher.group(6), (Object) value.replaceAll("'", ""));
-            } else { // the value is Integer or it's a column name
-                try {
-                    predicate = new SQLPredicate(columnName, matcher.group(6),
-                            Integer.parseInt(value));
-                } catch (NumberFormatException e) {
-                    predicate = new SQLPredicate(columnName,
-                            matcher.group(6), value);
-                }
-            }
-            List<SQLPredicate> predicates = new ArrayList<>();
-            predicates.add(predicate);
-            //delete.setWhere(new Where(predicates));
+            delete.setWhere(new Where(matcher.group(4)));
         }
         return delete;
     }
@@ -216,8 +166,8 @@ public class SQLParser {
         for (int i = 0; i < setValues.length; i++) {
             String key = setValues[i].split("=")[0].trim();
             String value = setValues[i].split("=")[1].trim();
-            if (value.startsWith("'")) {
-                values.put(key, value.replaceAll("'", ""));
+            if (value.startsWith("'") || value.startsWith("\"")) {
+                values.put(key, value.replaceAll("('|\")", ""));
             } else {
                 try {
                     values.put(key, Integer.parseInt(value));
@@ -229,22 +179,7 @@ public class SQLParser {
         Update update = new Update(matcher.group(1), values, columns);
 
         if (matcher.group(7) != null) {
-            String[] predicates = matcher.group(7).split("(>|=|<)");
-            SQLPredicate sqlPredicate;
-            String value = predicates[1].trim();
-            String operator = matcher.group(9);
-            if (value.startsWith("'")) {
-                sqlPredicate = new SQLPredicate(predicates[0].trim(),
-                        operator, (Object) value.replaceAll("'", ""));
-            } else {
-                try {
-                    sqlPredicate = new SQLPredicate(predicates[0].trim(), operator,
-                            Integer.parseInt(predicates[1].trim()));
-                } catch (NumberFormatException e) {
-                    sqlPredicate = new SQLPredicate(predicates[0].trim(), operator, predicates[1].trim());
-                }
-            }
-            //update.setWhere(new Where(Arrays.asList(sqlPredicate)));
+            update.setWhere(new Where(matcher.group(7)));
         }
         return update;
     }
