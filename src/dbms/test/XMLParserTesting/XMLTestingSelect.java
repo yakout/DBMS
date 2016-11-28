@@ -146,10 +146,10 @@ public class XMLTestingSelect {
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 
 			Set<String> columns = new TreeSet<String>();
-
 			columns.add("column_1");
 			columns.add("column_2");
 			columns.add("column_3");
+			
 			ResultSet resultSet = new ResultSet();
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
 
@@ -172,7 +172,7 @@ public class XMLTestingSelect {
 
 			Iterator<Result> resultSetItr = resultSet.iterator();
 			Iterator<Result> actualResItr = actualRes.iterator();
-			int cnt = 0;
+
 			while (resultSetItr.hasNext() && actualResItr.hasNext()) {
 
 				assertTrue(resultSetItr.next().getResult().equals(actualResItr.next().getResult()));
