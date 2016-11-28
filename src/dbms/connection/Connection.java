@@ -143,7 +143,7 @@ public interface Connection {
 	 * @param tableName table name.
 	 * @param columnName column name.
      */
-	public void alterAdd(String tableName, String columnName);
+	public void alterAdd(String tableName, String columnName) throws TableNotFoundException, DatabaseNotFoundException;
 
 
 	/**

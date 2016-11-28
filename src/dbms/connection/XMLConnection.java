@@ -106,7 +106,7 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public void alterAdd(String tableName, String columnName) {
+	public void alterAdd(String tableName, String columnName) throws TableNotFoundException, DatabaseNotFoundException {
 		XMLParser.getInstance().alterAdd(dbName, tableName, columnName);
 	}
 

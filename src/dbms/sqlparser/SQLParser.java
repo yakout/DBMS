@@ -1,10 +1,6 @@
 package dbms.sqlparser;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -172,7 +168,7 @@ public class SQLParser {
         if (columns.length != values.length) {
             throw new SyntaxErrorException("Error: Columns number does not match values number");
         }
-        HashMap<String, Object> entryMap = new HashMap<>();
+        HashMap<String, Object> entryMap = new LinkedHashMap<>();
         for (int i = 0; i < columns.length; i++) {
             String column = columns[i].trim();
             String value = values[i].trim();
@@ -245,7 +241,7 @@ public class SQLParser {
         }
 
         String[] columnsDesc = matcher.group(6).split(",");
-        Map<String, Class> columns = new HashMap<>();
+        Map<String, Class> columns = new LinkedHashMap<>();
         for (int i = 0; i < columnsDesc.length; i++) {
             String key = columnsDesc[i].trim().split("\\s+")[0];
             switch (columnsDesc[i].trim().split("\\s+")[1].toLowerCase()) {
