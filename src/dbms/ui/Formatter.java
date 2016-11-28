@@ -11,6 +11,9 @@ import dbms.util.ResultSet;
 
 
 public class Formatter {
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+
 
     private int getColumnWidth(Object key, ResultSet resultSet) {
         int max = key.toString().length();
@@ -100,7 +103,7 @@ public class Formatter {
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             System.out.print("|");
-            System.out.print(pair.getKey());
+            System.out.print(ANSI_GREEN + pair.getKey() + ANSI_RESET);
             for (int i = 0; i < widthOfColumns.get(currentColumn) - pair.getKey().toString().length(); i++) {
                 System.out.print(" ");
             }

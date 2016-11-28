@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -254,7 +254,7 @@ class TableParser {
 		int i = 0;
 		boolean reachedEnd = false;
 		while (!reachedEnd) {
-			Map<String, Object> rowMap = new HashMap<String, Object>();
+			Map<String, Object> rowMap = new LinkedHashMap<String, Object>();
 			for (int j = 0; j < colList.getLength(); j++) {
 				Node col = colList.item(j);
 				if (i >= col.getChildNodes().getLength()) {
@@ -282,7 +282,7 @@ class TableParser {
 			if (condition == null
 					|| Evaluator.getInstance().evaluate(
 							rowMap, condition.getPostfix(), cols)) {
-				Map<String, Object> resMap = new HashMap<String, Object>();
+				Map<String, Object> resMap = new LinkedHashMap<String, Object>();
 				for (Map.Entry<String, Object> entry : rowMap.entrySet()) {
 					if (columns == null || columns.contains(entry.getKey())) {
 						resMap.put(entry.getKey(), entry.getValue());
@@ -336,7 +336,7 @@ class TableParser {
 		if (!ParserUtil.validateColumnEntries(entryMap, cols)) {
 			throw new IncorrectDataEntryException();
 		}
-		Map<Node, Boolean> inserted = new HashMap<Node, Boolean>();
+		Map<Node, Boolean> inserted = new LinkedHashMap<Node, Boolean>();
 		for (Map.Entry<String, Object> entry : entryMap.entrySet()) {
 			Node col = ParserUtil
 					.getColumnFromNodeList(entry.getKey(), cols);
@@ -424,7 +424,7 @@ class TableParser {
 		int i = 0;
 		boolean reachedEnd = false;
 		while (!reachedEnd) {
-			Map<String, Object> rowMap = new HashMap<String, Object>();
+			Map<String, Object> rowMap = new LinkedHashMap<String, Object>();
 			Collection<Node> rowEntries = new ArrayList<Node>();
 			for (int j = 0; j < colList.getLength(); j++) {
 				Node col = colList.item(j);
@@ -496,7 +496,7 @@ class TableParser {
 		int index = 0;
 		boolean reachedEnd = false;
 		while (!reachedEnd) {
-			Map<String, Object> rowMap = new HashMap<String, Object>();
+			Map<String, Object> rowMap = new LinkedHashMap<String, Object>();
 			Collection<Node> rowEntries = new ArrayList<Node>();
 			for (int j = 0; j < colList.getLength(); j++) {
 				Node col = colList.item(j);
@@ -545,5 +545,17 @@ class TableParser {
 		if (!db.equals(dbName)) {
 			throw new TableNotFoundException();
 		}
+	}
+
+	public void alterAdd(String dbName, String tableName, String columnName)
+			throws DatabaseNotFoundException, TableNotFoundException {
+		File tableFile = openTable(dbName, tableName);
+		Document doc = null;
+		try {
+			doc = docBuilder.parse(tableFile);
+		} catch (SAXException | IOException e) {
+			e.printStackTrace();
+		}
+		Node table = (Node) doc.getElementsByTagName(CONSTANTS.getString("table.element"));
 	}
 }

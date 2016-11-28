@@ -13,6 +13,9 @@ import dbms.sqlparser.SQLParser;
 
 public class Main {
 	private final static SQLParser sqlParserObj = SQLParser.getInstance();
+	public static final String ANSI_RESET = "\u001B[0m";
+	public static final String ANSI_RED = "\u001B[31m";
+
 
 	private static void printHelpPanel() {
 		System.console()
@@ -78,7 +81,7 @@ public class Main {
 						| DatabaseNotFoundException
 						| TableAlreadyCreatedException
 						| DatabaseAlreadyCreatedException e) {
-					console.format(e.toString());
+					console.format(ANSI_RED + e.toString() + ANSI_RESET + "%n");
 				}
 			}
 

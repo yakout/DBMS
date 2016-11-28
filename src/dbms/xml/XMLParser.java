@@ -148,7 +148,7 @@ public class XMLParser {
 	}
 
 	/**
-	 * Deletes data from database given a certain condition.
+	 * Deletes data from table given a certain condition.
 	 * @param dbName Name of database.
 	 * @param tableName Name of table.
 	 * @param condition {@link Condition} condition for data deletion,
@@ -162,5 +162,19 @@ public class XMLParser {
 			throws DatabaseNotFoundException, TableNotFoundException,
 			SyntaxErrorException,IncorrectDataEntryException {
 		TableParser.getInstance().delete(dbName, tableName, condition);
+	}
+
+	/**
+	 * Adds a new row to table.
+	 * @param dbName Name of database.
+	 * @param tableName Name of table.
+	 * @param columnName Name of column to be added.
+	 * @param dataType dataType of the given column.
+	 * @throws DatabaseNotFoundException
+	 * @throws TableNotFoundException
+	 */
+	public void alterAdd(String dbName, String tableName, String columnName , Class dataType)
+			throws DatabaseNotFoundException, TableNotFoundException {
+		TableParser.getInstance().alterAdd(dbName, tableName, columnName);
 	}
 }

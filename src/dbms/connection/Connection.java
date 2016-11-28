@@ -139,6 +139,23 @@ public interface Connection {
 	public void useDatabase(String dbName);
 
 	/**
+	 * adds a new column in table.
+	 * @param tableName table name.
+	 * @param columnName column name.
+	 * @throws TableNotFoundException 
+	 * @throws DatabaseNotFoundException 
+     */
+	public void alterAdd(String tableName, String columnName , Class dataTpe) throws DatabaseNotFoundException, TableNotFoundException;
+
+
+	/**
+	 * adds a new column in table.
+	 * @param tableName table name.
+	 * @param columnName column name.
+     */
+	public void alterDrop(String tableName, String columnName);
+
+	/**
 	 * Gets name of the currently used database.
 	 * @return Name of the currently used database.
 	 * @throws DatabaseNotFoundException
