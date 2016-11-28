@@ -600,4 +600,17 @@ public class TableParser {
 		table.getAttributes().getNamedItem(CONSTANTS.getString(
 				"rows.attr")).setTextContent(Integer.toString(index));
 	}
+
+	public void alterAdd(String dbName, String tableName, String columnName)
+			throws DatabaseNotFoundException, TableNotFoundException {
+		File tableFile = openTable(dbName, tableName);
+		Document doc = null;
+		try {
+			doc = docBuilder.parse(tableFile);
+		} catch (SAXException | IOException e) {
+			e.printStackTrace();
+		}
+		Node table = (Node) doc.getElementsByTagName(CONSTANTS.getString("table.element"));
+		
+	}
 }
