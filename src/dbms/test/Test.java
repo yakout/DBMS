@@ -14,10 +14,9 @@ import dbms.sqlparser.SQLParser;
 public class Test {
 	public static void main(String[] args) throws FileNotFoundException {
 		try {
-			SQLParser.getInstance().parse("CREATE DATABASE testDB;").execute();
-			SQLParser.getInstance().parse("USE DATABASE testDB;").execute();
+			SQLParser.getInstance().parse("CREATE DATABASE db1;").execute();
 			SQLParser.getInstance().parse("CREATE TABLE table1 (ID int, Name varchar, Gender varchar);").execute();
-			SQLParser.getInstance().parse("USE DATABASE testDB;").execute();
+			SQLParser.getInstance().parse("CREATE DATABASE db2;").execute();
 			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (15, 'hamada14', 'Male');").execute();
 			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (16, 'what_ever', 'Female');").execute();
 			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (17, 'awalid', 'Male');").execute();

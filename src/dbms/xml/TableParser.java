@@ -38,7 +38,7 @@ import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.util.Result;
 import dbms.util.ResultSet;
 
-public class TableParser {
+class TableParser {
 	private static TableParser instance  = null;
 	private static Transformer transformer = null;
 	private static DocumentBuilder docBuilder = null;
@@ -77,16 +77,6 @@ public class TableParser {
 		return instance;
 	}
 
-	/**
-	 * Creates a new XML table inside a given database.
-	 * @param dbName Name of the given database.
-	 * @param tableName Name of the given table.
-	 * @param columns {@link Map} between names of given columns and
-	 * their data type.
-	 * @throws DatabaseNotFoundException
-	 * @throws TableAlreadyCreatedException
-	 * @throws IncorrectDataEntryException
-	 */
 	protected void createTable(String dbName, String tableName,
 			Map<String, Class> columns)
 			throws DatabaseNotFoundException,
@@ -107,12 +97,7 @@ public class TableParser {
 		transform(doc, tableFile, tableName);
 	}
 
-	/**
-	 * Deletes a given database from its directory.
-	 * @param dbName Name of a given database
-	 * @throws DatabaseNotFoundException
-	 */
-	public void dropDatabase(String dbName) throws DatabaseNotFoundException {
+	protected void dropDatabase(String dbName) throws DatabaseNotFoundException {
 		File database = new File(WORKSPACE_DIR + File.separator + dbName);
 		if (database.exists()) {
 			String[] files = database.list();
@@ -126,17 +111,7 @@ public class TableParser {
 		}
 	}
 
-	/**
-	 * Inserts new data into table.
-	 * @param dbName Name of database.
-	 * @param tableName Name of table inside database.
-	 * @param entryMap {@link Map} between column names
-	 * and objects to be inserted.
-	 * @throws DatabaseNotFoundException
-	 * @throws TableNotFoundException
-	 * @throws IncorrectDataEntryException
-	 */
-	public void insertIntoTable(String dbName, String tableName,
+	protected void insertIntoTable(String dbName, String tableName,
 			Map<String, Object> entryMap)
 			throws DatabaseNotFoundException,
 			TableNotFoundException, IncorrectDataEntryException {
@@ -147,25 +122,12 @@ public class TableParser {
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 		}
+		validateDB(doc, dbName);
 		addRow(doc, entryMap);
 		transform(doc, tableFile, tableName);
 	}
 
-	/**
-	 * Selects data from database given a certain condition,
-	 * the result is stored after in a {@link ResultSet}.
-	 * @param dbName Name of database.
-	 * @param tableName Name of table inside database.
-	 * @param condition {@link Condition} condition for data selection,
-	 * can be null.
-	 * @param columns {@link Collection<String>} columns to select from.
-	 * @return {@link ResultSet} Set of returned data.
-	 * @throws TableNotFoundException
-	 * @throws DatabaseNotFoundException
-	 * @throws IncorrectDataEntryException
-	 * @throws SyntaxErrorException
-	 */
-	public ResultSet select(String dbName,
+	protected ResultSet select(String dbName,
 			String tableName, Condition condition, Collection<String> columns)
 					throws TableNotFoundException, DatabaseNotFoundException, IncorrectDataEntryException, SyntaxErrorException {
 		File tableFile = openTable(dbName, tableName);
@@ -175,6 +137,7 @@ public class TableParser {
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 		}
+		validateDB(doc, dbName);
 		doc.getDocumentElement().normalize();
 		NodeList tb = doc.getElementsByTagName("table");
 		Node table = tb.item(0);
@@ -186,22 +149,7 @@ public class TableParser {
 		return getData(colList, condition, columns, size);
 	}
 
-	/**
-	 * Updates data inside database given a certain condition.
-	 * @param dbName Name of database.
-	 * @param tableName Name of table.
-	 * @param values {@link Map} between column names and
-	 * objects to be updated inside database.
-	 * @param columns {@link Map} between columns to be updated
-	 * with values of other columns.
-	 * @param condition {@link Condition} condition for data updating,
-	 * can be null.
-	 * @throws DatabaseNotFoundException
-	 * @throws TableNotFoundException
-	 * @throws SyntaxErrorException
-	 * @throws IncorrectDataEntryException
-	 */
-	public void update(String dbName, String tableName,
+	protected void update(String dbName, String tableName,
 			Map<String, Object> values, Map<String, String> columns,
 			Condition condition) throws DatabaseNotFoundException,
 					   TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
@@ -212,6 +160,7 @@ public class TableParser {
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 		}
+		validateDB(doc, dbName);
 		doc.getDocumentElement().normalize();
 		NodeList colList = doc.getElementsByTagName(
 				CONSTANTS.getString("column.element"));
@@ -223,13 +172,7 @@ public class TableParser {
 		transform(doc, tableFile, tableName);
 	}
 
-	/**
-	 * Drops table from database.
-	 * @param tableName Name of table.
-	 * @param dbName Name of database.
-	 * @throws DatabaseNotFoundException
-	 */
-	public void dropTable(String tableName, String dbName) throws DatabaseNotFoundException {
+	protected void dropTable(String tableName, String dbName) throws DatabaseNotFoundException {
 		File tableFile = new File(openDB(dbName), tableName
 				+ CONSTANTS.getString("extension.xml"));
 		File xsdFile = new File(openDB(dbName), tableName
@@ -247,18 +190,7 @@ public class TableParser {
 		}
 	}
 
-	/**
-	 * Deletes data from database given a certain condition.
-	 * @param dbName Name of database.
-	 * @param tableName Name of table.
-	 * @param condition {@link Condition} condition for data deletion,
-	 * can be null.
-	 * @throws DatabaseNotFoundException
-	 * @throws TableNotFoundException
-	 * @throws SyntaxErrorException
-	 * @throws IncorrectDataEntryException
-	 */
-	public void delete(String dbName, String tableName, Condition condition)
+	protected void delete(String dbName, String tableName, Condition condition)
 			throws DatabaseNotFoundException,
 			TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
 		File tableFile = openTable(dbName, tableName);
@@ -268,6 +200,7 @@ public class TableParser {
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 		}
+		validateDB(doc, dbName);
 		NodeList colList = doc.getElementsByTagName(
 				CONSTANTS.getString("column.element"));
 		Node table = doc.getElementsByTagName(
@@ -603,5 +536,14 @@ public class TableParser {
 		}
 		table.getAttributes().getNamedItem(CONSTANTS.getString(
 				"rows.attr")).setTextContent(Integer.toString(index));
+	}
+
+	private void validateDB(Document doc, String dbName) throws TableNotFoundException {
+		String db = doc.getElementsByTagName(CONSTANTS.getString(
+				"table.element")).item(0).getAttributes().getNamedItem(
+						CONSTANTS.getString("db.attr")).getTextContent();
+		if (!db.equals(dbName)) {
+			throw new TableNotFoundException();
+		}
 	}
 }

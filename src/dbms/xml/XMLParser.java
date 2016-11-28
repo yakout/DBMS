@@ -33,7 +33,18 @@ public class XMLParser {
 		return instance;
 	}
 
-	public void createDatabase(String dbName) throws DatabaseAlreadyCreatedException {
+	/**
+	 * Creates a new XML table inside a given database.
+	 * @param dbName Name of the given database.
+	 * @param tableName Name of the given table.
+	 * @param columns {@link Map} between names of given columns and
+	 * their data type.
+	 * @throws DatabaseNotFoundException
+	 * @throws TableAlreadyCreatedException
+	 * @throws IncorrectDataEntryException
+	 */
+	public void createDatabase(String dbName)
+			throws DatabaseAlreadyCreatedException {
 		File workspace = new File(WORKSPACE_DIR);
 		if (!workspace.exists()) {
 			workspace.mkdir();
@@ -47,34 +58,88 @@ public class XMLParser {
 	}
 
 	public void createTable(String dbName, String tableName,
-			Map<String, Class> columns) throws
-			DatabaseNotFoundException, TableAlreadyCreatedException,
-			IncorrectDataEntryException {
+			Map<String, Class> columns)
+					throws DatabaseNotFoundException,
+					TableAlreadyCreatedException, IncorrectDataEntryException {
 		TableParser.getInstance().createTable(dbName, tableName, columns);
 		XSDParser.getInstance().createSchema(dbName,
 				tableName);
 		DTDSchemaParser.getInstance().createDTDSchema(dbName, tableName);
 	}
 
-	public void dropTable(String tableName, String dbName) throws DatabaseNotFoundException {
+	/**
+	 * Drops table from database.
+	 * @param tableName Name of table.
+	 * @param dbName Name of database.
+	 * @throws DatabaseNotFoundException
+	 */
+	public void dropTable(String tableName, String dbName)
+			throws DatabaseNotFoundException {
 		TableParser.getInstance().dropTable(tableName, dbName);
 	}
 
-	public ResultSet select(String dbName, String tableName, Condition condition, Collection<String> columns)
-			throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
+	/**
+	 * Selects data from database given a certain condition,
+	 * the result is stored after in a {@link ResultSet}.
+	 * @param dbName Name of database.
+	 * @param tableName Name of table inside database.
+	 * @param condition {@link Condition} condition for data selection,
+	 * can be null.
+	 * @param columns {@link Collection<String>} columns to select from.
+	 * @return {@link ResultSet} Set of returned data.
+	 * @throws TableNotFoundException
+	 * @throws DatabaseNotFoundException
+	 * @throws IncorrectDataEntryException
+	 * @throws SyntaxErrorException
+	 */
+	public ResultSet select(String dbName, String tableName,
+			Condition condition, Collection<String> columns)
+			throws DatabaseNotFoundException, TableNotFoundException,
+			SyntaxErrorException, IncorrectDataEntryException {
 		return TableParser.getInstance().select(dbName, tableName, condition ,columns);
 	}
 
+	/**
+	 * Inserts new data into table.
+	 * @param dbName Name of database.
+	 * @param tableName Name of table inside database.
+	 * @param entryMap {@link Map} between column names
+	 * and objects to be inserted.
+	 * @throws DatabaseNotFoundException
+	 * @throws TableNotFoundException
+	 * @throws IncorrectDataEntryException
+	 */
 	public void insertIntoTable(String dbName, String tableName,
 			Map<String, Object> entryMap) throws DatabaseNotFoundException,
 			TableNotFoundException, IncorrectDataEntryException {
 		TableParser.getInstance().insertIntoTable(dbName, tableName, entryMap);
 	}
 
-	public void dropDataBase(String dbName) throws DatabaseNotFoundException {
+	/**
+	 * Drops a given database from its directory.
+	 * @param dbName Name of a given database.
+	 * @param tableName Name of a given table inside database.
+	 * @throws DatabaseNotFoundException
+	 */
+	public void dropDatabase(String dbName) throws DatabaseNotFoundException {
 		TableParser.getInstance().dropDatabase(dbName);
 	}
 
+	/**
+	 * Updates data inside database given a certain condition.
+	 * @param dbName Name of database.
+	 * @param tableName Name of table.
+	 * @param values {@link Map} between column names and
+	 * objects to be updated inside database.
+	 * @param columns {@link Map} between columns to be updated
+	 * with values of other columns.
+	 * @param condition {@link Condition} condition for data updating,
+	 * can be null.
+	 * @throws DatabaseNotFoundException
+	 * @throws TableNotFoundException
+	 * @throws SyntaxErrorException
+	 * @throws IncorrectDataEntryException
+	 */
 	public void update(String dbName, String tableName, Map<String, Object> values,
 			   Map<String, String> columns, Condition condition)
 					   throws DatabaseNotFoundException,TableNotFoundException,
@@ -82,7 +147,20 @@ public class XMLParser {
 		TableParser.getInstance().update(dbName, tableName, values, columns, condition);
 	}
 
-	public void delete(String dbName, String tableName, Condition condition) throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
+	/**
+	 * Deletes data from database given a certain condition.
+	 * @param dbName Name of database.
+	 * @param tableName Name of table.
+	 * @param condition {@link Condition} condition for data deletion,
+	 * can be null.
+	 * @throws DatabaseNotFoundException
+	 * @throws TableNotFoundException
+	 * @throws SyntaxErrorException
+	 * @throws IncorrectDataEntryException
+	 */
+	public void delete(String dbName, String tableName, Condition condition)
+			throws DatabaseNotFoundException, TableNotFoundException,
+			SyntaxErrorException,IncorrectDataEntryException {
 		TableParser.getInstance().delete(dbName, tableName, condition);
 	}
 }

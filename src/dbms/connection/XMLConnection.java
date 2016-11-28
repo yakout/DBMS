@@ -46,7 +46,7 @@ public class XMLConnection implements Connection {
 	@Override
 	public void dropDatabase(String dbName)
 			throws DatabaseNotFoundException {
-		XMLParser.getInstance().dropDataBase(dbName);
+		XMLParser.getInstance().dropDatabase(dbName);
 	}
 
 	@Override
