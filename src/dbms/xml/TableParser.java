@@ -66,6 +66,10 @@ public class TableParser {
 				CONSTANTS.getString("indentation.val"));
 	}
 
+	/**
+	 * Gets the static instance of TableParser.
+	 * @return {@link TableParser} static global instance.
+	 */
 	public static TableParser getInstance() {
 		if (instance == null) {
 			instance = new TableParser();
@@ -73,6 +77,16 @@ public class TableParser {
 		return instance;
 	}
 
+	/**
+	 * Creates a new XML table inside a given database.
+	 * @param dbName Name of the given database.
+	 * @param tableName Name of the given table.
+	 * @param columns {@link Map} between names of given columns and
+	 * their data type.
+	 * @throws DatabaseNotFoundException
+	 * @throws TableAlreadyCreatedException
+	 * @throws IncorrectDataEntryException
+	 */
 	public void createTable(String dbName, String tableName,
 			Map<String, Class> columns)
 			throws DatabaseNotFoundException,
@@ -93,7 +107,12 @@ public class TableParser {
 		transform(doc, tableFile, tableName);
 	}
 
-	public void dropDataBase(String dbName) throws DatabaseNotFoundException {
+	/**
+	 * Deletes a given database from its directory.
+	 * @param dbName Name of a given database
+	 * @throws DatabaseNotFoundException
+	 */
+	public void dropDatabase(String dbName) throws DatabaseNotFoundException {
 		File database = new File(WORKSPACE_DIR + File.separator + dbName);
 		if (database.exists()) {
 			String[] files = database.list();
@@ -106,6 +125,158 @@ public class TableParser {
 			throw new DatabaseNotFoundException();
 		}
 	}
+
+	/**
+	 * Inserts new data into table.
+	 * @param dbName Name of database.
+	 * @param tableName Name of table inside database.
+	 * @param entryMap {@link Map} between column names
+	 * and objects to be inserted.
+	 * @throws DatabaseNotFoundException
+	 * @throws TableNotFoundException
+	 * @throws IncorrectDataEntryException
+	 */
+	public void insertIntoTable(String dbName, String tableName,
+			Map<String, Object> entryMap)
+			throws DatabaseNotFoundException,
+			TableNotFoundException, IncorrectDataEntryException {
+		File tableFile = openTable(dbName, tableName);
+		Document doc = null;
+		try {
+			doc = docBuilder.parse(tableFile);
+		} catch (SAXException | IOException e) {
+			e.printStackTrace();
+		}
+		addRow(doc, entryMap);
+		transform(doc, tableFile, tableName);
+	}
+
+	/**
+	 * Selects data from database given a certain condition,
+	 * the result is stored after in a {@link ResultSet}.
+	 * @param dbName Name of database.
+	 * @param tableName Name of table inside database.
+	 * @param condition {@link Condition} condition for data selection,
+	 * can be null.
+	 * @param columns {@link Collection<String>} columns to select from.
+	 * @return {@link ResultSet} Set of returned data.
+	 * @throws TableNotFoundException
+	 * @throws DatabaseNotFoundException
+	 * @throws IncorrectDataEntryException
+	 * @throws SyntaxErrorException
+	 */
+	public ResultSet select(String dbName,
+			String tableName, Condition condition, Collection<String> columns)
+					throws TableNotFoundException, DatabaseNotFoundException, IncorrectDataEntryException, SyntaxErrorException {
+		File tableFile = openTable(dbName, tableName);
+		Document doc = null;
+		try {
+			doc = docBuilder.parse(tableFile);
+		} catch (SAXException | IOException e) {
+			e.printStackTrace();
+		}
+		doc.getDocumentElement().normalize();
+		NodeList tb = doc.getElementsByTagName("table");
+		Node table = tb.item(0);
+		int size = Integer.parseInt(table.
+				getAttributes().getNamedItem(
+						CONSTANTS.getString("rows.attr")).getTextContent());
+		NodeList colList = doc.getElementsByTagName(CONSTANTS.getString(
+				"column.element"));
+		return getData(colList, condition, columns, size);
+	}
+
+	/**
+	 * Updates data inside database given a certain condition.
+	 * @param dbName Name of database.
+	 * @param tableName Name of table.
+	 * @param values {@link Map} between column names and
+	 * objects to be updated inside database.
+	 * @param columns {@link Map} between columns to be updated
+	 * with values of other columns.
+	 * @param condition {@link Condition} condition for data updating,
+	 * can be null.
+	 * @throws DatabaseNotFoundException
+	 * @throws TableNotFoundException
+	 * @throws SyntaxErrorException
+	 * @throws IncorrectDataEntryException
+	 */
+	public void update(String dbName, String tableName,
+			Map<String, Object> values, Map<String, String> columns,
+			Condition condition) throws DatabaseNotFoundException,
+					   TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
+		File tableFile = openTable(dbName, tableName);
+		Document doc = null;
+		try {
+			doc = docBuilder.parse(tableFile);
+		} catch (SAXException | IOException e) {
+			e.printStackTrace();
+		}
+		doc.getDocumentElement().normalize();
+		NodeList colList = doc.getElementsByTagName(
+				CONSTANTS.getString("column.element"));
+		if (validateColumns(colList, columns)
+				&& validateValues(colList, values)) {
+			updateRows(colList, condition, values, columns,
+					ParserUtil.getColsNodeListMap(colList));
+		}
+		transform(doc, tableFile, tableName);
+	}
+
+	/**
+	 * Drops table from database.
+	 * @param tableName Name of table.
+	 * @param dbName Name of database.
+	 * @throws DatabaseNotFoundException
+	 */
+	public void dropTable(String tableName, String dbName) throws DatabaseNotFoundException {
+		File tableFile = new File(openDB(dbName), tableName
+				+ CONSTANTS.getString("extension.xml"));
+		File xsdFile = new File(openDB(dbName), tableName
+				+ CONSTANTS.getString("extension.schema"));
+		File dtdFile = new File(openDB(dbName), tableName
+				+ CONSTANTS.getString("extensionDTD.schema"));
+		if (tableFile.exists()) {
+			tableFile.delete();
+		}
+		if (xsdFile.exists()) {
+			xsdFile.delete();
+		}
+		if (dtdFile.exists()) {
+			dtdFile.delete();
+		}
+	}
+
+	/**
+	 * Deletes data from database given a certain condition.
+	 * @param dbName Name of database.
+	 * @param tableName Name of table.
+	 * @param condition {@link Condition} condition for data deletion,
+	 * can be null.
+	 * @throws DatabaseNotFoundException
+	 * @throws TableNotFoundException
+	 * @throws SyntaxErrorException
+	 * @throws IncorrectDataEntryException
+	 */
+	public void delete(String dbName, String tableName, Condition condition)
+			throws DatabaseNotFoundException,
+			TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
+		File tableFile = openTable(dbName, tableName);
+		Document doc = null;
+		try {
+			doc = docBuilder.parse(tableFile);
+		} catch (SAXException | IOException e) {
+			e.printStackTrace();
+		}
+		NodeList colList = doc.getElementsByTagName(
+				CONSTANTS.getString("column.element"));
+		Node table = doc.getElementsByTagName(
+				CONSTANTS.getString("table.element")).item(0);
+		deleteRows(table, colList, condition);
+		doc.normalize();
+		transform(doc, tableFile, tableName);
+	}
+
 	/*
 	 * Adds columns to the XML table when it's created.
 	 * @param doc {@link Document} DOM Document
@@ -140,32 +311,12 @@ public class TableParser {
 		return database;
 	}
 
-	public ResultSet select(String dbName,
-			String tableName, Condition condition, Collection<String> columns)
-					throws TableNotFoundException, DatabaseNotFoundException, IncorrectDataEntryException, SyntaxErrorException {
-		File tableFile = openTable(dbName, tableName);
-		Document doc = null;
-		try {
-			doc = docBuilder.parse(tableFile);
-		} catch (SAXException | IOException e) {
-			e.printStackTrace();
-		}
-		doc.getDocumentElement().normalize();
-		NodeList tb = doc.getElementsByTagName("table");
-		Node table = tb.item(0);
-		int size = Integer.parseInt(table.
-				getAttributes().getNamedItem(
-						CONSTANTS.getString("rows.attr")).getTextContent());
-		NodeList colList = doc.getElementsByTagName(CONSTANTS.getString(
-				"column.element"));
-		return getData(colList, condition, columns, size);
-	}
-
 	private ResultSet getData(NodeList colList, Condition condition,
 			Collection<String> columns, int size) throws IncorrectDataEntryException, SyntaxErrorException {
 		if (!ParserUtil.validateColumns(colList, columns)) {
 			throw new IncorrectDataEntryException();
 		}
+		Map<String, String> cols = ParserUtil.getColsNodeListMap(colList);
 		ResultSet res = new ResultSet();
 		int i = 0;
 		boolean reachedEnd = false;
@@ -197,7 +348,7 @@ public class TableParser {
 			}
 			if (condition == null
 					|| Evaluator.getInstance().evaluate(
-							rowMap, condition.getPostfix())) {
+							rowMap, condition.getPostfix(), cols)) {
 				Map<String, Object> resMap = new HashMap<String, Object>();
 				for (Map.Entry<String, Object> entry : rowMap.entrySet()) {
 					if (columns == null || columns.contains(entry.getKey())) {
@@ -222,21 +373,6 @@ public class TableParser {
 			throw new TableNotFoundException();
 		}
 		return tableFile;
-	}
-
-	public void insertIntoTable(String dbName, String tableName,
-			Map<String, Object> entryMap)
-			throws DatabaseNotFoundException,
-			TableNotFoundException, IncorrectDataEntryException {
-		File tableFile = openTable(dbName, tableName);
-		Document doc = null;
-		try {
-			doc = docBuilder.parse(tableFile);
-		} catch (SAXException | IOException e) {
-			e.printStackTrace();
-		}
-		addRow(doc, entryMap);
-		transform(doc, tableFile, tableName);
 	}
 
 	/* Modifies the 'rows' attribute in the table
@@ -324,57 +460,6 @@ public class TableParser {
 		}
 	}
 
-	protected Document getDocument(String dbName, String tableName)
-			throws DatabaseNotFoundException {
-		File database = new File(WORKSPACE_DIR + File.separator + dbName);
-		if (!database.exists()) {
-			throw new DatabaseNotFoundException();
-		}
-		File schema = new File(database, tableName
-				+ CONSTANTS.getString("extension.schema"));
-		if (!schema.exists()) {
-			return null;
-		}
-		Document doc = docBuilder.newDocument();
-		return doc;
-	}
-
-	private NodeList getColumnsNodeList(String dbName, String tableName)
-			throws DatabaseNotFoundException {
-		Document doc = getDocument(dbName, tableName);
-		if (doc == null) {
-			return null;
-		}
-		NodeList cols = doc.getElementsByTagName(
-				CONSTANTS.getString("column.element"));
-		return cols;
-	}
-
-	protected Map<String, String> getColumns(String dbName, String tableName)
-			throws DatabaseNotFoundException {
-		NodeList colsList = getColumnsNodeList(dbName, tableName);
-		return getColumns(colsList);
-	}
-
-
-	private Map<String, String> getColumns(NodeList colsList) {
-		if (colsList == null) {
-			return null;
-		}
-		Map<String, String> cols = new HashMap<String, String>();
-		for (int i = 0; i < colsList.getLength(); i++) {
-			Node col = colsList.item(i);
-			String name = col.getAttributes()
-					.getNamedItem(CONSTANTS.getString("name.attr"))
-					.getTextContent();
-			String type = col.getAttributes()
-					.getNamedItem(CONSTANTS.getString("type.attr"))
-					.getTextContent();
-			cols.put(name, type);
-		}
-		return cols;
-	}
-
 	private boolean validateValues(NodeList columnList, Map<String, Object> values) {
 		//	Validating syntax of values map.
 		if (values != null) {
@@ -401,8 +486,9 @@ public class TableParser {
 	}
 
 	private void updateRows(NodeList colList, Condition condition,
-			Map<String, Object> values, Map<String, String> columns)
-			throws SyntaxErrorException {
+			Map<String, Object> values, Map<String, String> columns,
+			Map<String, String> colMap)
+			throws SyntaxErrorException, IncorrectDataEntryException {
 		int i = 0;
 		boolean reachedEnd = false;
 		while (!reachedEnd) {
@@ -433,22 +519,19 @@ public class TableParser {
 				rowMap.put(name, value);
 				rowEntries.add(row);
 			}
-			if (condition == null
-					|| Evaluator.getInstance().evaluate(
-							rowMap, condition.getPostfix())) {
-				Map<String, Object> resMap = new HashMap<String, Object>();
-				for (Map.Entry<String, Object> entry : rowMap.entrySet()) {
-						resMap.put(entry.getKey(), entry.getValue());
-				}
-				if (!resMap.isEmpty()) {
+			if (!rowMap.isEmpty()) {
+				if (condition == null
+						|| Evaluator.getInstance().evaluate(
+								rowMap, condition.getPostfix(), colMap)) {
 					for (Node row : rowEntries) {
 						String colName = row.getParentNode().getAttributes()
-								.getNamedItem(CONSTANTS.getString("name.attr")).getTextContent();
+								.getNamedItem(CONSTANTS.getString("name.attr"))
+								.getTextContent();
 						if (values.containsKey(colName)) {
-							row.setTextContent(
-									ParserUtil.getObjectStringValue(values.get(colName)));
+							row.setTextContent(ParserUtil
+									.getObjectStringValue(values.get(colName)));
 						}
-						if (columns.containsKey(colName)) {
+						if (columns == null || columns.containsKey(colName)) {
 							row.setTextContent(
 									getRowDataUpdate(columns.get(colName), rowEntries));
 						}
@@ -470,59 +553,9 @@ public class TableParser {
 		return null;
 	}
 
-	public void update(String dbName, String tableName,
-			Map<String, Object> values, Map<String, String> columns,
-			Condition condition) throws DatabaseNotFoundException,
-					   TableNotFoundException, SyntaxErrorException {
-		File tableFile = openTable(dbName, tableName);
-		Document doc = null;
-		try {
-			doc = docBuilder.parse(tableFile);
-		} catch (SAXException | IOException e) {
-			e.printStackTrace();
-		}
-		doc.getDocumentElement().normalize();
-		NodeList colList = doc.getElementsByTagName(
-				CONSTANTS.getString("column.element"));
-		if (validateColumns(colList, columns)
-				&& validateValues(colList, values)) {
-			updateRows(colList, condition, values, columns);
-		}
-		transform(doc, tableFile, tableName);
-	}
-
-	public void dropTable(String tableName, String dbName) throws DatabaseNotFoundException {
-		File tableFile = new File(openDB(dbName), tableName
-				+ CONSTANTS.getString("extension.xml"));
-		File xsdFile = new File(openDB(dbName), tableName
-				+ CONSTANTS.getString("extension.schema"));
-		File dtdFile = new File(openDB(dbName), tableName
-				+ CONSTANTS.getString("extensionDTD.schema"));
-		if (tableFile.exists()) {
-			tableFile.delete();
-			xsdFile.delete();
-			dtdFile.delete();
-		}
-	}
-	public void delete(String dbName, String tableName, Condition condition) throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
-		File tableFile = openTable(dbName, tableName);
-		Document doc = null;
-		try {
-			doc = docBuilder.parse(tableFile);
-		} catch (SAXException | IOException e) {
-			e.printStackTrace();
-		}
-		NodeList colList = doc.getElementsByTagName(
-				CONSTANTS.getString("column.element"));
-		Node table = doc.getElementsByTagName(
-				CONSTANTS.getString("table.element")).item(0);
-		deleteRows(table, colList, condition);
-		doc.normalize();
-		transform(doc, tableFile, tableName);
-	}
-
 	private void deleteRows(Node table,
-			NodeList colList, Condition condition) throws SyntaxErrorException {
+			NodeList colList, Condition condition) throws SyntaxErrorException, IncorrectDataEntryException {
+		Map<String, String> cols = ParserUtil.getColsNodeListMap(colList);
 		int i = 0;
 		int index = 0;
 		boolean reachedEnd = false;
@@ -550,7 +583,7 @@ public class TableParser {
 			}
 			if (!rowEntries.isEmpty()) {
 				if (condition == null
-						|| Evaluator.getInstance().evaluate(rowMap, condition.getPostfix())) {
+						|| Evaluator.getInstance().evaluate(rowMap, condition.getPostfix(), cols)) {
 					for (Node row : rowEntries) {
 						row.getParentNode().removeChild(row);
 					}

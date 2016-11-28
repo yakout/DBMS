@@ -26,7 +26,8 @@ public class Test {
 			//SQLParser.getInstance().parse("SELECT * FROM table1;").execute();
 //			System.out.print("\n\n");
 //			// SQLParser.getInstance().parse("DELETE FROM table1;").execute();
-			SQLParser.getInstance().parse("SELECT * FROM table1 where ID > 18;").execute();
+			SQLParser.getInstance().parse("UPDATE table1 SET Gender=Name WHERE x > 5;").execute();
+			SQLParser.getInstance().parse("SELECT * FROM table1;").execute();
 //			XMLParser.getInstance().dropDataBase("testDB");
 		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException | DataTypeNotSupportedException | TableAlreadyCreatedException | DatabaseAlreadyCreatedException | IncorrectDataEntryException e) {
 			e.printStackTrace();

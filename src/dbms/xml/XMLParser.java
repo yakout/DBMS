@@ -72,7 +72,7 @@ public class XMLParser {
 	}
 
 	public void dropDataBase(String dbName) throws DatabaseNotFoundException {
-		TableParser.getInstance().dropDataBase(dbName);
+		TableParser.getInstance().dropDatabase(dbName);
 	}
 
 	public void update(String dbName, String tableName, Map<String, Object> values,

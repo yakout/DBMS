@@ -13,16 +13,23 @@ import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.util.ResultSet;
 import dbms.xml.XMLParser;
 
+/**
+ * Connector to database that uses {@link XMLParser}
+ * to store data in XML.
+ *
+ */
 public class XMLConnection implements Connection {
-
 	private static XMLConnection instance = null;
-
 	private String dbName;
 
 	private XMLConnection() {
 
 	}
 
+	/**
+	 * Gets the static instance of XMLConnection.
+	 * @return
+	 */
 	public static XMLConnection getInstance() {
 		if (instance == null)
 			instance = new XMLConnection();
@@ -30,19 +37,22 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public void createDatabase(String dbName) throws DatabaseAlreadyCreatedException {
+	public void createDatabase(String dbName)
+			throws DatabaseAlreadyCreatedException {
 		this.useDatabase(dbName);
 		XMLParser.getInstance().createDatabase(dbName);
 	}
 
 	@Override
-	public void dropDatabase(String dbName) throws DatabaseNotFoundException {
+	public void dropDatabase(String dbName)
+			throws DatabaseNotFoundException {
 		XMLParser.getInstance().dropDataBase(dbName);
 	}
 
 	@Override
 	public void createTable(String tableName, Map<String, Class> columns)
-			throws DatabaseNotFoundException, TableAlreadyCreatedException, IncorrectDataEntryException {
+			throws DatabaseNotFoundException,
+			TableAlreadyCreatedException, IncorrectDataEntryException {
 		XMLParser.getInstance().createTable(dbName, tableName, columns);
 	}
 
@@ -68,7 +78,9 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public void delete(String tableName, Condition condition) throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
+	public void delete(String tableName, Condition condition)
+			throws DatabaseNotFoundException, TableNotFoundException,
+			SyntaxErrorException, IncorrectDataEntryException {
 		XMLParser.getInstance().delete(dbName, tableName, condition);
 	}
 
