@@ -1,5 +1,8 @@
 package dbms.exception;
 
+/**
+ * Signals a syntax error in statement.
+ */
 public class SyntaxErrorException extends Exception {
     private String message;
 

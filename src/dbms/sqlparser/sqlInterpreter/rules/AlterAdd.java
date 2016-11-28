@@ -1,5 +1,6 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
+import dbms.connection.XMLConnection;
 import dbms.exception.DataTypeNotSupportedException;
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
@@ -7,6 +8,7 @@ import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
+import dbms.ui.Formatter;
 
 public class AlterAdd implements Expression {
 
@@ -36,7 +38,7 @@ public class AlterAdd implements Expression {
 	public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException,
 			DataTypeNotSupportedException, TableAlreadyCreatedException, DatabaseAlreadyCreatedException,
 			IncorrectDataEntryException {
-		// TODO Auto-generated method stub
+		XMLConnection.getInstance().alterAdd(tableName, columnName, dataType);
 
 	}
 
