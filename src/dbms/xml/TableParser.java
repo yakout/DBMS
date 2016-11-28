@@ -3,11 +3,7 @@ package dbms.xml;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -321,7 +317,7 @@ public class TableParser {
 		int i = 0;
 		boolean reachedEnd = false;
 		while (!reachedEnd) {
-			Map<String, Object> rowMap = new HashMap<String, Object>();
+			Map<String, Object> rowMap = new LinkedHashMap<String, Object>();
 			for (int j = 0; j < colList.getLength(); j++) {
 				Node col = colList.item(j);
 				if (i >= col.getChildNodes().getLength()) {
@@ -349,7 +345,7 @@ public class TableParser {
 			if (condition == null
 					|| Evaluator.getInstance().evaluate(
 							rowMap, condition.getPostfix(), cols)) {
-				Map<String, Object> resMap = new HashMap<String, Object>();
+				Map<String, Object> resMap = new LinkedHashMap<String, Object>();
 				for (Map.Entry<String, Object> entry : rowMap.entrySet()) {
 					if (columns == null || columns.contains(entry.getKey())) {
 						resMap.put(entry.getKey(), entry.getValue());
@@ -403,7 +399,7 @@ public class TableParser {
 		if (!ParserUtil.validateColumnEntries(entryMap, cols)) {
 			throw new IncorrectDataEntryException();
 		}
-		Map<Node, Boolean> inserted = new HashMap<Node, Boolean>();
+		Map<Node, Boolean> inserted = new LinkedHashMap<Node, Boolean>();
 		for (Map.Entry<String, Object> entry : entryMap.entrySet()) {
 			Node col = ParserUtil
 					.getColumnFromNodeList(entry.getKey(), cols);
@@ -491,7 +487,7 @@ public class TableParser {
 		int i = 0;
 		boolean reachedEnd = false;
 		while (!reachedEnd) {
-			Map<String, Object> rowMap = new HashMap<String, Object>();
+			Map<String, Object> rowMap = new LinkedHashMap<String, Object>();
 			Collection<Node> rowEntries = new ArrayList<Node>();
 			for (int j = 0; j < colList.getLength(); j++) {
 				Node col = colList.item(j);
@@ -563,7 +559,7 @@ public class TableParser {
 		int index = 0;
 		boolean reachedEnd = false;
 		while (!reachedEnd) {
-			Map<String, Object> rowMap = new HashMap<String, Object>();
+			Map<String, Object> rowMap = new LinkedHashMap<String, Object>();
 			Collection<Node> rowEntries = new ArrayList<Node>();
 			for (int j = 0; j < colList.getLength(); j++) {
 				Node col = colList.item(j);
