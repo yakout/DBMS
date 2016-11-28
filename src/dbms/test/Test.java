@@ -5,11 +5,11 @@ import java.io.FileNotFoundException;
 import dbms.exception.DataTypeNotSupportedException;
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.SQLParser;
-import dbms.xml.XMLParser;
 
 public class Test {
 	public static void main(String[] args) throws FileNotFoundException {
@@ -27,7 +27,7 @@ public class Test {
 			SQLParser.getInstance().parse("DELETE FROM table1;").execute();
 			SQLParser.getInstance().parse("SELECT * FROM table1;").execute();
 //			XMLParser.getInstance().dropDataBase("testDB");
-		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException | DataTypeNotSupportedException | TableAlreadyCreatedException | DatabaseAlreadyCreatedException e) {
+		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException | DataTypeNotSupportedException | TableAlreadyCreatedException | DatabaseAlreadyCreatedException | IncorrectDataEntryException e) {
 			e.printStackTrace();
 		}
 

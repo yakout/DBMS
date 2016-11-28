@@ -9,7 +9,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import dbms.exception.SyntaxErrorException;
-import dbms.sqlparser.sqlInterpreter.SQLPredicate;
 import dbms.sqlparser.sqlInterpreter.rules.CreateDatabase;
 import dbms.sqlparser.sqlInterpreter.rules.CreateTable;
 import dbms.sqlparser.sqlInterpreter.rules.Delete;
@@ -99,9 +98,8 @@ public class SQLParser {
         matcher.matches();
         String tableName = matcher.group(5);
         Select select = new Select(tableName);
-        SQLPredicate sqlPredicate;
         if (matcher.group(4) != null) {
-            select.setSelectAll(true);
+        	select.setColumns(null);
         } else {
             String[] columnsTemp = matcher.group(2).split(",");
             Collection<String> columns = new ArrayList<>();

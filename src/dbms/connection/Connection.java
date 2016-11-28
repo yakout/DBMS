@@ -3,10 +3,9 @@ package dbms.connection;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.xml.transform.TransformerException;
-
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
@@ -26,7 +25,7 @@ public interface Connection {
 			Map<String, Class> columns)
 				throws TableAlreadyCreatedException,
 				DatabaseNotFoundException,
-				TypeNotSupportedException, TransformerException, SyntaxErrorException;
+				TypeNotSupportedException, IncorrectDataEntryException;
 
 	public void dropTable(String tableName)
 			throws TableNotFoundException,
@@ -36,21 +35,24 @@ public interface Connection {
 			Map<String, Object> entryMap)
 				throws TableNotFoundException,
 				DatabaseNotFoundException,
-				TypeNotSupportedException, SyntaxErrorException;
+				TypeNotSupportedException, IncorrectDataEntryException;
 
 	public ResultSet select(String tableName,
 			Collection<String> columns, Condition condition)
 				throws TableNotFoundException,
-				DatabaseNotFoundException, SyntaxErrorException;
+				DatabaseNotFoundException, SyntaxErrorException,
+				IncorrectDataEntryException;
 
 	public void delete(String tableName, Condition condition)
 				throws TableNotFoundException,
-				DatabaseNotFoundException, SyntaxErrorException;
+				DatabaseNotFoundException, SyntaxErrorException,
+				IncorrectDataEntryException;
 
 	public void update(String tableName, Map<String, Object> values,
 					   Map<String, String> columns, Condition condition)
 			throws TableNotFoundException,
-			DatabaseNotFoundException, SyntaxErrorException;
+			DatabaseNotFoundException, SyntaxErrorException,
+			IncorrectDataEntryException;
 
 	public void useDatabase(String dbName);
 

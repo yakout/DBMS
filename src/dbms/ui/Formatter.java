@@ -12,14 +12,6 @@ import dbms.util.ResultSet;
 
 public class Formatter {
 
-    private List<String> getKeys(Map<String, Object> map){
-        List<String> keys = new ArrayList<>();
-        for(String key : map.keySet()){
-            keys.add(key);
-        }
-        return keys;
-    }
-
     private int getColumnWidth(Object key, ResultSet resultSet) {
         int max = key.toString().length();
         for(Result result : resultSet) {

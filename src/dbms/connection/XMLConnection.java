@@ -5,6 +5,7 @@ import java.util.Map;
 
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
@@ -41,8 +42,7 @@ public class XMLConnection implements Connection {
 
 	@Override
 	public void createTable(String tableName, Map<String, Class> columns)
-			throws DatabaseNotFoundException, TableAlreadyCreatedException,
-			SyntaxErrorException {
+			throws DatabaseNotFoundException, TableAlreadyCreatedException, IncorrectDataEntryException {
 		XMLParser.getInstance().createTable(dbName, tableName, columns);
 	}
 
@@ -55,7 +55,7 @@ public class XMLConnection implements Connection {
 	@Override
 	public void insertIntoTable(String tableName, Map<String, Object> entryMap)
 			throws DatabaseNotFoundException,
-			TableNotFoundException, SyntaxErrorException {
+			TableNotFoundException, IncorrectDataEntryException {
 		XMLParser.getInstance().insertIntoTable(dbName, tableName, entryMap);
 	}
 
@@ -63,12 +63,12 @@ public class XMLConnection implements Connection {
 	public ResultSet select(String tableName,
 			Collection<String> columns, Condition condition)
 					throws DatabaseNotFoundException,TableNotFoundException,
-					SyntaxErrorException {
+					SyntaxErrorException, IncorrectDataEntryException {
 		return XMLParser.getInstance().select(dbName, tableName, condition, columns);
 	}
 
 	@Override
-	public void delete(String tableName, Condition condition) throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
+	public void delete(String tableName, Condition condition) throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
 		XMLParser.getInstance().delete(dbName, tableName, condition);
 	}
 
@@ -76,7 +76,7 @@ public class XMLConnection implements Connection {
 	public void update(String tableName, Map<String, Object> values,
 					   Map<String, String> columns, Condition condition)
 							   throws DatabaseNotFoundException, TableNotFoundException,
-							   SyntaxErrorException {
+							   SyntaxErrorException, IncorrectDataEntryException {
 		XMLParser.getInstance().update(dbName, tableName, values, columns, condition);
 	}
 
