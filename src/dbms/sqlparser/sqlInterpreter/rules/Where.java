@@ -18,4 +18,9 @@ public class Where implements Condition {
     public Queue<Object> getPostfix() throws SyntaxErrorException {
     	return new BooleanExpression().toPostfix(infix);
     }
+
+    @Override
+    public String toString() {
+        return "infix: " + infix;
+    }
 }

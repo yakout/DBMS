@@ -22,21 +22,26 @@ import dbms.sqlparser.sqlInterpreter.rules.Update;
 import dbms.sqlparser.sqlInterpreter.rules.UseDatabase;
 import dbms.sqlparser.sqlInterpreter.rules.Where;
 
+/**
+ * validate and parse a sql query.
+ */
 public class SQLParser {
+    /**
+     * name of the properties file that stores all regex pattern for sql statements.
+     */
     private final String propFileName = "dbms.sqlparser.SQLRegex";
+    /**
+     * reference to SQLRegex.properties file.
+     */
     private ResourceBundle SQLRegexProperties = ResourceBundle
             .getBundle(propFileName);
 
+    /**
+     * singelton instance of {@link SQLParser}.
+     */
     private static SQLParser instance;
 
     private SQLParser() {
-    }
-
-    public static SQLParser getInstance() {
-        if (instance == null) {
-            instance = new SQLParser();
-        }
-        return instance;
     }
 
     /**
@@ -60,6 +65,12 @@ public class SQLParser {
         }
     }
 
+    /**
+     * parse the query.
+     * @param query
+     * @return
+     * @throws SyntaxErrorException
+     */
     public Expression parse(String query) throws SyntaxErrorException {
         Pattern rulePattern = Pattern.compile(SQLRegexProperties.getString("rule.regex"));
         Matcher ruleMatcher = validate(rulePattern, query);
@@ -95,6 +106,22 @@ public class SQLParser {
         }
     }
 
+    /**
+     * will returns the SQLParser singleton instance or create a new instance if not found.
+     * @return
+     */
+    public static SQLParser getInstance() {
+        if (instance == null) {
+            instance = new SQLParser();
+        }
+        return instance;
+    }
+
+    /**
+     * parse select statement
+     * @param matcher
+     * @return
+     */
     private Expression parseSelect(Matcher matcher) {
         matcher.matches();
         String tableName = matcher.group(5);
@@ -219,7 +246,7 @@ public class SQLParser {
 
     public static void main(String[] args) {
         try {
-            System.out.println(((Select) new SQLParser().parse("SELECT * FROM table1 WHERE ((Gender == 'Male') and (ID > 10));")).getWhere().getPostfix());
+            System.out.println(((Select) new SQLParser().parse("select * from tableName where Gender=='Male' or ID==10 and col1 > col2;")).getWhere().getPostfix());
         } catch (SyntaxErrorException e) {
             System.out.println(e.toString());
         }
