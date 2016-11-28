@@ -114,6 +114,7 @@ public class TableParser {
 			table.appendChild(column);
 		}
 	}
+
 	private File openDB(String dbName)
 			throws DatabaseNotFoundException {
 		File database = new File(WORKSPACE_DIR + File.separator + dbName);
@@ -352,6 +353,7 @@ public class TableParser {
 		}
 		return cols;
 	}
+
 	private boolean validateValues(NodeList columnList, Map<String, Object> values) {
 		//	Validating syntax of values map.
 		if (values != null) {
@@ -361,6 +363,7 @@ public class TableParser {
 		}
 		return true;
 	}
+
 	private boolean validateColumns(NodeList columnList, Map<String, String> columns) {
 		// For validating syntax of columns map.
 		if (columns != null) {
@@ -375,32 +378,10 @@ public class TableParser {
 				}
 		return true;
 	}
-//	private void updateByValue(NodeList rowList, Map<String, Object> values) {
-//		// Update by values map.
-//		if (values != null) {
-//			for (Map.Entry<String, Object> entry : values.entrySet()) {
-//				for (int j = 0; j < rowList.getLength(); j++) {
-//					Node row = rowList.item(j);
-//					Node colForThisRow = row.getParentNode();
-//					String colName = colForThisRow.getAttributes().
-//							getNamedItem(CONSTANTS.getString(
-//								"name.attr")).getTextContent();
-//					if (entry.getKey().equals(colName)) {
-//							Element e = (Element) row;
-//							e.setTextContent(entry.getValue().toString());
-//						}
-//					}
-//				}
-//			}
-//	}
+
 	private void updateRows(NodeList colList, Condition condition,
 			Map<String, Object> values, Map<String, String> columns)
 			throws SyntaxErrorException {
-		/*
-		 * 	UPDATE table_name
-			SET column1 = value1, column2 = value2...., columnN = valueN
-			WHERE [condition];
-		 */
 		int i = 0;
 		boolean reachedEnd = false;
 		while (!reachedEnd) {
@@ -441,7 +422,7 @@ public class TableParser {
 				if (!resMap.isEmpty()) {
 					for (Node row : rowList) {
 						String colName = row.getParentNode().getAttributes()
-								.getNamedItem("name.attr").getTextContent();
+								.getNamedItem(CONSTANTS.getString("name.attr")).getTextContent();
 						if (values.containsKey(colName)) {
 							row.setTextContent(
 									ParserUtil.getObjectStringValue(values.get(colName)));
@@ -460,65 +441,14 @@ public class TableParser {
 	private String getRowDataUpdate(String colName, Collection<Node> rowList) {
 		for (Node row : rowList) {
 			String colName2 = row.getParentNode().getAttributes()
-					.getNamedItem("name.attr").getTextContent();
+					.getNamedItem(CONSTANTS.getString("name.attr")).getTextContent();
 			if (colName.equals(colName2)) {
 				return row.getTextContent();
 			}
 		}
 		return null;
 	}
-//	private void modifyData(NodeList rowList, Map.Entry<String, String> entry,
-//			String rowIndex, String colType, Node row) {
-//		for (int k = 0; k < rowList.getLength(); k++) {
-//			Node row2 = rowList.item(k);
-//			String rowIndex2 = row2.getAttributes().
-//					getNamedItem(CONSTANTS.getString(
-//							"index.val")).getTextContent();
-//			Node colForThisRow2 = row2.getParentNode();
-//			String col2Type = colForThisRow2.getAttributes()
-//					.getNamedItem(CONSTANTS.getString(
-//							"type.attr")).getTextContent();
-//			String colName2 = colForThisRow2.getAttributes().
-//					getNamedItem(CONSTANTS.getString(
-//							"name.attr")).getTextContent();
-//			if (entry.getValue().equals(colName2)
-//					&& rowIndex.equals(rowIndex2)) {
-//				if (!colType.equals(col2Type)) {
-//					try {
-//						throw new DataTypeNotSupportedException();
-//					} catch (DataTypeNotSupportedException e) {
-//						e.printStackTrace();
-//					}
-//				}
-//				Element rowElement = (Element) row;
-//				Element rowElement2 = (Element) row2;
-//				rowElement.setTextContent(rowElement2
-//						.getTextContent());
-//			}
-//		}
-//	}
-//	private void updateByColumns(NodeList rowList, Map<String, String> columns) {
-//		if (columns != null) {
-//			for (Map.Entry<String, String> entry : columns.entrySet()) {
-//				for (int j = 0; j < rowList.getLength(); j++) {
-//					Node row = rowList.item(j);
-//					String rowIndex = row.getAttributes().getNamedItem(
-//							CONSTANTS.getString("index.val")).getTextContent();
-//					Node colForThisRow = row.getParentNode();
-//					String colName = colForThisRow.getAttributes().
-//							getNamedItem(CONSTANTS.getString(
-//									"name.attr")).getTextContent();
-//					String colType = colForThisRow.getAttributes()
-//							.getNamedItem(CONSTANTS.getString(
-//									"type.attr")).getTextContent();
-//					if (entry.getKey().equals(colName)) {
-//						modifyData(rowList, entry, rowIndex, colType, row);
-//					}
-//				}
-//			}
-//		}
-//	}
-	// Must be  handled for Conditions.
+
 	public void update(String dbName, String tableName,
 			Map<String, Object> values, Map<String, String> columns,
 			Condition condition) throws DatabaseNotFoundException,
