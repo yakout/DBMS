@@ -4,7 +4,7 @@ import java.util.Map;
 
 import dbms.connection.XMLConnection;
 import dbms.exception.DatabaseNotFoundException;
-import dbms.exception.SyntaxErrorException;
+import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.TableNotFoundException;
 
 public class InsertIntoTable implements Expression {
@@ -25,7 +25,7 @@ public class InsertIntoTable implements Expression {
     }
 
     @Override
-    public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
+    public void execute() throws DatabaseNotFoundException, TableNotFoundException, IncorrectDataEntryException {
         XMLConnection.getInstance().insertIntoTable(tableName, entryMap);
     }
 }

@@ -1,6 +1,5 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
-import java.util.Collection;
 import java.util.Queue;
 
 import dbms.exception.SyntaxErrorException;

@@ -172,7 +172,6 @@ public class XMLTestingSelect {
 
 			Iterator<Result> resultSetItr = resultSet.iterator();
 			Iterator<Result> actualResItr = actualRes.iterator();
-			int cnt = 0;
 			while (resultSetItr.hasNext() && actualResItr.hasNext()) {
 
 				assertTrue(resultSetItr.next().getResult().equals(actualResItr.next().getResult()));

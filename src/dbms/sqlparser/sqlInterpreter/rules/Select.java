@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import dbms.connection.XMLConnection;
 import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableNotFoundException;
 import dbms.ui.Formatter;
@@ -12,7 +13,6 @@ public class Select implements Expression {
     private String tableName;
     private Collection<String> columns;
 
-    private boolean selectAll = false;
     private Where where;
 
     public Select(String tableName) {
@@ -23,9 +23,6 @@ public class Select implements Expression {
         this.columns = columns;
     }
 
-    public void setSelectAll(boolean selectAll) {
-        this.selectAll = selectAll;
-    }
 
     public void setWhere(Where where) {
         this.where = where;
@@ -39,28 +36,13 @@ public class Select implements Expression {
     	return columns;
     }
 
-    public boolean getSelectAll() {
-    	return selectAll;
-    }
 
     public String getTableName() {
     	return tableName;
     }
 
     @Override
-    public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
-        if (where == null) {
-            if (selectAll) {
-                new Formatter().printTable(XMLConnection.getInstance().select(tableName, null, null));
-            } else  {
-            	new Formatter().printTable(XMLConnection.getInstance().select(tableName, columns, null));
-            }
-        } else {
-            if (selectAll) {
-            	new Formatter().printTable(XMLConnection.getInstance().select(tableName, null, where));
-            } else  {
-            	new Formatter().printTable(XMLConnection.getInstance().select(tableName, columns, where));
-            }
-        }
+    public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
+    	new Formatter().printTable(XMLConnection.getInstance().select(tableName, columns, where));
     }
 }

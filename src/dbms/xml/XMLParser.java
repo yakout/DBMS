@@ -6,6 +6,7 @@ import java.util.Map;
 
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
@@ -48,28 +49,28 @@ public class XMLParser {
 	public void createTable(String dbName, String tableName,
 			Map<String, Class> columns) throws
 			DatabaseNotFoundException, TableAlreadyCreatedException,
-			SyntaxErrorException {
+			IncorrectDataEntryException {
 		TableParser.getInstance().createTable(dbName, tableName, columns);
 		XSDParser.getInstance().createSchema(dbName,
 				tableName);
 		DTDSchemaParser.getInstance().createDTDSchema(dbName, tableName);
 	}
-	
+
 	public void dropTable(String tableName, String dbName) throws DatabaseNotFoundException {
 		TableParser.getInstance().dropTable(tableName, dbName);
 	}
 
 	public ResultSet select(String dbName, String tableName, Condition condition, Collection<String> columns)
-			throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
+			throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
 		return TableParser.getInstance().select(dbName, tableName, condition ,columns);
 	}
 
 	public void insertIntoTable(String dbName, String tableName,
 			Map<String, Object> entryMap) throws DatabaseNotFoundException,
-			TableNotFoundException, SyntaxErrorException {
+			TableNotFoundException, IncorrectDataEntryException {
 		TableParser.getInstance().insertIntoTable(dbName, tableName, entryMap);
 	}
-	
+
 	public void dropDataBase(String dbName) throws DatabaseNotFoundException {
 		TableParser.getInstance().dropDataBase(dbName);
 	}
@@ -77,11 +78,11 @@ public class XMLParser {
 	public void update(String dbName, String tableName, Map<String, Object> values,
 			   Map<String, String> columns, Condition condition)
 					   throws DatabaseNotFoundException,TableNotFoundException,
-					   SyntaxErrorException {
+					   SyntaxErrorException, IncorrectDataEntryException {
 		TableParser.getInstance().update(dbName, tableName, values, columns, condition);
 	}
 
-	public void delete(String dbName, String tableName, Condition condition) throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
+	public void delete(String dbName, String tableName, Condition condition) throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
 		TableParser.getInstance().delete(dbName, tableName, condition);
 	}
 }
