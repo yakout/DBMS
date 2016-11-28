@@ -70,7 +70,7 @@ public class TableParser {
 	 * Gets the static instance of TableParser.
 	 * @return {@link TableParser} static global instance.
 	 */
-	public static TableParser getInstance() {
+	protected static TableParser getInstance() {
 		if (instance == null) {
 			instance = new TableParser();
 		}
@@ -87,7 +87,7 @@ public class TableParser {
 	 * @throws TableAlreadyCreatedException
 	 * @throws IncorrectDataEntryException
 	 */
-	public void createTable(String dbName, String tableName,
+	protected void createTable(String dbName, String tableName,
 			Map<String, Class> columns)
 			throws DatabaseNotFoundException,
 			TableAlreadyCreatedException, IncorrectDataEntryException {
@@ -442,12 +442,11 @@ public class TableParser {
 	}
 
 	private void transform(Document doc, File tableFile, String tableName) {
-		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
 		transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 		DOMImplementation domImpl = doc.getImplementation();
 		DocumentType doctype = domImpl.createDocumentType("doctype",
-			"-//Oberon//YOUR PUBLIC DOCTYPE//EN", tableName + CONSTANTS.getString("extensionDTD.schema"));
+			"-//DBMS//DBMS v1.0//EN", tableName + CONSTANTS.getString("extensionDTD.schema"));
 		transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, doctype.getPublicId());
 		transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doctype.getSystemId());
 		DOMSource source = new DOMSource(doc);
@@ -527,9 +526,11 @@ public class TableParser {
 						String colName = row.getParentNode().getAttributes()
 								.getNamedItem(CONSTANTS.getString("name.attr"))
 								.getTextContent();
-						if (values.containsKey(colName)) {
-							row.setTextContent(ParserUtil
-									.getObjectStringValue(values.get(colName)));
+						if (values != null) {
+							if (values.containsKey(colName)) {
+								row.setTextContent(ParserUtil
+										.getObjectStringValue(values.get(colName)));
+							}
 						}
 						if (columns != null) {
 							if (columns.containsKey(colName)) {
