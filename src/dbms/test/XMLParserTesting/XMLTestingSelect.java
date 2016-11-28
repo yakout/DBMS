@@ -13,6 +13,8 @@ import java.util.TreeSet;
 import org.junit.Test;
 
 import dbms.connection.XMLConnection;
+import dbms.sqlparser.sqlInterpreter.Condition;
+import dbms.sqlparser.sqlInterpreter.rules.Where;
 import dbms.util.Result;
 import dbms.util.ResultSet;
 
@@ -45,7 +47,7 @@ public class XMLTestingSelect {
 
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 
-			Set<String> columns = new HashSet<String>();
+			Set<String> columns = new TreeSet<String>();
 
 			columns.add("column_1");
 			columns.add("column_2");
@@ -172,6 +174,7 @@ public class XMLTestingSelect {
 
 			Iterator<Result> resultSetItr = resultSet.iterator();
 			Iterator<Result> actualResItr = actualRes.iterator();
+			int cnt = 0;
 			while (resultSetItr.hasNext() && actualResItr.hasNext()) {
 
 				assertTrue(resultSetItr.next().getResult().equals(actualResItr.next().getResult()));
@@ -295,7 +298,7 @@ public class XMLTestingSelect {
 			}
 			try {
 				testFive();
-			} catch(Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				fail("Error occured!");
 			}
@@ -380,6 +383,44 @@ public class XMLTestingSelect {
 
 		}
 
+	}
+
+	@Test
+	public void testSix() {
+
+		try {
+			xmlParserConc.createDatabase("database_5");
+
+			Map<String, Class> passMap = new LinkedHashMap<String, Class>();
+			passMap.put("column_1", Integer.class);
+			passMap.put("column_2", Integer.class);
+
+			xmlParserConc.createTable("table_name", passMap);
+
+			Map<String, Object> entriesMap = new LinkedHashMap<String, Object>();
+			entriesMap.put("column_1", 550);
+			entriesMap.put("column_2", 20);
+			xmlParserConc.insertIntoTable("table_name", entriesMap);
+			Set<String> columns = new TreeSet<String>();
+			columns.add("column_1");
+			columns.add("column_2");
+
+			Condition conditionQ = new Where("column_1 > 25");
+            System.out.println(conditionQ.getPostfix() + "postfix fam");
+			ResultSet result = new ResultSet();
+			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
+			resExpected.put("column_1", 550);
+			Result expResult = new Result(resExpected);
+			result.add(expResult);
+      
+			ResultSet actualRes = xmlParserConc.select("table_name", null, conditionQ);
+			System.out.println(result.next().getResult() + " " + actualRes.next().getResult());
+//			assertTrue(result.next().getResult().equals(actualRes.next().getResult()));
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Error occured!");
+
+		}
 	}
 
 }
