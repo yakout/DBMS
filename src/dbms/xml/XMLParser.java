@@ -82,7 +82,14 @@ public class XMLParser {
 		TableParser.getInstance().update(dbName, tableName, values, columns, condition);
 	}
 
-	public void delete(String dbName, String tableName, Condition condition) throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
+	public void delete(String dbName, String tableName, Condition condition)
+			throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
 		TableParser.getInstance().delete(dbName, tableName, condition);
+	}
+
+	public void alterAdd(String dbName, String tableName, String columnName)
+			throws DatabaseNotFoundException, TableNotFoundException {
+		TableParser.getInstance().alterAdd(dbName, tableName, columnName);
+		
 	}
 }

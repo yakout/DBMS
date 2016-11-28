@@ -139,6 +139,21 @@ public interface Connection {
 	public void useDatabase(String dbName);
 
 	/**
+	 * adds a new column in table.
+	 * @param tableName table name.
+	 * @param columnName column name.
+     */
+	public void alterAdd(String tableName, String columnName);
+
+
+	/**
+	 * adds a new column in table.
+	 * @param tableName table name.
+	 * @param columnName column name.
+     */
+	public void alterDrop(String tableName, String columnName);
+
+	/**
 	 * Gets name of the currently used database.
 	 * @return Name of the currently used database.
 	 * @throws DatabaseNotFoundException

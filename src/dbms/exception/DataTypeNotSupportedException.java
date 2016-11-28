@@ -1,6 +1,5 @@
 package dbms.exception;
 
-@SuppressWarnings("serial")
 public class DataTypeNotSupportedException extends Exception {
 	public DataTypeNotSupportedException() {
 		super();
