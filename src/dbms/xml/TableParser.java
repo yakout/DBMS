@@ -448,9 +448,11 @@ public class TableParser {
 							row.setTextContent(
 									ParserUtil.getObjectStringValue(values.get(colName)));
 						}
-						if (columns.containsKey(colName)) {
-							row.setTextContent(
-									getRowDataUpdate(columns.get(colName), rowEntries));
+						if (columns != null) {
+							if (columns.containsKey(colName)) {
+								row.setTextContent(
+										getRowDataUpdate(columns.get(colName), rowEntries));
+							}							
 						}
 					}
 				}
