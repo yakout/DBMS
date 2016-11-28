@@ -36,7 +36,7 @@ public class SQLParser {
             .getBundle(propFileName);
 
     /**
-     * singelton instance of {@link SQLParser}.
+     * singleton instance of {@link SQLParser}.
      */
     private static SQLParser instance;
 
@@ -45,8 +45,8 @@ public class SQLParser {
 
     /**
      * validate the query.
-     * @param regex
-     * @param query
+     * @param regex the pattern to validate against.
+     * @param query the sql statement.
      * @return return the index of the error
      */
     public Matcher validate(Pattern regex, String query) throws SyntaxErrorException {
@@ -66,8 +66,8 @@ public class SQLParser {
 
     /**
      * parse the query.
-     * @param query
-     * @return
+     * @param query sql statement
+     * @return {@link Expression}.
      * @throws SyntaxErrorException
      */
     public Expression parse(String query) throws SyntaxErrorException {
@@ -107,7 +107,7 @@ public class SQLParser {
 
     /**
      * will returns the SQLParser singleton instance or create a new instance if not found.
-     * @return
+     * @return the singleton instance.
      */
     public static SQLParser getInstance() {
         if (instance == null) {
@@ -118,8 +118,8 @@ public class SQLParser {
 
     /**
      * parse select statement
-     * @param matcher
-     * @return
+     * @param matcher matched pattern from query.
+     * @return {@link Expression}.
      */
     private Expression parseSelect(Matcher matcher) {
         matcher.matches();
@@ -141,6 +141,11 @@ public class SQLParser {
         return select;
     }
 
+    /**
+     * parse drop statement.
+     * @param matcher matched pattern from query.
+     * @return {@link Expression}.
+     */
     private Expression parseDrop(Matcher matcher) {
         matcher.matches();
         switch (matcher.group(1).toLowerCase()) {
@@ -153,6 +158,12 @@ public class SQLParser {
         }
     }
 
+    /**
+     * parse insert statement.
+     * @param matcher matched pattern from query.
+     * @return {@link Expression}.
+     * @throws SyntaxErrorException
+     */
     private Expression parseInsert(Matcher matcher) throws SyntaxErrorException {
         matcher.matches();
         String tableName = matcher.group(1);
@@ -171,10 +182,14 @@ public class SQLParser {
                 entryMap.put(column, Integer.parseInt(value));
             }
         }
-        InsertIntoTable insertIntoTable = new InsertIntoTable(tableName, entryMap);
-        return insertIntoTable;
+        return new InsertIntoTable(tableName, entryMap);
     }
 
+    /**
+     * parse delete statement.
+     * @param matcher matched pattern from query.
+     * @return {@link Expression}.
+     */
     private Expression parseDelete(Matcher matcher) {
         matcher.matches();
         Delete delete = new Delete(matcher.group(2));
@@ -185,6 +200,11 @@ public class SQLParser {
         return delete;
     }
 
+    /**
+     * parse update statement.
+     * @param matcher matched pattern from query.
+     * @return {@link Expression}.
+     */
     private Expression parseUpdate(Matcher matcher) {
         matcher.matches();
         Map<String, Object> values = new HashMap<>();
@@ -212,6 +232,11 @@ public class SQLParser {
         return update;
     }
 
+    /**
+     * parse create statement.
+     * @param matcher matched pattern from query.
+     * @return {@link Expression}.
+     */
     private Expression parseCreate(Matcher matcher) {
         matcher.matches();
 
@@ -236,15 +261,23 @@ public class SQLParser {
         return new CreateTable(matcher.group(5), columns);
     }
 
+    /**
+     * parse the use statement.
+     * @param matcher matched pattern from query.
+     * @return {@link Expression}.
+     */
     private Expression parseUse(Matcher matcher) {
         matcher.matches();
-        UseDatabase useDatabase = new UseDatabase(matcher.group(1));
-        return useDatabase;
+        return new UseDatabase(matcher.group(1));
     }
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         try {
-            System.out.println(((Select) new SQLParser().parse("select * from tableName where Gender=='Male' or ID==10 and col1 > col2;")).getWhere().getPostfix());
+            System.out.println(((Select) new SQLParser().parse("select * from tableName where (Gender==8 or ID==10 and col1 > col2);")).getWhere().getPostfix());
         } catch (SyntaxErrorException e) {
             System.out.println(e.toString());
         }

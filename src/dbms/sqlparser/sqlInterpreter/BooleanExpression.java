@@ -66,7 +66,12 @@ public class BooleanExpression {
             } else {
                 try {
                     postfix.add(sqlPredicates.get(predicateNumber++));
-                    while(infix.charAt(++i) != ')');
+                    while(infix.charAt(++i) != ')') {
+                        if (i + 3 < infix.length() && infix.substring(i, i + 3).equals(" or")
+                                || i + 4 < infix.length() && infix.substring(i, i + 4).equals(" and")) {
+                            throw new SyntaxErrorException(errorMessage);
+                        }
+                    }
                     i--;
                 } catch (IndexOutOfBoundsException e) {
                     throw new SyntaxErrorException(errorMessage);
@@ -155,7 +160,7 @@ public class BooleanExpression {
     public static void main(String[] args) {
         Queue<Object> postfix = new LinkedList<>();
         try {
-            postfix = new BooleanExpression().toPostfix("((col1==9)and((((d==d)or(d<d))))and(d<d))");
+            postfix = new BooleanExpression().toPostfix("a<d");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
         }
