@@ -253,6 +253,8 @@ public class SQLPredicate {
                 ", columnName2='" + columnName2 + '\'' +
                 ", operator=" + operator +
                 ", value=" + value +
+                ", isAlwaysTrue=" + isAlwaysTrue +
+                ", isAlwaysFalse=" + isAlwaysFalse +
                 '}';
     }
 }

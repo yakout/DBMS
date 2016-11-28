@@ -2,7 +2,8 @@ package dbms.ui;
 
 import java.io.Console;
 
-import dbms.exception.SyntaxErrorException;
+import com.sun.tools.internal.ws.wsdl.document.jaxws.Exception;
+import dbms.exception.*;
 import dbms.sqlparser.SQLParser;
 
 public class Main {
@@ -31,13 +32,12 @@ public class Main {
 
 		while (true) {
 			String inputQuery = new String();
-			String inp = new String();
+			String input = new String();
 			while (true) {
 				if (inputQuery.compareTo("") == 0) {
-					inp = console.readLine(">> ").trim();
-					if (inp.compareTo("%n") != 0) {
-						inputQuery = inputQuery.concat(inp);
-						System.out.println(inputQuery);
+					input = console.readLine("sql> ").trim();
+					if (input.compareTo("%n") != 0) {
+						inputQuery = inputQuery.concat(input);
 						if (inputQuery.toLowerCase().compareTo(".help") == 0
 								|| inputQuery.toLowerCase().compareTo(".quit") == 0) {
 							break;
@@ -49,10 +49,9 @@ public class Main {
 						}
 					}
 				} else {
-					inp = console.readLine();
-					if (inp.compareTo("%n") != 0) {
-						inputQuery = inputQuery.concat(" " + inp.trim());
-						System.out.println(inputQuery);
+					input = console.readLine();
+					if (input.compareTo("%n") != 0) {
+						inputQuery = inputQuery.concat(" " + input.trim());
 						int len = inputQuery.trim().length();
 						if (len >= 1 && inputQuery.charAt(len - 1) == ';') {
 							break;
@@ -66,9 +65,15 @@ public class Main {
 				printHelpPanel();
 			} else {
 				try {
-					sqlParserObj.parse(inputQuery);
-				} catch (SyntaxErrorException e) {
-					console.format("Invalid SQL command.%n");
+					sqlParserObj.parse(inputQuery).execute();
+				} catch (IncorrectDataEntryException
+						| DataTypeNotSupportedException
+						| SyntaxErrorException
+						| TableNotFoundException
+						| DatabaseNotFoundException
+						| TableAlreadyCreatedException
+						| DatabaseAlreadyCreatedException e) {
+					console.format(e.toString());
 				}
 			}
 
