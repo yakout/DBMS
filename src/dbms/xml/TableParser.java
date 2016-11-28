@@ -527,9 +527,11 @@ public class TableParser {
 						String colName = row.getParentNode().getAttributes()
 								.getNamedItem(CONSTANTS.getString("name.attr"))
 								.getTextContent();
-						if (values.containsKey(colName)) {
-							row.setTextContent(ParserUtil
-									.getObjectStringValue(values.get(colName)));
+						if (values != null) {
+							if (values.containsKey(colName)) {
+								row.setTextContent(ParserUtil
+										.getObjectStringValue(values.get(colName)));
+							}							
 						}
 						if (columns != null) {
 							if (columns.containsKey(colName)) {
