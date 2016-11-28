@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.xml.transform.TransformerException;
 
-import dbms.exception.DataTypeNotSupportedException;
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.SyntaxErrorException;
@@ -44,18 +43,14 @@ public interface Connection {
 				throws TableNotFoundException,
 				DatabaseNotFoundException, SyntaxErrorException;
 
-	public void delete(String tableName)
-				throws TableNotFoundException,
-				DatabaseNotFoundException;
-
 	public void delete(String tableName, Condition condition)
 				throws TableNotFoundException,
-				DatabaseNotFoundException;
+				DatabaseNotFoundException, SyntaxErrorException;
 
 	public void update(String tableName, Map<String, Object> values,
 					   Map<String, String> columns, Condition condition)
 			throws TableNotFoundException,
-			DatabaseNotFoundException, SyntaxErrorException, DataTypeNotSupportedException;
+			DatabaseNotFoundException, SyntaxErrorException;
 
 	public void useDatabase(String dbName);
 

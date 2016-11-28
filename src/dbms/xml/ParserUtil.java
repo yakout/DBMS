@@ -145,4 +145,15 @@ class ParserUtil {
 		}
 		return null;
 	}
+
+	protected static Object getObjectFromString(String type, String value) {
+		if (type.equals("Integer")) {
+			if (!value.equals("")) {
+				return Integer.parseInt(value);
+			}
+		} else if (type.equals("String")) {
+			return value;
+		}
+		return null;
+	}
 }

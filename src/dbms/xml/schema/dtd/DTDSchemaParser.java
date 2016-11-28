@@ -1,4 +1,4 @@
-package dbms.xml;
+package dbms.xml.schema.dtd;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,11 +37,9 @@ public class DTDSchemaParser {
 		}
 		try {
 			out = new PrintWriter(schema);
-			RootCreator.createRoot(CONSTANTS.getString("table.element"),
-					out);
 			writeElements(schema, out);
 			writeAttributes(schema, out);
-			RootCreator.terminateFile(out);
+			out.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

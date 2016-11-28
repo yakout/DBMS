@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 
-import dbms.exception.DataTypeNotSupportedException;
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.SyntaxErrorException;
@@ -12,6 +11,8 @@ import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.util.ResultSet;
+import dbms.xml.schema.dtd.DTDSchemaParser;
+import dbms.xml.schema.xsd.XSDParser;
 
 public class XMLParser {
 
@@ -49,7 +50,7 @@ public class XMLParser {
 			DatabaseNotFoundException, TableAlreadyCreatedException,
 			SyntaxErrorException {
 		TableParser.getInstance().createTable(dbName, tableName, columns);
-		SchemaParser.getInstance().createSchema(dbName,
+		XSDParser.getInstance().createSchema(dbName,
 				tableName);
 		DTDSchemaParser.getInstance().createDTDSchema(dbName, tableName);
 	}
@@ -68,7 +69,11 @@ public class XMLParser {
 	public void update(String dbName, String tableName, Map<String, Object> values,
 			   Map<String, String> columns, Condition condition)
 					   throws DatabaseNotFoundException,TableNotFoundException,
-					   SyntaxErrorException, DataTypeNotSupportedException {
+					   SyntaxErrorException {
 		TableParser.getInstance().update(dbName, tableName, values, columns, condition);
+	}
+
+	public void delete(String dbName, String tableName, Condition condition) throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
+		TableParser.getInstance().delete(dbName, tableName, condition);
 	}
 }
