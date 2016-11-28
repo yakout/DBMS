@@ -4,11 +4,9 @@ import java.io.Console;
 
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.SQLParser;
-import dbms.sqlparser.sqlInterpreter.rules.Expression;
 
 public class Main {
 	private final static SQLParser sqlParserObj = SQLParser.getInstance();
-	private static Expression expressionRef;
 
 	private static void printHelpPanel() {
 		System.console()
@@ -68,7 +66,7 @@ public class Main {
 				printHelpPanel();
 			} else {
 				try {
-					expressionRef = sqlParserObj.parse(inputQuery);
+					sqlParserObj.parse(inputQuery);
 				} catch (SyntaxErrorException e) {
 					console.format("Invalid SQL command.%n");
 				}

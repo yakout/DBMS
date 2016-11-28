@@ -4,6 +4,7 @@ import java.util.Map;
 
 import dbms.connection.XMLConnection;
 import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableNotFoundException;
 
@@ -40,7 +41,7 @@ public class Update implements Expression {
     }
 
     @Override
-    public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
+    public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
     	XMLConnection.getInstance().update(tableName, values, columns, where);
     }
 }

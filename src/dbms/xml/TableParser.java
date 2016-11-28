@@ -3,8 +3,6 @@ package dbms.xml;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,6 +30,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
@@ -77,7 +76,7 @@ public class TableParser {
 	public void createTable(String dbName, String tableName,
 			Map<String, Class> columns)
 			throws DatabaseNotFoundException,
-			TableAlreadyCreatedException, SyntaxErrorException {
+			TableAlreadyCreatedException, IncorrectDataEntryException {
 		File tableFile = new File(openDB(dbName), tableName
 				+ CONSTANTS.getString("extension.xml"));
 		if (tableFile.exists()) {
@@ -93,7 +92,7 @@ public class TableParser {
 		addColumns(doc, table, columns);
 		transform(doc, tableFile, tableName);
 	}
-	
+
 	public void dropDataBase(String dbName) throws DatabaseNotFoundException {
 		File database = new File(WORKSPACE_DIR + File.separator + dbName);
 		if (database.exists()) {
@@ -102,7 +101,7 @@ public class TableParser {
 				new File(database.getPath(), fileName).delete();
 			}
 			database.delete();
-			
+
 		} else {
 			throw new DatabaseNotFoundException();
 		}
@@ -115,12 +114,12 @@ public class TableParser {
 	 * @throws SyntaxErrorException
 	 */
 	private void addColumns(Document doc, Node table,
-			Map<String, Class> columns) throws SyntaxErrorException {
+			Map<String, Class> columns) throws IncorrectDataEntryException {
 		for (Map.Entry<String, Class> col : columns.entrySet()) {
 			String name = col.getKey();
 			String type = ParserUtil.getClassName(col.getValue());
 			if (type == null) {
-				throw new SyntaxErrorException();
+				throw new IncorrectDataEntryException();
 			}
 			Element column = doc.createElement(
 					CONSTANTS.getString("column.element"));
@@ -143,7 +142,7 @@ public class TableParser {
 
 	public ResultSet select(String dbName,
 			String tableName, Condition condition, Collection<String> columns)
-					throws TableNotFoundException, DatabaseNotFoundException, SyntaxErrorException {
+					throws TableNotFoundException, DatabaseNotFoundException, IncorrectDataEntryException, SyntaxErrorException {
 		File tableFile = openTable(dbName, tableName);
 		Document doc = null;
 		try {
@@ -163,9 +162,9 @@ public class TableParser {
 	}
 
 	private ResultSet getData(NodeList colList, Condition condition,
-			Collection<String> columns, int size) throws SyntaxErrorException {
+			Collection<String> columns, int size) throws IncorrectDataEntryException, SyntaxErrorException {
 		if (!ParserUtil.validateColumns(colList, columns)) {
-			throw new SyntaxErrorException();
+			throw new IncorrectDataEntryException();
 		}
 		ResultSet res = new ResultSet();
 		int i = 0;
@@ -228,7 +227,7 @@ public class TableParser {
 	public void insertIntoTable(String dbName, String tableName,
 			Map<String, Object> entryMap)
 			throws DatabaseNotFoundException,
-			TableNotFoundException, SyntaxErrorException {
+			TableNotFoundException, IncorrectDataEntryException {
 		File tableFile = openTable(dbName, tableName);
 		Document doc = null;
 		try {
@@ -244,7 +243,7 @@ public class TableParser {
 	 * root element, calls insertRowData after
 	 * to append a row to each column*/
 	private void addRow(Document doc,
-			Map<String, Object> entryMap) throws SyntaxErrorException {
+			Map<String, Object> entryMap) throws IncorrectDataEntryException {
 		NodeList tb = doc.getElementsByTagName("table");
 		Node table = tb.item(0);
 		Node rowsAttr = table
@@ -264,9 +263,9 @@ public class TableParser {
 	 */
 	private void appendRowData(Document doc, int index,
 			NodeList cols, Map<String, Object> entryMap)
-					throws SyntaxErrorException {
+					throws IncorrectDataEntryException {
 		if (!ParserUtil.validateColumnEntries(entryMap, cols)) {
-			throw new SyntaxErrorException();
+			throw new IncorrectDataEntryException();
 		}
 		Map<Node, Boolean> inserted = new HashMap<Node, Boolean>();
 		for (Map.Entry<String, Object> entry : entryMap.entrySet()) {
@@ -294,13 +293,13 @@ public class TableParser {
 	 * Constructs a new row given its data.
 	 */
 	private Node constructNewRow(Document doc, int index,
-			String type, Object value) throws SyntaxErrorException {
+			String type, Object value) throws IncorrectDataEntryException {
 		Element row =
 				doc.createElement(CONSTANTS.getString("row.element"));
 		row.setAttribute(CONSTANTS.getString("index.val"), Integer.toString(index));
 		String content = ParserUtil.getObjectStringValue(value, type);
 		if (content == null) {
-			throw new SyntaxErrorException();
+			throw new IncorrectDataEntryException();
 		}
 		row.setTextContent(content);
 		return row;

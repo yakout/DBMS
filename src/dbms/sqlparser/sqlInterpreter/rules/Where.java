@@ -1,6 +1,5 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
-import java.util.Collection;
 import java.util.Queue;
 
 import dbms.exception.SyntaxErrorException;
@@ -17,5 +16,10 @@ public class Where implements Condition {
     @Override
     public Queue<Object> getPostfix() throws SyntaxErrorException {
     	return new BooleanExpression().toPostfix(infix);
+    }
+
+    @Override
+    public String toString() {
+        return "infix: " + infix;
     }
 }

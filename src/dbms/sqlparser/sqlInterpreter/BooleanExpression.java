@@ -12,8 +12,17 @@ import java.util.regex.Pattern;
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.sqlInterpreter.rules.BooleanOperator;
 
+/**
+ * Converting infix representation of boolean expression to postfix.
+ */
 public class BooleanExpression {
+    /**
+     * regex for predicate syntax used in {@link #getPredicates(String)}.
+     */
     private final String predicateRegex = "((\\w+)\\s*(!=|>=|<=|<|>|==)\\s*(\\w+|'\\w+'|\"\\w+\"|\\d+))";
+    /**
+     * error message that will be sent with {@link SyntaxErrorException}.
+     */
     private final String errorMessage = "invalid condition syntax";
 
     /**
