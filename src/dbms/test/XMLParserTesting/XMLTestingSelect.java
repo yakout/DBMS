@@ -38,9 +38,15 @@ public class XMLTestingSelect {
 			Map<String, Object> entriesMap = new LinkedHashMap<String, Object>();
 			entriesMap.put("column_1", 550);
 			entriesMap.put("column_2", "KHalED");
-
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
-
+			entriesMap = new LinkedHashMap<String, Object>();
+			entriesMap.put("column_1", 14);
+			entriesMap.put("column_2", "hamada14");
+			xmlParserConc.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<String, Object>();
+			entriesMap.put("column_1", 17);
+			entriesMap.put("column_2", "Sea");
+			xmlParserConc.insertIntoTable("table_name", entriesMap);
 			Set<String> columns = new TreeSet<String>();
 
 			columns.add("column_1");

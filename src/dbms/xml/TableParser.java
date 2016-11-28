@@ -621,6 +621,13 @@ public class TableParser {
 		column.setAttribute(
 				CONSTANTS.getString("type.attr"), ParserUtil.getClassName(dataType));
 		table.appendChild(column);
+		int noOfRows = Integer.parseInt(table.getAttributes()
+				.getNamedItem(CONSTANTS.getString("rows.attr")).getTextContent());
+		for (int i = 0; i < noOfRows; i++) {
+			Element row = doc.createElement(CONSTANTS.getString("row.element"));
+			row.setAttribute(CONSTANTS.getString("index.val"), Integer.toString(i));
+			column.appendChild(row);
+		}
 		transform(doc, tableFile, tableName);
 	}
 }
