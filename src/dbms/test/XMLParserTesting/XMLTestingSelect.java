@@ -19,21 +19,14 @@ import dbms.util.Result;
 import dbms.util.ResultSet;
 
 public class XMLTestingSelect {
+
 	private final XMLConnection xmlParserConc = XMLConnection.getInstance();
-	/*
-	 * These tests check the correctness of the XML Parser module.
-	 */
 
 	@Test
 	public void testOne() {
-		/*
-		 * Test checks creating database and table then inserting two columns
-		 * with different datatypes and then selecting them. SELECT * FROM
-		 * TABLE_NAME;
-		 */
 
 		try {
-			xmlParserConc.createDatabase("database_1");
+			xmlParserConc.createDatabase("database_select_1");
 
 			Map<String, Class> passMap = new LinkedHashMap<String, Class>();
 			passMap.put("column_1", Integer.class);
@@ -76,7 +69,7 @@ public class XMLTestingSelect {
 		 */
 
 		try {
-			xmlParserConc.createDatabase("database_2");
+			xmlParserConc.createDatabase("database_select_2");
 
 			Map<String, Class> passMap = new LinkedHashMap<String, Class>();
 			passMap.put("column_1", Integer.class);
@@ -123,7 +116,7 @@ public class XMLTestingSelect {
 		 */
 
 		try {
-			xmlParserConc.createDatabase("database_3");
+			xmlParserConc.createDatabase("database_select_3");
 
 			Map<String, Class> passMap = new LinkedHashMap<String, Class>();
 			passMap.put("column_1", Integer.class);
@@ -174,7 +167,6 @@ public class XMLTestingSelect {
 
 			Iterator<Result> resultSetItr = resultSet.iterator();
 			Iterator<Result> actualResItr = actualRes.iterator();
-			int cnt = 0;
 			while (resultSetItr.hasNext() && actualResItr.hasNext()) {
 
 				assertTrue(resultSetItr.next().getResult().equals(actualResItr.next().getResult()));
@@ -190,7 +182,7 @@ public class XMLTestingSelect {
 	@Test
 	public void testFour() {
 		try {
-			xmlParserConc.createDatabase("database_4");
+			xmlParserConc.createDatabase("database_select_4");
 
 			Map<String, Class> passMap = new LinkedHashMap<String, Class>();
 			passMap.put("column_1", Integer.class);
@@ -314,7 +306,7 @@ public class XMLTestingSelect {
 	public void testFive() {
 		try {
 
-			xmlParserConc.useDatabase("database_4");
+			xmlParserConc.useDatabase("database_select_4");
 			Set<String> columns = new TreeSet<String>();
 
 			columns.add("column_1");
@@ -389,7 +381,7 @@ public class XMLTestingSelect {
 	public void testSix() {
 
 		try {
-			xmlParserConc.createDatabase("database_5");
+			xmlParserConc.createDatabase("database_select_5");
 
 			Map<String, Class> passMap = new LinkedHashMap<String, Class>();
 			passMap.put("column_1", Integer.class);
@@ -399,27 +391,26 @@ public class XMLTestingSelect {
 
 			Map<String, Object> entriesMap = new LinkedHashMap<String, Object>();
 			entriesMap.put("column_1", 550);
-			entriesMap.put("column_2", 20);
+			xmlParserConc.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<String, Object>();
+			entriesMap.put("column_1", 80);
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 			Set<String> columns = new TreeSet<String>();
 			columns.add("column_1");
-			columns.add("column_2");
-
-			Condition conditionQ = new Where("column_1 > 25");
-            System.out.println(conditionQ.getPostfix() + "postfix fam");
-			ResultSet result = new ResultSet();
+			Condition conditionQ = new Where("column_1 > 100");
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 550);
+			resExpected.put("column_2", null);
 			Result expResult = new Result(resExpected);
+			ResultSet result = new ResultSet();
 			result.add(expResult);
-      
 			ResultSet actualRes = xmlParserConc.select("table_name", null, conditionQ);
-			System.out.println(result.next().getResult() + " " + actualRes.next().getResult());
-//			assertTrue(result.next().getResult().equals(actualRes.next().getResult()));
+			assertTrue(result.next().getResult().equals(actualRes.next().getResult()));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Error occured!");
 
 		}
 	}
+
 }
