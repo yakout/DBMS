@@ -19,7 +19,7 @@ public class BooleanExpression {
     /**
      * regex for predicate syntax used in {@link #getPredicates(String)}.
      */
-    private final String predicateRegex = "((\\w+)\\s*(!=|>=|<=|<|>|==)\\s*(\\w+|'\\w+'|\"\\w+\"|\\d+))";
+    private final String predicateRegex = "(TRUE|(\\w+)\\s*(!=|>=|<=|<|>|==)\\s*(\\w+|'\\w+'|\"\\w+\"|\\d+))";
     /**
      * error message that will be sent with {@link SyntaxErrorException}.
      */
@@ -128,13 +128,17 @@ public class BooleanExpression {
     /**
      * this helper function used to to extract predicates from infix representation
      * of boolean expression.
-     * @param infix
+     * @param infix infix representation for boolean expression.
      * @return list of SQLPredicates extracted from infix.
      */
     private List<SQLPredicate> getPredicates(String infix) {
         Matcher matcher = Pattern.compile(predicateRegex).matcher(infix);
         List<SQLPredicate> sqlPredicates = new ArrayList<>();
         while (matcher.find()) {
+            if (matcher.group(1).equals("TRUE")) {
+                sqlPredicates.add(new SQLPredicate(true));
+                return sqlPredicates;
+            }
             SQLPredicate sqlPredicate;
             if (matcher.group(4).startsWith("'") || matcher.group(4).startsWith("\"")) {
                 Object value = matcher.group(4).replaceAll("('|\")", "");
@@ -160,7 +164,7 @@ public class BooleanExpression {
     public static void main(String[] args) {
         Queue<Object> postfix = new LinkedList<>();
         try {
-            postfix = new BooleanExpression().toPostfix("a<d");
+            postfix = new BooleanExpression().toPostfix("TRUE");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
         }
