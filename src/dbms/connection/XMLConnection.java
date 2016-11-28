@@ -104,4 +104,14 @@ public class XMLConnection implements Connection {
 		}
 		return dbName;
 	}
+
+	@Override
+	public void alterAdd(String tableName, String columnName) {
+		XMLParser.getInstance().alterAdd(dbName, tableName, columnName);
+	}
+
+	@Override
+	public void alterDrop(String tableName, String columnName) {
+		
+	}
 }

@@ -2,8 +2,13 @@ package dbms.ui;
 
 import java.io.Console;
 
-import com.sun.tools.internal.ws.wsdl.document.jaxws.Exception;
-import dbms.exception.*;
+import dbms.exception.DataTypeNotSupportedException;
+import dbms.exception.DatabaseAlreadyCreatedException;
+import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.IncorrectDataEntryException;
+import dbms.exception.SyntaxErrorException;
+import dbms.exception.TableAlreadyCreatedException;
+import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.SQLParser;
 
 public class Main {
