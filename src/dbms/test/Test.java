@@ -9,6 +9,7 @@ import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.SQLParser;
+import dbms.xml.XMLParser;
 
 public class Test {
 	public static void main(String[] args) throws FileNotFoundException {
@@ -24,6 +25,7 @@ public class Test {
 			System.out.print("\n\n");
 			SQLParser.getInstance().parse("UPDATE table1 SET ID = 9, Name = Gender WHERE Name == 'Female';").execute();
 			SQLParser.getInstance().parse("SELECT * FROM table1;").execute();
+//			XMLParser.getInstance().dropDataBase("testDB");
 		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException | DataTypeNotSupportedException | TableAlreadyCreatedException | DatabaseAlreadyCreatedException e) {
 			e.printStackTrace();
 		}

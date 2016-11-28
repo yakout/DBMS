@@ -36,9 +36,8 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public void dropDatabase(String dbName) {
-		// TODO Auto-generated method stub
-
+	public void dropDatabase(String dbName) throws DatabaseNotFoundException {
+		XMLParser.getInstance().dropDataBase(dbName);
 	}
 
 	@Override
@@ -49,8 +48,8 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public void dropTable(String tableName) {
-		// TODO Auto-generated method stub
+	public void dropTable(String tableName) throws DatabaseNotFoundException {
+		XMLParser.getInstance().dropTable(tableName, dbName);
 
 	}
 

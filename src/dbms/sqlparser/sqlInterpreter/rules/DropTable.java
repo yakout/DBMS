@@ -1,6 +1,7 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
 import dbms.connection.XMLConnection;
+import dbms.exception.DatabaseNotFoundException;
 
 public class DropTable implements Expression {
     private String tableName;
@@ -14,7 +15,7 @@ public class DropTable implements Expression {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws DatabaseNotFoundException {
         XMLConnection.getInstance().dropTable(tableName);
     }
 }

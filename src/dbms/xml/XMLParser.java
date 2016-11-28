@@ -53,6 +53,10 @@ public class XMLParser {
 				tableName);
 		DTDSchemaParser.getInstance().createDTDSchema(dbName, tableName);
 	}
+	
+	public void dropTable(String tableName, String dbName) throws DatabaseNotFoundException {
+		TableParser.getInstance().dropTable(tableName, dbName);
+	}
 
 	public ResultSet select(String dbName, String tableName, Condition condition, Collection<String> columns)
 			throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
@@ -63,6 +67,10 @@ public class XMLParser {
 			Map<String, Object> entryMap) throws DatabaseNotFoundException,
 			TableNotFoundException, SyntaxErrorException {
 		TableParser.getInstance().insertIntoTable(dbName, tableName, entryMap);
+	}
+	
+	public void dropDataBase(String dbName) throws DatabaseNotFoundException {
+		TableParser.getInstance().dropDataBase(dbName);
 	}
 
 	public void update(String dbName, String tableName, Map<String, Object> values,

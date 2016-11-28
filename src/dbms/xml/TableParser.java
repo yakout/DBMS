@@ -3,6 +3,8 @@ package dbms.xml;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -92,7 +94,20 @@ public class TableParser {
 		addColumns(doc, table, columns);
 		transform(doc, tableFile, tableName);
 	}
-
+	
+	public void dropDataBase(String dbName) throws DatabaseNotFoundException {
+		File database = new File(WORKSPACE_DIR + File.separator + dbName);
+		if (database.exists()) {
+			String[] files = database.list();
+			for (String fileName : files) {
+				new File(database.getPath(), fileName).delete();
+			}
+			database.delete();
+			
+		} else {
+			throw new DatabaseNotFoundException();
+		}
+	}
 	/*
 	 * Adds columns to the XML table when it's created.
 	 * @param doc {@link Document} DOM Document
@@ -477,5 +492,19 @@ public class TableParser {
 			updateRows(colList, condition, values, columns);
 		}
 		transform(doc, tableFile, tableName);
+	}
+
+	public void dropTable(String tableName, String dbName) throws DatabaseNotFoundException {
+		File tableFile = new File(openDB(dbName), tableName
+				+ CONSTANTS.getString("extension.xml"));
+		File xsdFile = new File(openDB(dbName), tableName
+				+ CONSTANTS.getString("extension.schema"));
+		File dtdFile = new File(openDB(dbName), tableName
+				+ CONSTANTS.getString("extensionDTD.schema"));
+		if (tableFile.exists()) {
+			tableFile.delete();
+			xsdFile.delete();
+			dtdFile.delete();
+		}
 	}
 }
