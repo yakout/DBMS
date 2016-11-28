@@ -3,6 +3,7 @@ package dbms.xml;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -136,13 +137,13 @@ public class TableParser {
 		int size = Integer.parseInt(doc.getFirstChild().
 				getAttributes().getNamedItem(
 						CONSTANTS.getString("rows.attr")).getTextContent());
-		return getData(doc, condition, columns, size);
-	}
-
-	private ResultSet getData(Document doc, Condition condition,
-			Collection<String> columns, int size) throws SyntaxErrorException {
 		NodeList colList = doc.getElementsByTagName(CONSTANTS.getString(
 				"column.element"));
+		return getData(colList, condition, columns, size);
+	}
+
+	private ResultSet getData(NodeList colList, Condition condition,
+			Collection<String> columns, int size) throws SyntaxErrorException {
 		if (!ParserUtil.validateColumns(colList, columns)) {
 			throw new SyntaxErrorException();
 		}
@@ -257,7 +258,7 @@ public class TableParser {
 		}
 		for (int i = 0; i < cols.getLength(); i++) {
 			Node col = cols.item(i);
-			if (inserted.get(col) == null) {
+			if (!inserted.containsKey(col)) {
 				String type = col.getAttributes()
 						.getNamedItem(CONSTANTS.getString("type.attr")).getTextContent();
 				Node newRow =
@@ -351,19 +352,16 @@ public class TableParser {
 		}
 		return cols;
 	}
-	private void validateValues(NodeList columnList, Map<String, Object> values) {
+	private boolean validateValues(NodeList columnList, Map<String, Object> values) {
 		//	Validating syntax of values map.
 		if (values != null) {
 			if (!ParserUtil.validateColumnEntries(values, columnList)) {
-				try {
-					throw new DataTypeNotSupportedException();
-				} catch (DataTypeNotSupportedException e) {
-					e.printStackTrace();
-				}
+				return false;
 			}
 		}
+		return true;
 	}
-	private void validateColumns(NodeList columnList, Map<String, String> columns) {
+	private boolean validateColumns(NodeList columnList, Map<String, String> columns) {
 		// For validating syntax of columns map.
 		if (columns != null) {
 			for (Map.Entry<String, String> entry : columns.entrySet()) {
@@ -371,85 +369,155 @@ public class TableParser {
 						entry.getKey(), columnList) == null
 						|| ParserUtil.getColumnFromNodeList(
 						entry.getValue(), columnList) == null) {
-							try {
-								throw new SyntaxErrorException();
-							} catch (SyntaxErrorException e) {
-								e.printStackTrace();
+							return false;
 						}
 					}
 				}
-			}
+		return true;
 	}
-	private void updateByValue(NodeList rowList, Map<String, Object>values) {
-		// Update by values map.
-		if (values != null) {
-			for (Map.Entry<String, Object> entry : values.entrySet()) {
-				for (int j = 0; j < rowList.getLength(); j++) {
-					Node row = rowList.item(j);
-					Node colForThisRow = row.getParentNode();
-					String colName = colForThisRow.getAttributes().
-							getNamedItem(CONSTANTS.getString(
-								"name.attr")).getTextContent();
-					if (entry.getKey().equals(colName)) {
-							Element e = (Element) row;
-							e.setTextContent(entry.getValue().toString());
+//	private void updateByValue(NodeList rowList, Map<String, Object> values) {
+//		// Update by values map.
+//		if (values != null) {
+//			for (Map.Entry<String, Object> entry : values.entrySet()) {
+//				for (int j = 0; j < rowList.getLength(); j++) {
+//					Node row = rowList.item(j);
+//					Node colForThisRow = row.getParentNode();
+//					String colName = colForThisRow.getAttributes().
+//							getNamedItem(CONSTANTS.getString(
+//								"name.attr")).getTextContent();
+//					if (entry.getKey().equals(colName)) {
+//							Element e = (Element) row;
+//							e.setTextContent(entry.getValue().toString());
+//						}
+//					}
+//				}
+//			}
+//	}
+	private void updateRows(NodeList colList, Condition condition,
+			Map<String, Object> values, Map<String, String> columns)
+			throws SyntaxErrorException {
+		/*
+		 * 	UPDATE table_name
+			SET column1 = value1, column2 = value2...., columnN = valueN
+			WHERE [condition];
+		 */
+		int i = 0;
+		boolean reachedEnd = false;
+		while (!reachedEnd) {
+			Map<String, Object> rowMap = new HashMap<String, Object>();
+			Collection<Node> rowList = new ArrayList<Node>();
+			for (int j = 0; j < colList.getLength(); j++) {
+				Node col = colList.item(j);
+				if (i >= col.getChildNodes().getLength()) {
+					reachedEnd = true;
+					break;
+				}
+				String name = col.getAttributes().getNamedItem(
+						CONSTANTS.getString("name.attr")).getTextContent();
+				String type = col.getAttributes().getNamedItem(
+						CONSTANTS.getString("type.attr")).getTextContent();
+				Node row = col.getChildNodes().item(i);
+				if (row instanceof Element == false) {
+					continue;
+				}
+				Object value = null;
+				if (type.equals("Integer")) {
+					if (!row.getTextContent().equals("")) {
+						value = Integer.parseInt(row.getTextContent());
+					}
+				} else if (type.equals("String")) {
+					value = row.getTextContent();
+				}
+				rowMap.put(name, value);
+				rowList.add(row);
+			}
+			if (condition == null
+					|| Evaluator.getInstance().evaluate(
+							rowMap, condition.getPostfix())) {
+				Map<String, Object> resMap = new HashMap<String, Object>();
+				for (Map.Entry<String, Object> entry : rowMap.entrySet()) {
+						resMap.put(entry.getKey(), entry.getValue());
+				}
+				if (!resMap.isEmpty()) {
+					for (Node row : rowList) {
+						String colName = row.getParentNode().getAttributes()
+								.getNamedItem("name.attr").getTextContent();
+						if (values.containsKey(colName)) {
+							row.setTextContent(
+									ParserUtil.getObjectStringValue(values.get(colName)));
+						}
+						if (columns.containsKey(colName)) {
+							row.setTextContent(
+									getRowDataUpdate(columns.get(colName), rowList));
 						}
 					}
 				}
 			}
+			i++;
+		}
 	}
 
-	private void modifyData(NodeList rowList, Map.Entry<String, String> entry,
-			String rowIndex, String colType, Node row) {
-		for (int k = 0; k < rowList.getLength(); k++) {
-			Node row2 = rowList.item(k);
-			String rowIndex2 = row2.getAttributes().
-					getNamedItem(CONSTANTS.getString(
-							"index.val")).getTextContent();
-			Node colForThisRow2 = row2.getParentNode();
-			String col2Type = colForThisRow2.getAttributes()
-					.getNamedItem(CONSTANTS.getString(
-							"type.attr")).getTextContent();
-			String colName2 = colForThisRow2.getAttributes().
-					getNamedItem(CONSTANTS.getString(
-							"name.attr")).getTextContent();
-			if (entry.getValue().equals(colName2)
-					&& rowIndex.equals(rowIndex2)) {
-				if (!colType.equals(col2Type)) {
-					try {
-						throw new DataTypeNotSupportedException();
-					} catch (DataTypeNotSupportedException e) {
-						e.printStackTrace();
-					}
-				}
-				Element rowElement = (Element) row;
-				Element rowElement2 = (Element) row2;
-				rowElement.setTextContent(rowElement2
-						.getTextContent());
+	private String getRowDataUpdate(String colName, Collection<Node> rowList) {
+		for (Node row : rowList) {
+			String colName2 = row.getParentNode().getAttributes()
+					.getNamedItem("name.attr").getTextContent();
+			if (colName.equals(colName2)) {
+				return row.getTextContent();
 			}
 		}
+		return null;
 	}
-	private void updateByColumns(NodeList rowList, Map<String, String> columns) {
-		if (columns != null) {
-			for (Map.Entry<String, String> entry : columns.entrySet()) {
-				for (int j = 0; j < rowList.getLength(); j++) {
-					Node row = rowList.item(j);
-					String rowIndex = row.getAttributes().getNamedItem(
-							CONSTANTS.getString("index.val")).getTextContent();
-					Node colForThisRow = row.getParentNode();
-					String colName = colForThisRow.getAttributes().
-							getNamedItem(CONSTANTS.getString(
-									"name.attr")).getTextContent();
-					String colType = colForThisRow.getAttributes()
-							.getNamedItem(CONSTANTS.getString(
-									"type.attr")).getTextContent();
-					if (entry.getKey().equals(colName)) {
-						modifyData(rowList, entry, rowIndex, colType, row);
-					}
-				}
-			}
-		}
-	}
+//	private void modifyData(NodeList rowList, Map.Entry<String, String> entry,
+//			String rowIndex, String colType, Node row) {
+//		for (int k = 0; k < rowList.getLength(); k++) {
+//			Node row2 = rowList.item(k);
+//			String rowIndex2 = row2.getAttributes().
+//					getNamedItem(CONSTANTS.getString(
+//							"index.val")).getTextContent();
+//			Node colForThisRow2 = row2.getParentNode();
+//			String col2Type = colForThisRow2.getAttributes()
+//					.getNamedItem(CONSTANTS.getString(
+//							"type.attr")).getTextContent();
+//			String colName2 = colForThisRow2.getAttributes().
+//					getNamedItem(CONSTANTS.getString(
+//							"name.attr")).getTextContent();
+//			if (entry.getValue().equals(colName2)
+//					&& rowIndex.equals(rowIndex2)) {
+//				if (!colType.equals(col2Type)) {
+//					try {
+//						throw new DataTypeNotSupportedException();
+//					} catch (DataTypeNotSupportedException e) {
+//						e.printStackTrace();
+//					}
+//				}
+//				Element rowElement = (Element) row;
+//				Element rowElement2 = (Element) row2;
+//				rowElement.setTextContent(rowElement2
+//						.getTextContent());
+//			}
+//		}
+//	}
+//	private void updateByColumns(NodeList rowList, Map<String, String> columns) {
+//		if (columns != null) {
+//			for (Map.Entry<String, String> entry : columns.entrySet()) {
+//				for (int j = 0; j < rowList.getLength(); j++) {
+//					Node row = rowList.item(j);
+//					String rowIndex = row.getAttributes().getNamedItem(
+//							CONSTANTS.getString("index.val")).getTextContent();
+//					Node colForThisRow = row.getParentNode();
+//					String colName = colForThisRow.getAttributes().
+//							getNamedItem(CONSTANTS.getString(
+//									"name.attr")).getTextContent();
+//					String colType = colForThisRow.getAttributes()
+//							.getNamedItem(CONSTANTS.getString(
+//									"type.attr")).getTextContent();
+//					if (entry.getKey().equals(colName)) {
+//						modifyData(rowList, entry, rowIndex, colType, row);
+//					}
+//				}
+//			}
+//		}
+//	}
 	// Must be  handled for Conditions.
 	public void update(String dbName, String tableName,
 			Map<String, Object> values, Map<String, String> columns,
@@ -464,14 +532,12 @@ public class TableParser {
 			e.printStackTrace();
 		}
 		doc.getDocumentElement().normalize();
-		NodeList rowList = doc.getElementsByTagName(
-				CONSTANTS.getString("row.element"));
-		NodeList columnList = doc.getElementsByTagName(
+		NodeList colList = doc.getElementsByTagName(
 				CONSTANTS.getString("column.element"));
-		validateValues(columnList, values);
-		validateColumns(columnList, columns);
-		updateByValue(rowList, values);
-		updateByColumns(rowList, columns);
+		if (validateColumns(colList, columns)
+				&& validateValues(colList, values)) {
+			updateRows(colList, condition, values, columns);
+		}
 		transform(doc, tableFile, tableName);
 	}
 }

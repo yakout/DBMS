@@ -188,7 +188,6 @@ public class SchemaParser {
 	}
 
 	private void setRowAttribute(Element sequence, Document doc) {
-
 		Attr name = doc.createAttribute(CONSTANTS.getString("name.attr"));
 		name.setValue(CONSTANTS.getString("row.element"));
 		sequence.setAttributeNode(name);
@@ -200,7 +199,6 @@ public class SchemaParser {
 		Attr minOccurs = doc.createAttribute(CONSTANTS.getString("minOccurs.attr"));
 		minOccurs.setValue(CONSTANTS.getString("nothing"));
 		sequence.setAttributeNode(minOccurs);
-
 	}
 
 	private void setRootAttribute(Element root, Document doc) {

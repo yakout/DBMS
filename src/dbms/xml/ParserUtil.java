@@ -61,6 +61,9 @@ class ParserUtil {
 
 	protected static boolean validateColumns(NodeList columnList,
 			Collection<String> columns) {
+		if (columns == null) {
+			return true;
+		}
 		Map<String, String> colsMap = getColsNodeListMap(columnList);
 		for (String col : columns) {
 			if (colsMap.get(col) == null) {
@@ -73,13 +76,22 @@ class ParserUtil {
 	protected static String getObjectStringValue(Object o, String type) {
 		if (o == null) {
 			return "";
-		}
-		if (o instanceof Integer
+		} else if (o instanceof Integer
 				&& type.equals("Integer")) {
 			return ((Integer) o).toString();
-		}
-		if (o instanceof String
+		} else if (o instanceof String
 				&& type.equals("String")) {
+			return ((String) o);
+		}
+		return null;
+	}
+
+	protected static String getObjectStringValue(Object o) {
+		if (o == null) {
+			return "";
+		} else if (o instanceof Integer) {
+			return ((Integer) o).toString();
+		} else if (o instanceof String) {
 			return ((String) o);
 		}
 		return null;

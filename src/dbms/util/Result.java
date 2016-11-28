@@ -37,4 +37,8 @@ public class Result {
 	public Map<String, Object> getResult() {
 		return result;
 	}
+
+	public Object get(String key) {
+		return result.get(key);
+	}
 }
