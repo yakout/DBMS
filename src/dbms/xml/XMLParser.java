@@ -87,7 +87,7 @@ public class XMLParser {
 		TableParser.getInstance().delete(dbName, tableName, condition);
 	}
 
-	public void alterAdd(String dbName, String tableName, String columnName)
+	public void alterAdd(String dbName, String tableName, String columnName , Class dataType)
 			throws DatabaseNotFoundException, TableNotFoundException {
 		TableParser.getInstance().alterAdd(dbName, tableName, columnName);
 		

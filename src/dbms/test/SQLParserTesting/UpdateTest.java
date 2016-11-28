@@ -592,5 +592,4 @@ public class UpdateTest extends SqlParserRef {
 		}
 	}
 
-
 }
