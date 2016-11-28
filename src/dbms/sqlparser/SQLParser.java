@@ -1,10 +1,6 @@
 package dbms.sqlparser;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -128,27 +124,53 @@ public class SQLParser {
 	}
 
 	private Expression parseAlter(Matcher matcher) {
-		matcher.matches();
-		String tableName = matcher.group(1);
-		String columnName;
-		Class dataType;
+        matcher.matches();
+        String tableName = matcher.group(1);
+        String columnName;
+        Class dataType;
 
-		if (matcher.group(7) != null) {
-			columnName = matcher.group(8);
-			if (matcher.group(9).toLowerCase().compareTo("int") == 0) {
-				dataType = Integer.class;
-			} else {
-				dataType = String.class;
-			}
-			AlterAdd alterAdd = new AlterAdd(tableName, columnName, dataType);
-			return alterAdd;
-		} else {
-			columnName = matcher.group(5);
-			AlterDrop alterDrop = new AlterDrop(tableName, columnName);
-			return alterDrop;
-		}
+        if (matcher.group(7) != null) {
+            columnName = matcher.group(8);
+            if (matcher.group(9).toLowerCase().compareTo("int") == 0) {
+                dataType = Integer.class;
+            } else {
+                dataType = String.class;
+            }
+            AlterAdd alterAdd = new AlterAdd(tableName, columnName, dataType);
+            return alterAdd;
+        } else {
+            columnName = matcher.group(5);
+            AlterDrop alterDrop = new AlterDrop(tableName, columnName);
+            return alterDrop;
+        }
+    }
 
-	}
+    /**
+     * parse insert statement.
+     * @param matcher matched pattern from query.
+     * @return {@link Expression}.
+     * @throws SyntaxErrorException
+     */
+    private Expression parseInsert(Matcher matcher) throws SyntaxErrorException {
+        matcher.matches();
+        String tableName = matcher.group(1);
+        String[] columns = matcher.group(2).split(",");
+        String[] values = matcher.group(4).split(",");
+        if (columns.length != values.length) {
+            throw new SyntaxErrorException("Error: Columns number does not match values number");
+        }
+        HashMap<String, Object> entryMap = new LinkedHashMap<>();
+        for (int i = 0; i < columns.length; i++) {
+            String column = columns[i].trim();
+            String value = values[i].trim();
+            if (value.startsWith("'") || value.startsWith("\"")) {
+                entryMap.put(column, value.replaceAll("('|\")", ""));
+            } else {
+                entryMap.put(column, Integer.parseInt(value));
+            }
+        }
+        return new InsertIntoTable(tableName, entryMap);
+    }
 
 	/**
 	 * parse select statement
@@ -197,35 +219,6 @@ public class SQLParser {
 	}
 
 	/**
-	 * parse insert statement.
-	 * 
-	 * @param matcher
-	 *            matched pattern from query.
-	 * @return {@link Expression}.
-	 * @throws SyntaxErrorException
-	 */
-	private Expression parseInsert(Matcher matcher) throws SyntaxErrorException {
-		matcher.matches();
-		String tableName = matcher.group(1);
-		String[] columns = matcher.group(2).split(",");
-		String[] values = matcher.group(4).split(",");
-		if (columns.length != values.length) {
-			throw new SyntaxErrorException("Error: Columns number does not match values number");
-		}
-		HashMap<String, Object> entryMap = new HashMap<>();
-		for (int i = 0; i < columns.length; i++) {
-			String column = columns[i].trim();
-			String value = values[i].trim();
-			if (value.startsWith("'") || value.startsWith("\"")) {
-				entryMap.put(column, value.replaceAll("('|\")", ""));
-			} else {
-				entryMap.put(column, Integer.parseInt(value));
-			}
-		}
-		return new InsertIntoTable(tableName, entryMap);
-	}
-
-	/**
 	 * parse delete statement.
 	 * 
 	 * @param matcher
@@ -242,40 +235,32 @@ public class SQLParser {
 		return delete;
 	}
 
-	/**
-	 * parse update statement.
-	 * 
-	 * @param matcher
-	 *            matched pattern from query.
-	 * @return {@link Expression}.
-	 */
-	private Expression parseUpdate(Matcher matcher) {
-		matcher.matches();
-		Map<String, Object> values = new HashMap<>();
-		Map<String, String> columns = new HashMap<>();
+    private Expression parseUpdate(Matcher matcher) {
+        matcher.matches();
+        Map<String, Object> values = new HashMap<>();
+        Map<String, String> columns = new HashMap<>();
 
-		String[] setValues = matcher.group(2).split(",");
-		for (int i = 0; i < setValues.length; i++) {
-			String key = setValues[i].split("=")[0].trim();
-			String value = setValues[i].split("=")[1].trim();
-			if (value.startsWith("'") || value.startsWith("\"")) {
-				values.put(key, value.replaceAll("('|\")", ""));
-			} else {
-				try {
-					values.put(key, Integer.parseInt(value));
-				} catch (NumberFormatException e) {
-					columns.put(key, value);
-				}
-			}
-		}
-		Update update = new Update(matcher.group(1), values, columns);
+        String[] setValues = matcher.group(2).split(",");
+        for (int i = 0; i < setValues.length; i++) {
+            String key = setValues[i].split("=")[0].trim();
+            String value = setValues[i].split("=")[1].trim();
+            if (value.startsWith("'") || value.startsWith("\"")) {
+                values.put(key, value.replaceAll("('|\")", ""));
+            } else {
+                try {
+                    values.put(key, Integer.parseInt(value));
+                } catch (NumberFormatException e) {
+                    columns.put(key, value);
+                }
+            }
+        }
+        Update update = new Update(matcher.group(1), values, columns);
 
-		if (matcher.group(7) != null) {
-			update.setWhere(new Where(matcher.group(7)));
-		}
-		return update;
-	}
-
+        if (matcher.group(7) != null) {
+            update.setWhere(new Where(matcher.group(7)));
+        }
+        return update;
+    }
 	/**
 	 * parse create statement.
 	 * 
