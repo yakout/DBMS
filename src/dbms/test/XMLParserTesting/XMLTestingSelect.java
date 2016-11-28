@@ -387,7 +387,6 @@ public class XMLTestingSelect {
 
 	@Test
 	public void testSix() {
-
 		try {
 			xmlParserConc.createDatabase("database_5");
 
@@ -403,9 +402,8 @@ public class XMLTestingSelect {
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 			Set<String> columns = new TreeSet<String>();
 			columns.add("column_1");
-			columns.add("column_2");
 
-			Condition conditionQ = new Where("column_1 > 25");
+			Condition conditionQ = new Where("column_1 > column_2");
             System.out.println(conditionQ.getPostfix() + "postfix fam");
 			ResultSet result = new ResultSet();
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
@@ -413,13 +411,14 @@ public class XMLTestingSelect {
 			Result expResult = new Result(resExpected);
 			result.add(expResult);
       
-			ResultSet actualRes = xmlParserConc.select("table_name", null, conditionQ);
-			System.out.println(result.next().getResult() + " " + actualRes.next().getResult());
-//			assertTrue(result.next().getResult().equals(actualRes.next().getResult()));
+			ResultSet actualRes = xmlParserConc.select("table_name", columns, conditionQ);
+			Map<String, Object> result1 = result.next().getResult();
+			 Map<String, Object> actualResult =  actualRes.next().getResult();
+			System.out.println(result1 + " " + actualResult);
+			assertTrue(result1.equals(actualResult));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Error occured!");
-
 		}
 	}
 
