@@ -46,7 +46,7 @@ public class XMLConnection implements Connection {
 	@Override
 	public void dropDatabase(String dbName)
 			throws DatabaseNotFoundException {
-		XMLParser.getInstance().dropDataBase(dbName);
+		XMLParser.getInstance().dropDatabase(dbName);
 	}
 
 	@Override
@@ -106,12 +106,14 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public void alterAdd(String tableName, String columnName, Class dataType) throws DatabaseNotFoundException, TableNotFoundException {
+	public void alterAdd(String tableName, String columnName, Class dataType)
+			throws DatabaseNotFoundException, TableNotFoundException {
 		XMLParser.getInstance().alterAdd(dbName, tableName, columnName, dataType);
 	}
 
 	@Override
-	public void alterDrop(String tableName, String columnName) {
-		
+	public void alterDrop(String tableName, String columnName)
+			throws DatabaseNotFoundException, TableNotFoundException {
+		XMLParser.getInstance().alterDrop(dbName, tableName, columnName);
 	}
 }

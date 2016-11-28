@@ -56,6 +56,8 @@ public class XMLTestingSelect {
 			resExpected.put("column_1", 550);
 			resExpected.put("column_2", "KHalED");
 			XMLParser.getInstance().alterAdd("database_select_1", "table_name", "column_3", String.class);
+			XMLParser.getInstance().alterDrop("database_select_1", "table_name", "column_3");
+			XMLParser.getInstance().alterDrop("database_select_1", "table_name", "column_2");
 			Result expResult = new Result(resExpected);
 			result.add(expResult);
 

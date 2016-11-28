@@ -7,6 +7,10 @@ import java.util.ResourceBundle;
 
 import dbms.exception.DatabaseNotFoundException;
 
+/**
+ * Generates a DTD schema file for XML database.
+ *
+ */
 public class DTDSchemaParser {
 	private static DTDSchemaParser instance = null;
 	private static final String WORKSPACE_DIR =

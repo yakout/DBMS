@@ -1,5 +1,8 @@
 package dbms.exception;
 
+/**
+ * Signals an incorrect data entry.
+ */
 public class IncorrectDataEntryException extends Exception {
 	private String message;
 

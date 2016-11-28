@@ -145,15 +145,19 @@ public interface Connection {
 	 * @throws TableNotFoundException 
 	 * @throws DatabaseNotFoundException 
      */
-	public void alterAdd(String tableName, String columnName , Class dataTpe) throws DatabaseNotFoundException, TableNotFoundException;
+	public void alterAdd(String tableName, String columnName , Class dataTpe)
+			throws DatabaseNotFoundException, TableNotFoundException;
 
 
 	/**
 	 * adds a new column in table.
 	 * @param tableName table name.
 	 * @param columnName column name.
+	 * @throws TableNotFoundException 
+	 * @throws DatabaseNotFoundException 
      */
-	public void alterDrop(String tableName, String columnName);
+	public void alterDrop(String tableName, String columnName)
+			throws DatabaseNotFoundException, TableNotFoundException;
 
 	/**
 	 * Gets name of the currently used database.
