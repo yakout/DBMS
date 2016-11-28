@@ -16,10 +16,23 @@ public class BooleanExpression {
     private final String predicateRegex = "((\\w+)\\s*(!=|>=|<=|<|>|==)\\s*(\\w+|'\\w+'|\"\\w+\"|\\d+))";
     private final String errorMessage = "invalid condition syntax";
 
+    /**
+     * infix to postfix converter.
+     * @param infix
+     * @return a queue of (SQLPredicates and/or BooleanOperator) contains
+     *         the postfix representation of boolean expression.
+     * @throws SyntaxErrorException if the boolean expression is badly constructed.
+     */
     public Queue<Object> toPostfix(String infix) throws SyntaxErrorException {
         List<SQLPredicate> sqlPredicates = getPredicates(infix);
         Queue<Object> postfix = new LinkedList<Object>();
         Stack<Object> helperStack = new Stack<>();
+
+        // in case if one predicate just return it in the postfix queue.
+        if (sqlPredicates.size() == 1) {
+            postfix.add(sqlPredicates.get(0));
+            return postfix;
+        }
 
         int predicateNumber = 0;
         for (int i = 0; i < infix.length(); i++) {
@@ -36,33 +49,19 @@ public class BooleanExpression {
                 }
                 helperStack.pop();
             } else if (i + 3 < infix.length() && infix.substring(i, i + 3).toLowerCase().equals("and")) {
-                if (helperStack.isEmpty() || helperStack.peek() instanceof Character) {
-                    helperStack.push(new BooleanOperator(BooleanOperator.Operator.And));
-                } else if (((BooleanOperator) helperStack.peek()).getOperator() == BooleanOperator.Operator.And) {
-                    postfix.add(new BooleanOperator(BooleanOperator.Operator.And));
-                } else {
-                    helperStack.push(new BooleanOperator(BooleanOperator.Operator.And));
-                }
-                i += 2;
+                pushAndToPostfix(postfix, helperStack); i += 2;
             } else if (i + 2 < infix.length() && infix.substring(i, i + 2).toLowerCase().equals("or")) {
-                if (helperStack.isEmpty() || helperStack.peek() instanceof Character) {
-                    helperStack.push(new BooleanOperator(BooleanOperator.Operator.Or));
-                } else {
-                    if (((BooleanOperator) helperStack.peek()).getOperator() == BooleanOperator.Operator.And) {
-                        postfix.add(helperStack.pop());
-                        helperStack.push(new BooleanOperator(BooleanOperator.Operator.Or));
-                    } else { // or in helper stack
-                        postfix.add(new BooleanOperator(BooleanOperator.Operator.Or));
-                    }
-                }
-                i++;
+                pushOrToPostfix(postfix, helperStack); i++;
             } else if (currentChar == ' ') {
                 continue;
             } else {
-                if (predicateNumber + 1 <= sqlPredicates.size())
+                try {
                     postfix.add(sqlPredicates.get(predicateNumber++));
-                while(i + 1 != infix.length() && infix.charAt(++i) != ')');
-                if (!(i + 1 == infix.length())) i--;
+                    while(infix.charAt(++i) != ')');
+                    i--;
+                } catch (IndexOutOfBoundsException e) {
+                    throw new SyntaxErrorException(errorMessage);
+                }
             }
         }
         if (!helperStack.isEmpty()) {
@@ -78,6 +77,46 @@ public class BooleanExpression {
         return postfix;
     }
 
+    /**
+     * helper method for toPostfix() that adds BooleanOperator (AND) to postfix queue.
+     * @param postfix
+     * @param helperStack
+     */
+    private void pushAndToPostfix(Queue<Object> postfix, Stack<Object> helperStack) {
+        if (helperStack.isEmpty() || helperStack.peek() instanceof Character) {
+            helperStack.push(new BooleanOperator(BooleanOperator.Operator.And));
+        } else if (((BooleanOperator) helperStack.peek()).getOperator() == BooleanOperator.Operator.And) {
+            postfix.add(new BooleanOperator(BooleanOperator.Operator.And));
+        } else {
+            helperStack.push(new BooleanOperator(BooleanOperator.Operator.And));
+        }
+    }
+
+
+    /**
+     * helper method for toPostfix() that adds BooleanOperator (OR) to postfix queue.
+     * @param postfix
+     * @param helperStack
+     */
+    private void pushOrToPostfix(Queue<Object> postfix, Stack<Object> helperStack) {
+        if (helperStack.isEmpty() || helperStack.peek() instanceof Character) {
+            helperStack.push(new BooleanOperator(BooleanOperator.Operator.Or));
+        } else {
+            if (((BooleanOperator) helperStack.peek()).getOperator() == BooleanOperator.Operator.And) {
+                postfix.add(helperStack.pop());
+                helperStack.push(new BooleanOperator(BooleanOperator.Operator.Or));
+            } else { // or in helper stack
+                postfix.add(new BooleanOperator(BooleanOperator.Operator.Or));
+            }
+        }
+    }
+
+    /**
+     * this helper function used to to extract predicates from infix representation
+     * of boolean expression.
+     * @param infix
+     * @return list of SQLPredicates extracted from infix.
+     */
     private List<SQLPredicate> getPredicates(String infix) {
         Matcher matcher = Pattern.compile(predicateRegex).matcher(infix);
         List<SQLPredicate> sqlPredicates = new ArrayList<>();
@@ -91,7 +130,8 @@ public class BooleanExpression {
                     sqlPredicate = new SQLPredicate(matcher.group(2), matcher.group(3),
                             Integer.parseInt(matcher.group(4)));
                 } catch (NumberFormatException e) {
-                    sqlPredicate = new SQLPredicate(matcher.group(2), matcher.group(3), matcher.group(4));
+                    sqlPredicate = new SQLPredicate(matcher.group(2),
+                            matcher.group(3), matcher.group(4));
                 }
             }
             sqlPredicates.add(sqlPredicate);
@@ -99,17 +139,20 @@ public class BooleanExpression {
         return sqlPredicates;
     }
 
+    /**
+     * main for testing toPostfix converter
+     * @param args cmd arguments
+     */
     public static void main(String[] args) {
         Queue<Object> postfix = new LinkedList<>();
         try {
-            postfix = new BooleanExpression().toPostfix("col1 == \"6\"");
+            postfix = new BooleanExpression().toPostfix("((col1==9)and((((d==d)or(d<d))))and(d<d))");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
         }
         int size = postfix.size();
         for (int i = 0; i < size; i++) {
             System.out.println(postfix.poll());
-            postfix.remove(postfix.poll());
         }
     }
 }

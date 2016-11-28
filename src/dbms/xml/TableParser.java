@@ -31,7 +31,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import dbms.exception.DataTypeNotSupportedException;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
@@ -60,7 +59,7 @@ public class TableParser {
 				| ParserConfigurationException e) {
 			e.printStackTrace();
 		}
-		
+
 		transformer.setOutputProperty(OutputKeys.INDENT,
 				"yes");
 		transformer.setOutputProperty(
@@ -409,7 +408,7 @@ public class TableParser {
 		boolean reachedEnd = false;
 		while (!reachedEnd) {
 			Map<String, Object> rowMap = new HashMap<String, Object>();
-			Collection<Node> rowList = new ArrayList<Node>();
+			Collection<Node> rowEntries = new ArrayList<Node>();
 			for (int j = 0; j < colList.getLength(); j++) {
 				Node col = colList.item(j);
 				if (i >= col.getChildNodes().getLength()) {
@@ -433,7 +432,7 @@ public class TableParser {
 					value = row.getTextContent();
 				}
 				rowMap.put(name, value);
-				rowList.add(row);
+				rowEntries.add(row);
 			}
 			if (condition == null
 					|| Evaluator.getInstance().evaluate(
@@ -443,7 +442,7 @@ public class TableParser {
 						resMap.put(entry.getKey(), entry.getValue());
 				}
 				if (!resMap.isEmpty()) {
-					for (Node row : rowList) {
+					for (Node row : rowEntries) {
 						String colName = row.getParentNode().getAttributes()
 								.getNamedItem(CONSTANTS.getString("name.attr")).getTextContent();
 						if (values.containsKey(colName)) {
@@ -452,7 +451,7 @@ public class TableParser {
 						}
 						if (columns.containsKey(colName)) {
 							row.setTextContent(
-									getRowDataUpdate(columns.get(colName), rowList));
+									getRowDataUpdate(columns.get(colName), rowEntries));
 						}
 					}
 				}
@@ -475,8 +474,7 @@ public class TableParser {
 	public void update(String dbName, String tableName,
 			Map<String, Object> values, Map<String, String> columns,
 			Condition condition) throws DatabaseNotFoundException,
-					   TableNotFoundException, SyntaxErrorException,
-					   DataTypeNotSupportedException {
+					   TableNotFoundException, SyntaxErrorException {
 		File tableFile = openTable(dbName, tableName);
 		Document doc = null;
 		try {
@@ -506,5 +504,69 @@ public class TableParser {
 			xsdFile.delete();
 			dtdFile.delete();
 		}
+	}
+	public void delete(String dbName, String tableName, Condition condition) throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
+		File tableFile = openTable(dbName, tableName);
+		Document doc = null;
+		try {
+			doc = docBuilder.parse(tableFile);
+		} catch (SAXException | IOException e) {
+			e.printStackTrace();
+		}
+		NodeList colList = doc.getElementsByTagName(
+				CONSTANTS.getString("column.element"));
+		Node table = doc.getElementsByTagName(
+				CONSTANTS.getString("table.element")).item(0);
+		deleteRows(table, colList, condition);
+		doc.normalize();
+		transform(doc, tableFile, tableName);
+	}
+
+	private void deleteRows(Node table,
+			NodeList colList, Condition condition) throws SyntaxErrorException {
+		int i = 0;
+		int index = 0;
+		boolean reachedEnd = false;
+		while (!reachedEnd) {
+			Map<String, Object> rowMap = new HashMap<String, Object>();
+			Collection<Node> rowEntries = new ArrayList<Node>();
+			for (int j = 0; j < colList.getLength(); j++) {
+				Node col = colList.item(j);
+				if (i >= col.getChildNodes().getLength()) {
+					reachedEnd = true;
+					break;
+				}
+				String name = col.getAttributes().getNamedItem(
+						CONSTANTS.getString("name.attr")).getTextContent();
+				String type = col.getAttributes().getNamedItem(
+						CONSTANTS.getString("type.attr")).getTextContent();
+				Node row = col.getChildNodes().item(i);
+				if (row instanceof Element == false) {
+					continue;
+				}
+				Object value = ParserUtil.getObjectFromString(
+						type, row.getTextContent());
+				rowMap.put(name, value);
+				rowEntries.add(row);
+			}
+			if (!rowEntries.isEmpty()) {
+				if (condition == null
+						|| Evaluator.getInstance().evaluate(rowMap, condition.getPostfix())) {
+					for (Node row : rowEntries) {
+						row.getParentNode().removeChild(row);
+					}
+				} else {
+					for (Node row : rowEntries) {
+						row.getAttributes().getNamedItem(
+								CONSTANTS.getString("index.val")).setTextContent(
+										Integer.toString(index));
+					}
+					index++;
+				}
+			}
+			i++;
+		}
+		table.getAttributes().getNamedItem(CONSTANTS.getString(
+				"rows.attr")).setTextContent(Integer.toString(index));
 	}
 }

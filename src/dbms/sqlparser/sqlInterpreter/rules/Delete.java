@@ -1,6 +1,9 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
 import dbms.connection.XMLConnection;
+import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.SyntaxErrorException;
+import dbms.exception.TableNotFoundException;
 
 public class Delete implements Expression {
 	private String tableName;
@@ -23,11 +26,7 @@ public class Delete implements Expression {
 	}
 
 	@Override
-	public void execute() {
-		if (where == null) {
-			XMLConnection.getInstance().delete(tableName);
-		} else {
-			XMLConnection.getInstance().delete(tableName, where);
-		}
+	public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
+		XMLConnection.getInstance().delete(tableName, where);
 	}
 }

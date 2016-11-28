@@ -3,7 +3,6 @@ package dbms.connection;
 import java.util.Collection;
 import java.util.Map;
 
-import dbms.exception.DataTypeNotSupportedException;
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.SyntaxErrorException;
@@ -69,22 +68,15 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public void delete(String tableName) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void delete(String tableName, Condition condition) {
-		// TODO Auto-generated method stub
-
+	public void delete(String tableName, Condition condition) throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException {
+		XMLParser.getInstance().delete(dbName, tableName, condition);
 	}
 
 	@Override
 	public void update(String tableName, Map<String, Object> values,
 					   Map<String, String> columns, Condition condition)
 							   throws DatabaseNotFoundException, TableNotFoundException,
-							   SyntaxErrorException, DataTypeNotSupportedException {
+							   SyntaxErrorException {
 		XMLParser.getInstance().update(dbName, tableName, values, columns, condition);
 	}
 

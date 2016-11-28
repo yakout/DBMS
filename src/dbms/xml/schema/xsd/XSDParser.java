@@ -1,4 +1,4 @@
-package dbms.xml;
+package dbms.xml.schema.xsd;
 
 import java.io.File;
 import java.util.ResourceBundle;
@@ -21,8 +21,8 @@ import org.w3c.dom.Element;
 
 import dbms.exception.DatabaseNotFoundException;
 
-public class SchemaParser {
-	private static SchemaParser instance  = null;
+public class XSDParser {
+	private static XSDParser instance  = null;
 	private static Transformer transformer = null;
 	private static DocumentBuilder docBuilder = null;
 	private static final String WORKSPACE_DIR =
@@ -30,13 +30,13 @@ public class SchemaParser {
 	private static final ResourceBundle CONSTANTS =
 			ResourceBundle.getBundle("dbms.xml.Constants");
 
-	private SchemaParser() {
+	private XSDParser() {
 		initialize();
 	}
 
-	public static SchemaParser getInstance() {
+	public static XSDParser getInstance() {
 		if (instance == null) {
-			instance = new SchemaParser();
+			instance = new XSDParser();
 		}
 		return instance;
 	}

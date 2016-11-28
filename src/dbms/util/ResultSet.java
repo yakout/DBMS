@@ -25,7 +25,7 @@ public class ResultSet implements Iterable<Result> {
 			this.results.add(res);
 		}
 	}
-	
+
 	public List<Map<String, Object>> getMapList(ResultSet resultSet) {
 		List<Map<String, Object>> mapRepresent = new LinkedList<Map<String, Object>>();
 		for (int j = 0; j < results.size(); j++) {
@@ -62,5 +62,9 @@ public class ResultSet implements Iterable<Result> {
 	public Iterator<Result> iterator() {
 		Iterator<Result> it = results.iterator();
 		return it;
+	}
+
+	public boolean isEmpty() {
+		return results.isEmpty();
 	}
 }
