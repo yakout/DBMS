@@ -21,6 +21,7 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
@@ -605,7 +606,7 @@ public class TableParser {
 				"rows.attr")).setTextContent(Integer.toString(index));
 	}
 
-	public void alterAdd(String dbName, String tableName, String columnName)
+	public void alterAdd(String dbName, String tableName, String columnName, Class dataType)
 			throws DatabaseNotFoundException, TableNotFoundException {
 		File tableFile = openTable(dbName, tableName);
 		Document doc = null;
@@ -614,7 +615,16 @@ public class TableParser {
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 		}
-		Node table = (Node) doc.getElementsByTagName(CONSTANTS.getString("table.element"));
-		
+		Node table = (Node) doc.getElementsByTagName(CONSTANTS.getString(
+				"table.element")).item(0);
+		NodeList cols = table.getChildNodes();
+		Element column = doc.createElement(
+				CONSTANTS.getString("column.element"));
+		column.setAttribute(
+				CONSTANTS.getString("name.attr"), columnName);
+		column.setAttribute(
+				CONSTANTS.getString("type.attr"), ParserUtil.getClassName(dataType));
+		table.appendChild(column);
+		transform(doc, tableFile, tableName);
 	}
 }
