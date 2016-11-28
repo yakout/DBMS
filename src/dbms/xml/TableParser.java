@@ -21,7 +21,9 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -56,6 +58,7 @@ public class TableParser {
 				| ParserConfigurationException e) {
 			e.printStackTrace();
 		}
+		
 		transformer.setOutputProperty(OutputKeys.INDENT,
 				"yes");
 		transformer.setOutputProperty(
@@ -135,7 +138,9 @@ public class TableParser {
 			e.printStackTrace();
 		}
 		doc.getDocumentElement().normalize();
-		int size = Integer.parseInt(doc.getFirstChild().
+		NodeList tb = doc.getElementsByTagName("table");
+		Node table = tb.item(0);
+		int size = Integer.parseInt(table.
 				getAttributes().getNamedItem(
 						CONSTANTS.getString("rows.attr")).getTextContent());
 		NodeList colList = doc.getElementsByTagName(CONSTANTS.getString(
@@ -226,7 +231,9 @@ public class TableParser {
 	 * to append a row to each column*/
 	private void addRow(Document doc,
 			Map<String, Object> entryMap) throws SyntaxErrorException {
-		Node rowsAttr = doc.getFirstChild()
+		NodeList tb = doc.getElementsByTagName("table");
+		Node table = tb.item(0);
+		Node rowsAttr = table
 				.getAttributes().getNamedItem(
 						CONSTANTS.getString("rows.attr"));
 		int index = Integer.parseInt(
@@ -286,13 +293,14 @@ public class TableParser {
 	}
 
 	private void transform(Document doc, File tableFile, String tableName) {
-//		DocumentType doctype = doc.getImplementation().createDocumentType(
-//				"doctype", CONSTANTS.getString("publicId.dtd"),
-//				tableName + CONSTANTS.getString("extensionDTD.schema"));
-//		transformer.setOutputProperty(
-//				OutputKeys.DOCTYPE_PUBLIC, doctype.getPublicId());
-//		transformer.setOutputProperty(
-//				OutputKeys.DOCTYPE_SYSTEM, doctype.getSystemId());
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+		transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+		DOMImplementation domImpl = doc.getImplementation();
+		DocumentType doctype = domImpl.createDocumentType("doctype",
+			"-//Oberon//YOUR PUBLIC DOCTYPE//EN", tableName + CONSTANTS.getString("extensionDTD.schema"));
+		transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, doctype.getPublicId());
+		transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doctype.getSystemId());
 		DOMSource source = new DOMSource(doc);
 		StreamResult result =
 				new StreamResult(tableFile);
