@@ -142,8 +142,10 @@ public interface Connection {
 	 * adds a new column in table.
 	 * @param tableName table name.
 	 * @param columnName column name.
+	 * @throws TableNotFoundException 
+	 * @throws DatabaseNotFoundException 
      */
-	public void alterAdd(String tableName, String columnName);
+	public void alterAdd(String tableName, String columnName , Class dataTpe) throws DatabaseNotFoundException, TableNotFoundException;
 
 
 	/**
