@@ -12,6 +12,9 @@ import java.util.regex.Pattern;
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.sqlInterpreter.rules.BooleanOperator;
 
+/**
+ * Converting infix representation of boolean expression to postfix.
+ */
 public class BooleanExpression {
     /**
      * regex for predicate syntax used in {@link #getPredicates(String)}.
