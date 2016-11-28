@@ -80,7 +80,9 @@ public class SQLParser {
 		switch (ruleMatcher.group(1).toLowerCase()) {
 		case "select":
 			Pattern selectPattern = Pattern.compile(
-					SQLRegexProperties.getString("select.regex") + SQLRegexProperties.getString("where.regex"));
+					SQLRegexProperties.getString("select.regex")
+							+ SQLRegexProperties.getString("orderby.regex")
+							+ SQLRegexProperties.getString("where.regex"));
 			return parseSelect(validate(selectPattern, query));
 		case "drop":
 			Pattern dropPattern = Pattern.compile(SQLRegexProperties.getString("drop.regex"));
@@ -311,7 +313,7 @@ public class SQLParser {
 	public static void main(String[] args) {
 		try {
 			System.out.println(((Select) new SQLParser()
-					.parse("select * from tableName where (Gender==8 or ID==10 and col1 > col2);")).getWhere()
+					.parse("select * from tableName order by dol1 ASC where Gender==8;")).getWhere()
 							.getPostfix());
 		} catch (SyntaxErrorException e) {
 			System.out.println(e.toString());
