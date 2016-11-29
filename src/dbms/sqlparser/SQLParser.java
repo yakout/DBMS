@@ -283,7 +283,7 @@ public class SQLParser {
 		}
 
 		String[] columnsDesc = matcher.group(6).split(",");
-		Map<String, Class> columns = new HashMap<>();
+		Map<String, Class> columns = new LinkedHashMap<>();
 		for (int i = 0; i < columnsDesc.length; i++) {
 			String key = columnsDesc[i].trim().split("\\s+")[0];
 			switch (columnsDesc[i].trim().split("\\s+")[1].toLowerCase()) {
