@@ -195,8 +195,13 @@ public class SQLParser {
 			}
 			select.setColumns(columns);
 		}
-		if (matcher.group(7) != null) { // if there is where condition
-			select.setWhere(new Where(matcher.group(7)));
+
+		if (matcher.group(7) != null) { // if there is order by statement.
+            select.setOrderBy(matcher.group(8));
+            select.setAscending(matcher.group(9).equals("ASC"));
+		}
+		if (matcher.group(11) != null) { // if there is where condition
+			select.setWhere(new Where(matcher.group(11)));
 		}
 		return select;
 	}
@@ -313,8 +318,7 @@ public class SQLParser {
 	public static void main(String[] args) {
 		try {
 			System.out.println(((Select) new SQLParser()
-					.parse("select * from tableName order by dol1 ASC where Gender==8;")).getWhere()
-							.getPostfix());
+					.parse("select * from tableName order by col1 DESC where (col1==fo);")).getWhere().getPostfix());
 		} catch (SyntaxErrorException e) {
 			System.out.println(e.toString());
 		}

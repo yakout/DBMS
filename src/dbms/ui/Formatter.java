@@ -1,10 +1,6 @@
 package dbms.ui;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import dbms.util.Result;
 import dbms.util.ResultSet;
@@ -112,7 +108,30 @@ public class Formatter {
         System.out.println("|");
     }
 
-    public void printTable(ResultSet resultSet) {
+    private void orderBy(ResultSet resultSet, String columnName, boolean isAscending) {
+        resultSet.getResults().sort(new Comparator<Result>() {
+            @Override
+            public int compare(Result o1, Result o2) {
+                Object value1 = o1.get(columnName);
+                Object value2 = o2.get(columnName);
+                if (value1 == null || value2 == null) {
+                    return -1;
+                } else if (value1 instanceof String) {
+                    return ((String) value1).compareTo((String) value2);
+                } else {
+                    return ((Integer) value1).compareTo((Integer) value2);
+                }
+            }
+        });
+        if (!isAscending) {
+            Collections.reverse(resultSet.getResults());
+        }
+    }
+
+    public void printTable(ResultSet resultSet, String orderBy, boolean isAscending) {
+        if (orderBy != null) {
+            orderBy(resultSet, orderBy, isAscending);
+        }
         Result firstResult = resultSet.next();
         if (resultSet.isEmpty()) {
         	return;
@@ -133,22 +152,22 @@ public class Formatter {
     public static void main(String[] args) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("ID", 1);
-        map.put("Name", null);
+        map.put("Name", "Khaled");
         map.put("Part", "SQL Parser");
 
         Map<String, Object> map2 = new LinkedHashMap<>();
-        map2.put("ID", null);
+        map2.put("ID", 5);
         map2.put("Name", "Tolba");
         map2.put("Part", "SQL Parser");
 
         Map<String, Object> map3 = new LinkedHashMap<>();
-        map3.put("ID", 3);
+        map3.put("ID", null);
         map3.put("Name", "Anas");
         map3.put("Part", "XML Parser");
 
         Map<String, Object> map4 = new LinkedHashMap<>();
-        map4.put("ID", null);
-        map4.put("Name", "Khaled");
+        map4.put("ID", 9);
+        map4.put("Name", null);
         map4.put("Part", "XML Parser                          ");
 
         Result result = new Result(map);
@@ -163,6 +182,8 @@ public class Formatter {
         results.add(result4);
 
         ResultSet resultSet = new ResultSet(results);
-        new Formatter().printTable(resultSet);
+        new Formatter().printTable(resultSet, "ID", true);
+
     }
+
 }

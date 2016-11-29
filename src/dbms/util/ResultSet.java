@@ -1,10 +1,6 @@
 package dbms.util;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Data holder for a collection of results.
@@ -48,6 +44,10 @@ public class ResultSet implements Iterable<Result> {
 			mapRepresent.add(results.get(j).getResult());
 		}
 		return mapRepresent;
+	}
+
+	public List<Result> getResults() {
+		return results;
 	}
 
 	/**
@@ -103,4 +103,5 @@ public class ResultSet implements Iterable<Result> {
 	public boolean isEmpty() {
 		return results.isEmpty();
 	}
+
 }

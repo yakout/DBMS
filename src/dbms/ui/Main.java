@@ -13,16 +13,16 @@ import dbms.sqlparser.SQLParser;
 
 public class Main {
 	private final static SQLParser sqlParserObj = SQLParser.getInstance();
-	public static final String ANSI_RESET = "\u001B[0m";
-	public static final String ANSI_RED = "\u001B[31m";
-
+	private static final String ANSI_RESET = "\u001B[0m";
+	private static final String ANSI_RED = "\u001B[31m";
 
 	private static void printHelpPanel() {
 		System.console()
 				.format("> select ~ selecting a column from a specific table or all columns %nand it can be "
 						+ "under some conditions using the where keyword.%n"
 						+ "> create ~ creating a database or creating a table %nwith specified columns' "
-						+ "attributes and data types.%n" + "> drop ~ dropping or deleting a database or a table.%n"
+						+ "attributes and data types.%n"
+						+ "> drop ~ dropping or deleting a database or a table.%n"
 						+ "> insert into ~ inserting specific values into specific columns in a table.%n"
 						+ "> delete ~ deleting all data stored in a certain table %nor specific data stored "
 						+ "in certain columns using the where keyword.%n"

@@ -12,6 +12,8 @@ import dbms.ui.Formatter;
 public class Select implements Expression {
     private String tableName;
     private Collection<String> columns;
+    private String orderBy;
+    private boolean isAscending = false;
 
     private Where where;
 
@@ -41,8 +43,24 @@ public class Select implements Expression {
     	return tableName;
     }
 
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public boolean isAscending() {
+        return isAscending;
+    }
+
+    public void setAscending(boolean ascending) {
+        isAscending = ascending;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
     @Override
     public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
-    	new Formatter().printTable(XMLConnection.getInstance().select(tableName, columns, where));
+    	new Formatter().printTable(XMLConnection.getInstance().select(tableName, columns, where), orderBy, isAscending);
     }
 }
