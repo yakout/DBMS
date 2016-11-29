@@ -20,7 +20,7 @@ public class AlterTest extends SqlParserRef {
 	public void testAlterSyntaxValidateOne() {
 
 		try {
-			sqlParserObjTest.parse("alter table table_name drop column_name;");
+			sqlParserObjTest.parse("alter table table_name drop column column_name;");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -83,7 +83,7 @@ public class AlterTest extends SqlParserRef {
 	@Test
 	public void testAlterSyntaxValidateEight() {
 		try {
-			sqlParserObjTest.parse("alter table table_name drop column_name ;");
+			sqlParserObjTest.parse("alter table table_name drop column column_name ;");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -92,7 +92,7 @@ public class AlterTest extends SqlParserRef {
 	@Test
 	public void testAlterSyntaxValidateNine() {
 		try {
-			sqlParserObjTest.parse("   alter     table     table_name       drop         column_name      ;              ");
+			sqlParserObjTest.parse("   alter     table     table_name       drop    column     column_name      ;              ");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -119,7 +119,7 @@ public class AlterTest extends SqlParserRef {
 	@Test
 	public void testAlterSyntaxValidateTwelve() {
 		try {
-			sqlParserObjTest.parse("   aLtEr     TaBlE     tAbLe_nAMe       DrOP         colUMn_nAMe     ;              ");
+			sqlParserObjTest.parse("   aLtEr     TaBlE     tAbLe_nAMe       DrOP     column    colUMn_nAMe     ;              ");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -129,7 +129,7 @@ public class AlterTest extends SqlParserRef {
 	public void testAlterSyntaxParsingOne() {
 
 		try {
-			alterObj = sqlParserObjTest.parse("alter table table_name drop column_name;");
+			alterObj = sqlParserObjTest.parse("alter table table_name drop column column_name;");
 			assertEquals(((AlterDrop)alterObj).getTableName().toLowerCase(), "table_name");
 			assertEquals(((AlterDrop)alterObj).getColumnName().toLowerCase(), "column_name");
 		} catch (SyntaxErrorException e) {
