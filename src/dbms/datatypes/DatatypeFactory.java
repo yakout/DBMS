@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 
 public class DatatypeFactory {
-	private static HashMap<String, Class<? extends DatatypeDBMS>>registeredDataTypes = null;
+	private static HashMap<String, Class<? extends DatatypeDBMS>> registeredDataTypes = null;
 	private static DatatypeFactory instance = null;
 
 	private DatatypeFactory() {
@@ -36,12 +36,39 @@ public class DatatypeFactory {
 		}
 		Object ret = null;
 		try {
-			Method method = datatype.getMethod("toObj", String.class);
-			ret = method.invoke(datatype.newInstance(), s);
+			Method toObj = datatype.getMethod("toObj", String.class);
+			ret = toObj.invoke(datatype.newInstance(), s);
 		} catch (NoSuchMethodException| SecurityException
 				| IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | InstantiationException e) {
 			e.printStackTrace();
+		}
+		return ret;
+	}
+
+	public int compare(Object o1, Object o2) throws Exception {
+		boolean found = false;
+		int ret = 0;
+		for (String s : registeredDataTypes.keySet()) {
+			Class<? extends DatatypeDBMS> c =
+					registeredDataTypes.get(s);
+			try {
+				Method check = c.getMethod("isComparable", Object.class, Object.class);
+				boolean comparable = (boolean) check.invoke(c.newInstance(), o1, o2);
+				if (comparable) {
+					found = true;
+					Method compare = c.getMethod("compare", Object.class, Object.class);
+					ret = (int) compare.invoke(c.newInstance(), o1, o2);
+					break;
+				}
+			} catch (NoSuchMethodException| SecurityException
+					| IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | InstantiationException e) {
+				e.printStackTrace();
+			}
+		}
+		if (!found) {
+			throw new Exception();
 		}
 		return ret;
 	}
