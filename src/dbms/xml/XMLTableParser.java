@@ -34,7 +34,7 @@ import dbms.util.Table;
 import dbms.xml.schema.dtd.DTDSchemaParser;
 import dbms.xml.schema.xsd.XSDParser;
 
-public class XMLTableParser implements Parser {
+public class XMLTableParser extends Parser {
 	private static XMLTableParser instance = null;
 	private static DocumentBuilder docBuilder = null;
 	private static Transformer transformer = null;
@@ -230,6 +230,26 @@ public class XMLTableParser implements Parser {
 			transformer.transform(source, result);
 		} catch (TransformerException e) {
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void dropTable(String dbName, String tableName)
+			throws DatabaseNotFoundException {
+		File tableFile = new File(openDB(dbName), tableName
+				+ CONSTANTS.getString("extension.xml"));
+		File xsdFile = new File(openDB(dbName), tableName
+				+ CONSTANTS.getString("extension.schema"));
+		File dtdFile = new File(openDB(dbName), tableName
+				+ CONSTANTS.getString("extensionDTD.schema"));
+		if (tableFile.exists()) {
+			tableFile.delete();
+		}
+		if (xsdFile.exists()) {
+			xsdFile.delete();
+		}
+		if (dtdFile.exists()) {
+			dtdFile.delete();
 		}
 	}
 }

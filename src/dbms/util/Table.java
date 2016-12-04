@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import dbms.datatypes.DatatypeDBMS;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
@@ -35,7 +36,6 @@ public class Table {
 
 	public void create() throws DatabaseNotFoundException, TableAlreadyCreatedException {
 		XMLTableParser.getInstance().create(this);
-		clear();
 	}
 
 	public void loadTable()
@@ -83,7 +83,6 @@ public class Table {
 	public void insertRow(Map<String, Object> entryMap)
 			throws IncorrectDataEntryException,
 			TableNotFoundException, DatabaseNotFoundException {
-		loadTable();
 		if (entryMap == null) {
 			return;
 		}
@@ -92,14 +91,11 @@ public class Table {
 			col.addEntry(entryMap.get(col.getName()));
 		}
 		size++;
-		writeToFile();
-		clear();
 	}
 
 	public void delete(Condition condition)
 			throws IncorrectDataEntryException, SyntaxErrorException,
 			TableNotFoundException, DatabaseNotFoundException {
-		loadTable();
 		Map<String, String> cols =
 				mapColumns();
 		for (int i = 0; i < size; i++) {
@@ -111,16 +107,11 @@ public class Table {
 				i--;
 			}
 		}
-		writeToFile();
-		clear();
 	}
 
 	public ResultSet select(Collection<String> columns, Condition condition)
 			throws IncorrectDataEntryException, SyntaxErrorException,
 			TableNotFoundException, DatabaseNotFoundException {
-		loadTable();
-		Map<String, String> cols =
-				new HashMap<String, String>();
 		if (columns != null) {
 			for (String col : columns) {
 				if (!hasColumn(col)) {
@@ -133,18 +124,16 @@ public class Table {
 			Map<String, Object> row =
 					getRow(i, columns);
 			if (!row.isEmpty() && (condition == null || Evaluator.getInstance()
-					.evaluate(row, condition.getPostfix(), cols))) {
+					.evaluate(row, condition.getPostfix(), mapColumns()))) {
 				res.add(new Result(row));
 			}
 		}
-		clear();
 		return res;
 	}
 
 	public void update(Map<String, Object> values, Map<String, String> columns, Condition condition)
 			throws IncorrectDataEntryException, SyntaxErrorException,
 			TableNotFoundException, DatabaseNotFoundException {
-		loadTable();
 		validateColumns(columns);
 		validateValues(values);
 		for (int i = 0; i < size; i++) {
@@ -155,8 +144,24 @@ public class Table {
 				updateRow(values, columns, i);
 			}
 		}
-		writeToFile();
-		clear();
+	}
+
+	public void alterAdd(String colName, Class<? extends DatatypeDBMS> datatype)
+			throws IncorrectDataEntryException {
+		Column col = new Column(colName, datatype);
+		for (int i = 0; i < size; i++) {
+			col.addEntry(null);
+		}
+		addColumn(col);
+	}
+
+	public void alterDrop(String colName)
+			throws IncorrectDataEntryException {
+		Column col = getColumn(colName);
+		if (col == null) {
+			throw new IncorrectDataEntryException("Column not found!");
+		}
+		columns.remove(col);
 	}
 
 	private void updateRow(Map<String, Object> values, Map<String, String> columns, int index) {
