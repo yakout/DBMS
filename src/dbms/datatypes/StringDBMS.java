@@ -1,9 +1,10 @@
 package dbms.datatypes;
 
 public class StringDBMS implements DatatypeDBMS {
+	public static final String KEY = "String";
 
 	static {
-		DatatypeFactory.getFactory().register("String", StringDBMS.class);
+		DatatypeFactory.getFactory().register(KEY, StringDBMS.class);
 	}
 
 	@Override

@@ -20,7 +20,7 @@ import dbms.exception.TableNotFoundException;
 import dbms.util.Column;
 import dbms.util.Table;
 
-public class XMLTableParser {
+public class XMLTableParser implements Parser {
 	private static XMLTableParser instance = null;
 	private static DocumentBuilder docBuilder = null;
 	private static final String WORKSPACE_DIR =
@@ -44,7 +44,9 @@ public class XMLTableParser {
 		return instance;
 	}
 
-	public void loadTable(Table table) throws TableNotFoundException, DatabaseNotFoundException {
+	@Override
+	public void load(Table table)
+			throws TableNotFoundException, DatabaseNotFoundException {
 		File tableFile = openTable(table.getDBName(), table.getName());
 		Document doc = null;
 		try {
@@ -55,6 +57,11 @@ public class XMLTableParser {
 		validateDB(doc, table.getDBName());
 		doc.getDocumentElement().normalize();
 		parseDataToTable(table, doc);
+	}
+
+	@Override
+	public void writeTo(Table table) {
+
 	}
 
 	private void parseDataToTable(Table table, Document doc) {

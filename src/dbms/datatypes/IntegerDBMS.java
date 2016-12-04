@@ -1,9 +1,10 @@
 package dbms.datatypes;
 
 public class IntegerDBMS implements DatatypeDBMS {
+	public static final String KEY = "Integer";
 
 	static {
-		DatatypeFactory.getFactory().register("Integer", IntegerDBMS.class);
+		DatatypeFactory.getFactory().register(KEY, IntegerDBMS.class);
 	}
 
 	@Override

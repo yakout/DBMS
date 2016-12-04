@@ -24,6 +24,10 @@ public class Column {
 		entries.add(o);
 	}
 
+	public void removeEntry(int index) {
+		entries.remove(index);
+	}
+
 	public void setType(Class<? extends DatatypeDBMS> type) {
 		this.type = type;
 	}
@@ -42,5 +46,9 @@ public class Column {
 
 	public List<Object> getEntries() {
 		return entries;
+	}
+
+	public Object get(int index) {
+		return entries.get(index);
 	}
 }

@@ -10,7 +10,7 @@ import dbms.sqlparser.sqlInterpreter.BooleanExpressionEvaluator;
 import dbms.sqlparser.sqlInterpreter.SQLPredicate;
 import dbms.sqlparser.sqlInterpreter.rules.BooleanOperator;
 
-class Evaluator extends BooleanExpressionEvaluator{
+public class Evaluator extends BooleanExpressionEvaluator{
 
 	private static Evaluator instance = null;
 
@@ -18,7 +18,7 @@ class Evaluator extends BooleanExpressionEvaluator{
 		super();
 	}
 
-	protected static Evaluator getInstance() {
+	public static Evaluator getInstance() {
 		if (instance == null) {
 			instance = new Evaluator();
 		}
@@ -26,7 +26,7 @@ class Evaluator extends BooleanExpressionEvaluator{
 	}
 
 	@Override
-    protected boolean evaluate(Map<String, Object> row, Queue<Object> postfix,
+    public boolean evaluate(Map<String, Object> row, Queue<Object> postfix,
     		Map<String, String> columns) throws IncorrectDataEntryException {
         Stack<Object> helperStack = new Stack<>();
 		Queue<Object> postfixClone = new LinkedList<Object>(postfix);
