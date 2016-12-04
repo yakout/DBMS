@@ -6,15 +6,16 @@ import java.util.Queue;
 import java.util.Stack;
 
 import dbms.exception.IncorrectDataEntryException;
+import dbms.sqlparser.sqlInterpreter.BooleanExpressionEvaluator;
 import dbms.sqlparser.sqlInterpreter.SQLPredicate;
 import dbms.sqlparser.sqlInterpreter.rules.BooleanOperator;
 
-class Evaluator {
+class Evaluator extends BooleanExpressionEvaluator{
 
 	private static Evaluator instance = null;
 
 	private Evaluator() {
-
+		super();
 	}
 
 	protected static Evaluator getInstance() {
@@ -24,6 +25,7 @@ class Evaluator {
 		return instance;
 	}
 
+	@Override
     protected boolean evaluate(Map<String, Object> row, Queue<Object> postfix,
     		Map<String, String> columns) throws IncorrectDataEntryException {
         Stack<Object> helperStack = new Stack<>();
@@ -146,11 +148,8 @@ class Evaluator {
     	if (val == null) {
     		return row.get(colName);
     	}
-    	if (val instanceof Integer
-    			&& !columns.get(colName).equals("Integer")) {
-    		throw new IncorrectDataEntryException("Data type is incorrect!");
-    	} else if (val instanceof String
-    			&& !columns.get(colName).equals("String")) {
+    	if (!val.getClass().getSimpleName()
+    			.equals(columns.get(colName))) {
     		throw new IncorrectDataEntryException("Data type is incorrect!");
     	}
     	return row.get(colName);

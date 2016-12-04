@@ -1,8 +1,14 @@
 package dbms.test.XMLParserTesting;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.junit.Test;
 
 import dbms.connection.XMLConnection;
@@ -10,7 +16,6 @@ import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.sqlparser.sqlInterpreter.rules.Where;
 import dbms.util.Result;
 import dbms.util.ResultSet;
-import dbms.xml.XMLParser;
 
 public class XMLTestingUpdate {
 	private final XMLConnection xmlParserConc = XMLConnection.getInstance();

@@ -76,12 +76,8 @@ class ParserUtil {
 	protected static String getObjectStringValue(Object o, String type) {
 		if (o == null) {
 			return "";
-		} else if (o instanceof Integer
-				&& type.equals("Integer")) {
-			return ((Integer) o).toString();
-		} else if (o instanceof String
-				&& type.equals("String")) {
-			return ((String) o);
+		} else if (o.getClass().getSimpleName().equals(type)) {
+			return String.valueOf(o);
 		}
 		return null;
 	}
@@ -89,22 +85,12 @@ class ParserUtil {
 	protected static String getObjectStringValue(Object o) {
 		if (o == null) {
 			return "";
-		} else if (o instanceof Integer) {
-			return ((Integer) o).toString();
-		} else if (o instanceof String) {
-			return ((String) o);
 		}
-		return null;
+		return String.valueOf(o);
 	}
 
 	protected static String getClassName(Class c) {
-		if (c.equals(Integer.class)) {
-			return "Integer";
-		}
-		if (c.equals(String.class)) {
-			return "String";
-		}
-		return null;
+		return c.getSimpleName();
 	}
 
 	protected static Node getColumnFromNodeList(String name,
@@ -137,23 +123,6 @@ class ParserUtil {
 //	}
 
 	protected static String getObjectClassName(Object o) {
-		if (o instanceof Integer) {
-			return "Integer";
-		}
-		if (o instanceof String) {
-			return "String";
-		}
-		return null;
-	}
-
-	protected static Object getObjectFromString(String type, String value) {
-		if (type.equals("Integer")) {
-			if (!value.equals("")) {
-				return Integer.parseInt(value);
-			}
-		} else if (type.equals("String")) {
-			return value;
-		}
-		return null;
+		return o.getClass().getSimpleName();
 	}
 }
