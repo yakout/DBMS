@@ -1,5 +1,6 @@
 package dbms.sqlparser.sqlInterpreter;
 
+import dbms.datatypes.DatatypeFactory;
 import dbms.util.Operator;
 
 public class SQLPredicate {
@@ -46,7 +47,7 @@ public class SQLPredicate {
      * @return
      */
     public boolean test(Object o) {
-        return operator.apply(o, value);
+        return operator.apply(DatatypeFactory.convertToDataType(o), DatatypeFactory.convertToDataType(value));
     }
 
     /**
@@ -56,7 +57,7 @@ public class SQLPredicate {
      * @return
      */
     public boolean test(Object o1, Object o2) {
-        return operator.apply(o1, o2);
+        return operator.apply(DatatypeFactory.convertToDataType(o1), DatatypeFactory.convertToDataType(o2));
     }
 
     /**

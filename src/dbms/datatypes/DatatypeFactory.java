@@ -46,31 +46,8 @@ public class DatatypeFactory {
 		return ret;
 	}
 
-	public int compare(Object o1, Object o2) throws Exception {
-		boolean found = false;
-		int ret = 0;
-		for (String s : registeredDataTypes.keySet()) {
-			Class<? extends DatatypeDBMS> c =
-					registeredDataTypes.get(s);
-			try {
-				Method check = c.getMethod("isComparable", Object.class, Object.class);
-				boolean comparable = (boolean) check.invoke(c.newInstance(), o1, o2);
-				if (comparable) {
-					found = true;
-					Method compare = c.getMethod("compare", Object.class, Object.class);
-					ret = (int) compare.invoke(c.newInstance(), o1, o2);
-					break;
-				}
-			} catch (NoSuchMethodException| SecurityException
-					| IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | InstantiationException e) {
-				e.printStackTrace();
-			}
-		}
-		if (!found) {
-			throw new Exception();
-		}
-		return ret;
+	public static DatatypeDBMS convertToDataType(Object data) {
+		return null;
 	}
 
 	/*

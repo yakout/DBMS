@@ -1,73 +1,45 @@
 package dbms.util;
 
+import dbms.datatypes.DatatypeDBMS;
+
 public enum Operator {
     GreaterThan {
         @Override
-        public boolean apply(Object o1, Object o2) {
-            if (o1 instanceof  Integer && o2 instanceof Integer) {
-                return ((Integer) o1).compareTo((Integer) o2) > 0;
-            } else if (o1 instanceof  String && o2 instanceof String) {
-                return ((String) o1).compareTo((String) o2) > 0;
-            }
-            return false;
+        public <T extends DatatypeDBMS> boolean apply(T dataType1, T dataType2) {
+            return dataType1.compareTo(dataType2) > 0;
         }
     },
     SmallerThan {
         @Override
-        public boolean apply(Object o1, Object o2) {
-            if (o1 instanceof  Integer && o2 instanceof Integer) {
-                return ((Integer) o1).compareTo((Integer) o2) < 0;
-            } else if (o1 instanceof  String && o2 instanceof String) {
-                return ((String) o1).compareTo((String) o2) < 0;
-            }
-            return false;
+        public <T extends DatatypeDBMS> boolean apply(T dataType1, T dataType2) {
+            return dataType1.compareTo(dataType2) < 0;
         }
     },
     GreaterThanOrEqual {
         @Override
-        public boolean apply(Object o1, Object o2) {
-            if (o1 instanceof  Integer && o2 instanceof Integer) {
-                return ((Integer) o1).compareTo((Integer) o2) >= 0;
-            } else if (o1 instanceof  String && o2 instanceof String) {
-                return ((String) o1).compareTo((String) o2) >= 0;
-            }
-            return false;
+        public <T extends DatatypeDBMS> boolean apply(T dataType1, T dataType2) {
+            return dataType1.compareTo(dataType2) >= 0;
         }
     },
     SmallerThanOrEqual {
         @Override
-        public boolean apply(Object o1, Object o2) {
-            if (o1 instanceof  Integer && o2 instanceof Integer) {
-                return ((Integer) o1).compareTo((Integer) o2) <= 0;
-            } else if (o1 instanceof  String && o2 instanceof String) {
-                return ((String) o1).compareTo((String) o2) <= 0;
-            }
-            return false;
+        public <T extends DatatypeDBMS> boolean apply(T dataType1, T dataType2) {
+            return dataType1.compareTo(dataType2) <= 0;
         }
     },
     Equal {
         @Override
-        public boolean apply(Object o1, Object o2) {
-            if (o1 instanceof  Integer && o2 instanceof Integer) {
-                return ((Integer) o1).compareTo((Integer) o2) == 0;
-            } else if (o1 instanceof  String && o2 instanceof String) {
-                return ((String) o1).compareTo((String) o2) == 0;
-            }
-            return false;
+        public <T extends DatatypeDBMS> boolean apply(T dataType1, T dataType2) {
+            return dataType1.compareTo(dataType2) == 0;
         }
     },
     NotEqual {
         @Override
-        public boolean apply(Object o1, Object o2) {
-            if (o1 instanceof  Integer && o2 instanceof Integer) {
-                return ((Integer) o1).compareTo((Integer) o2) != 0;
-            } else if (o1 instanceof  String && o2 instanceof String) {
-                return ((String) o1).compareTo((String) o2) != 0;
-            }
-            return false;
+        public <T extends DatatypeDBMS> boolean apply(T dataType1, T dataType2) {
+            return dataType1.compareTo(dataType2) != 0;
         }
     };
 
-    public abstract boolean apply(Object o1, Object o2);
+    public abstract <T extends DatatypeDBMS> boolean apply(T o1, T o2);
 
 }

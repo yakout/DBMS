@@ -1,7 +1,8 @@
 package dbms.datatypes;
 
 public class StringDBMS implements DatatypeDBMS {
-	public static final String KEY = "String";
+	private static final String KEY = "String";
+	private String value;
 
 	static {
 		DatatypeFactory.getFactory().register(KEY, StringDBMS.class);
@@ -13,15 +14,16 @@ public class StringDBMS implements DatatypeDBMS {
 	}
 
 	@Override
-	public boolean isComparable(Object o1, Object o2) {
-		if (o1 instanceof String && o2 instanceof String) {
-			return true;
-		}
-		return false;
+	public int compareTo(DatatypeDBMS data) {
+		return value.compareTo((String) data.getValue());
 	}
 
 	@Override
-	public int compare(Object o1, Object o2) {
-		return 0;
+	public Object getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
 	}
 }

@@ -1,30 +1,34 @@
 package dbms.datatypes;
 
+
 public class IntegerDBMS implements DatatypeDBMS {
-	public static final String KEY = "Integer";
+	private static final String KEY = "Integer";
+	private Integer value;
 
 	static {
 		DatatypeFactory.getFactory().register(KEY, IntegerDBMS.class);
 	}
 
 	@Override
-	public Integer toObj(String n) {
-		if (n == null || n == "") {
+	public Object toObj(String s) {
+		try {
+			return Integer.parseInt(s);
+		} catch (Exception e) {
 			return null;
 		}
-		return Integer.parseInt(n);
 	}
 
 	@Override
-	public boolean isComparable(Object o1, Object o2) {
-		if (o1 instanceof Integer && o2 instanceof Integer) {
-			return true;
-		}
-		return false;
+	public int compareTo(DatatypeDBMS data) {
+		return value.compareTo((Integer) data.getValue());
+	}
+
+	public void setValue(Integer value) {
+		this.value = value;
 	}
 
 	@Override
-	public int compare(Object o1, Object o2) {
-		return 0;
+	public Integer getValue() {
+		return value;
 	}
 }
