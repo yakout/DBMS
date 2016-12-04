@@ -1,4 +1,4 @@
-package dbms.xml;
+package dbms.util;
 
 import java.io.File;
 
@@ -6,7 +6,6 @@ import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
-import dbms.util.Table;
 
 public abstract class Parser {
 	private static final String WORKSPACE_DIR =

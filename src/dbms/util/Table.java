@@ -14,7 +14,6 @@ import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.sqlInterpreter.Condition;
-import dbms.xml.Evaluator;
 import dbms.xml.XMLTableParser;
 
 public class Table {

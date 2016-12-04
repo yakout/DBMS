@@ -30,6 +30,7 @@ import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.util.Column;
+import dbms.util.Parser;
 import dbms.util.Table;
 import dbms.xml.schema.dtd.DTDSchemaParser;
 import dbms.xml.schema.xsd.XSDParser;

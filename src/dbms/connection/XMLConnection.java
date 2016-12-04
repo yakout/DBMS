@@ -13,9 +13,9 @@ import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.util.Column;
+import dbms.util.Parser;
 import dbms.util.ResultSet;
 import dbms.util.Table;
-import dbms.xml.Parser;
 import dbms.xml.XMLTableParser;
 
 /**
