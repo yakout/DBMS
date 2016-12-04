@@ -21,7 +21,6 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Attr;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
@@ -30,6 +29,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import dbms.datatypes.DatatypeFactory;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
@@ -244,7 +244,7 @@ class TableParser {
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 		}
-		Node table = (Node) doc.getElementsByTagName(CONSTANTS.getString(
+		Node table = doc.getElementsByTagName(CONSTANTS.getString(
 				"table.element")).item(0);
 		Element column = doc.createElement(
 				CONSTANTS.getString("column.element"));
@@ -262,7 +262,7 @@ class TableParser {
 		}
 		transform(doc, tableFile, tableName);
 	}
-	
+
 	/*
 	 * Adds columns to the XML table when it's created.
 	 * @param doc {@link Document} DOM Document
@@ -322,14 +322,8 @@ class TableParser {
 				if (row instanceof Element == false) {
 					continue;
 				}
-				Object value = null;
-				if (type.equals("Integer")) {
-					if (!row.getTextContent().equals("")) {
-						value = Integer.parseInt(row.getTextContent());
-					}
-				} else if (type.equals("String")) {
-					value = row.getTextContent();
-				}
+				Object value = DatatypeFactory.getFactory().toObj(
+						row.getTextContent(), type);
 				rowMap.put(name, value);
 			}
 			if (condition == null
@@ -493,14 +487,8 @@ class TableParser {
 				if (row instanceof Element == false) {
 					continue;
 				}
-				Object value = null;
-				if (type.equals("Integer")) {
-					if (!row.getTextContent().equals("")) {
-						value = Integer.parseInt(row.getTextContent());
-					}
-				} else if (type.equals("String")) {
-					value = row.getTextContent();
-				}
+				Object value = DatatypeFactory.getFactory().toObj(
+						row.getTextContent(), type);
 				rowMap.put(name, value);
 				rowEntries.add(row);
 			}
@@ -565,8 +553,8 @@ class TableParser {
 				if (row instanceof Element == false) {
 					continue;
 				}
-				Object value = ParserUtil.getObjectFromString(
-						type, row.getTextContent());
+				Object value = DatatypeFactory.getFactory().toObj(
+						row.getTextContent(), type);
 				rowMap.put(name, value);
 				rowEntries.add(row);
 			}
@@ -600,5 +588,5 @@ class TableParser {
 		}
 	}
 
-	
+
 }

@@ -39,7 +39,7 @@ public class XMLConnection implements Connection {
 	@Override
 	public void createDatabase(String dbName)
 			throws DatabaseAlreadyCreatedException {
-		this.useDatabase(dbName);
+		this.dbName = dbName;
 		XMLParser.getInstance().createDatabase(dbName);
 	}
 
@@ -93,8 +93,14 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public void useDatabase(String dbName) {
-		this.dbName = dbName;
+	public void useDatabase(String dbName) throws DatabaseNotFoundException {
+		try {
+			this.createDatabase(dbName);
+			this.dropDatabase(dbName);
+			throw new DatabaseNotFoundException();
+		} catch (DatabaseAlreadyCreatedException e) {
+			this.dbName = dbName;
+		}
 	}
 
 	@Override
