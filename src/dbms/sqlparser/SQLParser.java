@@ -23,15 +23,6 @@ import dbms.sqlparser.sqlInterpreter.rules.Where;
  * validate and parse a sql query.
  */
 public class SQLParser {
-	/**
-	 * name of the properties file that stores all regex pattern for sql
-	 * statements.
-	 */
-	private final String propFileName = "dbms.sqlparser.SQLRegex";
-	/**
-	 * reference to SQLRegex.properties file.
-	 */
-	private ResourceBundle SQLRegexProperties = ResourceBundle.getBundle(propFileName);
 
 	/**
 	 * singleton instance of {@link SQLParser}.
@@ -73,39 +64,34 @@ public class SQLParser {
 	 * @throws SyntaxErrorException
 	 */
 	public Expression parse(String query) throws SyntaxErrorException {
-		Pattern rulePattern = Pattern.compile(SQLRegexProperties.getString("rule.regex"));
+		Pattern rulePattern = PatternsHolder.getRulePattern();
 		Matcher ruleMatcher = validate(rulePattern, query);
 
 		ruleMatcher.matches();
 		switch (ruleMatcher.group(1).toLowerCase()) {
 		case "select":
-			Pattern selectPattern = Pattern.compile(
-					SQLRegexProperties.getString("select.regex")
-							+ SQLRegexProperties.getString("orderby.regex")
-							+ SQLRegexProperties.getString("where.regex"));
+			Pattern selectPattern = PatternsHolder.getSelectPattern();
 			return parseSelect(validate(selectPattern, query));
 		case "drop":
-			Pattern dropPattern = Pattern.compile(SQLRegexProperties.getString("drop.regex"));
+			Pattern dropPattern = PatternsHolder.getDropPattern();
 			return parseDrop(validate(dropPattern, query));
 		case "insert":
-			Pattern insertPattern = Pattern.compile(SQLRegexProperties.getString("insert.regex"));
+			Pattern insertPattern = PatternsHolder.getInsertIntoPattern();
 			return parseInsert(validate(insertPattern, query));
 		case "delete":
-			Pattern deletePattern = Pattern.compile(
-					SQLRegexProperties.getString("delete.regex") + SQLRegexProperties.getString("where.regex"));
+			Pattern deletePattern = PatternsHolder.getDeletePattern();
 			return parseDelete(validate(deletePattern, query));
 		case "update":
-			Pattern updatePattern = Pattern.compile(
-					SQLRegexProperties.getString("update.regex") + SQLRegexProperties.getString("where.regex"));
+			Pattern updatePattern = PatternsHolder.getUpdatePattern();
 			return parseUpdate(validate(updatePattern, query));
 		case "create":
-			Pattern createPattern = Pattern.compile(SQLRegexProperties.getString("create.regex"));
+			Pattern createPattern = PatternsHolder.getCreatePattern();
 			return parseCreate(validate(createPattern, query));
 		case "alter":
-			Pattern alterPattern = Pattern.compile(SQLRegexProperties.getString("alter.regex"));
+			Pattern alterPattern = PatternsHolder.getAlterPattern();
 			return parseAlter(validate(alterPattern, query));
 		case "use":
-			Pattern usePattern = Pattern.compile(SQLRegexProperties.getString("use.database.regex"));
+			Pattern usePattern = PatternsHolder.getUsePattern();
 			return parseUse(validate(usePattern, query));
 		default:
 			return null;

@@ -46,52 +46,7 @@ public class SQLPredicate {
      * @return
      */
     public boolean test(Object o) {
-        if (o instanceof String && value instanceof String) {
-            return test((String) o);
-        } else if (o instanceof Integer && value instanceof Integer) {
-            return test((Integer) o);
-        }
-        return false; // the two values are not of the same type.
-    }
-
-    private boolean test(Integer intValue) {
-        switch (operator) {
-            case GreaterThan:
-                return intValue > (Integer) value;
-            case Equal:
-                return intValue.equals(value);
-            case SmallerThan:
-                return intValue < (Integer) value;
-            case SmallerThanOrEqual:
-                return intValue <= (Integer) value;
-            case GreaterThanOrEqual:
-                return intValue >= (Integer) value;
-            case NotEqual:
-                return !intValue.equals(value);
-            default:
-                return false;
-        }
-    }
-
-    private boolean test(String stringValue) {
-        switch (operator) {
-            case GreaterThan:
-                return (stringValue.toString().compareTo(value.toString())) > 0;
-            case Equal:
-                return stringValue.equals(value);
-            case SmallerThan:
-                return (stringValue.toString().compareTo(value.toString())) < 0;
-            case SmallerThanOrEqual:
-                return stringValue.toString().compareTo(value.toString()) < 0
-                        || stringValue.equals(value);
-            case GreaterThanOrEqual:
-                return stringValue.toString().compareTo(value.toString()) > 0
-                        || stringValue.equals(value);
-            case NotEqual:
-                return !stringValue.equals(value);
-            default:
-                return false;
-        }
+        return operator.apply(o, value);
     }
 
     /**
@@ -101,52 +56,7 @@ public class SQLPredicate {
      * @return
      */
     public boolean test(Object o1, Object o2) {
-        if (o1 instanceof String && o2 instanceof String) {
-            return test((String) o1, (String) o2);
-        } else if (o1 instanceof Integer && o2 instanceof Integer) {
-            return test((Integer) o1, (Integer) o2);
-        }
-        return false;
-    }
-
-    private boolean test(Integer intValue1, Integer intValue2) {
-        switch (operator) {
-            case GreaterThan:
-                return intValue1 > intValue2;
-            case Equal:
-                return intValue1.equals(intValue2);
-            case SmallerThan:
-                return intValue1 < intValue2;
-            case SmallerThanOrEqual:
-                return intValue1 <= intValue2;
-            case GreaterThanOrEqual:
-                return intValue1 >= intValue2;
-            case NotEqual:
-                return !intValue1.equals(intValue2);
-            default:
-                return false;
-        }
-    }
-
-    private boolean test(String stringValue1, String stringValue2) {
-        switch (operator) {
-            case GreaterThan:
-                return (stringValue1.compareTo(stringValue2)) > 0;
-            case Equal:
-                return stringValue1.equals(stringValue2);
-            case SmallerThan:
-                return (stringValue1.compareTo(stringValue2)) < 0;
-            case SmallerThanOrEqual:
-                return stringValue1.compareTo(stringValue2) < 0
-                        || stringValue1.equals(stringValue2);
-            case GreaterThanOrEqual:
-                return stringValue1.compareTo(stringValue2) > 0
-                        || stringValue1.equals(stringValue2);
-            case NotEqual:
-                return !stringValue1.equals(stringValue2);
-            default:
-                return false;
-        }
+        return operator.apply(o1, o2);
     }
 
     /**
