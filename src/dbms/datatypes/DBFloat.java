@@ -1,11 +1,15 @@
 package dbms.datatypes;
 
-public class FloatDBMS implements DatatypeDBMS {
+public class DBFloat implements DatatypeDBMS, Comparable<DBFloat> {
     private static final String KEY = "Float";
     private Float value;
 
     static  {
-        DatatypeFactory.getFactory().register(KEY, FloatDBMS.class);
+        DatatypeFactory.getFactory().register(KEY, DBFloat.class);
+    }
+
+    public DBFloat(Float value) {
+        this.value = value;
     }
 
     @Override
@@ -18,16 +22,12 @@ public class FloatDBMS implements DatatypeDBMS {
     }
 
     @Override
-    public int compareTo(DatatypeDBMS data) {
-        return value.compareTo((Float) data.getValue());
+    public int compareTo(DBFloat data) {
+        return value.compareTo(data.getValue());
     }
 
     @Override
-    public Object getValue() {
+    public Float getValue() {
         return value;
-    }
-
-    public void setValue(Float value) {
-        this.value = value;
     }
 }

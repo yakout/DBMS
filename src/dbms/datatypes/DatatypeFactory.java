@@ -2,6 +2,7 @@ package dbms.datatypes;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.Date;
 import java.util.HashMap;
 
 public class DatatypeFactory {
@@ -47,6 +48,15 @@ public class DatatypeFactory {
 	}
 
 	public static DatatypeDBMS convertToDataType(Object data) {
+        if (data instanceof Integer) {
+            return new DBInteger((Integer) data);
+        } else if(data instanceof Date) {
+            return new DBDate((Date) data);
+        } else if (data instanceof Float) {
+            return new DBFloat((Float) data);
+        } else if (data instanceof String) {
+            return new DBString((String) data);
+        }
 		return null;
 	}
 
@@ -57,8 +67,8 @@ public class DatatypeFactory {
 	 */
 	private void loadDatatypes() {
 		try {
-			Class.forName("dbms.datatypes.IntegerDBMS");
-			Class.forName("dbms.datatypes.StringDBMS");
+			Class.forName("dbms.datatypes.DBInteger");
+			Class.forName("dbms.datatypes.DBString");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
