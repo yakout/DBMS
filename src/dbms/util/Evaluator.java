@@ -1,4 +1,4 @@
-package dbms.xml;
+package dbms.util;
 
 import java.util.LinkedList;
 import java.util.Map;

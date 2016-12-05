@@ -3,6 +3,8 @@ package dbms.connection;
 import java.util.Collection;
 import java.util.Map;
 
+import dbms.datatypes.DatatypeDBMS;
+import dbms.datatypes.DatatypeFactory;
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
@@ -10,8 +12,11 @@ import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.sqlInterpreter.Condition;
+import dbms.util.Column;
+import dbms.util.Parser;
 import dbms.util.ResultSet;
-import dbms.xml.XMLParser;
+import dbms.util.Table;
+import dbms.xml.XMLTableParser;
 
 /**
  * Connector to database that uses {@link XMLParser}
@@ -40,33 +45,47 @@ public class XMLConnection implements Connection {
 	public void createDatabase(String dbName)
 			throws DatabaseAlreadyCreatedException {
 		this.dbName = dbName;
-		XMLParser.getInstance().createDatabase(dbName);
+		Parser.createDatabase(dbName);
 	}
 
 	@Override
 	public void dropDatabase(String dbName)
 			throws DatabaseNotFoundException {
-		XMLParser.getInstance().dropDatabase(dbName);
+		Parser.dropDatabase(dbName);
 	}
 
 	@Override
 	public void createTable(String tableName, Map<String, Class> columns)
 			throws DatabaseNotFoundException,
 			TableAlreadyCreatedException, IncorrectDataEntryException {
-		XMLParser.getInstance().createTable(dbName, tableName, columns);
+		Table table = new Table(dbName, tableName);
+		for (Map.Entry<String, Class> col : columns.entrySet()) {
+			Class<? extends DatatypeDBMS> type =
+					DatatypeFactory.getFactory().getRegisteredDatatype(
+							col.getValue().getSimpleName());
+			if (type == null) {
+				throw new IncorrectDataEntryException("Datatype not supported!");
+			}
+			table.addColumn(new Column(col.getKey(), type));
+		}
+		table.create();
+		table.clear();
 	}
 
 	@Override
 	public void dropTable(String tableName) throws DatabaseNotFoundException {
-		XMLParser.getInstance().dropTable(tableName, dbName);
-
+		XMLTableParser.getInstance().dropTable(dbName, tableName);
 	}
 
 	@Override
 	public void insertIntoTable(String tableName, Map<String, Object> entryMap)
 			throws DatabaseNotFoundException,
 			TableNotFoundException, IncorrectDataEntryException {
-		XMLParser.getInstance().insertIntoTable(dbName, tableName, entryMap);
+		Table table = new Table(dbName, tableName);
+		table.loadTable();
+		table.insertRow(entryMap);
+		table.writeToFile();
+		table.clear();
 	}
 
 	@Override
@@ -74,22 +93,34 @@ public class XMLConnection implements Connection {
 			Collection<String> columns, Condition condition)
 					throws DatabaseNotFoundException,TableNotFoundException,
 					SyntaxErrorException, IncorrectDataEntryException {
-		return XMLParser.getInstance().select(dbName, tableName, condition, columns);
+		Table table = new Table(dbName, tableName);
+		table.loadTable();
+		ResultSet ret = table.select(columns, condition);
+		table.clear();
+		return ret;
 	}
 
 	@Override
 	public void delete(String tableName, Condition condition)
 			throws DatabaseNotFoundException, TableNotFoundException,
 			SyntaxErrorException, IncorrectDataEntryException {
-		XMLParser.getInstance().delete(dbName, tableName, condition);
+		Table table = new Table(dbName, tableName);
+		table.loadTable();
+		table.delete(condition);
+		table.writeToFile();
+		table.clear();
 	}
 
 	@Override
 	public void update(String tableName, Map<String, Object> values,
-					   Map<String, String> columns, Condition condition)
-							   throws DatabaseNotFoundException, TableNotFoundException,
-							   SyntaxErrorException, IncorrectDataEntryException {
-		XMLParser.getInstance().update(dbName, tableName, values, columns, condition);
+			Map<String, String> columns, Condition condition)
+					throws DatabaseNotFoundException, TableNotFoundException,
+					SyntaxErrorException, IncorrectDataEntryException {
+		Table table = new Table(dbName, tableName);
+		table.loadTable();
+		table.update(values, columns, condition);
+		table.writeToFile();
+		table.clear();
 	}
 
 	@Override
@@ -112,14 +143,28 @@ public class XMLConnection implements Connection {
 	}
 
 	@Override
-	public void alterAdd(String tableName, String columnName, Class dataType)
-			throws DatabaseNotFoundException, TableNotFoundException {
-		XMLParser.getInstance().alterAdd(dbName, tableName, columnName, dataType);
+	public void alterAdd(String tableName, String columnName, Class datatype)
+			throws DatabaseNotFoundException, TableNotFoundException, IncorrectDataEntryException {
+		Class<? extends DatatypeDBMS> type =
+				DatatypeFactory.getFactory().getRegisteredDatatype(
+						datatype.getSimpleName());
+		if (type == null) {
+			throw new IncorrectDataEntryException("Datatype not supported!");
+		}
+		Table table = new Table(dbName, tableName);
+		table.loadTable();
+		table.alterAdd(columnName, type);
+		table.writeToFile();
+		table.clear();
 	}
 
 	@Override
 	public void alterDrop(String tableName, String columnName)
-			throws DatabaseNotFoundException, TableNotFoundException {
-		XMLParser.getInstance().alterDrop(dbName, tableName, columnName);
+			throws DatabaseNotFoundException, TableNotFoundException, IncorrectDataEntryException {
+		Table table = new Table(dbName, tableName);
+		table.loadTable();
+		table.alterDrop(columnName);
+		table.writeToFile();
+		table.clear();
 	}
 }

@@ -51,4 +51,14 @@ public class Column {
 	public Object get(int index) {
 		return entries.get(index);
 	}
+
+	public void set(int index, Object o) {
+		entries.set(index, o);
+	}
+
+	public void clear() {
+		entries = null;
+		type = null;
+		name = null;
+	}
 }
