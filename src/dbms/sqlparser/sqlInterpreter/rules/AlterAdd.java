@@ -1,6 +1,6 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
-import dbms.connection.XMLConnection;
+import dbms.backend.BackendController;
 import dbms.exception.DataTypeNotSupportedException;
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
@@ -38,7 +38,7 @@ public class AlterAdd implements Expression {
 	public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException,
 			DataTypeNotSupportedException, TableAlreadyCreatedException, DatabaseAlreadyCreatedException,
 			IncorrectDataEntryException {
-		XMLConnection.getInstance().alterAdd(tableName, columnName, dataType);
+		BackendController.getInstance().alterAdd(tableName, columnName, dataType);
 
 	}
 

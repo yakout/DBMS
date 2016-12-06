@@ -1,6 +1,6 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
-import dbms.connection.XMLConnection;
+import dbms.backend.BackendController;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
@@ -28,6 +28,6 @@ public class Delete implements Expression {
 
 	@Override
 	public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
-		XMLConnection.getInstance().delete(tableName, where);
+		BackendController.getInstance().delete(tableName, where);
 	}
 }

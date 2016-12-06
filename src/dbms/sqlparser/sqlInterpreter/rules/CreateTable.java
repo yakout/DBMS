@@ -2,7 +2,7 @@ package dbms.sqlparser.sqlInterpreter.rules;
 
 import java.util.Map;
 
-import dbms.connection.XMLConnection;
+import dbms.backend.BackendController;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.TableAlreadyCreatedException;
@@ -26,6 +26,6 @@ public class CreateTable implements Expression {
 
     @Override
     public void execute() throws DatabaseNotFoundException, TableAlreadyCreatedException, IncorrectDataEntryException {
-        XMLConnection.getInstance().createTable(tableName, columns);
+        BackendController.getInstance().createTable(tableName, columns);
     }
 }

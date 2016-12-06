@@ -1,4 +1,4 @@
-package dbms.xml.schema.dtd;
+package dbms.backend.xml.schema.dtd;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,7 +16,7 @@ public class DTDSchemaParser {
 	private static final String WORKSPACE_DIR =
 			System.getProperty("user.home") + File.separator + "databases";
 	private static final ResourceBundle CONSTANTS =
-			ResourceBundle.getBundle("dbms.xml.Constants");
+			ResourceBundle.getBundle("dbms.backend.xml.Constants");
 	private PrintWriter out;
 
 	private DTDSchemaParser() {}

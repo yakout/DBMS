@@ -1,4 +1,4 @@
-package dbms.xml;
+package dbms.backend.xml;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,26 +25,31 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import dbms.backend.BackendParser;
+import dbms.backend.BackendParserFactory;
+import dbms.backend.xml.schema.dtd.DTDSchemaParser;
+import dbms.backend.xml.schema.xsd.XSDParser;
 import dbms.datatypes.DatatypeFactory;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.util.Column;
-import dbms.util.Parser;
 import dbms.util.Table;
-import dbms.xml.schema.dtd.DTDSchemaParser;
-import dbms.xml.schema.xsd.XSDParser;
 
-public class XMLTableParser extends Parser {
-	private static XMLTableParser instance = null;
+public class XMLParser extends BackendParser {
+	private static XMLParser instance = null;
 	private static DocumentBuilder docBuilder = null;
 	private static Transformer transformer = null;
 	private static final String WORKSPACE_DIR =
 			System.getProperty("user.home") + File.separator + "databases";
 	private static final ResourceBundle CONSTANTS =
-			ResourceBundle.getBundle("dbms.xml.Constants");
+			ResourceBundle.getBundle("dbms.backend.xml.Constants");
 
-	private XMLTableParser() {
+	static {
+		BackendParserFactory.getFactory().register("xml", getInstance());
+	}
+
+	private XMLParser() {
 		try {
 			docBuilder = DocumentBuilderFactory
 				.newInstance().newDocumentBuilder();
@@ -62,46 +67,71 @@ public class XMLTableParser extends Parser {
 				CONSTANTS.getString("indentation.val"));
 	}
 
-	public static XMLTableParser getInstance() {
+	public static XMLParser getInstance() {
 		if (instance == null) {
-			instance = new XMLTableParser();
+			instance = new XMLParser();
 		}
 		return instance;
 	}
 
 	@Override
+	public BackendParser getParser() {
+		return instance;
+	}
+
+	@Override
 	public void create(Table table) throws DatabaseNotFoundException, TableAlreadyCreatedException {
-		File tableFile = new File(openDB(table.getDBName()), table.getName()
+		File tableFile = new File(openDB(table.getDatabase().getName()), table.getName()
 				+ CONSTANTS.getString("extension.xml"));
 		if (tableFile.exists()) {
 			throw new TableAlreadyCreatedException();
 		}
 		write(table, tableFile);
-		XSDParser.getInstance().createSchema(table.getDBName()
+		XSDParser.getInstance().createSchema(table.getDatabase().getName()
 				, table.getName());
-		DTDSchemaParser.getInstance().createDTDSchema(table.getDBName()
+		DTDSchemaParser.getInstance().createDTDSchema(table.getDatabase().getName()
 				, table.getName());
 	}
 
 	@Override
 	public void load(Table table)
 			throws TableNotFoundException, DatabaseNotFoundException {
-		File tableFile = openTable(table.getDBName(), table.getName());
+		File tableFile = openTable(table.getDatabase().getName(), table.getName());
 		Document doc = null;
 		try {
 			doc = docBuilder.parse(tableFile);
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 		}
-		validateDB(doc, table.getDBName());
+		validateDB(doc, table.getDatabase().getName());
 		doc.getDocumentElement().normalize();
 		parseDataToTable(table, doc);
 	}
 
 	@Override
 	public void writeTo(Table table) throws TableNotFoundException, DatabaseNotFoundException {
-		File tableFile = openTable(table.getDBName(), table.getName());
+		File tableFile = openTable(table.getDatabase().getName(), table.getName());
 		write(table, tableFile);
+	}
+
+	@Override
+	public void dropTable(String dbName, String tableName)
+			throws DatabaseNotFoundException {
+		File tableFile = new File(openDB(dbName), tableName
+				+ CONSTANTS.getString("extension.xml"));
+		File xsdFile = new File(openDB(dbName), tableName
+				+ CONSTANTS.getString("extension.schema"));
+		File dtdFile = new File(openDB(dbName), tableName
+				+ CONSTANTS.getString("extensionDTD.schema"));
+		if (tableFile.exists()) {
+			tableFile.delete();
+		}
+		if (xsdFile.exists()) {
+			xsdFile.delete();
+		}
+		if (dtdFile.exists()) {
+			dtdFile.delete();
+		}
 	}
 
 	private void write(Table table, File tableFile) {
@@ -111,7 +141,7 @@ public class XMLTableParser extends Parser {
 		tableElement.setAttribute(CONSTANTS.getString(
 				"name.attr"), table.getName());
 		tableElement.setAttribute(CONSTANTS.getString(
-				"db.attr"), table.getDBName());
+				"db.attr"), table.getDatabase().getName());
 		tableElement.setAttribute(CONSTANTS.getString(
 				"rows.attr"), Integer.toString(table.getSize()));
 		doc.appendChild(tableElement);
@@ -231,26 +261,6 @@ public class XMLTableParser extends Parser {
 			transformer.transform(source, result);
 		} catch (TransformerException e) {
 			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void dropTable(String dbName, String tableName)
-			throws DatabaseNotFoundException {
-		File tableFile = new File(openDB(dbName), tableName
-				+ CONSTANTS.getString("extension.xml"));
-		File xsdFile = new File(openDB(dbName), tableName
-				+ CONSTANTS.getString("extension.schema"));
-		File dtdFile = new File(openDB(dbName), tableName
-				+ CONSTANTS.getString("extensionDTD.schema"));
-		if (tableFile.exists()) {
-			tableFile.delete();
-		}
-		if (xsdFile.exists()) {
-			xsdFile.delete();
-		}
-		if (dtdFile.exists()) {
-			dtdFile.delete();
 		}
 	}
 }

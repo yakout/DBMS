@@ -1,4 +1,4 @@
-package dbms.xml.schema.dtd;
+package dbms.backend.xml.schema.dtd;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;

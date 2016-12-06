@@ -2,7 +2,7 @@ package dbms.sqlparser.sqlInterpreter.rules;
 
 import java.util.Collection;
 
-import dbms.connection.XMLConnection;
+import dbms.backend.BackendController;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
@@ -61,6 +61,6 @@ public class Select implements Expression {
 
     @Override
     public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
-    	new Formatter().printTable(XMLConnection.getInstance().select(tableName, columns, where), orderBy, isAscending);
+    	new Formatter().printTable(BackendController.getInstance().select(tableName, columns, where), orderBy, isAscending);
     }
 }
