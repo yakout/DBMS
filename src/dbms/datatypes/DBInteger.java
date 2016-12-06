@@ -1,12 +1,16 @@
 package dbms.datatypes;
 
 
-public class DBInteger implements DatatypeDBMS, Comparable<DBInteger> {
-	private static final String KEY = "Integer";
+public class DBInteger implements DatatypeDBMS {
+	public static final String KEY = "Integer";
 	private Integer value;
 
 	static {
 		DatatypeFactory.getFactory().register(KEY, DBInteger.class);
+	}
+
+	public DBInteger() {
+
 	}
 
 	public DBInteger(Integer value) {
@@ -23,8 +27,8 @@ public class DBInteger implements DatatypeDBMS, Comparable<DBInteger> {
 	}
 
 	@Override
-	public int compareTo(DBInteger data) {
-		return value.compareTo(data.getValue());
+	public int compareTo(DatatypeDBMS data) {
+		return value.compareTo((Integer) data.getValue());
 	}
 
 	@Override

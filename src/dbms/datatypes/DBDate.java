@@ -2,12 +2,15 @@ package dbms.datatypes;
 
 import java.sql.Date;
 
-public class DBDate implements DatatypeDBMS, Comparable<DBDate> {
-    private static final String KEY = "Date";
+public class DBDate implements DatatypeDBMS {
+    public static final String KEY = "Date";
     private Date value;
 
     static {
         DatatypeFactory.getFactory().register(KEY, DBDate.class);
+    }
+
+    public DBDate() {
     }
 
     public DBDate(Date value) {
@@ -24,8 +27,8 @@ public class DBDate implements DatatypeDBMS, Comparable<DBDate> {
     }
 
     @Override
-    public int compareTo(DBDate data) {
-        return value.compareTo(data.getValue());
+    public int compareTo(DatatypeDBMS data) {
+        return value.compareTo((Date) data.getValue());
     }
 
     @Override

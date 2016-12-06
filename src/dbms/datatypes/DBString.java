@@ -1,11 +1,14 @@
 package dbms.datatypes;
 
-public class DBString implements DatatypeDBMS, Comparable<DBString> {
-	private static final String KEY = "String";
+public class DBString implements DatatypeDBMS {
+	public static final String KEY = "String";
 	private String value;
 
 	static {
 		DatatypeFactory.getFactory().register(KEY, DBString.class);
+	}
+
+	public DBString() {
 	}
 
 	public DBString(String value) {
@@ -18,8 +21,8 @@ public class DBString implements DatatypeDBMS, Comparable<DBString> {
 	}
 
 	@Override
-	public int compareTo(DBString data) {
-		return value.compareTo(data.getValue());
+	public int compareTo(DatatypeDBMS data) {
+		return value.compareTo((String) data.getValue());
 	}
 
 	@Override
