@@ -1,6 +1,6 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
-import dbms.connection.XMLConnection;
+import dbms.backend.BackendController;
 import dbms.exception.DatabaseNotFoundException;
 
 public class DropDatabase implements Expression {
@@ -16,6 +16,6 @@ public class DropDatabase implements Expression {
 
     @Override
     public void execute() throws DatabaseNotFoundException {
-        XMLConnection.getInstance().dropDatabase(dbName);
+        BackendController.getInstance().dropDatabase(dbName);
     }
 }

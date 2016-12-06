@@ -2,7 +2,7 @@ package dbms.sqlparser.sqlInterpreter.rules;
 
 import java.util.Map;
 
-import dbms.connection.XMLConnection;
+import dbms.backend.BackendController;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.TableNotFoundException;
@@ -26,6 +26,6 @@ public class InsertIntoTable implements Expression {
 
     @Override
     public void execute() throws DatabaseNotFoundException, TableNotFoundException, IncorrectDataEntryException {
-        XMLConnection.getInstance().insertIntoTable(tableName, entryMap);
+        BackendController.getInstance().insertIntoTable(tableName, entryMap);
     }
 }

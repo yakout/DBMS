@@ -11,14 +11,14 @@ import java.util.TreeSet;
 
 import org.junit.Test;
 
-import dbms.connection.XMLConnection;
+import dbms.backend.BackendController;
 import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.sqlparser.sqlInterpreter.rules.Where;
 import dbms.util.Result;
 import dbms.util.ResultSet;
 
 public class XMLTestingDelete {
-	private final XMLConnection xmlParserConc = XMLConnection.getInstance();
+	private final BackendController xmlParserConc = BackendController.getInstance();
 
 	@Test
 	public void testOne() {

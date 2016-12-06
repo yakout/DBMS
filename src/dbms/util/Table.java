@@ -11,47 +11,42 @@ import dbms.datatypes.DatatypeDBMS;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
-import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.sqlInterpreter.Condition;
-import dbms.xml.XMLTableParser;
 
 public class Table {
-	private String dbName = null;
+	private Database database = null;
 	private String name = null;
 	private List<Column> columns = null;
 	private int size;
 
-	public Table(String dbName, String name) {
-		this.dbName = dbName;
+	public Table(String name) {
 		this.name = name;
 		columns = new ArrayList<Column>();
 		size = 0;
+	}
+
+	public Table(String name, Database database) {
+		this.name = name;
+		this.database = database;
+		columns = new ArrayList<Column>();
+		size = 0;
+	}
+
+	public void attachToDatabase(Database database) {
+		this.database = database;
 	}
 
 	public void addColumn(Column col) {
 		columns.add(col);
 	}
 
-	public void create() throws DatabaseNotFoundException, TableAlreadyCreatedException {
-		XMLTableParser.getInstance().create(this);
-	}
-
-	public void loadTable()
-			throws TableNotFoundException, DatabaseNotFoundException {
-		XMLTableParser.getInstance().load(this);
-	}
-
-	public void writeToFile() throws TableNotFoundException, DatabaseNotFoundException {
-		XMLTableParser.getInstance().writeTo(this);
-	}
-
 	public String getName() {
 		return name;
 	}
 
-	public String getDBName() {
-		return dbName;
+	public Database getDatabase() {
+		return database;
 	}
 
 	public List<Column> getColumns() {
