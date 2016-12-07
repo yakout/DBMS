@@ -1,19 +1,21 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
-import java.util.Collection;
-
 import dbms.backend.BackendController;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableNotFoundException;
 import dbms.ui.Formatter;
+import dbms.util.ResultSet;
+
+import java.util.Collection;
 
 public class Select implements Expression {
     private String tableName;
     private Collection<String> columns;
     private String orderBy;
     private boolean isAscending = false;
+    private boolean isDistinct = false;
 
     private Where where;
 
@@ -61,6 +63,9 @@ public class Select implements Expression {
 
     @Override
     public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
-    	new Formatter().printTable(BackendController.getInstance().select(tableName, columns, where), orderBy, isAscending);
+        ResultSet resultSet = BackendController.getInstance().select(tableName, columns, where);
+        if (isDistinct) resultSet.distinct();
+        if (orderBy != null) resultSet.orderBy(isAscending, orderBy);
+    	Formatter.getInstance().printTable(resultSet);
     }
 }

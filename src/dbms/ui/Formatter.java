@@ -1,15 +1,22 @@
 package dbms.ui;
 
-import java.util.*;
-
 import dbms.util.Result;
 import dbms.util.ResultSet;
 
+import java.util.*;
+
 
 public class Formatter {
+    private static Formatter instance;
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_GREEN = "\u001B[32m";
 
+    public static Formatter getInstance() {
+        if (instance == null) {
+            instance = new Formatter();
+        }
+        return instance;
+    }
 
     private int getColumnWidth(Object key, ResultSet resultSet) {
         int max = key.toString().length();
@@ -108,30 +115,7 @@ public class Formatter {
         System.out.println("|");
     }
 
-    private void orderBy(ResultSet resultSet, String columnName, boolean isAscending) {
-        resultSet.getResults().sort(new Comparator<Result>() {
-            @Override
-            public int compare(Result o1, Result o2) {
-                Object value1 = o1.get(columnName);
-                Object value2 = o2.get(columnName);
-                if (value1 == null || value2 == null) {
-                    return -1;
-                } else if (value1 instanceof String) {
-                    return ((String) value1).compareTo((String) value2);
-                } else {
-                    return ((Integer) value1).compareTo((Integer) value2);
-                }
-            }
-        });
-        if (!isAscending) {
-            Collections.reverse(resultSet.getResults());
-        }
-    }
-
-    public void printTable(ResultSet resultSet, String orderBy, boolean isAscending) {
-        if (orderBy != null) {
-            orderBy(resultSet, orderBy, isAscending);
-        }
+    public void printTable(ResultSet resultSet) {
         Result firstResult = resultSet.next();
         if (resultSet.isEmpty()) {
         	return;
@@ -161,7 +145,7 @@ public class Formatter {
         map2.put("Part", "SQL Parser");
 
         Map<String, Object> map3 = new LinkedHashMap<>();
-        map3.put("ID", null);
+        map3.put("ID", 4);
         map3.put("Name", "Anas");
         map3.put("Part", "XML Parser");
 
@@ -182,8 +166,8 @@ public class Formatter {
         results.add(result4);
 
         ResultSet resultSet = new ResultSet(results);
-        new Formatter().printTable(resultSet, "ID", true);
+        resultSet.orderBy(true, "ID");
+        new Formatter().printTable(resultSet);
 
     }
-
 }

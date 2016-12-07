@@ -144,7 +144,7 @@ public class SQLPredicate {
                 return Operator.SmallerThan;
             case ">":
                 return Operator.GreaterThan;
-            case "==":
+            case "=":
                 return Operator.Equal;
             case "<=":
                 return Operator.SmallerThanOrEqual;

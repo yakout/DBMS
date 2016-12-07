@@ -1,12 +1,5 @@
 package dbms.test.SQLParserTesting;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
-import java.util.Queue;
-
-import org.junit.Test;
-
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.SQLParser;
 import dbms.sqlparser.sqlInterpreter.SQLPredicate;
@@ -14,6 +7,12 @@ import dbms.sqlparser.sqlInterpreter.rules.BooleanOperator;
 import dbms.sqlparser.sqlInterpreter.rules.Delete;
 import dbms.sqlparser.sqlInterpreter.rules.Expression;
 import dbms.util.Operator;
+import org.junit.Test;
+
+import java.util.Queue;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class DeleteTest extends SqlParserRef {
 
@@ -53,7 +52,7 @@ public class DeleteTest extends SqlParserRef {
 		 */
 
 		try {
-			sqlParserObjTest.parse("DELETE FROM TABLE_NAME WHERE SOME_COL=='SOME_VALUE';");
+			sqlParserObjTest.parse("DELETE FROM TABLE_NAME WHERE SOME_COL='SOME_VALUE';");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -63,7 +62,7 @@ public class DeleteTest extends SqlParserRef {
 		 */
 
 		try {
-			sqlParserObjTest.parse("DELETE FROM TABLE_NAME WHERE SOME_COL==999;");
+			sqlParserObjTest.parse("DELETE FROM TABLE_NAME WHERE SOME_COL=999;");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -134,7 +133,7 @@ public class DeleteTest extends SqlParserRef {
 		 */
 
 		try {
-			sqlParserObjTest.parse("DELETE FROM TABLE_NAME WHERE COL='VAL'");
+			sqlParserObjTest.parse("DELETE FROM TABLE_NAME WHERE COL=='VAL'");
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
 		}
@@ -187,7 +186,7 @@ public class DeleteTest extends SqlParserRef {
 
 		try {
 			sqlParserObjTest.parse(
-					"          DELETE            FROM            TABLE_NAME           WHERE     SOME_COL     ==  'SOME_VALUE'    ;       ");
+					"          DELETE            FROM            TABLE_NAME           WHERE     SOME_COL     =  'SOME_VALUE'    ;       ");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -198,7 +197,7 @@ public class DeleteTest extends SqlParserRef {
 
 		try {
 			sqlParserObjTest
-					.parse("       DELETE        FROM      TABLE_NAME      WHERE   (     SOME_COL   ==   999)  ;     ");
+					.parse("       DELETE        FROM      TABLE_NAME      WHERE   (     SOME_COL   =   999)  ;     ");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -227,14 +226,14 @@ public class DeleteTest extends SqlParserRef {
 	@Test
 	public void testDeleteTableSyntaxValidateNine() {
 		try {
-			sqlParserObjTest.parse("DElEte FrOm taBlE_NaME WherE NaMecol1 == 'NamE';");
+			sqlParserObjTest.parse("DElEte FrOm taBlE_NaME WherE NaMecol1 = 'NamE';");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 
 		}
 
 		try {
-			sqlParserObjTest.parse("DelETe FrOm TaBlE_NAmE wheRE namecOL2 == 55555;");
+			sqlParserObjTest.parse("DelETe FrOm TaBlE_NAmE wheRE namecOL2 = 55555;");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -273,7 +272,7 @@ public class DeleteTest extends SqlParserRef {
 	public void testDeleteTableSyntaxParsingTwo() {
 
 		try {
-			deleteObjAct = sqlParserObjTest.parse("DELETE FROM TABLE_NAME Where coL1 == 'vALUe_1';");
+			deleteObjAct = sqlParserObjTest.parse("DELETE FROM TABLE_NAME Where coL1 = 'vALUe_1';");
 			assertEquals("table_name", ((Delete) deleteObjAct).getTableName().toLowerCase());
 			Queue<Object> sqlPredicateQ = ((Delete) deleteObjAct).getWhere().getPostfix();
 			assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -284,7 +283,7 @@ public class DeleteTest extends SqlParserRef {
 		}
 
 		try {
-			deleteObjAct = sqlParserObjTest.parse("DELETE * FROM TABLE_NAME_88 wHeRe AGE == 5856263;");
+			deleteObjAct = sqlParserObjTest.parse("DELETE * FROM TABLE_NAME_88 wHeRe AGE = 5856263;");
 			assertEquals("table_name_88", ((Delete) deleteObjAct).getTableName().toLowerCase());
 			Queue<Object> sqlPredicateQ = ((Delete) deleteObjAct).getWhere().getPostfix();
 			assertEquals("age", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -307,7 +306,7 @@ public class DeleteTest extends SqlParserRef {
 
 		try {
 			deleteObjAct = sqlParserObjTest.parse(
-					"         DELETE         FROM       TABLE_NAME        Where     col1     ==         'valUE_1'           ;               ");
+					"         DELETE         FROM       TABLE_NAME        Where     col1     =         'valUE_1'           ;               ");
 			assertEquals("table_name", ((Delete) deleteObjAct).getTableName().toLowerCase());
 			Queue<Object> sqlPredicateQ = ((Delete) deleteObjAct).getWhere().getPostfix();
 			assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -319,7 +318,7 @@ public class DeleteTest extends SqlParserRef {
 
 		try {
 			deleteObjAct = sqlParserObjTest.parse(
-					"       DELETE         * FROM             TABLE_NAME_88          wHeRe    (  AGE ==       5856263     ) ;     ");
+					"       DELETE         * FROM             TABLE_NAME_88          wHeRe    (  AGE =       5856263     ) ;     ");
 			assertEquals("table_name_88", ((Delete) deleteObjAct).getTableName().toLowerCase());
 			Queue<Object> sqlPredicateQ = ((Delete) deleteObjAct).getWhere().getPostfix();
 			assertEquals("age", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -438,7 +437,7 @@ public class DeleteTest extends SqlParserRef {
 	public void testDeleteTableSyntaxParsingTen() {
 		try {
 			deleteObjAct = sqlParserObjTest.parse(
-					"       DELETE         * FROM             TABLE_NAME_88          wHeRe      AGE ==       MONEY     ;     ");
+					"       DELETE         * FROM             TABLE_NAME_88          wHeRe      AGE =       MONEY     ;     ");
 			assertEquals("table_name_88", ((Delete) deleteObjAct).getTableName().toLowerCase());
 			Queue<Object> sqlPredicateQ = ((Delete) deleteObjAct).getWhere().getPostfix();
 			assertEquals("age", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -472,7 +471,7 @@ public class DeleteTest extends SqlParserRef {
 	public void testDeleteTableSyntaxParsingTwelve() {
 		try {
 			deleteObjAct = sqlParserObjTest.parse(
-					"       DELETE         * FROM             TABLE_NAME_88          wHeRe      ((col == 5 ) and (col2 == 6))     ;     ");
+					"       DELETE         * FROM             TABLE_NAME_88          wHeRe      ((col = 5 ) and (col2 = 6))     ;     ");
 			assertEquals("table_name_88", ((Delete) deleteObjAct).getTableName().toLowerCase());
 			Queue<Object> sqlPredicateQ = ((Delete) deleteObjAct).getWhere().getPostfix();
 
@@ -501,7 +500,7 @@ public class DeleteTest extends SqlParserRef {
 	public void testDeleteTableSyntaxParsingThirteen() {
 		try {
 			deleteObjAct = sqlParserObjTest.parse(
-					"       DELETE         * FROM             TABLE_NAME_88          wHeRe      (   (   col  !=   5   )  and    (  col2 ==      6      )          )     ;     ");
+					"       DELETE         * FROM             TABLE_NAME_88          wHeRe      (   (   col  !=   5   )  and    (  col2 =      6      )          )     ;     ");
 			assertEquals("table_name_88", ((Delete) deleteObjAct).getTableName().toLowerCase());
 			Queue<Object> sqlPredicateQ = ((Delete) deleteObjAct).getWhere().getPostfix();
 
@@ -532,7 +531,7 @@ public class DeleteTest extends SqlParserRef {
 	public void testDeleteTableSyntaxParsingFourteen() {
 		try {
 			deleteObjAct = sqlParserObjTest.parse(
-					"       DELETE         * FROM             TABLE_NAME_88          wHeRe      (   (   col  !=   5   )  and    (  col2 ==      6      )          )     ;     ");
+					"       DELETE         * FROM             TABLE_NAME_88          wHeRe      (   (   col  !=   5   )  and    (  col2 =      6      )          )     ;     ");
 			assertEquals("table_name_88", ((Delete) deleteObjAct).getTableName().toLowerCase());
 			Queue<Object> sqlPredicateQ = ((Delete) deleteObjAct).getWhere().getPostfix();
 

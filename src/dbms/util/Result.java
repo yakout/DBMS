@@ -81,4 +81,18 @@ public class Result {
 	public Object get(String key) {
 		return result.get(key);
 	}
+
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Result result1 = (Result) o;
+		return result != null ? result.equals(result1.result) : result1.result == null;
+	}
+
+	@Override
+	public int hashCode() {
+		return result != null ? result.hashCode() : 0;
+	}
 }

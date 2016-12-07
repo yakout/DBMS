@@ -1,23 +1,11 @@
 package dbms.sqlparser;
 
+import dbms.exception.SyntaxErrorException;
+import dbms.sqlparser.sqlInterpreter.rules.*;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import dbms.exception.SyntaxErrorException;
-import dbms.sqlparser.sqlInterpreter.rules.AlterAdd;
-import dbms.sqlparser.sqlInterpreter.rules.AlterDrop;
-import dbms.sqlparser.sqlInterpreter.rules.CreateDatabase;
-import dbms.sqlparser.sqlInterpreter.rules.CreateTable;
-import dbms.sqlparser.sqlInterpreter.rules.Delete;
-import dbms.sqlparser.sqlInterpreter.rules.DropDatabase;
-import dbms.sqlparser.sqlInterpreter.rules.DropTable;
-import dbms.sqlparser.sqlInterpreter.rules.Expression;
-import dbms.sqlparser.sqlInterpreter.rules.InsertIntoTable;
-import dbms.sqlparser.sqlInterpreter.rules.Select;
-import dbms.sqlparser.sqlInterpreter.rules.Update;
-import dbms.sqlparser.sqlInterpreter.rules.UseDatabase;
-import dbms.sqlparser.sqlInterpreter.rules.Where;
 
 /**
  * validate and parse a sql query.
@@ -278,6 +266,9 @@ public class SQLParser {
 				break;
 			case "varchar":
 				columns.put(key, String.class);
+				break;
+			case "date":
+				columns.put(key, java.sql.Date.class);
 				break;
 			}
 		}

@@ -48,13 +48,14 @@ public class DatatypeFactory {
 	}
 
 	public static DatatypeDBMS convertToDataType(Object data) {
-        if (data instanceof Integer) {
-            return new DBInteger((Integer) data);
-        } else if(data instanceof Date) {
+		Class<?> classType = data.getClass();
+        if (classType == Integer.class) {
+			return new DBInteger((Integer) data);
+        } else if(classType == Date.class) {
             return new DBDate((Date) data);
-        } else if (data instanceof Float) {
+        } else if (classType == Float.class) {
             return new DBFloat((Float) data);
-        } else if (data instanceof String) {
+        } else if (classType == String.class) {
             return new DBString((String) data);
         }
 		return null;

@@ -1,15 +1,5 @@
 package dbms.test.SQLParserTesting;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Queue;
-
-import org.junit.Test;
-
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.SQLParser;
 import dbms.sqlparser.sqlInterpreter.SQLPredicate;
@@ -17,6 +7,13 @@ import dbms.sqlparser.sqlInterpreter.rules.BooleanOperator;
 import dbms.sqlparser.sqlInterpreter.rules.Expression;
 import dbms.sqlparser.sqlInterpreter.rules.Update;
 import dbms.util.Operator;
+import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Queue;
+
+import static org.junit.Assert.*;
 
 public class UpdateTest extends SqlParserRef {
 
@@ -31,14 +28,14 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableSyntaxValidateOne() {
 		try {
 			sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL == 'SOME_VALUE';");
+					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL = 'SOME_VALUE';");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 		try {
 			sqlParserObjTest.parse(
-					"        UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2  =       'VALUE2'   WHERE      SOME_COL    ==         'SOME_VALUE'         ;         ");
+					"        UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2  =       'VALUE2'   WHERE      SOME_COL    =         'SOME_VALUE'         ;         ");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -167,7 +164,7 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableSyntaxValidateEight() {
 		try {
 			sqlParserObjTest
-					.parse("UPDaTe tAbLE_nAMe SeT CoLUMn1='VAlUe1',CoLUmN2='VaLUe2' WhErE SOME_col == 'SOME_VALUE';");
+					.parse("UPDaTe tAbLE_nAMe SeT CoLUMn1='VAlUe1',CoLUmN2='VaLUe2' WhErE SOME_col = 'SOME_VALUE';");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 
@@ -175,7 +172,7 @@ public class UpdateTest extends SqlParserRef {
 
 		try {
 			sqlParserObjTest.parse(
-					"          UPDaTe        tAbLE_nAMe            SeT          CoLUMn1='VAlUe1'         , CoLUmN2='VaLUe2'        WhErE          SOME_col          ==         'SOME_VALUE'       ;   ");
+					"          UPDaTe        tAbLE_nAMe            SeT          CoLUMn1='VAlUe1'         , CoLUmN2='VaLUe2'        WhErE          SOME_col          =         'SOME_VALUE'       ;   ");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -190,7 +187,7 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateOne() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL == 'SOME_VALUE';");
+					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL = 'SOME_VALUE';");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, Object> entryMapCpy = ((Update) updateObjAct).getValues();
 			Map<String, Object> expectedEntryMap = new HashMap<String, Object>();
@@ -210,7 +207,7 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateTwo() {
 		try {
 			updateObjAct = sqlParserObjTest.parse(
-					"        UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2  =       'VALUE2'   WHERE      SOME_COL    ==         'SOME_vaLUE'         ;         ");
+					"        UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2  =       'VALUE2'   WHERE      SOME_COL    =         'SOME_vaLUE'         ;         ");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, Object> entryMapCpy = ((Update) updateObjAct).getValues();
 			Map<String, Object> expectedEntryMap = new HashMap<String, Object>();
@@ -231,7 +228,7 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateThree() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL == SOME_COL2;");
+					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL = SOME_COL2;");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, Object> entryMapCpy = ((Update) updateObjAct).getValues();
 			Map<String, Object> expectedEntryMap = new HashMap<String, Object>();
@@ -291,7 +288,7 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateSix() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET column1='value1',column2='value2' WHERE SOME_COL == 5;");
+					.parse("UPDATE TABLE_NAME SET column1='value1',column2='value2' WHERE SOME_COL = 5;");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, Object> entryMapCpy = ((Update) updateObjAct).getValues();
 			Map<String, Object> expectedEntryMap = new HashMap<String, Object>();
@@ -532,7 +529,7 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateEighteen() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',COLUMN2='value2' WHERE (   (     SOME_COL !=     COL2    )     and (COL8 == \"helLLO\" )       ;    ");
+					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',COLUMN2='value2' WHERE (   (     SOME_COL !=     COL2    )     and (COL8 = \"helLLO\" )       ;    ");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, Object> entryMapCpy = ((Update) updateObjAct).getValues();
 			Map<String, Object> expectedEntryMap = new HashMap<String, Object>();

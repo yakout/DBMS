@@ -1,5 +1,6 @@
 package dbms.util;
 
+
 public enum Operator implements Operation {
     GreaterThan {
         @Override

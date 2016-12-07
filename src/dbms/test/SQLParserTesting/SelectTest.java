@@ -1,13 +1,5 @@
 package dbms.test.SQLParserTesting;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
-import java.util.Queue;
-
-import org.junit.Test;
-
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.SQLParser;
 import dbms.sqlparser.sqlInterpreter.SQLPredicate;
@@ -15,6 +7,11 @@ import dbms.sqlparser.sqlInterpreter.rules.BooleanOperator;
 import dbms.sqlparser.sqlInterpreter.rules.Expression;
 import dbms.sqlparser.sqlInterpreter.rules.Select;
 import dbms.util.Operator;
+import org.junit.Test;
+
+import java.util.Queue;
+
+import static org.junit.Assert.*;
 
 public class SelectTest extends SqlParserRef {
 
@@ -42,12 +39,12 @@ public class SelectTest extends SqlParserRef {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 		try {
-			sqlParserObjTest.parse("SELECT * FROM TABLE_NAME WHERE country == 'Mexico' ;");
+			sqlParserObjTest.parse("SELECT * FROM TABLE_NAME WHERE country = 'Mexico' ;");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 		try {
-			sqlParserObjTest.parse("SELECT COL_NAME FROM TABLE_NAME WHERE country == 'Brazil' ;");
+			sqlParserObjTest.parse("SELECT COL_NAME FROM TABLE_NAME WHERE country = 'Brazil' ;");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -66,12 +63,12 @@ public class SelectTest extends SqlParserRef {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 		try {
-			sqlParserObjTest.parse("SELECT * FROM TABLE_NAME WHERE country == 'Mexico' ;");
+			sqlParserObjTest.parse("SELECT * FROM TABLE_NAME WHERE country = 'Mexico' ;");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 		try {
-			sqlParserObjTest.parse("SELECT COL_NAME, COL_NAME1 ,COL_NAME2 FROM TABLE_NAME WHERE country == 'Brazil' ;");
+			sqlParserObjTest.parse("SELECT COL_NAME, COL_NAME1 ,COL_NAME2 FROM TABLE_NAME WHERE country = 'Brazil' ;");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -148,13 +145,13 @@ public class SelectTest extends SqlParserRef {
 		}
 		try {
 			sqlParserObjTest.parse(
-					"     sElEcT     *       FrOM      TaBLe_nAMe     wHeRe      cOuNtrY     ==       'Mexico'    ;    ");
+					"     sElEcT     *       FrOM      TaBLe_nAMe     wHeRe      cOuNtrY     =       'Mexico'    ;    ");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 		try {
 			sqlParserObjTest.parse(
-					"           SeLeCT         CoL_nAMe         FrOm     TaBlE_NaMe WheRe couNtry == 'Brazil' ;     ");
+					"           SeLeCT         CoL_nAMe         FrOm     TaBlE_NaMe WheRe couNtry = 'Brazil' ;     ");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -163,7 +160,7 @@ public class SelectTest extends SqlParserRef {
 	@Test
 	public void testSelectSyntaxValidateSix() {
 		try {
-			sqlParserObjTest.parse("SeLEcT cOLuMn_NAmE FrOm TAbLE_NamE  where col == 5266;");
+			sqlParserObjTest.parse("SeLEcT cOLuMn_NAmE FrOm TAbLE_NamE  where col = 5266;");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -174,7 +171,7 @@ public class SelectTest extends SqlParserRef {
 		}
 		try {
 			sqlParserObjTest.parse(
-					"     sElEcT     *       FrOM      TaBLe_nAMe     wHeRe      cOuNtrY     ==       \"Mexico\"    ;    ");
+					"     sElEcT     *       FrOM      TaBLe_nAMe     wHeRe      cOuNtrY     =       \"Mexico\"    ;    ");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -216,7 +213,7 @@ public class SelectTest extends SqlParserRef {
 	@Test
 	public void testSelectSyntaxValidateEight() {
 		try {
-			sqlParserObjTest.parse("SeLEcT cOLuMn_NAmE FrOm TAbLE_NamE  where col == col2;");
+			sqlParserObjTest.parse("SeLEcT cOLuMn_NAmE FrOm TAbLE_NamE  where col = col2;");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -271,7 +268,7 @@ public class SelectTest extends SqlParserRef {
 					+ " col77, col78, col79, col80, col81, col82, col83,col84,               "
 					+ "col85, col86, col87, col88, col89, col90, col91, col92, col93, col94,  "
 					+ " col95 ,col96 ,col97 ,col98 ,col99 ,col100"
-					+ " from               table_name      where                     col1                    ==              col2;");
+					+ " from               table_name      where                     col1                    =              col2;");
 			assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
@@ -289,7 +286,7 @@ public class SelectTest extends SqlParserRef {
 					+ "        , col24               , col25,               col26,            col27     , col28       , col29     ,                 col30,                   col31               ,                col32            ,                                  col33             ,                 col34            , col35         ,       "
 					+ "   col36                            ,        col37       , col38      ,  col39       ,   col40,           col41,         col42, col43         , col44           , col45 ,                 col46 ,      "
 					+ "     col47 ,                col48         ,           col49             ,col50"
-					+ " from               table_name             where               col1                    ==              col2;");
+					+ " from               table_name             where               col1                    =              col2;");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -365,7 +362,7 @@ public class SelectTest extends SqlParserRef {
 	@Test
 	public void testSelectParsingValidateThree() {
 		try {
-			selectObjAct = sqlParserObjTest.parse("SELECT COL_NAME FROM TABLE_NAME WHERE COL1 == COL2;");
+			selectObjAct = sqlParserObjTest.parse("SELECT COL_NAME FROM TABLE_NAME WHERE COL1 = COL2;");
 			assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
 			Object[] columnsCpy = {"COL_NAME"};
 			assertArrayEquals(columnsCpy, ((Select) selectObjAct).getColumns().toArray());
@@ -383,7 +380,7 @@ public class SelectTest extends SqlParserRef {
 	public void testSelectParsingValidateFour() {
 		try {
 			selectObjAct = sqlParserObjTest.parse(
-					"        SELECT               col_name, col_naMe2 , COLname8          FROM          CUrr_915634    WheRe Col1 == Col2        ;            ");
+					"        SELECT               col_name, col_naMe2 , COLname8          FROM          CUrr_915634    WheRe Col1 = Col2        ;            ");
 			assertEquals("curr_915634", ((Select) selectObjAct).getTableName().toLowerCase());
 			String[] strArray = { "col_name", "col_naMe2", "COLname8" };
 			assertArrayEquals(strArray, ((Select) selectObjAct).getColumns().toArray());
@@ -401,7 +398,7 @@ public class SelectTest extends SqlParserRef {
 	public void testSelectParsingValidateFive() {
 		try {
 			selectObjAct = sqlParserObjTest.parse(
-					"        SELECT               col_name, col_naMe2 , COLname8          FROM          CUrr_915634    WheRe Col1 == 'ValUe'        ;            ");
+					"        SELECT               col_name, col_naMe2 , COLname8          FROM          CUrr_915634    WheRe Col1 = 'ValUe'        ;            ");
 			assertEquals("curr_915634", ((Select) selectObjAct).getTableName().toLowerCase());
 			String[] strArray = { "col_name", "col_naMe2", "COLname8" };
 			assertArrayEquals(strArray, ((Select) selectObjAct).getColumns().toArray());
@@ -458,7 +455,7 @@ public class SelectTest extends SqlParserRef {
 	@Test
 	public void testSelectParsingValidateEight() {
 		try {
-			selectObjAct = sqlParserObjTest.parse("select * FROM TABLE_NAME WHERE COL1 == COL2;");
+			selectObjAct = sqlParserObjTest.parse("select * FROM TABLE_NAME WHERE COL1 = COL2;");
 			assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
 			Select select = (Select) selectObjAct;
 			assertEquals("table_name", select.getTableName().toLowerCase());
@@ -476,7 +473,7 @@ public class SelectTest extends SqlParserRef {
 	@Test
 	public void testSelectParsingValidateNine() {
 		try {
-			selectObjAct = sqlParserObjTest.parse("SELECT * FROM TABLE_NAME WHERE COL1 == 'vALue';");
+			selectObjAct = sqlParserObjTest.parse("SELECT * FROM TABLE_NAME WHERE COL1 = 'vALue';");
 			assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
 			Select select = (Select) selectObjAct;
 			assertEquals("table_name", select.getTableName().toLowerCase());
@@ -494,7 +491,7 @@ public class SelectTest extends SqlParserRef {
 	@Test
 	public void testSelectParsingValidateTen() {
 		try {
-			selectObjAct = sqlParserObjTest.parse("       SELECT       *                      FROM       TABLE_NAME      WHERE    COL1    ==     153           ;     ");
+			selectObjAct = sqlParserObjTest.parse("       SELECT       *                      FROM       TABLE_NAME      WHERE    COL1    =     153           ;     ");
 			assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
 			Select select = (Select) selectObjAct;
 			assertEquals("table_name", select.getTableName().toLowerCase());
