@@ -2,7 +2,7 @@ package dbms.test;
 
 import java.io.FileNotFoundException;
 
-import dbms.backend.xml.XMLParser;
+import dbms.backend.parsers.xml.XMLParser;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;

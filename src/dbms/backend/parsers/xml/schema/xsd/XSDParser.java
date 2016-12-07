@@ -1,4 +1,4 @@
-package dbms.backend.xml.schema.xsd;
+package dbms.backend.parsers.xml.schema.xsd;
 
 import java.io.File;
 import java.util.ResourceBundle;
@@ -28,7 +28,7 @@ public class XSDParser {
 	private static final String WORKSPACE_DIR =
 			System.getProperty("user.home") + File.separator + "databases";
 	private static final ResourceBundle CONSTANTS =
-			ResourceBundle.getBundle("dbms.backend.xml.Constants");
+			ResourceBundle.getBundle("dbms.backend.parsers.xml.Constants");
 
 	private XSDParser() {
 		initialize();

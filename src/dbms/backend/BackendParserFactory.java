@@ -1,11 +1,13 @@
 package dbms.backend;
 
+import dbms.backend.parsers.xml.XMLParser;
+
 import java.util.HashMap;
 
 public class BackendParserFactory {
 	private static HashMap<String, BackendParser> registeredParsers = null;
 	private static BackendParserFactory instance = null;
-	private String currentKey = "xml";
+	private String currentKey = XMLParser.KEY;
 
 	private BackendParserFactory() {
 		registeredParsers = new HashMap<>();
@@ -40,7 +42,9 @@ public class BackendParserFactory {
 
 	private void loadParsers() {
 		try {
-			Class.forName("dbms.backend.xml.XMLParser");
+			Class.forName("dbms.backend.parsers.xml.XMLParser");
+			Class.forName("dbms.backend.parsers.json.XMLParser");
+			Class.forName("dbms.backend.parsers.protobuf.XMLParser");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}

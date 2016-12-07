@@ -1,52 +1,40 @@
-package dbms.backend.xml;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ResourceBundle;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.DOMException;
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
-import org.w3c.dom.DocumentType;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+package dbms.backend.parsers.xml;
 
 import dbms.backend.BackendParser;
 import dbms.backend.BackendParserFactory;
-import dbms.backend.xml.schema.dtd.DTDSchemaParser;
-import dbms.backend.xml.schema.xsd.XSDParser;
+import dbms.backend.parsers.xml.schema.dtd.DTDSchemaParser;
+import dbms.backend.parsers.xml.schema.xsd.XSDParser;
 import dbms.datatypes.DatatypeFactory;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.util.Column;
 import dbms.util.Table;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
+import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class XMLParser extends BackendParser {
+	public static final String KEY = "xml";
 	private static XMLParser instance = null;
 	private static DocumentBuilder docBuilder = null;
 	private static Transformer transformer = null;
 	private static final String WORKSPACE_DIR =
 			System.getProperty("user.home") + File.separator + "databases";
 	private static final ResourceBundle CONSTANTS =
-			ResourceBundle.getBundle("dbms.backend.xml.Constants");
+			ResourceBundle.getBundle("dbms.backend.parsers.xml.Constants");
 
 	static {
-		BackendParserFactory.getFactory().register("xml", getInstance());
+		BackendParserFactory.getFactory().register(KEY, getInstance());
 	}
 
 	private XMLParser() {
