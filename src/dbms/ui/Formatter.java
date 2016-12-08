@@ -118,7 +118,7 @@ public class Formatter {
     public void printTable(ResultSet resultSet) {
         Result firstResult = resultSet.next();
         if (resultSet.isEmpty()) {
-        	return;
+            return;
         }
         List<Integer> widthOfColumns = getAllColumnsWidth(resultSet, firstResult);
 

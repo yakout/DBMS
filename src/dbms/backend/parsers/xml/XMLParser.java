@@ -55,7 +55,7 @@ public class XMLParser extends BackendParser {
 				CONSTANTS.getString("indentation.val"));
 	}
 
-	public static XMLParser getInstance() {
+	public static synchronized XMLParser getInstance() {
 		if (instance == null) {
 			instance = new XMLParser();
 		}
@@ -68,7 +68,9 @@ public class XMLParser extends BackendParser {
 	}
 
 	@Override
-	public void create(Table table) throws DatabaseNotFoundException, TableAlreadyCreatedException {
+	public void createTable(Table table)
+			throws DatabaseNotFoundException,
+			TableAlreadyCreatedException {
 		File tableFile = new File(openDB(table.getDatabase().getName()), table.getName()
 				+ CONSTANTS.getString("extension.xml"));
 		if (tableFile.exists()) {
@@ -82,7 +84,7 @@ public class XMLParser extends BackendParser {
 	}
 
 	@Override
-	public void load(Table table)
+	public void loadTable(Table table)
 			throws TableNotFoundException, DatabaseNotFoundException {
 		File tableFile = openTable(table.getDatabase().getName(), table.getName());
 		Document doc = null;
@@ -97,19 +99,19 @@ public class XMLParser extends BackendParser {
 	}
 
 	@Override
-	public void writeTo(Table table) throws TableNotFoundException, DatabaseNotFoundException {
+	public void writeToFile(Table table) throws TableNotFoundException, DatabaseNotFoundException {
 		File tableFile = openTable(table.getDatabase().getName(), table.getName());
 		write(table, tableFile);
 	}
 
 	@Override
-	public void dropTable(String dbName, String tableName)
+	public void dropTable(Table table)
 			throws DatabaseNotFoundException {
-		File tableFile = new File(openDB(dbName), tableName
+		File tableFile = new File(openDB(table.getDatabase().getName()), table.getName()
 				+ CONSTANTS.getString("extension.xml"));
-		File xsdFile = new File(openDB(dbName), tableName
+		File xsdFile = new File(openDB(table.getDatabase().getName()), table.getName()
 				+ CONSTANTS.getString("extension.schema"));
-		File dtdFile = new File(openDB(dbName), tableName
+		File dtdFile = new File(openDB(table.getDatabase().getName()), table.getName()
 				+ CONSTANTS.getString("extensionDTD.schema"));
 		if (tableFile.exists()) {
 			tableFile.delete();

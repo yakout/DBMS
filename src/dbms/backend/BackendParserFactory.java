@@ -43,8 +43,8 @@ public class BackendParserFactory {
 	private void loadParsers() {
 		try {
 			Class.forName("dbms.backend.parsers.xml.XMLParser");
-			Class.forName("dbms.backend.parsers.json.XMLParser");
-			Class.forName("dbms.backend.parsers.protobuf.XMLParser");
+			Class.forName("dbms.backend.parsers.json.JSONParser");
+			Class.forName("dbms.backend.parsers.protobuf.ProtocolBufferParser");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}

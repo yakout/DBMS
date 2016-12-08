@@ -45,15 +45,15 @@ public abstract class BackendParser {
 
 	public abstract BackendParser getParser();
 
-	public abstract void load(Table table)
+	public abstract void loadTable(Table table)
 			throws TableNotFoundException, DatabaseNotFoundException;
 
-	public abstract void writeTo(Table table)
+	public abstract void writeToFile(Table table)
 			throws TableNotFoundException, DatabaseNotFoundException;
 
-	public abstract void create(Table table)
+	public abstract void createTable(Table table)
 			throws DatabaseNotFoundException, TableAlreadyCreatedException;
 
-	public abstract void dropTable(String dbName, String tableName)
+	public abstract void dropTable(Table table)
 			throws DatabaseNotFoundException;
 }
