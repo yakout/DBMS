@@ -109,19 +109,21 @@ public class BackendController {
 	 * @param tableName Name of table.
 	 * @param entryMap {@link Map} between column names
 	 * and objects to be inserted.
+	 * @return updateCount Update count.
 	 * @throws TableNotFoundException
 	 * @throws DatabaseNotFoundException
 	 * @throws TypeNotSupportedException
 	 * @throws IncorrectDataEntryException
 	 */
-	public void insertIntoTable(String tableName, Map<String, Object> entryMap)
+	public int insertIntoTable(String tableName, Map<String, Object> entryMap)
 			throws DatabaseNotFoundException,
 			TableNotFoundException, IncorrectDataEntryException {
 		Table table = new Database(dbName).createTable(tableName);
 		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
-		table.insertRow(entryMap);
+		int updateCount = table.insertRow(entryMap);
 		BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
 		table.clear();
+		return updateCount;
 	}
 
 	/**
@@ -153,19 +155,21 @@ public class BackendController {
 	 * @param tableName Name of table.
 	 * @param condition {@link Condition} condition for data deletion,
 	 * can be null.
+	 * @return updateCount Update count.
 	 * @throws DatabaseNotFoundException
 	 * @throws TableNotFoundException
 	 * @throws SyntaxErrorException
 	 * @throws IncorrectDataEntryException
 	 */
-	public void delete(String tableName, Condition condition)
+	public int delete(String tableName, Condition condition)
 			throws DatabaseNotFoundException, TableNotFoundException,
 			SyntaxErrorException, IncorrectDataEntryException {
 		Table table = new Database(dbName).createTable(tableName);
 		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
-		table.delete(condition);
+		int updateCount = table.delete(condition);
 		BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
 		table.clear();
+		return updateCount;
 	}
 
 	/**
@@ -177,20 +181,22 @@ public class BackendController {
 	 * with values of other columns.
 	 * @param condition {@link Condition} condition for data updating,
 	 * can be null.
+	 * @return updateCount Update count.
 	 * @throws DatabaseNotFoundException
 	 * @throws TableNotFoundException
 	 * @throws SyntaxErrorException
 	 * @throws IncorrectDataEntryException
 	 */
-	public void update(String tableName, Map<String, Object> values,
+	public int update(String tableName, Map<String, Object> values,
 			Map<String, String> columns, Condition condition)
 					throws DatabaseNotFoundException, TableNotFoundException,
 					SyntaxErrorException, IncorrectDataEntryException {
 		Table table = new Database(dbName).createTable(tableName);
 		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
-		table.update(values, columns, condition);
+		int updateCount = table.update(values, columns, condition);
 		BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
 		table.clear();
+		return updateCount;
 	}
 
 	/**
