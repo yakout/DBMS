@@ -1,7 +1,6 @@
 package dbms.sqlparser.sqlInterpreter;
 
 import dbms.exception.SyntaxErrorException;
-import dbms.sqlparser.sqlInterpreter.rules.BooleanOperator;
 
 import java.util.*;
 import java.util.regex.Matcher;

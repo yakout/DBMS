@@ -9,7 +9,7 @@ import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 
-public class AlterDrop implements Expression {
+public class AlterDrop implements DDLStatement {
 
 	private String tableName;
 	private String columnName;

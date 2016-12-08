@@ -1,14 +1,14 @@
 package dbms.util;
 
+import dbms.exception.IncorrectDataEntryException;
+import dbms.sqlparser.sqlInterpreter.BooleanExpressionEvaluator;
+import dbms.sqlparser.sqlInterpreter.BooleanOperator;
+import dbms.sqlparser.sqlInterpreter.SQLPredicate;
+
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
-
-import dbms.exception.IncorrectDataEntryException;
-import dbms.sqlparser.sqlInterpreter.BooleanExpressionEvaluator;
-import dbms.sqlparser.sqlInterpreter.SQLPredicate;
-import dbms.sqlparser.sqlInterpreter.rules.BooleanOperator;
 
 public class Evaluator extends BooleanExpressionEvaluator{
 

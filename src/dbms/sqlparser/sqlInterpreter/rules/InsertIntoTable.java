@@ -1,15 +1,16 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
-import java.util.Map;
-
 import dbms.backend.BackendController;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.TableNotFoundException;
 
-public class InsertIntoTable implements Expression {
+import java.util.Map;
+
+public class InsertIntoTable implements DMLStatement {
     private String tableName;
     private Map<String, Object> entryMap;
+    private int updateCount;
 
     public InsertIntoTable(String tableName, Map<String, Object> entryMap) {
         this.tableName = tableName;
@@ -25,7 +26,12 @@ public class InsertIntoTable implements Expression {
     }
 
     @Override
+    public int getUpdateCount() {
+        return updateCount;
+    }
+
+    @Override
     public void execute() throws DatabaseNotFoundException, TableNotFoundException, IncorrectDataEntryException {
-        BackendController.getInstance().insertIntoTable(tableName, entryMap);
+        BackendController.getInstance().insertIntoTable(tableName, entryMap); // TODO return int
     }
 }

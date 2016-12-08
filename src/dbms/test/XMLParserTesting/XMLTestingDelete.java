@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import dbms.backend.BackendController;
 import dbms.sqlparser.sqlInterpreter.Condition;
-import dbms.sqlparser.sqlInterpreter.rules.Where;
+import dbms.sqlparser.sqlInterpreter.Where;
 import dbms.util.Result;
 import dbms.util.ResultSet;
 

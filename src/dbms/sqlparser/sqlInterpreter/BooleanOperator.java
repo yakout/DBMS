@@ -1,4 +1,4 @@
-package dbms.sqlparser.sqlInterpreter.rules;
+package dbms.sqlparser.sqlInterpreter;
 
 
 public class BooleanOperator {

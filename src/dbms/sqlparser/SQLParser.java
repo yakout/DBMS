@@ -1,6 +1,7 @@
 package dbms.sqlparser;
 
 import dbms.exception.SyntaxErrorException;
+import dbms.sqlparser.sqlInterpreter.Where;
 import dbms.sqlparser.sqlInterpreter.rules.*;
 
 import java.util.*;

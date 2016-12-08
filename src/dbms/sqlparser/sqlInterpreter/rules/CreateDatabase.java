@@ -3,7 +3,7 @@ package dbms.sqlparser.sqlInterpreter.rules;
 import dbms.backend.BackendController;
 import dbms.exception.DatabaseAlreadyCreatedException;
 
-public class CreateDatabase implements Expression {
+public class CreateDatabase implements DDLStatement {
     private String dbName;
 
     public CreateDatabase(String dbName) {

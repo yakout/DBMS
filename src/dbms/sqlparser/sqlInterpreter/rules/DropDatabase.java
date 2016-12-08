@@ -3,7 +3,7 @@ package dbms.sqlparser.sqlInterpreter.rules;
 import dbms.backend.BackendController;
 import dbms.exception.DatabaseNotFoundException;
 
-public class DropDatabase implements Expression {
+public class DropDatabase implements DDLStatement {
     private String dbName;
 
     public DropDatabase(String dbName) {

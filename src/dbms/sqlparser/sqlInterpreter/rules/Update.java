@@ -1,18 +1,20 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
-import java.util.Map;
-
 import dbms.backend.BackendController;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableNotFoundException;
+import dbms.sqlparser.sqlInterpreter.Where;
 
-public class Update implements Expression {
+import java.util.Map;
+
+public class Update implements DMLStatement {
     private String tableName;
     private Map<String, Object> values;
     private Map<String, String> columns;
     private Where where;
+    private int updateCount;
 
     public Update(String tableName, Map<String, Object> values, Map<String, String> columns) {
         this.tableName = tableName;
@@ -41,7 +43,12 @@ public class Update implements Expression {
     }
 
     @Override
+    public int getUpdateCount() {
+        return updateCount;
+    }
+
+    @Override
     public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
-    	BackendController.getInstance().update(tableName, values, columns, where);
+        BackendController.getInstance().update(tableName, values, columns, where); // TODO update returns updateCount
     }
 }

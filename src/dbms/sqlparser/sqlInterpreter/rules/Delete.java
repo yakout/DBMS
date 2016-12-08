@@ -5,10 +5,12 @@ import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableNotFoundException;
+import dbms.sqlparser.sqlInterpreter.Where;
 
-public class Delete implements Expression {
+public class Delete implements DMLStatement {
 	private String tableName;
 	private Where where;
+    private int updateCount;
 
 	public Delete(String tableName) {
 		this.tableName = tableName;
@@ -27,7 +29,12 @@ public class Delete implements Expression {
 	}
 
 	@Override
+	public int getUpdateCount() {
+        return updateCount;
+	}
+
+	@Override
 	public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
-		BackendController.getInstance().delete(tableName, where);
+		BackendController.getInstance().delete(tableName, where); // TODO return int
 	}
 }

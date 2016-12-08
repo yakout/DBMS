@@ -1,10 +1,8 @@
-package dbms.sqlparser.sqlInterpreter.rules;
-
-import java.util.Queue;
+package dbms.sqlparser.sqlInterpreter;
 
 import dbms.exception.SyntaxErrorException;
-import dbms.sqlparser.sqlInterpreter.BooleanExpression;
-import dbms.sqlparser.sqlInterpreter.Condition;
+
+import java.util.Queue;
 
 public class Where implements Condition {
     private String infix;

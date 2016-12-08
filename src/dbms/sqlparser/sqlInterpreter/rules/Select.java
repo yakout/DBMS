@@ -5,17 +5,19 @@ import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableNotFoundException;
+import dbms.sqlparser.sqlInterpreter.Where;
 import dbms.ui.Formatter;
 import dbms.util.ResultSet;
 
 import java.util.Collection;
 
-public class Select implements Expression {
+public class Select implements DMLStatement {
     private String tableName;
     private Collection<String> columns;
     private String orderBy;
     private boolean isAscending = false;
     private boolean isDistinct = false;
+    private int updateCount = 0;
 
     private Where where;
 
@@ -59,6 +61,11 @@ public class Select implements Expression {
 
     public void setOrderBy(String orderBy) {
         this.orderBy = orderBy;
+    }
+
+    @Override
+    public int getUpdateCount() {
+        return updateCount;
     }
 
     @Override

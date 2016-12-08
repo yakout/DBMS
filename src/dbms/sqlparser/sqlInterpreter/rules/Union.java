@@ -8,11 +8,17 @@ import dbms.util.ResultSet;
 import java.util.Arrays;
 import java.util.List;
 
-public class Union implements Expression {
+public class Union implements DMLStatement {
     private List<Select> selects;
+    private int updateCount = 0;
 
     public Union(Select... selects) {
         this.selects = Arrays.asList(selects);
+    }
+
+    @Override
+    public int getUpdateCount() {
+        return updateCount;
     }
 
     @Override

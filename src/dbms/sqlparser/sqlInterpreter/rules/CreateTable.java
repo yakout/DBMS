@@ -1,13 +1,13 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
-import java.util.Map;
-
 import dbms.backend.BackendController;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.TableAlreadyCreatedException;
 
-public class CreateTable implements Expression {
+import java.util.Map;
+
+public class CreateTable implements DDLStatement {
     private String tableName;
     private Map<String, Class> columns;
 
