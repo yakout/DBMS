@@ -105,7 +105,7 @@ public class ResultSet implements Iterable<Result> {
 	 * @param columnName the column name
 	 * @param isAscending
      */
-	public void orderBy(boolean isAscending, String columnName) {
+	public void orderBy(boolean isAscending, final String columnName) {
 		results.sort(new Comparator<Result>() {
 			@Override
 			public int compare(Result o1, Result o2) {

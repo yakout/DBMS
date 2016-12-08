@@ -39,21 +39,49 @@ public class JSONParser extends BackendParser {
 
     @Override
     public void loadTable(Table table) throws TableNotFoundException, DatabaseNotFoundException {
-
+    	
     }
 
     @Override
     public void writeToFile(Table table) throws TableNotFoundException, DatabaseNotFoundException {
-
+    	
     }
 
     @Override
     public void createTable(Table table) throws DatabaseNotFoundException, TableAlreadyCreatedException {
-
+    	File tableFile = new File(openDB(table.getDatabase().getName()), table.getName()
+				+ CONSTANTS.getString("extension.json"));
+		if (tableFile.exists()) {
+			throw new TableAlreadyCreatedException();
+		}
+		writeToFile(table, tableFile);
+    }
+    
+    private void writeToFile(Table table, File tableFile) {
+    	
     }
 
     @Override
     public void dropTable(Table table) throws DatabaseNotFoundException {
 
     }
+    
+	private File openTable(String dbName, String tableName)
+			throws TableNotFoundException, DatabaseNotFoundException {
+		File tableFile = new File(openDB(dbName), tableName
+				+ CONSTANTS.getString("extension.xml"));
+		if (!tableFile.exists()) {
+			throw new TableNotFoundException();
+		}
+		return tableFile;
+	}
+
+	private File openDB(String dbName)
+			throws DatabaseNotFoundException {
+		File database = new File(WORKSPACE_DIR + File.separator + dbName);
+		if (!database.exists()) {
+			throw new DatabaseNotFoundException();
+		}
+		return database;
+	}
 }
