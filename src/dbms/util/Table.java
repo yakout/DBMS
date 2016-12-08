@@ -33,7 +33,7 @@ public class Table {
 		size = 0;
 	}
 
-	public void attachToDatabase(Database database) {
+	public void setDatabase(Database database) {
 		this.database = database;
 	}
 
@@ -107,7 +107,7 @@ public class Table {
 		return updateCount;
 	}
 
-	public ResultSet select(Collection<String> columns, Condition condition)
+	public RecordSet select(Collection<String> columns, Condition condition)
 			throws IncorrectDataEntryException, SyntaxErrorException,
 			TableNotFoundException, DatabaseNotFoundException {
 		if (columns != null) {
@@ -117,13 +117,25 @@ public class Table {
 				}
 			}
 		}
-		ResultSet res = new ResultSet();
+		List<String> columnNames =
+				new ArrayList<String>();
+		RecordSet res = new RecordSet();
+		if (columns == null) {
+			for (Column col : this.columns) {
+				columnNames.add(col.getName());
+			}
+		} else {
+			for (String col : columns) {
+				columnNames.add(col);
+			}
+		}
+		res.setColumnList(columnNames);
 		for (int i = 0; i < size; i++) {
 			Map<String, Object> row =
 					getRow(i, columns);
 			if (!row.isEmpty() && (condition == null || Evaluator.getInstance()
 					.evaluate(row, condition.getPostfix(), mapColumns()))) {
-				res.add(new Result(row));
+				res.add(new Record(row));
 			}
 		}
 		return res;

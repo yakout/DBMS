@@ -40,7 +40,7 @@ public class SmokeTest {
         // make
         // sure
         // that the dbDir exists, and create it if it
-        // doesn't), and just record the protocol.
+        // doesn't), and just Record the protocol.
 
         Statement statement = connection.createStatement(); // create a
         // statement object
@@ -398,7 +398,7 @@ public class SmokeTest {
             Assert.assertNotEquals("Insert returned zero rows", 0, count1);
             boolean result1 = statement.execute(
                     "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) VALUES ('value1', 8, 'value3')");
-            Assert.assertTrue("Wrong return for insert record", result1);
+            Assert.assertTrue("Wrong return for insert Record", result1);
             int count3 = statement.executeUpdate(
                     "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', 'value4', 5)");
             Assert.assertNotEquals("Insert returned zero rows", 0, count3);
@@ -428,7 +428,7 @@ public class SmokeTest {
             Assert.assertNotEquals("Insert returned zero rows", 0, count1);
             boolean result1 = statement.execute(
                     "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) VALUES ('value1', 4, 'value5')");
-            Assert.assertTrue("Wrong return for insert record", result1);
+            Assert.assertTrue("Wrong return for insert Record", result1);
             int count3 = statement.executeUpdate(
                     "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', 'value4', 5)");
             Assert.assertNotEquals("Insert returned zero rows", 0, count3);
@@ -474,7 +474,7 @@ public class SmokeTest {
             Assert.assertNotEquals("Insert returned zero rows", 0, count1);
             boolean result1 = statement.execute(
                     "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) VALUES ('value1', 4, 'value5')");
-            Assert.assertTrue("Wrong return for insert record", result1);
+            Assert.assertTrue("Wrong return for insert Record", result1);
             int count3 = statement.executeUpdate(
                     "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', 'value4', 5)");
             Assert.assertNotEquals("Insert returned zero rows", 0, count3);
@@ -518,7 +518,7 @@ public class SmokeTest {
             Assert.assertNotEquals("Insert returned zero rows", 0, count1);
             boolean result1 = statement.execute(
                     "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) VALUES ('value1', 4, 'value5')");
-            Assert.assertTrue("Wrong return for insert record", result1);
+            Assert.assertTrue("Wrong return for insert Record", result1);
             int count3 = statement.executeUpdate(
                     "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', 'value4', 5)");
             Assert.assertNotEquals("Insert returned zero rows", 0, count3);
@@ -554,7 +554,7 @@ public class SmokeTest {
             Assert.assertNotEquals("Insert returned zero rows", 0, count1);
             boolean result1 = statement.execute(
                     "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) VALUES ('value1', 4, 'value5')");
-            Assert.assertTrue("Wrong return for insert record", result1);
+            Assert.assertTrue("Wrong return for insert Record", result1);
             int count3 = statement.executeUpdate(
                     "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', 'value4', 5)");
             Assert.assertNotEquals("Insert returned zero rows", 0, count3);

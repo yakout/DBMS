@@ -1,7 +1,7 @@
 package dbms.ui;
 
-import dbms.util.Result;
-import dbms.util.ResultSet;
+import dbms.util.Record;
+import dbms.util.RecordSet;
 
 import java.util.*;
 
@@ -18,10 +18,10 @@ public class Formatter {
         return instance;
     }
 
-    private int getColumnWidth(Object key, ResultSet resultSet) {
+    private int getColumnWidth(Object key, RecordSet recordSet) {
         int max = key.toString().length();
-        for(Result result : resultSet) {
-            Object value = result.getResult().get(key);
+        for(Record record : recordSet) {
+            Object value = record.getRecord().get(key);
             int currentLength = value == null ? 0 : value.toString().length();
             if (currentLength > max) {
                 max = currentLength;
@@ -30,8 +30,8 @@ public class Formatter {
         return max;
     }
 
-    private void printTableLine(Result firstResult, List<Integer> widthOfColumns) {
-        Iterator it = firstResult.getResult().entrySet().iterator();
+    private void printTableLine(Record firstRecord, List<Integer> widthOfColumns) {
+        Iterator it = firstRecord.getRecord().entrySet().iterator();
         int currentColumn = 0;
         while (it.hasNext()) {
             it.next();
@@ -44,18 +44,18 @@ public class Formatter {
         System.out.println("+");
     }
 
-    private List<Integer> getAllColumnsWidth(ResultSet resultSet, Result firstResult) {
-        Iterator it = firstResult.getResult().entrySet().iterator();
+    private List<Integer> getAllColumnsWidth(RecordSet recordSet, Record firstRecord) {
+        Iterator it = firstRecord.getRecord().entrySet().iterator();
         List<Integer> widthOfColumns = new ArrayList<>();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
-            widthOfColumns.add(getColumnWidth(pair.getKey(), resultSet));
+            widthOfColumns.add(getColumnWidth(pair.getKey(), recordSet));
         }
         return widthOfColumns;
     }
 
-    private void printFirstRow(Result firstResult, List<Integer> widthOfColumns) {
-        Iterator it = firstResult.getResult().entrySet().iterator();
+    private void printFirstRow(Record firstRecord, List<Integer> widthOfColumns) {
+        Iterator it = firstRecord.getRecord().entrySet().iterator();
         int currentColumn = 0;
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
@@ -75,10 +75,10 @@ public class Formatter {
         System.out.println("|");
     }
 
-    private void printAllRows(ResultSet resultSet, Result firstResult, List<Integer> widthOfColumns) {
+    private void printAllRows(RecordSet recordSet, Record firstRecord, List<Integer> widthOfColumns) {
         int currentColumn = 0;
-        while(resultSet.hasNext()) {
-            Iterator it4 = resultSet.next().getResult().entrySet().iterator();
+        while(recordSet.hasNext()) {
+            Iterator it4 = recordSet.next().getRecord().entrySet().iterator();
             while (it4.hasNext()) {
                 Map.Entry pair = (Map.Entry)it4.next();
                 System.out.print("|");
@@ -96,13 +96,13 @@ public class Formatter {
             }
             System.out.println("|");
             currentColumn = 0;
-            printTableLine(firstResult, widthOfColumns);
+            printTableLine(firstRecord, widthOfColumns);
         }
     }
 
-    private void printHeaders(Result firstResult, List<Integer> widthOfColumns) {
+    private void printHeaders(Record firstRecord, List<Integer> widthOfColumns) {
         int currentColumn = 0;
-        Iterator it = firstResult.getResult().entrySet().iterator();
+        Iterator it = firstRecord.getRecord().entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             System.out.print("|");
@@ -115,22 +115,22 @@ public class Formatter {
         System.out.println("|");
     }
 
-    public void printTable(ResultSet resultSet) {
-        Result firstResult = resultSet.next();
-        if (resultSet.isEmpty()) {
+    public void printTable(RecordSet recordSet) {
+        Record firstRecord = recordSet.next();
+        if (recordSet.isEmpty()) {
             return;
         }
-        List<Integer> widthOfColumns = getAllColumnsWidth(resultSet, firstResult);
+        List<Integer> widthOfColumns = getAllColumnsWidth(recordSet, firstRecord);
 
-        printTableLine(firstResult, widthOfColumns);
+        printTableLine(firstRecord, widthOfColumns);
 
-        printHeaders(firstResult, widthOfColumns);
-        printTableLine(firstResult, widthOfColumns);
+        printHeaders(firstRecord, widthOfColumns);
+        printTableLine(firstRecord, widthOfColumns);
 
-        printFirstRow(firstResult, widthOfColumns);
-        printTableLine(firstResult, widthOfColumns);
+        printFirstRow(firstRecord, widthOfColumns);
+        printTableLine(firstRecord, widthOfColumns);
 
-        printAllRows(resultSet, firstResult, widthOfColumns);
+        printAllRows(recordSet, firstRecord, widthOfColumns);
     }
 
     public static void main(String[] args) {
@@ -154,20 +154,20 @@ public class Formatter {
         map4.put("Name", null);
         map4.put("Part", "XML Parser                          ");
 
-        Result result = new Result(map);
-        Result result2 = new Result(map2);
-        Result result3 = new Result(map3);
-        Result result4 = new Result(map4);
+        Record record = new Record(map);
+        Record record2 = new Record(map2);
+        Record record3 = new Record(map3);
+        Record record4 = new Record(map4);
 
-        ArrayList<Result> results = new ArrayList<>();
-        results.add(result);
-        results.add(result2);
-        results.add(result3);
-        results.add(result4);
+        ArrayList<Record> records = new ArrayList<>();
+        records.add(record);
+        records.add(record2);
+        records.add(record3);
+        records.add(record4);
 
-        ResultSet resultSet = new ResultSet(results);
-        resultSet.orderBy(true, "ID");
-        new Formatter().printTable(resultSet);
+        RecordSet recordSet = new RecordSet(records);
+        recordSet.orderBy(true, "ID");
+        new Formatter().printTable(recordSet);
 
     }
 }

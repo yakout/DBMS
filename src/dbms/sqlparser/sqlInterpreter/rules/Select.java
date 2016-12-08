@@ -7,7 +7,7 @@ import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.sqlInterpreter.Where;
 import dbms.ui.Formatter;
-import dbms.util.ResultSet;
+import dbms.util.RecordSet;
 
 import java.util.Collection;
 
@@ -70,9 +70,9 @@ public class Select implements DMLStatement {
 
     @Override
     public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
-        ResultSet resultSet = BackendController.getInstance().select(tableName, columns, where);
-        if (isDistinct) resultSet.distinct();
-        if (orderBy != null) resultSet.orderBy(isAscending, orderBy);
-    	Formatter.getInstance().printTable(resultSet);
+        RecordSet recordSet = BackendController.getInstance().select(tableName, columns, where);
+        if (isDistinct) recordSet.distinct();
+        if (orderBy != null) recordSet.orderBy(isAscending, orderBy);
+    	Formatter.getInstance().printTable(recordSet);
     }
 }
