@@ -57,8 +57,8 @@ public class XMLTestingUpdate {
 			values.put("col_2", "changed");
 			values.put("col_3", "changed");
 			values.put("col_4", 10000);
-			xmlParserConc.update("table_1", values, null, null);
-			
+			int updateCount = xmlParserConc.update("table_1", values, null, null);
+			assertTrue(updateCount == 3);
 			Set<String> columns = new TreeSet<String>();
 			columns.add("col_1");
 			columns.add("col_2");
@@ -92,7 +92,7 @@ public class XMLTestingUpdate {
 			fail("Not yet implemented");			
 		}
 	}
-	
+
 	@Test
 	public void testTwo() {
 		try {
@@ -193,7 +193,7 @@ public class XMLTestingUpdate {
 			values.put("col_2", "changed");
 			values.put("col_3", "changed");
 			values.put("col_4", 10000);
-			Condition where = new Where("col_2 == 'SQL'");
+			Condition where = new Where("col_2 = 'SQL'");
 			xmlParserConc.update("table_1", values, null, where);
 			
 			
@@ -427,7 +427,7 @@ public class XMLTestingUpdate {
 			columnss.put("col_2", "col_3");
 //			columns.put("col_3", "changed");
 //			columns.put("col_4", 10000);
-			Condition where = new Where("col_1 == 'high'");
+			Condition where = new Where("col_1 = 'high'");
 			xmlParserConc.update("table_1", null, columnss, where);
 			
 			

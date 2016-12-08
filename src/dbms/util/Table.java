@@ -74,22 +74,24 @@ public class Table {
 		this.size = size;
 	}
 
-	public void insertRow(Map<String, Object> entryMap)
+	public int insertRow(Map<String, Object> entryMap)
 			throws IncorrectDataEntryException,
 			TableNotFoundException, DatabaseNotFoundException {
 		if (entryMap == null) {
-			return;
+			return 0;
 		}
 		validateValues(entryMap);
 		for (Column col : columns) {
 			col.addEntry(entryMap.get(col.getName()));
 		}
 		size++;
+		return 1; //updateCount
 	}
 
-	public void delete(Condition condition)
+	public int delete(Condition condition)
 			throws IncorrectDataEntryException, SyntaxErrorException,
 			TableNotFoundException, DatabaseNotFoundException {
+		int updateCount = 0;
 		Map<String, String> cols =
 				mapColumns();
 		for (int i = 0; i < size; i++) {
@@ -98,9 +100,11 @@ public class Table {
 			if (condition == null || Evaluator.getInstance().evaluate(row,
 					condition.getPostfix(), cols)) {
 				deleteRow(i);
+				updateCount++;
 				i--;
 			}
 		}
+		return updateCount;
 	}
 
 	public ResultSet select(Collection<String> columns, Condition condition)
@@ -125,9 +129,10 @@ public class Table {
 		return res;
 	}
 
-	public void update(Map<String, Object> values, Map<String, String> columns, Condition condition)
+	public int update(Map<String, Object> values, Map<String, String> columns, Condition condition)
 			throws IncorrectDataEntryException, SyntaxErrorException,
 			TableNotFoundException, DatabaseNotFoundException {
+		int updateCount = 0;
 		validateColumns(columns);
 		validateValues(values);
 		for (int i = 0; i < size; i++) {
@@ -136,8 +141,10 @@ public class Table {
 			if (!row.isEmpty() && (condition == null || Evaluator.getInstance()
 					.evaluate(row, condition.getPostfix(), mapColumns()))) {
 				updateRow(values, columns, i);
+				updateCount++;
 			}
 		}
+		return updateCount;
 	}
 
 	public void alterAdd(String colName, Class<? extends DatatypeDBMS> datatype)

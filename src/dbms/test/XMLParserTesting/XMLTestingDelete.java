@@ -279,7 +279,7 @@ public class XMLTestingDelete {
 			Iterator<Result> actualResItr = actualRes.iterator();
 			while (actualResItr.hasNext()) {
 
-				assertTrue(null == actualResItr.next());
+				assertTrue(actualResItr.next() == null);
 
 			}
 		} catch (Exception e) {
@@ -335,7 +335,7 @@ public class XMLTestingDelete {
 			Iterator<Result> actualResItr = actualRes.iterator();
 			while (actualResItr.hasNext()) {
 
-				assertTrue(null == actualResItr.next());
+				assertTrue(actualResItr.next() == null);
 
 			}
 		} catch (Exception e) {
