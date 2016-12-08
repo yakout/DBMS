@@ -88,7 +88,7 @@ public class BackendController {
 			}
 			table.addColumn(new Column(col.getKey(), type));
 		}
-		BackendParserFactory.getFactory().getCurrentParser().create(table);
+		BackendParserFactory.getFactory().getCurrentParser().createTable(table);
 		table.clear();
 	}
 
@@ -99,8 +99,9 @@ public class BackendController {
 	 * @throws DatabaseNotFoundException
 	 */
 	public void dropTable(String tableName) throws DatabaseNotFoundException {
+		Table table = new Database(dbName).createTable(tableName);
 		BackendParserFactory.getFactory().getCurrentParser().dropTable(
-				dbName, tableName);
+				table);
 	}
 
 	/**
@@ -117,9 +118,9 @@ public class BackendController {
 			throws DatabaseNotFoundException,
 			TableNotFoundException, IncorrectDataEntryException {
 		Table table = new Database(dbName).createTable(tableName);
-		BackendParserFactory.getFactory().getCurrentParser().load(table);
+		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
 		table.insertRow(entryMap);
-		BackendParserFactory.getFactory().getCurrentParser().writeTo(table);
+		BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
 		table.clear();
 	}
 
@@ -141,7 +142,7 @@ public class BackendController {
 					throws DatabaseNotFoundException,TableNotFoundException,
 					SyntaxErrorException, IncorrectDataEntryException {
 		Table table = new Database(dbName).createTable(tableName);
-		BackendParserFactory.getFactory().getCurrentParser().load(table);
+		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
 		ResultSet ret = table.select(columns, condition);
 		table.clear();
 		return ret;
@@ -161,9 +162,9 @@ public class BackendController {
 			throws DatabaseNotFoundException, TableNotFoundException,
 			SyntaxErrorException, IncorrectDataEntryException {
 		Table table = new Database(dbName).createTable(tableName);
-		BackendParserFactory.getFactory().getCurrentParser().load(table);
+		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
 		table.delete(condition);
-		BackendParserFactory.getFactory().getCurrentParser().writeTo(table);
+		BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
 		table.clear();
 	}
 
@@ -186,9 +187,9 @@ public class BackendController {
 					throws DatabaseNotFoundException, TableNotFoundException,
 					SyntaxErrorException, IncorrectDataEntryException {
 		Table table = new Database(dbName).createTable(tableName);
-		BackendParserFactory.getFactory().getCurrentParser().load(table);
+		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
 		table.update(values, columns, condition);
-		BackendParserFactory.getFactory().getCurrentParser().writeTo(table);
+		BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
 		table.clear();
 	}
 
@@ -238,9 +239,9 @@ public class BackendController {
 		}
 		Table table = new Table(tableName);
 		table.attachToDatabase(new Database(dbName));
-		BackendParserFactory.getFactory().getCurrentParser().load(table);
+		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
 		table.alterAdd(columnName, type);
-		BackendParserFactory.getFactory().getCurrentParser().writeTo(table);
+		BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
 		table.clear();
 	}
 
@@ -257,9 +258,9 @@ public class BackendController {
 			, IncorrectDataEntryException {
 		Table table = new Table(tableName);
 		table.attachToDatabase(new Database(dbName));
-		BackendParserFactory.getFactory().getCurrentParser().load(table);
+		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
 		table.alterDrop(columnName);
-		BackendParserFactory.getFactory().getCurrentParser().writeTo(table);
+		BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
 		table.clear();
 	}
 }

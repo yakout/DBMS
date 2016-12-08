@@ -32,38 +32,28 @@ public class ProtocolBufferParser extends BackendParser {
         return instance;
     }
 
-
-
-
-
-
-
-
-
-
     @Override
     public BackendParser getParser() {
         return instance;
     }
 
-
     @Override
-    public void load(Table table) throws TableNotFoundException, DatabaseNotFoundException {
+    public void loadTable(Table table) throws TableNotFoundException, DatabaseNotFoundException {
 
     }
 
     @Override
-    public void writeTo(Table table) throws TableNotFoundException, DatabaseNotFoundException {
+    public void writeToFile(Table table) throws TableNotFoundException, DatabaseNotFoundException {
 
     }
 
     @Override
-    public void create(Table table) throws DatabaseNotFoundException, TableAlreadyCreatedException {
+    public void createTable(Table table) throws DatabaseNotFoundException, TableAlreadyCreatedException {
 
     }
 
     @Override
-    public void dropTable(String dbName, String tableName) throws DatabaseNotFoundException {
+    public void dropTable(Table table) throws DatabaseNotFoundException {
 
     }
 }

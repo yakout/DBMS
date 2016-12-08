@@ -26,6 +26,7 @@ public class Test {
 //			e.printStackTrace();
 //		}
 		XMLParser.getInstance();
+		System.out.println("X");
 //		Integer x = (Integer) DatatypeFactory.getFactory().toObj("15", "Integer");
 //		System.out.println(x.toString());
 //		Table table = new Table("db1", "table1");
