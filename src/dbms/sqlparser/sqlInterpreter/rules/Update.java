@@ -49,6 +49,6 @@ public class Update implements DMLStatement {
 
     @Override
     public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
-        BackendController.getInstance().update(tableName, values, columns, where); // TODO update returns updateCount
+        updateCount = BackendController.getInstance().update(tableName, values, columns, where);
     }
 }

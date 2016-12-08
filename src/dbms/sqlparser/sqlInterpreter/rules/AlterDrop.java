@@ -10,7 +10,6 @@ import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 
 public class AlterDrop implements DDLStatement {
-
 	private String tableName;
 	private String columnName;
 
@@ -26,6 +25,7 @@ public class AlterDrop implements DDLStatement {
     public String getColumnName() {
     	return columnName;
     }
+
 	@Override
 	public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException,
 			DataTypeNotSupportedException, TableAlreadyCreatedException, DatabaseAlreadyCreatedException,
@@ -33,5 +33,4 @@ public class AlterDrop implements DDLStatement {
 		BackendController.getInstance().alterDrop(tableName, columnName);
 
 	}
-
 }

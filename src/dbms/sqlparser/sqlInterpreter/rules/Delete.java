@@ -35,6 +35,6 @@ public class Delete implements DMLStatement {
 
 	@Override
 	public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
-		BackendController.getInstance().delete(tableName, where); // TODO return int
+		updateCount = BackendController.getInstance().delete(tableName, where);
 	}
 }

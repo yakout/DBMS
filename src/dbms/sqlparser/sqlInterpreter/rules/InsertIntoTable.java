@@ -32,6 +32,6 @@ public class InsertIntoTable implements DMLStatement {
 
     @Override
     public void execute() throws DatabaseNotFoundException, TableNotFoundException, IncorrectDataEntryException {
-        BackendController.getInstance().insertIntoTable(tableName, entryMap); // TODO return int
+        updateCount = BackendController.getInstance().insertIntoTable(tableName, entryMap);
     }
 }

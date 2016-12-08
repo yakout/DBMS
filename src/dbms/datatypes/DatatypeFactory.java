@@ -70,6 +70,8 @@ public class DatatypeFactory {
 		try {
 			Class.forName("dbms.datatypes.DBInteger");
 			Class.forName("dbms.datatypes.DBString");
+			Class.forName("dbms.datatypes.DBFloat");
+			Class.forName("dbms.datatypes.DBDate");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
