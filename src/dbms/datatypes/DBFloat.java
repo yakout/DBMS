@@ -1,6 +1,6 @@
 package dbms.datatypes;
 
-public class DBFloat implements DatatypeDBMS {
+public class DBFloat implements DBDatatype {
     public static final String KEY = "Float";
     private Float value;
 
@@ -26,7 +26,7 @@ public class DBFloat implements DatatypeDBMS {
     }
 
     @Override
-    public int compareTo(DatatypeDBMS data) {
+    public int compareTo(DBDatatype data) {
         return value.compareTo((Float) data.getValue());
     }
 

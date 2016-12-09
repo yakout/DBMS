@@ -1,7 +1,7 @@
 package dbms.datatypes;
 
 
-public class DBInteger implements DatatypeDBMS {
+public class DBInteger implements DBDatatype {
 	public static final String KEY = "Integer";
 	private Integer value;
 
@@ -27,7 +27,7 @@ public class DBInteger implements DatatypeDBMS {
 	}
 
 	@Override
-	public int compareTo(DatatypeDBMS data) {
+	public int compareTo(DBDatatype data) {
 		return value.compareTo((Integer) data.getValue());
 	}
 

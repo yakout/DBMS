@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import dbms.datatypes.DatatypeDBMS;
+import dbms.datatypes.DBDatatype;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
@@ -160,7 +160,7 @@ public class Table {
 		return updateCount;
 	}
 
-	public void alterAdd(String colName, Class<? extends DatatypeDBMS> datatype)
+	public void alterAdd(String colName, Class<? extends DBDatatype> datatype)
 			throws IncorrectDataEntryException {
 		Column col = new Column(colName, datatype);
 		for (int i = 0; i < size; i++) {

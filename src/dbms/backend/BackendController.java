@@ -3,7 +3,7 @@ package dbms.backend;
 import java.util.Collection;
 import java.util.Map;
 
-import dbms.datatypes.DatatypeDBMS;
+import dbms.datatypes.DBDatatype;
 import dbms.datatypes.DatatypeFactory;
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
@@ -80,7 +80,7 @@ public class BackendController {
 			TableAlreadyCreatedException, IncorrectDataEntryException {
 		Table table = new Database(dbName).createTable(tableName);
 		for (Map.Entry<String, Class> col : columns.entrySet()) {
-			Class<? extends DatatypeDBMS> type =
+			Class<? extends DBDatatype> type =
 					DatatypeFactory.getFactory().getRegisteredDatatype(
 							col.getValue().getSimpleName());
 			if (type == null) {
@@ -237,7 +237,7 @@ public class BackendController {
 	public void alterAdd(String tableName, String columnName, Class datatype)
 			throws DatabaseNotFoundException, TableNotFoundException
 			, IncorrectDataEntryException {
-		Class<? extends DatatypeDBMS> type =
+		Class<? extends DBDatatype> type =
 				DatatypeFactory.getFactory().getRegisteredDatatype(
 						datatype.getSimpleName());
 		if (type == null) {

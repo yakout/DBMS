@@ -1,7 +1,16 @@
 package dbms.sqlparser.syntax;
 
-/**
- * Created by khlailmohammedyakout on 12/8/16.
- */
-public class UseSyntax {
+import java.util.regex.Pattern;
+
+public class UseSyntax implements SQLSyntax {
+
+    @Override
+    public Pattern getPattern() {
+        return null;
+    }
+
+    @Override
+    public String getRegex() {
+        return null;
+    }
 }

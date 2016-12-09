@@ -1,6 +1,6 @@
 package dbms.datatypes;
 
-public class DBString implements DatatypeDBMS {
+public class DBString implements DBDatatype {
 	public static final String KEY = "String";
 	private String value;
 
@@ -21,7 +21,7 @@ public class DBString implements DatatypeDBMS {
 	}
 
 	@Override
-	public int compareTo(DatatypeDBMS data) {
+	public int compareTo(DBDatatype data) {
 		return value.compareTo((String) data.getValue());
 	}
 

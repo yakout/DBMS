@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.HashMap;
 
 public class DatatypeFactory {
-	private static HashMap<String, Class<? extends DatatypeDBMS>> registeredDataTypes = null;
+	private static HashMap<String, Class<? extends DBDatatype>> registeredDataTypes = null;
 	private static DatatypeFactory instance = null;
 
 	private DatatypeFactory() {
@@ -21,16 +21,16 @@ public class DatatypeFactory {
 		return instance;
 	}
 
-	public void register(String name, Class<? extends DatatypeDBMS> datatype) {
+	public void register(String name, Class<? extends DBDatatype> datatype) {
 		registeredDataTypes.put(name, datatype);
 	}
 
-	public Class<? extends DatatypeDBMS> getRegisteredDatatype(String name) {
+	public Class<? extends DBDatatype> getRegisteredDatatype(String name) {
 		return registeredDataTypes.get(name);
 	}
 
 	public Object toObj(String s, String type) {
-		Class<? extends DatatypeDBMS> datatype = registeredDataTypes
+		Class<? extends DBDatatype> datatype = registeredDataTypes
 				.get(type);
 		if (datatype == null) {
 			return null;
@@ -47,7 +47,7 @@ public class DatatypeFactory {
 		return ret;
 	}
 
-	public static DatatypeDBMS convertToDataType(Object data) {
+	public static DBDatatype convertToDataType(Object data) {
 		Class<?> classType = data.getClass();
         if (classType == Integer.class) {
 			return new DBInteger((Integer) data);
@@ -64,7 +64,7 @@ public class DatatypeFactory {
 	/*
 	 * An alternate strategy to extensively load all datatypes
 	 * is to walk through directories in .classpath and registers any
-	 * class it finds that implements DatatypeDBMS.
+	 * class it finds that implements DBDatatype.
 	 */
 	private void loadDatatypes() {
 		try {

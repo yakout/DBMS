@@ -3,18 +3,18 @@ package dbms.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import dbms.datatypes.DatatypeDBMS;
+import dbms.datatypes.DBDatatype;
 
 public class Column {
 	private ArrayList<Object> entries = null;
-	private Class<? extends DatatypeDBMS> type = null;
+	private Class<? extends DBDatatype> type = null;
 	private String name = null;
 
 	public Column() {
 		entries = new ArrayList<Object>();
 	}
 
-	public Column(String name, Class<? extends DatatypeDBMS> type) {
+	public Column(String name, Class<? extends DBDatatype> type) {
 		entries = new ArrayList<Object>();
 		this.name = name;
 		this.type = type;
@@ -28,7 +28,7 @@ public class Column {
 		entries.remove(index);
 	}
 
-	public void setType(Class<? extends DatatypeDBMS> type) {
+	public void setType(Class<? extends DBDatatype> type) {
 		this.type = type;
 	}
 
@@ -40,7 +40,7 @@ public class Column {
 		return name;
 	}
 
-	public Class<? extends DatatypeDBMS> getType() {
+	public Class<? extends DBDatatype> getType() {
 		return type;
 	}
 

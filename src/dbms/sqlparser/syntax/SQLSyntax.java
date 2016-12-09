@@ -1,7 +1,8 @@
 package dbms.sqlparser.syntax;
 
-/**
- * Created by khlailmohammedyakout on 12/8/16.
- */
+import java.util.regex.Pattern;
+
 public interface SQLSyntax {
+    Pattern getPattern();
+    String getRegex();
 }

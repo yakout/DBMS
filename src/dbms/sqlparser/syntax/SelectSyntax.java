@@ -1,8 +1,22 @@
 package dbms.sqlparser.syntax;
 
-public class SelectSyntax {
+import java.util.regex.Pattern;
 
-    public static String selectSyntax = "(?i)^\\s*select\\s+";
-    public static String selectDistinctSyntax = "(distinct)?\\s+";
+public class SelectSyntax implements SQLSyntax {
+    private static Pattern selectPattern;
+    public static final String selectRegex = "(?i)^\\s*select\\s+(distinct)?\\s+((\\w+\\s*(\\s*,\\s*\\w+)*)|(\\*))\\s+from\\s+(\\w+)";
 
+
+    @Override
+    public Pattern getPattern() {
+        if (selectPattern == null) {
+            selectPattern = Pattern.compile(selectRegex);
+        }
+        return selectPattern;
+    }
+
+    @Override
+    public String getRegex() {
+        return selectRegex;
+    }
 }

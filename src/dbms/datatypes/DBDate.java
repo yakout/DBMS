@@ -2,7 +2,7 @@ package dbms.datatypes;
 
 import java.sql.Date;
 
-public class DBDate implements DatatypeDBMS {
+public class DBDate implements DBDatatype {
     public static final String KEY = "Date";
     private Date value;
 
@@ -27,7 +27,7 @@ public class DBDate implements DatatypeDBMS {
     }
 
     @Override
-    public int compareTo(DatatypeDBMS data) {
+    public int compareTo(DBDatatype data) {
         return value.compareTo((Date) data.getValue());
     }
 
@@ -35,4 +35,5 @@ public class DBDate implements DatatypeDBMS {
     public Date getValue() {
         return null;
     }
+    
 }
