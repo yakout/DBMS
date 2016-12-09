@@ -35,12 +35,20 @@ public class JSONParser extends BackendParser {
 			+ File.separator + "databases";
 	private static final ResourceBundle CONSTANTS = ResourceBundle.getBundle(
 			"dbms.backend.parsers.json.Constants");
+	private GsonBuilder builder;
+	Gson gson;
 
 	static {
 		BackendParserFactory.getFactory().register(KEY, getInstance());
 	}
 
 	private JSONParser() {
+		builder = new GsonBuilder();
+		builder.registerTypeAdapterFactory(new ClassTypeAdapterFactory());
+		builder.registerTypeAdapter(DBString.class, new ClassTypeAdapter());
+		builder.registerTypeAdapter(DBInteger.class, new ClassTypeAdapter());
+		builder.setPrettyPrinting();
+		gson = builder.create();
 	}
 
 	public static JSONParser getInstance() {
@@ -57,13 +65,11 @@ public class JSONParser extends BackendParser {
 
 	@Override
 	public void loadTable(Table table) throws TableNotFoundException, DatabaseNotFoundException {
-		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapterFactory(new ClassTypeAdapterFactory());
 		builder.registerTypeAdapter(DBString.class, new ClassTypeAdapter());
 		builder.registerTypeAdapter(DBInteger.class, new ClassTypeAdapter());
 		builder.registerTypeAdapter(DBFloat.class, new ClassTypeAdapter());
 		builder.registerTypeAdapter(DBDate.class, new ClassTypeAdapter());
-		Gson gson = builder.create();
 		BufferedReader bufferedReader;
 		try {
 			bufferedReader = new BufferedReader(new FileReader(table.getName() + CONSTANTS.getString("extension.json")));
@@ -106,13 +112,8 @@ public class JSONParser extends BackendParser {
 		}
 	}
 
-	private static void write(Table table, File tableFile) throws IOException {
-		GsonBuilder builder = new GsonBuilder();
-		builder.registerTypeAdapterFactory(new ClassTypeAdapterFactory());
-		builder.registerTypeAdapter(DBString.class, new ClassTypeAdapter());
-		builder.registerTypeAdapter(DBInteger.class, new ClassTypeAdapter());
-		builder.setPrettyPrinting();
-		Gson gson = builder.create();
+	private void write(Table table, File tableFile) throws IOException {
+		
 		FileWriter writer = new FileWriter(tableFile);
 		writer.write(gson.toJson(table));
 		writer.close();

@@ -19,6 +19,10 @@ public class JSONTestingCreation {
 			passMap.put("column_1", Integer.class);
 			passMap.put("column_2", String.class);
 			JSONParserConc.createTable("table11", passMap);
+			Map<String, Object> entriesMap = new LinkedHashMap<String, Object>();
+			entriesMap.put("column_1", 550);
+			entriesMap.put("column_2", "KHalED");
+			JSONParserConc.insertIntoTable("mine", entriesMap);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Not yet implemented");
