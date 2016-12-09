@@ -31,8 +31,10 @@ import dbms.util.Table;
 public class JSONParser extends BackendParser {
 	public static final String KEY = "json";
 	private static JSONParser instance = null;
-	private static final String WORKSPACE_DIR = System.getProperty("user.home") + File.separator + "databases";
-	private static final ResourceBundle CONSTANTS = ResourceBundle.getBundle("dbms.backend.parsers.json.Constants");
+	private static final String WORKSPACE_DIR = System.getProperty("user.home")
+			+ File.separator + "databases";
+	private static final ResourceBundle CONSTANTS = ResourceBundle.getBundle(
+			"dbms.backend.parsers.json.Constants");
 
 	static {
 		BackendParserFactory.getFactory().register(KEY, getInstance());
@@ -96,6 +98,11 @@ public class JSONParser extends BackendParser {
 				table.getName() + CONSTANTS.getString("extension.json"));
 		if (tableFile.exists()) {
 			throw new TableAlreadyCreatedException();
+		}
+		try {
+			write(table, tableFile);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
