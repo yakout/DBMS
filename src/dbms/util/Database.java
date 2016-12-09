@@ -16,6 +16,10 @@ public class Database {
 		tables.add(table);
 		return table;
 	}
+	
+	public void addTable(Table table) {
+		tables.add(table);
+	}
 
 	public Table getTable(String tableName) {
 		for (Table table : tables) {
