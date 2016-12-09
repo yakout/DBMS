@@ -29,4 +29,5 @@ public class DBString implements DatatypeDBMS {
 	public String getValue() {
 		return value;
 	}
+	
 }

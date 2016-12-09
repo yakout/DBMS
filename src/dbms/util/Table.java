@@ -35,6 +35,7 @@ public class Table {
 
 	public void attachToDatabase(Database database) {
 		this.database = database;
+		this.database.addTable(this);
 	}
 
 	public void addColumn(Column col) {
