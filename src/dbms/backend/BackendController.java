@@ -16,7 +16,7 @@ import dbms.sqlparser.SQLParser;
 import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.util.Column;
 import dbms.util.Database;
-import dbms.util.ResultSet;
+import dbms.util.RecordSet;
 import dbms.util.Table;
 
 /**
@@ -128,24 +128,24 @@ public class BackendController {
 
 	/**
 	 * Selects data from database given a certain condition,
-	 * the result is stored after in a {@link ResultSet}.
+	 * the result is stored after in a {@link RecordSet}.
 	 * @param tableName Name of table inside database.
 	 * @param condition {@link Condition} condition for data selection,
 	 * can be null.
 	 * @param columns {@link Collection<String>} columns to select from.
-	 * @return {@link ResultSet} Set of returned data.
+	 * @return {@link RecordSet} Set of returned data.
 	 * @throws TableNotFoundException
 	 * @throws DatabaseNotFoundException
 	 * @throws IncorrectDataEntryException
 	 * @throws SyntaxErrorException
 	 */
-	public ResultSet select(String tableName,
-			Collection<String> columns, Condition condition)
+	public RecordSet select(String tableName,
+							Collection<String> columns, Condition condition)
 					throws DatabaseNotFoundException,TableNotFoundException,
 					SyntaxErrorException, IncorrectDataEntryException {
 		Table table = new Database(dbName).createTable(tableName);
 		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
-		ResultSet ret = table.select(columns, condition);
+		RecordSet ret = table.select(columns, condition);
 		table.clear();
 		return ret;
 	}
@@ -244,7 +244,7 @@ public class BackendController {
 			throw new IncorrectDataEntryException("Datatype not supported!");
 		}
 		Table table = new Table(tableName);
-		table.attachToDatabase(new Database(dbName));
+		table.setDatabase(new Database(dbName));
 		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
 		table.alterAdd(columnName, type);
 		BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
@@ -263,7 +263,7 @@ public class BackendController {
 			throws DatabaseNotFoundException, TableNotFoundException
 			, IncorrectDataEntryException {
 		Table table = new Table(tableName);
-		table.attachToDatabase(new Database(dbName));
+		table.setDatabase(new Database(dbName));
 		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
 		table.alterDrop(columnName);
 		BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);

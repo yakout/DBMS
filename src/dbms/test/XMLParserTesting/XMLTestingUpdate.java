@@ -1,21 +1,16 @@
 package dbms.test.XMLParserTesting;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
-import org.junit.Test;
-
 import dbms.backend.BackendController;
 import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.sqlparser.sqlInterpreter.Where;
-import dbms.util.Result;
-import dbms.util.ResultSet;
+import dbms.util.Record;
+import dbms.util.RecordSet;
+import org.junit.Test;
+
+import java.util.*;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class XMLTestingUpdate {
 	private final BackendController xmlParserConc = BackendController.getInstance();
@@ -65,27 +60,27 @@ public class XMLTestingUpdate {
 			columns.add("col_4");
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
 			values.clear();
-			ResultSet resultSet = new ResultSet();
+			RecordSet recordSet = new RecordSet();
 			resExpected.put("col_1", "changed");
 			resExpected.put("col_2", "changed");
 			resExpected.put("col_4", 10000);
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("col_1", "changed");
 			resExpected.put("col_2", "changed");
 			resExpected.put("col_4", 10000);
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("col_1", "changed");
 			resExpected.put("col_2", "changed");
 			resExpected.put("col_4", 10000);
-			resultSet.add(new Result(resExpected));
-			ResultSet actualRes = xmlParserConc.select("table_1", columns, null);
-			Iterator<Result> resultSetIt = resultSet.iterator();
-			Iterator<Result> actualResultIt = actualRes.iterator();
+			recordSet.add(new Record(resExpected));
+			RecordSet actualRes = xmlParserConc.select("table_1", columns, null);
+			Iterator<Record> resultSetIt = recordSet.iterator();
+			Iterator<Record> actualResultIt = actualRes.iterator();
 			while (resultSetIt.hasNext() && actualResultIt.hasNext()) {
-				assertTrue(resultSetIt.next().getResult().equals(
-						actualResultIt.next().getResult()));
+				assertTrue(resultSetIt.next().getRecord().equals(
+						actualResultIt.next().getRecord()));
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -138,19 +133,19 @@ public class XMLTestingUpdate {
 			columns.add("col_4");
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
 			values.clear();
-			ResultSet resultSet = new ResultSet();
+			RecordSet recordSet = new RecordSet();
 			resExpected.put("col_1", "keyyyy");
 			resExpected.put("col_2", "steadyyy");
 			resExpected.put("col_4", 100);
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			Condition where2 =  new Where("col_4 < 10000");
-			ResultSet actualRes = xmlParserConc.select("table_1", columns, where2);
-			Iterator<Result> resultSetIt = resultSet.iterator();
-			Iterator<Result> actualResultIt = actualRes.iterator();
+			RecordSet actualRes = xmlParserConc.select("table_1", columns, where2);
+			Iterator<Record> resultSetIt = recordSet.iterator();
+			Iterator<Record> actualResultIt = actualRes.iterator();
 			while (resultSetIt.hasNext() && actualResultIt.hasNext()) {
-//				System.out.println(resultSetIt.next().getResult() + "    " + actualResultIt.next().getResult());
-				assertTrue(resultSetIt.next().getResult().equals(
-						actualResultIt.next().getResult()));
+//				System.out.println(resultSetIt.next().getRecord() + "    " + actualResultIt.next().getRecord());
+				assertTrue(resultSetIt.next().getRecord().equals(
+						actualResultIt.next().getRecord()));
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -204,31 +199,31 @@ public class XMLTestingUpdate {
 			columns.add("col_4");
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
 			values.clear();
-			ResultSet resultSet = new ResultSet();
+			RecordSet recordSet = new RecordSet();
 			resExpected.put("col_1", "changed");
 			resExpected.put("col_2", "changed");
 			resExpected.put("col_3", "changed");
 			resExpected.put("col_4", 10000);
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("col_1", "high");
 			resExpected.put("col_2", "CFFF");
 			resExpected.put("col_3", "wyyyyy");
 			resExpected.put("col_4", 10);
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("col_1", "keyyyy");
 			resExpected.put("col_2", "steadyyy");
 			resExpected.put("col_3", "andddd");
 			resExpected.put("col_4", 100);
-			resultSet.add(new Result(resExpected));
-			ResultSet actualRes = xmlParserConc.select("table_1", columns, null);
-			Iterator<Result> resultSetIt = resultSet.iterator();
-			Iterator<Result> actualResultIt = actualRes.iterator();
+			recordSet.add(new Record(resExpected));
+			RecordSet actualRes = xmlParserConc.select("table_1", columns, null);
+			Iterator<Record> resultSetIt = recordSet.iterator();
+			Iterator<Record> actualResultIt = actualRes.iterator();
 			while (resultSetIt.hasNext() && actualResultIt.hasNext()) {
-//				System.out.println(resultSetIt.next().getResult() + "    " + actualResultIt.next().getResult());
-				assertTrue(resultSetIt.next().getResult().equals(
-						actualResultIt.next().getResult()));
+//				System.out.println(resultSetIt.next().getRecord() + "    " + actualResultIt.next().getRecord());
+				assertTrue(resultSetIt.next().getRecord().equals(
+						actualResultIt.next().getRecord()));
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -282,31 +277,31 @@ public class XMLTestingUpdate {
 			columns.add("col_4");
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
 			values.clear();
-			ResultSet resultSet = new ResultSet();
+			RecordSet recordSet = new RecordSet();
 			resExpected.put("col_1", "changed");
 			resExpected.put("col_2", "changed");
 			resExpected.put("col_3", "changed");
 			resExpected.put("col_4", 10000);
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("col_1", "changed");
 			resExpected.put("col_2", "changed");
 			resExpected.put("col_3", "changed");
 			resExpected.put("col_4", 10000);
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("col_1", "changed");
 			resExpected.put("col_2", "changed");
 			resExpected.put("col_3", "changed");
 			resExpected.put("col_4", 10000);
-			resultSet.add(new Result(resExpected));
-			ResultSet actualRes = xmlParserConc.select("table_1", columns, null);
-			Iterator<Result> resultSetIt = resultSet.iterator();
-			Iterator<Result> actualResultIt = actualRes.iterator();
+			recordSet.add(new Record(resExpected));
+			RecordSet actualRes = xmlParserConc.select("table_1", columns, null);
+			Iterator<Record> resultSetIt = recordSet.iterator();
+			Iterator<Record> actualResultIt = actualRes.iterator();
 			while (resultSetIt.hasNext() && actualResultIt.hasNext()) {
-//				System.out.println(resultSetIt.next().getResult() + "    " + actualResultIt.next().getResult());
-				assertTrue(resultSetIt.next().getResult().equals(
-						actualResultIt.next().getResult()));
+//				System.out.println(resultSetIt.next().getRecord() + "    " + actualResultIt.next().getRecord());
+				assertTrue(resultSetIt.next().getRecord().equals(
+						actualResultIt.next().getRecord()));
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -360,31 +355,31 @@ public class XMLTestingUpdate {
 			columns.add("col_4");
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
 			values.clear();
-			ResultSet resultSet = new ResultSet();
+			RecordSet recordSet = new RecordSet();
 			resExpected.put("col_1", "changed");
 			resExpected.put("col_2", "changed");
 			resExpected.put("col_3", "changed");
 			resExpected.put("col_4", 10000);
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("col_1", "high");
 			resExpected.put("col_2", "CFFF");
 			resExpected.put("col_3", "wyyyyy");
 			resExpected.put("col_4", 10);
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("col_1", "keyyyy");
 			resExpected.put("col_2", "steadyyy");
 			resExpected.put("col_3", "andddd");
 			resExpected.put("col_4", 100);
-			resultSet.add(new Result(resExpected));
-			ResultSet actualRes = xmlParserConc.select("table_1", columns, null);
-			Iterator<Result> resultSetIt = resultSet.iterator();
-			Iterator<Result> actualResultIt = actualRes.iterator();
+			recordSet.add(new Record(resExpected));
+			RecordSet actualRes = xmlParserConc.select("table_1", columns, null);
+			Iterator<Record> resultSetIt = recordSet.iterator();
+			Iterator<Record> actualResultIt = actualRes.iterator();
 			while (resultSetIt.hasNext() && actualResultIt.hasNext()) {
-//				System.out.println(resultSetIt.next().getResult() + "    " + actualResultIt.next().getResult());
-				assertTrue(resultSetIt.next().getResult().equals(
-						actualResultIt.next().getResult()));
+//				System.out.println(resultSetIt.next().getRecord() + "    " + actualResultIt.next().getRecord());
+				assertTrue(resultSetIt.next().getRecord().equals(
+						actualResultIt.next().getRecord()));
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -438,31 +433,31 @@ public class XMLTestingUpdate {
 			columns.add("col_4");
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
 //			values.clear();
-			ResultSet resultSet = new ResultSet();
+			RecordSet recordSet = new RecordSet();
 			resExpected.put("col_1", "Sea");
 			resExpected.put("col_2", "SQL");
 			resExpected.put("col_3", "SkY");
 			resExpected.put("col_4", 1);
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("col_1", "CFFF");
 			resExpected.put("col_2", "wyyyyy");
 			resExpected.put("col_3", "wyyyyy");
 			resExpected.put("col_4", 10);
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("col_1", "keyyyy");
 			resExpected.put("col_2", "steadyyy");
 			resExpected.put("col_3", "andddd");
 			resExpected.put("col_4", 100);
-			resultSet.add(new Result(resExpected));
-			ResultSet actualRes = xmlParserConc.select("table_1", columns, null);
-			Iterator<Result> resultSetIt = resultSet.iterator();
-			Iterator<Result> actualResultIt = actualRes.iterator();
+			recordSet.add(new Record(resExpected));
+			RecordSet actualRes = xmlParserConc.select("table_1", columns, null);
+			Iterator<Record> resultSetIt = recordSet.iterator();
+			Iterator<Record> actualResultIt = actualRes.iterator();
 			while (resultSetIt.hasNext() && actualResultIt.hasNext()) {
-//				System.out.println(resultSetIt.next().getResult() + "    " + actualResultIt.next().getResult());
-				assertTrue(resultSetIt.next().getResult().equals(
-						actualResultIt.next().getResult()));
+//				System.out.println(resultSetIt.next().getRecord() + "    " + actualResultIt.next().getRecord());
+				assertTrue(resultSetIt.next().getRecord().equals(
+						actualResultIt.next().getRecord()));
 			}
 		} catch(Exception e) {
 			e.printStackTrace();

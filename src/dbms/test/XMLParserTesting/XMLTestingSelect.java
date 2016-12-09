@@ -10,13 +10,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import dbms.util.Record;
 import org.junit.Test;
 
 import dbms.backend.BackendController;
 import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.sqlparser.sqlInterpreter.Where;
-import dbms.util.Result;
-import dbms.util.ResultSet;
+import dbms.util.RecordSet;
 
 public class XMLTestingSelect {
 
@@ -50,17 +50,17 @@ public class XMLTestingSelect {
 
 			columns.add("column_1");
 			columns.add("column_2");
-			ResultSet result = new ResultSet();
+			RecordSet result = new RecordSet();
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 550);
 			resExpected.put("column_2", "KHalED");
 			xmlParserConc.alterAdd("table_name", "column_3", String.class);
 			xmlParserConc.alterDrop("table_name", "column_3");
-			Result expResult = new Result(resExpected);
-			result.add(expResult);
+			Record expRecord = new Record(resExpected);
+			result.add(expRecord);
 
-			ResultSet actualRes = xmlParserConc.select("table_name", columns, null);
-			assertTrue(result.next().getResult().equals(actualRes.next().getResult()));
+			RecordSet actualRes = xmlParserConc.select("table_name", columns, null);
+			assertTrue(result.next().getRecord().equals(actualRes.next().getRecord()));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Error occured!");
@@ -96,17 +96,17 @@ public class XMLTestingSelect {
 
 			columns.add("column_1");
 			columns.add("column_2");
-			ResultSet result = new ResultSet();
+			RecordSet result = new RecordSet();
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 550);
 			resExpected.put("column_2", "KHalED");
 			resExpected.put("column_1", 14);
 			resExpected.put("column_2", "TOLBa");
-			Result expResult = new Result(resExpected);
-			result.add(expResult);
+			Record expRecord = new Record(resExpected);
+			result.add(expRecord);
 
-			ResultSet actualRes = xmlParserConc.select("table_name", columns, null);
-			assertTrue(result.next().getResult().equals(actualRes.next().getResult()));
+			RecordSet actualRes = xmlParserConc.select("table_name", columns, null);
+			assertTrue(result.next().getRecord().equals(actualRes.next().getRecord()));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Error occured!");
@@ -153,31 +153,31 @@ public class XMLTestingSelect {
 			columns.add("column_1");
 			columns.add("column_2");
 			columns.add("column_3");
-			ResultSet resultSet = new ResultSet();
+			RecordSet recordSet = new RecordSet();
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
 
 			resExpected.put("column_1", 550);
 			resExpected.put("column_2", "KHalED");
 			resExpected.put("column_3", "ANAS");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 14);
 			resExpected.put("column_2", "TOLBa");
 			resExpected.put("column_3", "YAKoUT");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 1512);
 			resExpected.put("column_2", "Merci");
 			resExpected.put("column_3", "School");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 
-			ResultSet actualRes = xmlParserConc.select("table_name", columns, null);
+			RecordSet actualRes = xmlParserConc.select("table_name", columns, null);
 
-			Iterator<Result> resultSetItr = resultSet.iterator();
-			Iterator<Result> actualResItr = actualRes.iterator();
+			Iterator<Record> resultSetItr = recordSet.iterator();
+			Iterator<Record> actualResItr = actualRes.iterator();
 			while (resultSetItr.hasNext() && actualResItr.hasNext()) {
 
-				assertTrue(resultSetItr.next().getResult().equals(actualResItr.next().getResult()));
+				assertTrue(resultSetItr.next().getRecord().equals(actualResItr.next().getRecord()));
 
 			}
 		} catch (Exception e) {
@@ -244,57 +244,57 @@ public class XMLTestingSelect {
 			columns.add("column_1");
 			columns.add("column_2");
 			columns.add("column_3");
-			ResultSet resultSet = new ResultSet();
+			RecordSet recordSet = new RecordSet();
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
 
 			resExpected.put("column_1", 550);
 			resExpected.put("column_2", "KHalED");
 			resExpected.put("column_3", "ANAS");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 14);
 			resExpected.put("column_2", "TOLBa");
 			resExpected.put("column_3", "YAKoUT");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 1512);
 			resExpected.put("column_2", "Merci");
 			resExpected.put("column_3", "School");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 56277);
 			resExpected.put("column_2", "Merci");
 			resExpected.put("column_3", "Wal3aa");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 889884);
 			resExpected.put("column_2", "yes");
 			resExpected.put("column_3", "no");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 7777);
 			resExpected.put("column_2", "HelloFromTheOtherSide");
 			resExpected.put("column_3", "noAgain");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 7897);
 			resExpected.put("column_2", "HelloFromTheOtherSideFam");
 			resExpected.put("column_3", "noAgainNo");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", null);
 			resExpected.put("column_2",
 					"HelloFromTheOtherSideFamHHHHhhhHHHHhhhhjkvh sdkjdhlvhczxhvsdhnufhs , oidnoiwhadshkfnh [fsnanhdx");
 			resExpected.put("column_3", "noAgainNohnifyueirefucnyweifyuewuciuuighrmoxarignriegxfiwhiufhzr");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 
-			ResultSet actualRes = xmlParserConc.select("table_name", columns, null);
+			RecordSet actualRes = xmlParserConc.select("table_name", columns, null);
 
-			Iterator<Result> resultSetItr = resultSet.iterator();
-			Iterator<Result> actualResItr = actualRes.iterator();
+			Iterator<Record> resultSetItr = recordSet.iterator();
+			Iterator<Record> actualResItr = actualRes.iterator();
 
 			while (resultSetItr.hasNext() && actualResItr.hasNext()) {
-				assertTrue(resultSetItr.next().getResult().equals(actualResItr.next().getResult()));
+				assertTrue(resultSetItr.next().getRecord().equals(actualResItr.next().getRecord()));
 			}
 			try {
 				testFive();
@@ -320,58 +320,58 @@ public class XMLTestingSelect {
 			columns.add("column_1");
 			columns.add("column_2");
 			columns.add("column_3");
-			ResultSet resultSet = new ResultSet();
+			RecordSet recordSet = new RecordSet();
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
 
 			resExpected.put("column_1", 550);
 			resExpected.put("column_2", "KHalED");
 			resExpected.put("column_3", "ANAS");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 14);
 			resExpected.put("column_2", "TOLBa");
 			resExpected.put("column_3", "YAKoUT");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 1512);
 			resExpected.put("column_2", "Merci");
 			resExpected.put("column_3", "School");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 56277);
 			resExpected.put("column_2", "Merci");
 			resExpected.put("column_3", "Wal3aa");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 889884);
 			resExpected.put("column_2", "yes");
 			resExpected.put("column_3", "no");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 7777);
 			resExpected.put("column_2", "HelloFromTheOtherSide");
 			resExpected.put("column_3", "noAgain");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 7897);
 			resExpected.put("column_2", "HelloFromTheOtherSideFam");
 			resExpected.put("column_3", "noAgainNo");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", null);
 			resExpected.put("column_2",
 					"HelloFromTheOtherSideFamHHHHhhhHHHHhhhhjkvh sdkjdhlvhczxhvsdhnufhs , oidnoiwhadshkfnh [fsnanhdx");
 			resExpected.put("column_3", "noAgainNohnifyueirefucnyweifyuewuciuuighrmoxarignriegxfiwhiufhzr");
-			resultSet.add(new Result(resExpected));
+			recordSet.add(new Record(resExpected));
 
-			ResultSet actualRes = xmlParserConc.select("table_name", columns, null);
+			RecordSet actualRes = xmlParserConc.select("table_name", columns, null);
 
-			Iterator<Result> resultSetItr = resultSet.iterator();
-			Iterator<Result> actualResItr = actualRes.iterator();
+			Iterator<Record> resultSetItr = recordSet.iterator();
+			Iterator<Record> actualResItr = actualRes.iterator();
 
 			while (resultSetItr.hasNext() && actualResItr.hasNext()) {
 				try {
-					assertTrue(resultSetItr.next().getResult().equals(actualResItr.next().getResult()));
+					assertTrue(resultSetItr.next().getRecord().equals(actualResItr.next().getRecord()));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -409,16 +409,15 @@ public class XMLTestingSelect {
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 550);
 			resExpected.put("column_2", null);
-			Result expResult = new Result(resExpected);
-			ResultSet result = new ResultSet();
-			result.add(expResult);
-			ResultSet actualRes = xmlParserConc.select("table_name", null, conditionQ);
-			assertTrue(result.next().getResult().equals(actualRes.next().getResult()));
+			Record expRecord = new Record(resExpected);
+			RecordSet result = new RecordSet();
+			result.add(expRecord);
+			RecordSet actualRes = xmlParserConc.select("table_name", null, conditionQ);
+			assertTrue(result.next().getRecord().equals(actualRes.next().getRecord()));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Error occured!");
 
 		}
 	}
-
 }

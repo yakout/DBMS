@@ -9,13 +9,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import dbms.util.Record;
 import org.junit.Test;
 
 import dbms.backend.BackendController;
 import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.sqlparser.sqlInterpreter.Where;
-import dbms.util.Result;
-import dbms.util.ResultSet;
+import dbms.util.RecordSet;
 
 public class XMLTestingDelete {
 	private final BackendController xmlParserConc = BackendController.getInstance();
@@ -54,34 +54,34 @@ public class XMLTestingDelete {
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 
 			Condition whereCondition = new Where("    column_1   >=    300 ");
-			ResultSet result = new ResultSet();
+			RecordSet result = new RecordSet();
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 550);
 			resExpected.put("column_2", "KHalED");
-			Result expResult = new Result(resExpected);
-			result.add(expResult);
+			Record expRecord = new Record(resExpected);
+			result.add(expRecord);
 
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 7500);
 			resExpected.put("column_2", "AnAs");
-			expResult = new Result(resExpected);
-			result.add(expResult);
+			expRecord = new Record(resExpected);
+			result.add(expRecord);
 
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 852);
 			resExpected.put("column_2", "YaKoUt");
-			expResult = new Result(resExpected);
-			result.add(expResult);
+			expRecord = new Record(resExpected);
+			result.add(expRecord);
 
 			xmlParserConc.delete("table_name", whereCondition);
 
-			ResultSet actualRes = xmlParserConc.select("table_name", null, whereCondition);
+			RecordSet actualRes = xmlParserConc.select("table_name", null, whereCondition);
 
-			Iterator<Result> resultSetItr = result.iterator();
-			Iterator<Result> actualResItr = actualRes.iterator();
+			Iterator<Record> resultSetItr = result.iterator();
+			Iterator<Record> actualResItr = actualRes.iterator();
 			while (resultSetItr.hasNext() && actualResItr.hasNext()) {
 
-				assertTrue(resultSetItr.next().getResult().equals(actualResItr.next().getResult()));
+				assertTrue(resultSetItr.next().getRecord().equals(actualResItr.next().getRecord()));
 
 			}
 		} catch (Exception e) {
@@ -125,22 +125,22 @@ public class XMLTestingDelete {
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 
 			Condition whereCondition = new Where("   column_1  >=  300  ");
-			ResultSet result = new ResultSet();
+			RecordSet result = new RecordSet();
 
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 550);
-			Result expResult = new Result(resExpected);
-			result.add(expResult);
+			Record expRecord = new Record(resExpected);
+			result.add(expRecord);
 
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 7500);
-			expResult = new Result(resExpected);
-			result.add(expResult);
+			expRecord = new Record(resExpected);
+			result.add(expRecord);
 
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 852);
-			expResult = new Result(resExpected);
-			result.add(expResult);
+			expRecord = new Record(resExpected);
+			result.add(expRecord);
 
 			Set<String> columns = new TreeSet<String>();
 
@@ -148,13 +148,13 @@ public class XMLTestingDelete {
 
 			xmlParserConc.delete("table_name", whereCondition);
 
-			ResultSet actualRes = xmlParserConc.select("table_name", columns, whereCondition);
+			RecordSet actualRes = xmlParserConc.select("table_name", columns, whereCondition);
 
-			Iterator<Result> resultSetItr = result.iterator();
-			Iterator<Result> actualResItr = actualRes.iterator();
+			Iterator<Record> resultSetItr = result.iterator();
+			Iterator<Record> actualResItr = actualRes.iterator();
 			while (resultSetItr.hasNext() && actualResItr.hasNext()) {
 
-				assertTrue(resultSetItr.next().getResult().equals(actualResItr.next().getResult()));
+				assertTrue(resultSetItr.next().getRecord().equals(actualResItr.next().getRecord()));
 
 			}
 		} catch (Exception e) {
@@ -199,17 +199,17 @@ public class XMLTestingDelete {
 
 			Condition whereConditionDel = new Where("   column_1  >  300  ");
 			Condition whereConditionSel = new Where("   column_1  >  600  ");
-			ResultSet result = new ResultSet();
+			RecordSet result = new RecordSet();
 
 			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 7500);
-			Result expResult = new Result(resExpected);
-			result.add(expResult);
+			Record expRecord = new Record(resExpected);
+			result.add(expRecord);
 
 			resExpected = new LinkedHashMap<String, Object>();
 			resExpected.put("column_1", 852);
-			expResult = new Result(resExpected);
-			result.add(expResult);
+			expRecord = new Record(resExpected);
+			result.add(expRecord);
 
 			Set<String> columns = new TreeSet<String>();
 
@@ -217,13 +217,13 @@ public class XMLTestingDelete {
 
 			xmlParserConc.delete("table_name", whereConditionDel);
 
-			ResultSet actualRes = xmlParserConc.select("table_name", columns, whereConditionSel);
+			RecordSet actualRes = xmlParserConc.select("table_name", columns, whereConditionSel);
 
-			Iterator<Result> resultSetItr = result.iterator();
-			Iterator<Result> actualResItr = actualRes.iterator();
+			Iterator<Record> resultSetItr = result.iterator();
+			Iterator<Record> actualResItr = actualRes.iterator();
 			while (resultSetItr.hasNext() && actualResItr.hasNext()) {
 
-				assertTrue(resultSetItr.next().getResult().equals(actualResItr.next().getResult()));
+				assertTrue(resultSetItr.next().getRecord().equals(actualResItr.next().getRecord()));
 
 			}
 		} catch (Exception e) {
@@ -268,15 +268,15 @@ public class XMLTestingDelete {
 
 			Condition whereConditionDel = new Where("   column_1  <  300  ");
 			Condition whereConditionSel = new Where("   column_1  <  500  ");
-			ResultSet result = new ResultSet();
+			RecordSet result = new RecordSet();
 
 			Set<String> columns = new TreeSet<String>();
 
 			columns.add("column_1");
 
 			xmlParserConc.delete("table_name", whereConditionDel);
-			ResultSet actualRes = xmlParserConc.select("table_name", columns, whereConditionSel);
-			Iterator<Result> actualResItr = actualRes.iterator();
+			RecordSet actualRes = xmlParserConc.select("table_name", columns, whereConditionSel);
+			Iterator<Record> actualResItr = actualRes.iterator();
 			while (actualResItr.hasNext()) {
 
 				assertTrue(actualResItr.next() == null);
@@ -324,15 +324,15 @@ public class XMLTestingDelete {
 
 			Condition whereConditionDel = new Where("   column_1  !=  300  ");
 			
-			ResultSet result = new ResultSet();
+			RecordSet result = new RecordSet();
 
 			Set<String> columns = new TreeSet<String>();
 
 			columns.add("column_1");
 
 			xmlParserConc.delete("table_name", whereConditionDel);
-			ResultSet actualRes = xmlParserConc.select("table_name", null , null);
-			Iterator<Result> actualResItr = actualRes.iterator();
+			RecordSet actualRes = xmlParserConc.select("table_name", null , null);
+			Iterator<Record> actualResItr = actualRes.iterator();
 			while (actualResItr.hasNext()) {
 
 				assertTrue(actualResItr.next() == null);

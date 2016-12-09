@@ -3,7 +3,7 @@ package dbms.sqlparser.sqlInterpreter.rules;
 import dbms.backend.BackendController;
 import dbms.exception.*;
 import dbms.ui.Formatter;
-import dbms.util.ResultSet;
+import dbms.util.RecordSet;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +27,7 @@ public class Union implements DMLStatement {
             TableAlreadyCreatedException, DatabaseAlreadyCreatedException,
             IncorrectDataEntryException {
 
-        ResultSet result = new ResultSet();
+        RecordSet result = new RecordSet();
         for (Select select : selects) {
             // TODO handel order by and distinct
             result.union(BackendController.getInstance().select(select.getTableName(),
