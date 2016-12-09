@@ -1,6 +1,6 @@
 package dbms.datatypes;
 
-public interface DatatypeDBMS extends Comparable<DatatypeDBMS> {
+public interface DBDatatype extends Comparable<DBDatatype> {
 	Object toObj(String s);
 	Object getValue();
 }
