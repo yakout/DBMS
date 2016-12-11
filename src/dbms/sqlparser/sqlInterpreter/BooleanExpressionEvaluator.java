@@ -1,9 +1,9 @@
 package dbms.sqlparser.sqlInterpreter;
 
+import dbms.exception.IncorrectDataEntryException;
+
 import java.util.Map;
 import java.util.Queue;
-
-import dbms.exception.IncorrectDataEntryException;
 
 public abstract class BooleanExpressionEvaluator {
     private Queue<Object> postfix;

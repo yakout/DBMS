@@ -1,15 +1,14 @@
 package dbms.test.SQLParserTesting;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
-import org.junit.Test;
-
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.SQLParser;
-import dbms.sqlparser.sqlInterpreter.rules.Expression;
 import dbms.sqlparser.sqlInterpreter.rules.DropDatabase;
 import dbms.sqlparser.sqlInterpreter.rules.DropTable;
+import dbms.sqlparser.sqlInterpreter.rules.Expression;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class DropTest extends SqlParserRef {
 

@@ -2,8 +2,8 @@ package dbms.test.SQLParserTesting;
 
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.SQLParser;
-import dbms.sqlparser.sqlInterpreter.SQLPredicate;
 import dbms.sqlparser.sqlInterpreter.BooleanOperator;
+import dbms.sqlparser.sqlInterpreter.SQLPredicate;
 import dbms.sqlparser.sqlInterpreter.rules.Expression;
 import dbms.sqlparser.sqlInterpreter.rules.Select;
 import dbms.util.Operator;

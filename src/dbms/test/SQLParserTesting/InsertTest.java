@@ -1,16 +1,15 @@
 package dbms.test.SQLParserTesting;
 
-import static org.junit.Assert.*;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.Test;
-
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.SQLParser;
 import dbms.sqlparser.sqlInterpreter.rules.Expression;
 import dbms.sqlparser.sqlInterpreter.rules.InsertIntoTable;
+import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.*;
 
 public class InsertTest extends SqlParserRef {
 

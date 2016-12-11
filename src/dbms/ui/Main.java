@@ -1,15 +1,9 @@
 package dbms.ui;
 
-import java.io.Console;
-
-import dbms.exception.DataTypeNotSupportedException;
-import dbms.exception.DatabaseAlreadyCreatedException;
-import dbms.exception.DatabaseNotFoundException;
-import dbms.exception.IncorrectDataEntryException;
-import dbms.exception.SyntaxErrorException;
-import dbms.exception.TableAlreadyCreatedException;
-import dbms.exception.TableNotFoundException;
+import dbms.exception.*;
 import dbms.sqlparser.SQLParser;
+
+import java.io.Console;
 
 public class Main {
     private final static SQLParser sqlParserObj = SQLParser.getInstance();

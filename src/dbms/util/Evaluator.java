@@ -1,5 +1,6 @@
 package dbms.util;
 
+import dbms.datatypes.DBDatatype;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.sqlparser.sqlInterpreter.BooleanExpressionEvaluator;
 import dbms.sqlparser.sqlInterpreter.BooleanOperator;
@@ -26,8 +27,8 @@ public class Evaluator extends BooleanExpressionEvaluator{
 	}
 
 	@Override
-    public boolean evaluate(Map<String, Object> row, Queue<Object> postfix,
-    		Map<String, String> columns) throws IncorrectDataEntryException {
+    public boolean evaluate(Map<String, DBDatatype> row, Queue<Object> postfix,
+                            Map<String, String> columns) throws IncorrectDataEntryException {
         Stack<Object> helperStack = new Stack<>();
 		Queue<Object> postfixClone = new LinkedList<Object>(postfix);
         // in case if only on predicate

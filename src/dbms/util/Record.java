@@ -1,5 +1,7 @@
 package dbms.util;
 
+import dbms.datatypes.DBDatatype;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -9,13 +11,13 @@ import java.util.Map;
  * is used with {@link RecordSet}.
  */
 public class Record implements Cloneable {
-	private Map<String, Object> record;
+	private Map<String, DBDatatype> record;
 
 	/**
 	 * Constructor for a Record.
 	 */
 	public Record() {
-		record = new LinkedHashMap<String, Object>();
+		record = new LinkedHashMap<String, DBDatatype>();
 	}
 
 	/**
@@ -23,20 +25,20 @@ public class Record implements Cloneable {
 	 * {@link Map} as a data holder.
 	 * @param record {@link Map} map of data.
 	 */
-	public Record(Map<String, Object> record) {
+	public Record(Map<String, DBDatatype> record) {
 		this.record = record;
 	}
 
 	/**
 	 * Adds a single piece of data to Record.
-	 * @param key key to be used to access an object.
-	 * @param {@link Object} to be accessed.
+	 * @param key key to be used to access an DBDatatype.
+	 * @param {@link DBDatatype} to be accessed.
 	 */
-	public void add(String key, Object object) {
-		record.put(key, object);
+	public void add(String key, DBDatatype DBDatatype) {
+		record.put(key, DBDatatype);
 	}
 
-	public Object get(String columnName) {
+	public DBDatatype get(String columnName) {
 		return record.get(columnName);
 	}
 
@@ -44,14 +46,14 @@ public class Record implements Cloneable {
 	 * Returns a {@link Map} representation of result.
 	 * @return {@link Map} to be accessed.
 	 */
-	public Map<String, Object> getRecord() {
+	public Map<String, DBDatatype> getRecord() {
 		return record;
 	}
 
-	public Object get(int columnIndex) {
-		Object ret = null;
+	public DBDatatype get(int columnIndex) {
+		DBDatatype ret = null;
 		try {
-			ret = (new ArrayList<Object>(record.values()).get(columnIndex));
+			ret = (new ArrayList<DBDatatype>(record.values()).get(columnIndex));
 		} catch (IndexOutOfBoundsException e) {
 		}
 		return ret;
@@ -59,8 +61,8 @@ public class Record implements Cloneable {
 
 	@Override
 	public Record clone() {
-		LinkedHashMap<String, Object> newMap =
-				new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, DBDatatype> newMap =
+				new LinkedHashMap<String, DBDatatype>();
 		newMap.putAll(record);
 		Record newRecord = new Record(newMap);
 		return newRecord;

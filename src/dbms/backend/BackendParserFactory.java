@@ -1,7 +1,6 @@
 package dbms.backend;
 
 import dbms.backend.parsers.json.JSONParser;
-import dbms.backend.parsers.xml.XMLParser;
 
 import java.util.HashMap;
 

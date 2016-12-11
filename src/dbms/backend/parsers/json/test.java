@@ -1,14 +1,10 @@
 package dbms.backend.parsers.json;
 
+import dbms.backend.BackendController;
+import dbms.exception.*;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import dbms.backend.BackendController;
-import dbms.exception.DatabaseAlreadyCreatedException;
-import dbms.exception.DatabaseNotFoundException;
-import dbms.exception.IncorrectDataEntryException;
-import dbms.exception.TableAlreadyCreatedException;
-import dbms.exception.TableNotFoundException;
 
 public class test {
 	private final static BackendController JSONParserConc = BackendController.getInstance();

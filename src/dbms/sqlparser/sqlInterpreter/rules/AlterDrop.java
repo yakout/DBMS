@@ -1,13 +1,7 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
 import dbms.backend.BackendController;
-import dbms.exception.DataTypeNotSupportedException;
-import dbms.exception.DatabaseAlreadyCreatedException;
-import dbms.exception.DatabaseNotFoundException;
-import dbms.exception.IncorrectDataEntryException;
-import dbms.exception.SyntaxErrorException;
-import dbms.exception.TableAlreadyCreatedException;
-import dbms.exception.TableNotFoundException;
+import dbms.exception.*;
 
 public class AlterDrop implements DDLStatement {
 	private String tableName;

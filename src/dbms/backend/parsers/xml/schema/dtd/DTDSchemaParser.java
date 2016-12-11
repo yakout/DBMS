@@ -1,11 +1,11 @@
 package dbms.backend.parsers.xml.schema.dtd;
 
+import dbms.exception.DatabaseNotFoundException;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ResourceBundle;
-
-import dbms.exception.DatabaseNotFoundException;
 
 /**
  * Generates a DTD schema file for XML database.

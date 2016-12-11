@@ -1,8 +1,8 @@
 package dbms.sqlparser.sqlInterpreter;
 
-import java.util.Queue;
-
 import dbms.exception.SyntaxErrorException;
+
+import java.util.Queue;
 
 public interface Condition {
     public Queue<Object> getPostfix() throws SyntaxErrorException;

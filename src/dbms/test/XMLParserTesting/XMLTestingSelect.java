@@ -1,22 +1,16 @@
 package dbms.test.XMLParserTesting;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
-import dbms.util.Record;
-import org.junit.Test;
-
 import dbms.backend.BackendController;
 import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.sqlparser.sqlInterpreter.Where;
+import dbms.util.Record;
 import dbms.util.RecordSet;
+import org.junit.Test;
+
+import java.util.*;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class XMLTestingSelect {
 

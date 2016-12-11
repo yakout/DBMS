@@ -1,13 +1,12 @@
 package dbms.test.JSONParserTesting;
 
-import static org.junit.Assert.*;
+import dbms.backend.BackendController;
+import org.junit.Test;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.junit.Test;
-
-import dbms.backend.BackendController;
+import static org.junit.Assert.fail;
 
 public class JSONTestingCreation {
 	private final BackendController JSONParserConc = BackendController.getInstance();
