@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class DatatypeFactory {
 	private static HashMap<String, Class<? extends DBDatatype>> registeredDataTypes = null;
@@ -91,7 +92,6 @@ public class DatatypeFactory {
                 }
             }
         }
-
         return value.replaceAll("('|\")", "");
 	}
 
@@ -113,6 +113,6 @@ public class DatatypeFactory {
 
 
     public static void main(String[] args) {
-        System.out.print(convertToObject("\"mmm\""));
+         System.out.print(convertToObject("1996-08-17"));
     }
 }
