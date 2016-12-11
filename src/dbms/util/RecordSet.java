@@ -117,7 +117,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 	 *
 	 * @param columns
      */
-	public void orderBy(List<Pair<String, Boolean>> columns) {;
+	public void orderBy(List<Pair<String, Boolean>> columns) {
 		records.sort(new Comparator<Record>() {
 			@Override
 			public int compare(Record o1, Record o2) {
