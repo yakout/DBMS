@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Column {
-	private ArrayList<DBDatatype> entries = null;
+	private List<DBDatatype> entries = null;
 	private Class<? extends DBDatatype> type = null;
 	private String name = null;
 

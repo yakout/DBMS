@@ -6,13 +6,20 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.ResourceBundle;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import dbms.backend.BackendParser;
 import dbms.backend.BackendParserFactory;
+import dbms.backend.parsers.json.pojo.TablePojo;
 import dbms.datatypes.DBDate;
 import dbms.datatypes.DBFloat;
 import dbms.datatypes.DBInteger;
@@ -59,15 +66,15 @@ public class JSONParser extends BackendParser {
 			public boolean shouldSkipClass(Class<?> arg0) {
 				return false;
 			}
-
-			
         });
+		Type listType = new TypeToken<List<Column>>(){}.getType();
         gson = builder.serializeNulls().disableHtmlEscaping()
         .registerTypeAdapterFactory(new ClassTypeAdapterFactory())
 		.registerTypeAdapter(DBString.class, new ClassTypeAdapter())
 		.registerTypeAdapter(DBInteger.class, new ClassTypeAdapter())
 		.registerTypeAdapter(DBFloat.class, new ClassTypeAdapter())
 		.registerTypeAdapter(DBDate.class, new ClassTypeAdapter())
+//		.registerTypeAdapter(listType, new ColumnListDeserializer())
 		.setPrettyPrinting().create();
 	}
 	public static JSONParser getInstance() {
@@ -85,21 +92,14 @@ public class JSONParser extends BackendParser {
 	@Override
 	public void loadTable(Table table) throws TableNotFoundException,
 		DatabaseNotFoundException {
-//		builder.registerTypeAdapterFactory(new ClassTypeAdapterFactory());
-//		builder.registerTypeAdapter(DBString.class, new ClassTypeAdapter());
-//		builder.registerTypeAdapter(DBInteger.class, new ClassTypeAdapter());
-//		builder.registerTypeAdapter(DBFloat.class, new ClassTypeAdapter());
-//		builder.registerTypeAdapter(DBDate.class, new ClassTypeAdapter());
 		BufferedReader bufferedReader;
 		try {
-//			bufferedReader = new BufferedReader(new FileReader(table.getName()
-//					+ CONSTANTS.getString("extension.json")));
 			bufferedReader = new BufferedReader(new FileReader(openTable(
 					table.getDatabase().getName(), table.getName())));
 		} catch (FileNotFoundException e) {
 			throw new TableNotFoundException();
 		}
-		table = gson.fromJson(bufferedReader, Table.class);
+		table.setTable(gson.fromJson(bufferedReader, Table.class));
 	}
 
 	@Override
@@ -129,7 +129,6 @@ public class JSONParser extends BackendParser {
 	}
 
 	private void write(Table table, File tableFile) throws IOException {
-		
 		FileWriter writer = new FileWriter(tableFile);
 		writer.write(gson.toJson(table));
 		writer.close();
