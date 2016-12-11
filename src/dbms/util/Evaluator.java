@@ -159,7 +159,6 @@ public class Evaluator extends BooleanExpressionEvaluator {
         return sqlPredicate.isAlwaysFalse() || sqlPredicate.isAlwaysTrue();
     }
 
-
     /**
      *
      * @param args

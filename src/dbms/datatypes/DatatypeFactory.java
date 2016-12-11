@@ -72,20 +72,27 @@ public class DatatypeFactory {
 
 	public static Object convertToObject(String value) {
 		if (value.matches(SyntaxUtil.DATE_FORMAT)) {
-            String string = "1996-W08-17";
-            DateFormat format = new SimpleDateFormat("YYYY-'W'ww-u", Locale.ENGLISH);
+            value = value.replaceAll("'", "");
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date date = null;
             try {
-                date = (Date) format.parse(string);
+                date = new Date(format.parse(value).getTime());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             return date;
 		} else if (value.matches(SyntaxUtil.NUMBER_FORMAT)) {
+            try {
+                return Integer.parseInt(value);
+            } catch (Exception e) {
+                try {
+                    return Float.parseFloat(value);
+                } catch (Exception e2) {
 
+                }
+            }
         }
-
-        return null;
+        return value.replaceAll("('|\")", "");
 	}
 
 	/*
@@ -106,6 +113,6 @@ public class DatatypeFactory {
 
 
     public static void main(String[] args) {
-        System.out.print(convertToObject("'1996-08-17'"));
+         System.out.print(convertToObject("1996-08-17"));
     }
 }

@@ -139,7 +139,7 @@ public class Formatter {
     public static void main(String[] args) {
         LinkedHashMap<String, DBDatatype> map = new LinkedHashMap<>();
         map.put("ID", DatatypeFactory.convertToDataType(1));
-        map.put("Name", DatatypeFactory.convertToDataType("Khaled"));
+        map.put("Name", DatatypeFactory.convertToDataType("Ahmed"));
         map.put("Part", DatatypeFactory.convertToDataType("SQL Parser"));
 
         LinkedHashMap<String, DBDatatype> map2 = new LinkedHashMap<>();
@@ -148,7 +148,7 @@ public class Formatter {
         map2.put("Part", DatatypeFactory.convertToDataType("SQL Parser"));
 
         LinkedHashMap<String, DBDatatype> map3 = new LinkedHashMap<>();
-        map3.put("ID", DatatypeFactory.convertToDataType(4));
+        map3.put("ID", DatatypeFactory.convertToDataType(1));
         map3.put("Name", DatatypeFactory.convertToDataType("Anas"));
         map3.put("Part", DatatypeFactory.convertToDataType("XML Parser"));
 
@@ -170,9 +170,10 @@ public class Formatter {
 
         RecordSet recordSet = new RecordSet(records);
         List<Pair<String, Boolean>> order = new ArrayList<>();
-        order.add(new Pair<>("ID", true));
+        order.add(new Pair<>("ID", false));
+        order.add(new Pair<>("Name", true));
+        order.add(new Pair<>("Part", false));
         recordSet.orderBy(order);
         new Formatter().printTable(recordSet);
-
     }
 }

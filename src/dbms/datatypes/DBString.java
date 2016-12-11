@@ -36,6 +36,7 @@ public class DBString implements DBDatatype {
 	}
 
 	@Override
+
 	public String getKey() {
 		return KEY;
 	}

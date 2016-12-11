@@ -21,7 +21,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class XMLParser extends BackendParser {
@@ -203,7 +202,7 @@ public class XMLParser extends BackendParser {
 				Object entry = DatatypeFactory.getFactory().toObj(
 						row.getTextContent(), colType);
 				col.addEntry(DatatypeFactory.getFactory().convertToDataType(entry));
-				//TODO: add a support for getting DBDatatype immediately.
+				// TODO: add a support for getting DBDatatype immediately.
 			}
 			table.addColumn(col);
 		}
