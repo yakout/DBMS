@@ -276,7 +276,7 @@ public class DeleteTest extends SqlParserRef {
 			assertEquals("table_name", ((Delete) deleteObjAct).getTableName().toLowerCase());
 			Queue<Object> sqlPredicateQ = ((Delete) deleteObjAct).getWhere().getPostfix();
 			assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-			assertEquals("vALUe_1", ((SQLPredicate) sqlPredicateQ.peek()).getValue());
+			assertEquals("vALUe_1", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
@@ -287,7 +287,7 @@ public class DeleteTest extends SqlParserRef {
 			assertEquals("table_name_88", ((Delete) deleteObjAct).getTableName().toLowerCase());
 			Queue<Object> sqlPredicateQ = ((Delete) deleteObjAct).getWhere().getPostfix();
 			assertEquals("age", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-			assertEquals(5856263, ((SQLPredicate) sqlPredicateQ.peek()).getValue());
+			assertEquals(5856263, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 
 		} catch (SyntaxErrorException e) {
@@ -310,7 +310,7 @@ public class DeleteTest extends SqlParserRef {
 			assertEquals("table_name", ((Delete) deleteObjAct).getTableName().toLowerCase());
 			Queue<Object> sqlPredicateQ = ((Delete) deleteObjAct).getWhere().getPostfix();
 			assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-			assertEquals("valUE_1", ((SQLPredicate) sqlPredicateQ.peek()).getValue());
+			assertEquals("valUE_1", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
@@ -322,7 +322,7 @@ public class DeleteTest extends SqlParserRef {
 			assertEquals("table_name_88", ((Delete) deleteObjAct).getTableName().toLowerCase());
 			Queue<Object> sqlPredicateQ = ((Delete) deleteObjAct).getWhere().getPostfix();
 			assertEquals("age", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-			assertEquals(5856263, ((SQLPredicate) sqlPredicateQ.peek()).getValue());
+			assertEquals(5856263, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 
 		} catch (SyntaxErrorException e) {
@@ -357,7 +357,7 @@ public class DeleteTest extends SqlParserRef {
 			Queue<Object> sqlPredicateQ = ((Delete) deleteObjAct).getWhere().getPostfix();
 			assertEquals("age", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
 			assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-			assertEquals("MONEY", ((SQLPredicate) sqlPredicateQ.peek()).getValue());
+			assertEquals("MONEY", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 
 		} catch (SyntaxErrorException e) {
@@ -374,7 +374,7 @@ public class DeleteTest extends SqlParserRef {
 			Queue<Object> sqlPredicateQ = ((Delete) deleteObjAct).getWhere().getPostfix();
 			assertEquals("age", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
 			assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-			assertEquals("MONEY", ((SQLPredicate) sqlPredicateQ.peek()).getValue());
+			assertEquals("MONEY", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 
 		} catch (SyntaxErrorException e) {
@@ -391,7 +391,7 @@ public class DeleteTest extends SqlParserRef {
 			Queue<Object> sqlPredicateQ = ((Delete) deleteObjAct).getWhere().getPostfix();
 			assertEquals("age", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
 			assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-			assertEquals("MONEY", ((SQLPredicate) sqlPredicateQ.peek()).getValue());
+			assertEquals("MONEY", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 
 		} catch (SyntaxErrorException e) {
@@ -408,7 +408,7 @@ public class DeleteTest extends SqlParserRef {
 			Queue<Object> sqlPredicateQ = ((Delete) deleteObjAct).getWhere().getPostfix();
 			assertEquals("age", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
 			assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-			assertEquals("MONEY", ((SQLPredicate) sqlPredicateQ.peek()).getValue());
+			assertEquals("MONEY", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 
 		} catch (SyntaxErrorException e) {
@@ -477,14 +477,14 @@ public class DeleteTest extends SqlParserRef {
 
 			assertEquals("col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
 			assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-			assertEquals(5, ((SQLPredicate) sqlPredicateQ.peek()).getValue());
+			assertEquals(5, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 
 			sqlPredicateQ.poll();
 
 			assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
 			assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-			assertEquals(6, ((SQLPredicate) sqlPredicateQ.peek()).getValue());
+			assertEquals(6, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 
 			sqlPredicateQ.poll();
@@ -506,14 +506,14 @@ public class DeleteTest extends SqlParserRef {
 
 			assertEquals("col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
 			assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-			assertEquals(5, ((SQLPredicate) sqlPredicateQ.peek()).getValue());
+			assertEquals(5, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 
 			sqlPredicateQ.poll();
 
 			assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
 			assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-			assertEquals(6, ((SQLPredicate) sqlPredicateQ.peek()).getValue());
+			assertEquals(6, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 
 			sqlPredicateQ.poll();
@@ -537,14 +537,14 @@ public class DeleteTest extends SqlParserRef {
 
 			assertEquals("col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
 			assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-			assertEquals(5, ((SQLPredicate) sqlPredicateQ.peek()).getValue());
+			assertEquals(5, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 
 			sqlPredicateQ.poll();
 
 			assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
 			assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-			assertEquals(6, ((SQLPredicate) sqlPredicateQ.peek()).getValue());
+			assertEquals(6, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 
 			sqlPredicateQ.poll();

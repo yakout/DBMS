@@ -120,21 +120,23 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 	 * @param columns
      */
 	public void orderBy(final List<Pair<String, Boolean>> columns) {
-		records.sort(new Comparator<Record>() {
-			@Override
-			public int compare(Record o1, Record o2) {
-				DBDatatype value1 = o1.get(columns.get(0).getKey());
-				DBDatatype value2 = o2.get(columns.get(0).getKey());
-				if (value1 == null || value2 == null) {
-					return -1;
-				} else {
-					return value1.compareTo(value2);
-				}
-			}
-		});
-		if (!columns.get(0).getValue()) {
-			Collections.reverse(records);
-		}
+        DBComparatorChain<Record> comparatorChain = new DBComparatorChain<>();
+        for (Pair<String, Boolean> pair : columns) {
+            Comparator<Record> recordComparator = new Comparator<Record>() {
+                @Override
+                public int compare(Record o1, Record o2) {
+                    DBDatatype value1 = o1.get(pair.getKey());
+                    DBDatatype value2 = o2.get(pair.getKey());
+                    if (value1 == null || value2 == null) {
+                        return -1;
+                    } else {
+                        return value1.compareTo(value2);
+                    }
+                }
+            };
+            comparatorChain.addComparator(recordComparator, pair.getValue());
+        }
+        records.sort(comparatorChain);
 	}
 
 	public List<Record> getRecords() {

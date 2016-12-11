@@ -2,6 +2,7 @@ package dbms.sqlparser.sqlInterpreter;
 
 import dbms.datatypes.DatatypeFactory;
 import dbms.exception.SyntaxErrorException;
+import dbms.sqlparser.syntax.SyntaxUtil;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -135,20 +136,16 @@ public class BooleanExpression {
                 return sqlPredicates;
             }
 
-            // TODO HANDLE OTHER DATA TYPE
             SQLPredicate sqlPredicate;
-            if (matcher.group(4).startsWith("'") || matcher.group(4).startsWith("\"")) {
-                Object value = matcher.group(4).replaceAll("('|\")", "");
-                sqlPredicate = new SQLPredicate(matcher.group(2), matcher.group(3), DatatypeFactory.convertToDataType(value));
+            if (matcher.group(4).startsWith("'") || matcher.group(4).startsWith("\"")
+                    || matcher.group(4).matches(SyntaxUtil.NUMBER_FORMAT)) {
+                sqlPredicate = new SQLPredicate(matcher.group(2), matcher.group(3)
+                        , DatatypeFactory.convertToDataType(DatatypeFactory.convertToObject(matcher.group(4))));
             } else {
-                try {
-                    sqlPredicate = new SQLPredicate(matcher.group(2), matcher.group(3),
-                            DatatypeFactory.convertToDataType(Integer.parseInt(matcher.group(4))));
-                } catch (NumberFormatException e) {
-                    sqlPredicate = new SQLPredicate(matcher.group(2),
+                sqlPredicate = new SQLPredicate(matcher.group(2),
                             matcher.group(3), matcher.group(4));
-                }
             }
+
             sqlPredicates.add(sqlPredicate);
         }
         return sqlPredicates;
