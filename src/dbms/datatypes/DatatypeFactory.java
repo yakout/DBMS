@@ -1,9 +1,15 @@
 package dbms.datatypes;
 
+import dbms.sqlparser.syntax.SyntaxUtil;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class DatatypeFactory {
 	private static HashMap<String, Class<? extends DBDatatype>> registeredDataTypes = null;
@@ -64,9 +70,22 @@ public class DatatypeFactory {
 		return null;
 	}
 
-	public static Object convertToObject(String data) {
-		// TODO
-		return null;
+	public static Object convertToObject(String value) {
+		if (value.matches(SyntaxUtil.DATE_FORMAT)) {
+            String string = "1996-W08-17";
+            DateFormat format = new SimpleDateFormat("YYYY-'W'ww-u", Locale.ENGLISH);
+            Date date = null;
+            try {
+                date = (Date) format.parse(string);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            return date;
+		} else if (value.matches(SyntaxUtil.NUMBER_FORMAT)) {
+
+        }
+
+        return null;
 	}
 
 	/*
@@ -84,4 +103,9 @@ public class DatatypeFactory {
 			e.printStackTrace();
 		}
 	}
+
+
+    public static void main(String[] args) {
+        System.out.print(convertToObject("'1996-08-17'"));
+    }
 }

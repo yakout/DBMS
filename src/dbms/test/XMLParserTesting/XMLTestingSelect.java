@@ -1,27 +1,20 @@
 package dbms.test.XMLParserTesting;
 
 import dbms.backend.BackendController;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
 import dbms.datatypes.DBDatatype;
 import dbms.datatypes.DBInteger;
 import dbms.datatypes.DBString;
 import dbms.datatypes.DatatypeFactory;
-import dbms.util.Record;
-import org.junit.Test;
-
 import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.sqlparser.sqlInterpreter.Where;
+import dbms.util.Record;
 import dbms.util.RecordSet;
+import org.junit.Test;
+
+import java.util.*;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class XMLTestingSelect {
 
@@ -417,7 +410,7 @@ public class XMLTestingSelect {
 			RecordSet result = new RecordSet();
 			result.add(expRecord);
 			RecordSet actualRes = xmlParserConc.select("table_name", null, conditionQ);
-			assertTrue(result.next().getRecord().equals(actualRes.next().getRecord()));
+			assertTrue(result.getRecords().get(0).getRecord().equals(actualRes.getRecords().get(0).getRecord()));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Error occured!");

@@ -47,17 +47,16 @@ public class DBDate implements DBDatatype {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || obj.getClass() != getClass()) {
-            return false;
-        }
-        DBDate dbDate = (DBDate) obj;
-        if (value != null ? !value.equals(dbDate.getValue()) : dbDate.getValue() != null) {
-            return false;
-        }
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DBDate dbDate = (DBDate) o;
+        return value != null ? value.equals(dbDate.value) : dbDate.value == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return value != null ? value.hashCode() : 0;
     }
 }
