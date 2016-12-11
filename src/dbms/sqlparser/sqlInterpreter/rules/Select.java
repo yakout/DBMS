@@ -8,14 +8,15 @@ import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.sqlInterpreter.Where;
 import dbms.ui.Formatter;
 import dbms.util.RecordSet;
+import javafx.util.Pair;
 
 import java.util.Collection;
+import java.util.List;
 
 public class Select implements DMLStatement {
     private String tableName;
     private Collection<String> columns;
-    private String orderBy;
-    private boolean isAscending = false;
+    private List<Pair<String, Boolean>> orderBy;
     private boolean isDistinct = false;
     private int updateCount = 0;
 
@@ -47,19 +48,11 @@ public class Select implements DMLStatement {
     	return tableName;
     }
 
-    public String getOrderBy() {
+    public List<Pair<String, Boolean>> getOrderBy() {
         return orderBy;
     }
 
-    public boolean isAscending() {
-        return isAscending;
-    }
-
-    public void setAscending(boolean ascending) {
-        isAscending = ascending;
-    }
-
-    public void setOrderBy(String orderBy) {
+    public void setOrderBy(List<Pair<String, Boolean>> orderBy) {
         this.orderBy = orderBy;
     }
 
@@ -72,7 +65,7 @@ public class Select implements DMLStatement {
     public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
         RecordSet recordSet = BackendController.getInstance().select(tableName, columns, where);
         if (isDistinct) recordSet.distinct();
-        if (orderBy != null) recordSet.orderBy(isAscending, orderBy);
+        if (orderBy != null) recordSet.orderBy(orderBy);
     	Formatter.getInstance().printTable(recordSet);
     }
 }

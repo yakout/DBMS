@@ -1,8 +1,11 @@
 package dbms.sqlparser;
 
+import dbms.datatypes.*;
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.sqlInterpreter.Where;
 import dbms.sqlparser.sqlInterpreter.rules.*;
+import dbms.sqlparser.syntax.*;
+import javafx.util.Pair;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -12,7 +15,11 @@ import java.util.regex.Pattern;
  * validate and parse a sql query.
  */
 public class SQLParser {
-
+	private static final String[] reservedKeywords = new String[] {
+            "select", "create", "insert", "into", "delete", "update", "use", "from", "drop", "alter",
+            "where", "and", "or", "not", "distinct", "ASC", "DESC","database", "table", "column", "row",
+            "int", "varchar", "float", "date", "order", "by", "add", "is", "union"
+	};
 	/**
 	 * singleton instance of {@link SQLParser}.
 	 */
@@ -31,12 +38,12 @@ public class SQLParser {
 	 * @return return the index of the error
 	 */
 	public Matcher validate(Pattern regex, String query) throws SyntaxErrorException {
-		for (int i = 0; i <= query.length(); i++) {
-			Matcher m = regex.matcher(query.substring(0, i));
-			if (!m.matches() && !m.hitEnd()) {
-				throw new SyntaxErrorException("Error: near \"" + query.substring(i - 1, i) + "\" : syntax error");
-			}
-		}
+//		for (int i = 0; i <= query.length(); i++) {
+//			Matcher m = regex.matcher(query.substring(0, i));
+//			if (!m.matches() && !m.hitEnd()) {
+//				throw new SyntaxErrorException("Error: near \"" + query.substring(i - 1, i) + "\" : syntax error");
+//			}
+//		}
 		if (regex.matcher(query).matches()) {
 			return regex.matcher(query);
 		} else {
@@ -53,34 +60,34 @@ public class SQLParser {
 	 * @throws SyntaxErrorException
 	 */
 	public Expression parse(String query) throws SyntaxErrorException {
-		Pattern rulePattern = PatternsHolder.getRulePattern();
+		Pattern rulePattern = SyntaxUtil.RULE_PATTERN;
 		Matcher ruleMatcher = validate(rulePattern, query);
 
 		ruleMatcher.matches();
 		switch (ruleMatcher.group(1).toLowerCase()) {
 		case "select":
-			Pattern selectPattern = PatternsHolder.getSelectPattern();
+			Pattern selectPattern = SelectSyntax.getInstance().getPattern();
 			return parseSelect(validate(selectPattern, query));
 		case "drop":
-			Pattern dropPattern = PatternsHolder.getDropPattern();
+			Pattern dropPattern = DropSyntax.getInstance().getPattern();
 			return parseDrop(validate(dropPattern, query));
 		case "insert":
-			Pattern insertPattern = PatternsHolder.getInsertIntoPattern();
+			Pattern insertPattern = InsertSyntax.getInstance().getPattern();
 			return parseInsert(validate(insertPattern, query));
 		case "delete":
-			Pattern deletePattern = PatternsHolder.getDeletePattern();
+			Pattern deletePattern = DeleteSyntax.getInstance().getPattern();
 			return parseDelete(validate(deletePattern, query));
 		case "update":
-			Pattern updatePattern = PatternsHolder.getUpdatePattern();
+			Pattern updatePattern = UpdateSyntax.getInstance().getPattern();
 			return parseUpdate(validate(updatePattern, query));
 		case "create":
-			Pattern createPattern = PatternsHolder.getCreatePattern();
+			Pattern createPattern = CreateSyntax.getInstance().getPattern();
 			return parseCreate(validate(createPattern, query));
 		case "alter":
-			Pattern alterPattern = PatternsHolder.getAlterPattern();
+			Pattern alterPattern = AlterSyntax.getInstance().getPattern();
 			return parseAlter(validate(alterPattern, query));
 		case "use":
-			Pattern usePattern = PatternsHolder.getUsePattern();
+			Pattern usePattern = UseSyntax.getInstance().getPattern();
 			return parseUse(validate(usePattern, query));
 		default:
 			return null;
@@ -136,14 +143,14 @@ public class SQLParser {
         if (columns.length != values.length) {
             throw new SyntaxErrorException("Error: Columns number does not match values number");
         }
-        HashMap<String, Object> entryMap = new LinkedHashMap<>();
+        HashMap<String, DBDatatype> entryMap = new LinkedHashMap<>();
         for (int i = 0; i < columns.length; i++) {
             String column = columns[i].trim();
             String value = values[i].trim();
             if (value.startsWith("'") || value.startsWith("\"")) {
-                entryMap.put(column, value.replaceAll("('|\")", ""));
+                entryMap.put(column, DatatypeFactory.convertToDataType(value.replaceAll("('|\")", "")));
             } else {
-                entryMap.put(column, Integer.parseInt(value));
+                entryMap.put(column, DatatypeFactory.convertToDataType(Integer.parseInt(value)));
             }
         }
         return new InsertIntoTable(tableName, entryMap);
@@ -172,13 +179,33 @@ public class SQLParser {
 		}
 
 		if (matcher.group(7) != null) { // if there is order by statement.
-            select.setOrderBy(matcher.group(8));
-            select.setAscending(matcher.group(9).equals("ASC"));
+            select.setOrderBy(parseOrderby(matcher.group(7)));
 		}
 		if (matcher.group(11) != null) { // if there is where condition
 			select.setWhere(new Where(matcher.group(11)));
 		}
 		return select;
+	}
+
+	/**
+	 * Helper Method for {@link SQLParser#parseSelect(Matcher)}
+	 */
+	private List<Pair<String, Boolean>> parseOrderby(String query) {
+		List<Pair<String, Boolean>> columns = new ArrayList<>();
+		String[] orderbyArray = query.trim().split(",");
+		for (int i = 0; i < orderbyArray.length; i++) {
+			String[] orderby = orderbyArray[i].trim().split("\\s+");
+			if (orderby.length == 1) {
+				columns.add(new Pair<>(orderby[0], true));
+			} else {
+				if (orderby[1].equals("ASC")) {
+					columns.add(new Pair<>(orderby[0], true));
+				} else {
+					columns.add(new Pair<>(orderby[0], false));
+				}
+			}
+		}
+		return columns;
 	}
 
 	/**
@@ -219,7 +246,7 @@ public class SQLParser {
 
     private Expression parseUpdate(Matcher matcher) {
         matcher.matches();
-        Map<String, Object> values = new HashMap<>();
+        Map<String, DBDatatype> values = new HashMap<>();
         Map<String, String> columns = new HashMap<>();
 
         String[] setValues = matcher.group(2).split(",");
@@ -227,10 +254,10 @@ public class SQLParser {
             String key = setValues[i].split("=")[0].trim();
             String value = setValues[i].split("=")[1].trim();
             if (value.startsWith("'") || value.startsWith("\"")) {
-                values.put(key, value.replaceAll("('|\")", ""));
+                values.put(key, DatatypeFactory.convertToDataType(value.replaceAll("('|\")", "")));
             } else {
                 try {
-                    values.put(key, Integer.parseInt(value));
+                    values.put(key, DatatypeFactory.convertToDataType(Integer.parseInt(value)));
                 } catch (NumberFormatException e) {
                     columns.put(key, value);
                 }
@@ -258,19 +285,21 @@ public class SQLParser {
 		}
 
 		String[] columnsDesc = matcher.group(6).split(",");
-		Map<String, Class> columns = new LinkedHashMap<>();
+		Map<String, Class<? extends DBDatatype>> columns = new LinkedHashMap<>();
 		for (int i = 0; i < columnsDesc.length; i++) {
 			String key = columnsDesc[i].trim().split("\\s+")[0];
 			switch (columnsDesc[i].trim().split("\\s+")[1].toLowerCase()) {
 			case "int":
-				columns.put(key, Integer.class);
+				columns.put(key, DBInteger.class);
 				break;
 			case "varchar":
-				columns.put(key, String.class);
+				columns.put(key, DBString.class);
 				break;
 			case "date":
-				columns.put(key, java.sql.Date.class);
+				columns.put(key, DBDatatype.class);
 				break;
+			case "float":
+					columns.put(key, DBFloat.class);
 			}
 		}
 
@@ -295,9 +324,9 @@ public class SQLParser {
 	 */
 	public static void main(String[] args) {
 		try {
-			System.out.println(((Select) new SQLParser()
-					.parse("select * from tableName order by col1 DESC where (col1==fo);")).getWhere().getPostfix());
-		} catch (SyntaxErrorException e) {
+			System.out.println((new SQLParser()
+					.parseOrderby("col1   DESC  ,    col2   ,  col3     ,col4,col5,col6 ASC,col7 DESC,   col8    ASC    , col9    DESC   ")));
+		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
 	}

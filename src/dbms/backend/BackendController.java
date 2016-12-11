@@ -1,23 +1,17 @@
 package dbms.backend;
 
-import java.util.Collection;
-import java.util.Map;
-
 import dbms.datatypes.DBDatatype;
 import dbms.datatypes.DatatypeFactory;
-import dbms.exception.DatabaseAlreadyCreatedException;
-import dbms.exception.DatabaseNotFoundException;
-import dbms.exception.IncorrectDataEntryException;
-import dbms.exception.SyntaxErrorException;
-import dbms.exception.TableAlreadyCreatedException;
-import dbms.exception.TableNotFoundException;
-import dbms.exception.TypeNotSupportedException;
+import dbms.exception.*;
 import dbms.sqlparser.SQLParser;
 import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.util.Column;
 import dbms.util.Database;
 import dbms.util.RecordSet;
 import dbms.util.Table;
+
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * Controller that controls data entry and queries between
@@ -75,18 +69,12 @@ public class BackendController {
 	 * @throws TypeNotSupportedException
 	 * @throws IncorrectDataEntryException
 	 */
-	public void createTable(String tableName, Map<String, Class> columns)
+	public void createTable(String tableName, Map<String, Class<? extends DBDatatype>> columns)
 			throws DatabaseNotFoundException,
 			TableAlreadyCreatedException, IncorrectDataEntryException {
 		Table table = new Database(dbName).createTable(tableName);
-		for (Map.Entry<String, Class> col : columns.entrySet()) {
-			Class<? extends DBDatatype> type =
-					DatatypeFactory.getFactory().getRegisteredDatatype(
-							col.getValue().getSimpleName());
-			if (type == null) {
-				throw new IncorrectDataEntryException("Datatype not supported!");
-			}
-			table.addColumn(new Column(col.getKey(), type));
+		for (Map.Entry<String, Class<? extends DBDatatype>> col : columns.entrySet()) {
+			table.addColumn(new Column(col.getKey(), col.getValue()));
 		}
 		BackendParserFactory.getFactory().getCurrentParser().createTable(table);
 		table.clear();
@@ -115,7 +103,7 @@ public class BackendController {
 	 * @throws TypeNotSupportedException
 	 * @throws IncorrectDataEntryException
 	 */
-	public int insertIntoTable(String tableName, Map<String, Object> entryMap)
+	public int insertIntoTable(String tableName, Map<String, DBDatatype> entryMap)
 			throws DatabaseNotFoundException,
 			TableNotFoundException, IncorrectDataEntryException {
 		Table table = new Database(dbName).createTable(tableName);
@@ -141,8 +129,8 @@ public class BackendController {
 	 */
 	public RecordSet select(String tableName,
 							Collection<String> columns, Condition condition)
-					throws DatabaseNotFoundException,TableNotFoundException,
-					SyntaxErrorException, IncorrectDataEntryException {
+			throws DatabaseNotFoundException,TableNotFoundException,
+			SyntaxErrorException, IncorrectDataEntryException {
 		Table table = new Database(dbName).createTable(tableName);
 		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
 		RecordSet ret = table.select(columns, condition);
@@ -187,10 +175,10 @@ public class BackendController {
 	 * @throws SyntaxErrorException
 	 * @throws IncorrectDataEntryException
 	 */
-	public int update(String tableName, Map<String, Object> values,
-			Map<String, String> columns, Condition condition)
-					throws DatabaseNotFoundException, TableNotFoundException,
-					SyntaxErrorException, IncorrectDataEntryException {
+	public int update(String tableName, Map<String, DBDatatype> values,
+					  Map<String, String> columns, Condition condition)
+			throws DatabaseNotFoundException, TableNotFoundException,
+			SyntaxErrorException, IncorrectDataEntryException {
 		Table table = new Database(dbName).createTable(tableName);
 		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
 		int updateCount = table.update(values, columns, condition);
@@ -233,8 +221,8 @@ public class BackendController {
 	 * @throws TableNotFoundException
 	 * @throws DatabaseNotFoundException
 	 * @throws IncorrectDataEntryException
-     */
-	public void alterAdd(String tableName, String columnName, Class datatype)
+	 */
+	public void alterAdd(String tableName, String columnName, Class<? extends DBDatatype> datatype)
 			throws DatabaseNotFoundException, TableNotFoundException
 			, IncorrectDataEntryException {
 		Class<? extends DBDatatype> type =
@@ -258,7 +246,7 @@ public class BackendController {
 	 * @throws TableNotFoundException
 	 * @throws DatabaseNotFoundException
 	 * @throws IncorrectDataEntryException
-     */
+	 */
 	public void alterDrop(String tableName, String columnName)
 			throws DatabaseNotFoundException, TableNotFoundException
 			, IncorrectDataEntryException {

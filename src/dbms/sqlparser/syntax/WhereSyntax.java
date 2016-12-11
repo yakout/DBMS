@@ -3,26 +3,56 @@ package dbms.sqlparser.syntax;
 import java.util.regex.Pattern;
 
 public class WhereSyntax implements SQLSyntax {
-    private static Pattern wherePattern;
-    private static final String supportedOperators = "(>|<|>=|<=|=|!=){1}";
-    private static final String booleanOperators = "(and|or)";
-    private static final String valueFormat = "('\\w+'|\\w+|\"\\w+\")";
+    private final String SUPPORTED_OPERATORS = "(>|<|>=|<=|=|!=){1}";
 
-    private static final String whereRegex = "(\\s+where\\s+(TRUE|([(]\\s*)*\\s*(\\w+)\\s*"
-            + supportedOperators + "\\s*" + valueFormat + "\\s*(\\s*[)])*\\s*(\\s+"
-            + booleanOperators + "(\\s*([(]\\s*)*\\s*(\\w+)\\s*" + supportedOperators
-            + "\\s*" + valueFormat + "\\s*(\\s*[)])*\\s*))*))?\\s*;\\s*$";
+    private final String BOOLEAN_OPERATORS = "(and|or)";
 
-    @Override
-    public String getRegex() {
-        return whereRegex;
+    public static final String VALUE_FORMAT = "("
+            + SyntaxUtil.DATE_FORMAT
+            + "|" + SyntaxUtil.MULTIPLE_WORDS_SINGLE_QUOTES
+            + "|" + SyntaxUtil.MULTIPLE_WORDS_DOUBLE_QUOTES
+            + "|" + SyntaxUtil.COLUMN_NAME
+            + "|" + SyntaxUtil.NUMBER_FORMAT + ")";
+
+    private final String WHERE_REGEX = "(\\s+where\\s+(TRUE|([(]\\s*)*\\s*("
+            + SyntaxUtil.COLUMN_NAME + ")\\s*"
+            + SUPPORTED_OPERATORS + "\\s*"
+            + VALUE_FORMAT + "\\s*(\\s*[)])*\\s*(\\s+"
+            + BOOLEAN_OPERATORS + "(\\s*([(]\\s*)*\\s*("
+            + SyntaxUtil.COLUMN_NAME + ")\\s*"
+            + SUPPORTED_OPERATORS + "\\s*"
+            + VALUE_FORMAT + "\\s*(\\s*[)])*\\s*))*))?"
+            + SyntaxUtil.SEMI_COLON
+            + "$";
+
+    private Pattern wherePattern = null;
+
+    private static WhereSyntax instance = null;
+
+    private WhereSyntax() {
+    }
+
+    public static WhereSyntax getInstance() {
+        if (instance == null) {
+            instance = new WhereSyntax();
+        }
+        return instance;
     }
 
     @Override
     public Pattern getPattern() {
         if (wherePattern == null) {
-            wherePattern = Pattern.compile(whereRegex);
+            wherePattern = Pattern.compile(WHERE_REGEX);
         }
         return wherePattern;
+    }
+
+    @Override
+    public String getRegex() {
+        return WHERE_REGEX;
+    }
+
+    public static void main(String[] args) {
+        System.out.print(getInstance().getRegex());
     }
 }

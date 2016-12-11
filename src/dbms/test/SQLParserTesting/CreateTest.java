@@ -1,17 +1,16 @@
 package dbms.test.SQLParserTesting;
 
+import dbms.exception.SyntaxErrorException;
+import dbms.sqlparser.SQLParser;
+import dbms.sqlparser.sqlInterpreter.rules.CreateDatabase;
+import dbms.sqlparser.sqlInterpreter.rules.CreateTable;
+import dbms.sqlparser.sqlInterpreter.rules.Expression;
+import org.junit.Test;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Test;
-
 import static org.junit.Assert.*;
-
-import dbms.exception.SyntaxErrorException;
-import dbms.sqlparser.SQLParser;
-import dbms.sqlparser.sqlInterpreter.rules.Expression;
-import dbms.sqlparser.sqlInterpreter.rules.CreateDatabase;
-import dbms.sqlparser.sqlInterpreter.rules.CreateTable;
 
 public class CreateTest extends SqlParserRef {
 
@@ -249,10 +248,5 @@ public class CreateTest extends SqlParserRef {
 		}
 
 	}
-	
-	
-	
-	
-	
 
 }

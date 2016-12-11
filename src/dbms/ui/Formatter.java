@@ -1,7 +1,10 @@
 package dbms.ui;
 
+import dbms.datatypes.DBDatatype;
+import dbms.datatypes.DatatypeFactory;
 import dbms.util.Record;
 import dbms.util.RecordSet;
+import javafx.util.Pair;
 
 import java.util.*;
 
@@ -134,25 +137,25 @@ public class Formatter {
     }
 
     public static void main(String[] args) {
-        Map<String, Object> map = new LinkedHashMap<>();
-        map.put("ID", 1);
-        map.put("Name", "Khaled");
-        map.put("Part", "SQL Parser");
+        Map<String, DBDatatype> map = new LinkedHashMap<>();
+        map.put("ID", DatatypeFactory.convertToDataType(1));
+        map.put("Name", DatatypeFactory.convertToDataType("Khaled"));
+        map.put("Part", DatatypeFactory.convertToDataType("SQL Parser"));
 
-        Map<String, Object> map2 = new LinkedHashMap<>();
-        map2.put("ID", 5);
-        map2.put("Name", "Tolba");
-        map2.put("Part", "SQL Parser");
+        Map<String, DBDatatype> map2 = new LinkedHashMap<>();
+        map2.put("ID", DatatypeFactory.convertToDataType(5));
+        map2.put("Name", DatatypeFactory.convertToDataType("Tolba"));
+        map2.put("Part", DatatypeFactory.convertToDataType("SQL Parser"));
 
-        Map<String, Object> map3 = new LinkedHashMap<>();
-        map3.put("ID", 4);
-        map3.put("Name", "Anas");
-        map3.put("Part", "XML Parser");
+        Map<String, DBDatatype> map3 = new LinkedHashMap<>();
+        map3.put("ID", DatatypeFactory.convertToDataType(4));
+        map3.put("Name", DatatypeFactory.convertToDataType("Anas"));
+        map3.put("Part", DatatypeFactory.convertToDataType("XML Parser"));
 
-        Map<String, Object> map4 = new LinkedHashMap<>();
-        map4.put("ID", 9);
+        Map<String, DBDatatype> map4 = new LinkedHashMap<>();
+        map4.put("ID", DatatypeFactory.convertToDataType(9));
         map4.put("Name", null);
-        map4.put("Part", "XML Parser                          ");
+        map4.put("Part", DatatypeFactory.convertToDataType("XML Parser                          "));
 
         Record record = new Record(map);
         Record record2 = new Record(map2);
@@ -166,7 +169,9 @@ public class Formatter {
         records.add(record4);
 
         RecordSet recordSet = new RecordSet(records);
-        recordSet.orderBy(true, "ID");
+        List<Pair<String, Boolean>> order = new ArrayList<>();
+        order.add(new Pair<>("ID", true));
+        recordSet.orderBy(order);
         new Formatter().printTable(recordSet);
 
     }

@@ -1,5 +1,6 @@
 package dbms.util;
 
+import dbms.datatypes.DBDatatype;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.sqlparser.sqlInterpreter.BooleanExpressionEvaluator;
 import dbms.sqlparser.sqlInterpreter.BooleanOperator;
@@ -10,7 +11,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
-public class Evaluator extends BooleanExpressionEvaluator{
+public class Evaluator extends BooleanExpressionEvaluator {
 
 	private static Evaluator instance = null;
 
@@ -26,8 +27,8 @@ public class Evaluator extends BooleanExpressionEvaluator{
 	}
 
 	@Override
-    public boolean evaluate(Map<String, Object> row, Queue<Object> postfix,
-    		Map<String, String> columns) throws IncorrectDataEntryException {
+    public boolean evaluate(Map<String, DBDatatype> row, Queue<Object> postfix,
+                            Map<String, String> columns) throws IncorrectDataEntryException {
         Stack<Object> helperStack = new Stack<>();
 		Queue<Object> postfixClone = new LinkedList<Object>(postfix);
         // in case if only on predicate
@@ -140,7 +141,7 @@ public class Evaluator extends BooleanExpressionEvaluator{
     }
 
     private Object get(Object val, Map<String, String> columns,
-    		Map<String, Object> row, String colName)
+    		Map<String, DBDatatype> row, String colName)
     				throws IncorrectDataEntryException {
     	if (!columns.containsKey(colName)) {
     		throw new IncorrectDataEntryException("Column doesn't exist!");

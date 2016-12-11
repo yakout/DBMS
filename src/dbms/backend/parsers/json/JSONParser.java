@@ -7,15 +7,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ResourceBundle;
-
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-import com.google.gson.TypeAdapterFactory;
-import com.google.gson.reflect.TypeToken;
-
 import dbms.backend.BackendParser;
 import dbms.backend.BackendParserFactory;
 import dbms.datatypes.DBDate;
@@ -64,6 +59,8 @@ public class JSONParser extends BackendParser {
 			public boolean shouldSkipClass(Class<?> arg0) {
 				return false;
 			}
+
+			
         });
         gson = builder.serializeNulls().disableHtmlEscaping()
         .registerTypeAdapterFactory(new ClassTypeAdapterFactory())

@@ -1,18 +1,13 @@
 package dbms.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import dbms.datatypes.DBDatatype;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.sqlInterpreter.Condition;
+
+import java.util.*;
 
 public class Table {
 	private Database database = null;
@@ -75,7 +70,7 @@ public class Table {
 		this.size = size;
 	}
 
-	public int insertRow(Map<String, Object> entryMap)
+	public int insertRow(Map<String, DBDatatype> entryMap)
 			throws IncorrectDataEntryException,
 			TableNotFoundException, DatabaseNotFoundException {
 		if (entryMap == null) {
@@ -96,7 +91,7 @@ public class Table {
 		Map<String, String> cols =
 				mapColumns();
 		for (int i = 0; i < size; i++) {
-			Map<String, Object> row =
+			Map<String, DBDatatype> row =
 					getRow(i, null);
 			if (condition == null || Evaluator.getInstance().evaluate(row,
 					condition.getPostfix(), cols)) {
@@ -132,7 +127,7 @@ public class Table {
 		}
 		res.setColumnList(columnNames);
 		for (int i = 0; i < size; i++) {
-			Map<String, Object> row =
+			Map<String, DBDatatype> row =
 					getRow(i, columns);
 			if (!row.isEmpty() && (condition == null || Evaluator.getInstance()
 					.evaluate(row, condition.getPostfix(), mapColumns()))) {
@@ -142,14 +137,14 @@ public class Table {
 		return res;
 	}
 
-	public int update(Map<String, Object> values, Map<String, String> columns, Condition condition)
+	public int update(Map<String, DBDatatype> values, Map<String, String> columns, Condition condition)
 			throws IncorrectDataEntryException, SyntaxErrorException,
 			TableNotFoundException, DatabaseNotFoundException {
 		int updateCount = 0;
 		validateColumns(columns);
 		validateValues(values);
 		for (int i = 0; i < size; i++) {
-			Map<String, Object> row =
+			Map<String, DBDatatype> row =
 					getRow(i, null);
 			if (!row.isEmpty() && (condition == null || Evaluator.getInstance()
 					.evaluate(row, condition.getPostfix(), mapColumns()))) {
@@ -178,9 +173,9 @@ public class Table {
 		columns.remove(col);
 	}
 
-	private void updateRow(Map<String, Object> values, Map<String, String> columns, int index) {
+	private void updateRow(Map<String, DBDatatype> values, Map<String, String> columns, int index) {
 		if (values != null) {
-			for (Map.Entry<String, Object> entry : values.entrySet()) {
+			for (Map.Entry<String, DBDatatype> entry : values.entrySet()) {
 				Column col = getColumn(entry.getKey());
 				col.set(index, entry.getValue());
 			}
@@ -194,9 +189,9 @@ public class Table {
 		}
 	}
 
-	private Map<String, Object> getRow(int index, Collection<String> columns) {
-		Map<String, Object> ret =
-				new LinkedHashMap<String, Object>();
+	private Map<String, DBDatatype> getRow(int index, Collection<String> columns) {
+		Map<String, DBDatatype> ret =
+				new LinkedHashMap<String, DBDatatype>();
 		for (Column col : this.columns) {
 			if (columns == null
 					|| columns.contains(col.getName())) {
@@ -255,12 +250,12 @@ public class Table {
 		}
 	}
 
-	private void validateValues(Map<String, Object> values) throws IncorrectDataEntryException {
+	private void validateValues(Map<String, DBDatatype> values) throws IncorrectDataEntryException {
 		if (values == null) {
 			return;
 		}
 		Map<String, String> cols = mapColumns();
-		for (Map.Entry<String, Object> entry : values.entrySet()) {
+		for (Map.Entry<String, DBDatatype> entry : values.entrySet()) {
 			String type = cols.get(entry.getKey());
 			if (type == null) {
 				throw new IncorrectDataEntryException("Column not found!");

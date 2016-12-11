@@ -1,9 +1,10 @@
 package dbms.sqlparser.sqlInterpreter;
 
+import dbms.datatypes.DBDatatype;
+import dbms.exception.IncorrectDataEntryException;
+
 import java.util.Map;
 import java.util.Queue;
-
-import dbms.exception.IncorrectDataEntryException;
 
 public abstract class BooleanExpressionEvaluator {
     private Queue<Object> postfix;
@@ -23,7 +24,7 @@ public abstract class BooleanExpressionEvaluator {
         return null;
     }
 
-    protected abstract boolean evaluate(Map<String, Object> row, Queue<Object> postfix,
-    		Map<String, String> columns) throws IncorrectDataEntryException;
+    protected abstract boolean evaluate(Map<String, DBDatatype> row, Queue<Object> postfix,
+                                        Map<String, String> columns) throws IncorrectDataEntryException;
 
 }

@@ -1,6 +1,7 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
 import dbms.backend.BackendController;
+import dbms.datatypes.DBDatatype;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.TableNotFoundException;
@@ -9,10 +10,10 @@ import java.util.Map;
 
 public class InsertIntoTable implements DMLStatement {
     private String tableName;
-    private Map<String, Object> entryMap;
+    private Map<String, DBDatatype> entryMap;
     private int updateCount;
 
-    public InsertIntoTable(String tableName, Map<String, Object> entryMap) {
+    public InsertIntoTable(String tableName, Map<String, DBDatatype> entryMap) {
         this.tableName = tableName;
         this.entryMap = entryMap;
     }
@@ -21,7 +22,7 @@ public class InsertIntoTable implements DMLStatement {
         return tableName;
     }
 
-    public Map<String, Object> getEntryMap() {
+    public Map<String, DBDatatype> getEntryMap() {
         return entryMap;
     }
 

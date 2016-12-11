@@ -1,26 +1,26 @@
 package dbms.util;
 
+import dbms.datatypes.DBDatatype;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import dbms.datatypes.DBDatatype;
-
 public class Column {
-	private ArrayList<Object> entries = null;
+	private ArrayList<DBDatatype> entries = null;
 	private Class<? extends DBDatatype> type = null;
 	private String name = null;
 
 	public Column() {
-		entries = new ArrayList<Object>();
+		entries = new ArrayList<DBDatatype>();
 	}
 
 	public Column(String name, Class<? extends DBDatatype> type) {
-		entries = new ArrayList<Object>();
+		entries = new ArrayList<DBDatatype>();
 		this.name = name;
 		this.type = type;
 	}
 
-	public void addEntry(Object o) {
+	public void addEntry(DBDatatype o) {
 		entries.add(o);
 	}
 
@@ -44,15 +44,15 @@ public class Column {
 		return type;
 	}
 
-	public List<Object> getEntries() {
+	public List<DBDatatype> getEntries() {
 		return entries;
 	}
 
-	public Object get(int index) {
+	public DBDatatype get(int index) {
 		return entries.get(index);
 	}
 
-	public void set(int index, Object o) {
+	public void set(int index, DBDatatype o) {
 		entries.set(index, o);
 	}
 

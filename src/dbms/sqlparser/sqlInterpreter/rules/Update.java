@@ -1,6 +1,7 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
 import dbms.backend.BackendController;
+import dbms.datatypes.DBDatatype;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
@@ -11,12 +12,12 @@ import java.util.Map;
 
 public class Update implements DMLStatement {
     private String tableName;
-    private Map<String, Object> values;
+    private Map<String, DBDatatype> values;
     private Map<String, String> columns;
     private Where where;
     private int updateCount;
 
-    public Update(String tableName, Map<String, Object> values, Map<String, String> columns) {
+    public Update(String tableName, Map<String, DBDatatype> values, Map<String, String> columns) {
         this.tableName = tableName;
         this.values = values;
         this.columns = columns;
@@ -30,7 +31,7 @@ public class Update implements DMLStatement {
         return where;
     }
 
-    public Map<String, Object> getValues() {
+    public Map<String, DBDatatype> getValues() {
         return values;
     }
 
