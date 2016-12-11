@@ -10,9 +10,19 @@ import dbms.exception.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import dbms.backend.BackendController;
+import dbms.datatypes.DBInteger;
+import dbms.datatypes.DBString;
+import dbms.exception.DatabaseAlreadyCreatedException;
+import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.IncorrectDataEntryException;
+import dbms.exception.TableAlreadyCreatedException;
+import dbms.exception.TableNotFoundException;
+
+
 public class test {
 	private final static BackendController JSONParserConc = BackendController.getInstance();
-	public static void main(String[] argv) {
+	public static void main(String[] args) {
 		try {
 			JSONParserConc.createDatabase("mine");
 		} catch (DatabaseAlreadyCreatedException e) {
@@ -30,7 +40,7 @@ public class test {
 		entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
 		entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
 		try {
-			JSONParserConc.insertIntoTable("mine", entriesMap);
+			JSONParserConc.insertIntoTable("table11", entriesMap);
 		} catch (DatabaseNotFoundException | TableNotFoundException | IncorrectDataEntryException e) {
 			e.printStackTrace();
 		}
