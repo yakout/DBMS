@@ -277,6 +277,7 @@ public class Table {
 	public void setTable(Table table) {
 		this.name = table.getName();
 		this.database = table.getDatabase();
+		this.size = table.getSize();
 		for (Column col : table.getColumns()) {
 			this.addColumn(col);
 		}

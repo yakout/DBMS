@@ -2,7 +2,7 @@ package dbms.datatypes;
 
 public class DBString implements DBDatatype {
 	public static final String KEY = "String";
-	private String value;
+	private String value = null;
 
 	static {
 		DatatypeFactory.getFactory().register(KEY, DBString.class);

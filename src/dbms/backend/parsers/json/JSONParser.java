@@ -20,10 +20,7 @@ import com.google.gson.reflect.TypeToken;
 import dbms.backend.BackendParser;
 import dbms.backend.BackendParserFactory;
 import dbms.backend.parsers.json.pojo.TablePojo;
-import dbms.datatypes.DBDate;
-import dbms.datatypes.DBFloat;
-import dbms.datatypes.DBInteger;
-import dbms.datatypes.DBString;
+import dbms.datatypes.*;
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.TableAlreadyCreatedException;
@@ -61,20 +58,14 @@ public class JSONParser extends BackendParser {
 				}
                 return false;
             }
-
 			@Override
 			public boolean shouldSkipClass(Class<?> arg0) {
 				return false;
 			}
         });
-		Type listType = new TypeToken<List<Column>>(){}.getType();
         gson = builder.serializeNulls().disableHtmlEscaping()
         .registerTypeAdapterFactory(new ClassTypeAdapterFactory())
-		.registerTypeAdapter(DBString.class, new ClassTypeAdapter())
-		.registerTypeAdapter(DBInteger.class, new ClassTypeAdapter())
-		.registerTypeAdapter(DBFloat.class, new ClassTypeAdapter())
-		.registerTypeAdapter(DBDate.class, new ClassTypeAdapter())
-//		.registerTypeAdapter(listType, new ColumnListDeserializer())
+		.registerTypeAdapter(Column.class, new ColumnAdapter())
 		.setPrettyPrinting().create();
 	}
 	public static JSONParser getInstance() {

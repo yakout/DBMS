@@ -1,5 +1,6 @@
 package dbms.backend.parsers.json;
 
+import com.google.gson.JsonDeserializer;
 import dbms.backend.BackendController;
 import dbms.datatypes.DBDatatype;
 import dbms.datatypes.DBInteger;
@@ -18,6 +19,7 @@ import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
+import dbms.util.RecordSet;
 
 
 public class test {
@@ -43,7 +45,10 @@ public class test {
 		entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
 		try {
 			JSONParserConc.insertIntoTable("table11", entriesMap);
+			RecordSet rs = JSONParserConc.select("table11", null, null);
 		} catch (DatabaseNotFoundException | TableNotFoundException | IncorrectDataEntryException e) {
+			e.printStackTrace();
+		} catch (SyntaxErrorException e) {
 			e.printStackTrace();
 		}
 	}
