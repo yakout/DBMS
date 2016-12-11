@@ -1,5 +1,7 @@
 package dbms.util;
 
+import javafx.util.Pair;
+
 import java.util.*;
 
 /**
@@ -112,16 +114,15 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 
 
 	/**
-	 * // TODO support multiple columns: String...
-	 * @param columnName the column name
-	 * @param isAscending
+	 *
+	 * @param columns
      */
-	public void orderBy(boolean isAscending, String columnName) {
+	public void orderBy(List<Pair<String, Boolean>> columns) {;
 		records.sort(new Comparator<Record>() {
 			@Override
 			public int compare(Record o1, Record o2) {
-				Object value1 = o1.get(columnName);
-				Object value2 = o2.get(columnName);
+				Object value1 = o1.get(columns.get(0).getKey());
+				Object value2 = o2.get(columns.get(0).getKey());
 				if (value1 == null || value2 == null) {
 					return -1;
 				} else if (value1 instanceof String) {
@@ -131,7 +132,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 				}
 			}
 		});
-		if (!isAscending) {
+		if (!columns.get(0).getValue()) {
 			Collections.reverse(records);
 		}
 	}

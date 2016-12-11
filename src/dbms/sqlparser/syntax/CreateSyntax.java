@@ -3,24 +3,44 @@ package dbms.sqlparser.syntax;
 import java.util.regex.Pattern;
 
 public class CreateSyntax implements SQLSyntax {
-    private static Pattern createPattern;
+    private final String CREATE_REGEX = "(?i)^\\s*create\\s+((database\\s+("
+            + SyntaxUtil.DATABASE_NAME + ")){1}|(table\\s+("
+            + SyntaxUtil.TABLE_NAME + ")\\s*[(]\\s*(\\s*"
+            + SyntaxUtil.COLUMN_NAME + "\\s+"
+            + SyntaxUtil.SUPPORTED_DATA_TYPES + "\\s*(\\s*,\\s*"
+            + SyntaxUtil.COLUMN_NAME + "\\s+"
+            + SyntaxUtil.SUPPORTED_DATA_TYPES + "\\s*)*)\\s*[)]){1})"
+            + SyntaxUtil.SEMI_COLON +"$";
 
-    private static final String supportedDataTypes = "(int|varchar|date|float){1}";
+    private Pattern createPattern = Pattern.compile(CREATE_REGEX);
 
-    private static final String createRegex = "(?i)^\\s*create\\s+((database\\s+(\\w+)){1}|(table\\s+(\\w+)\\s*[(]\\s*(\\s*\\w+\\s+"
-            + supportedDataTypes + "\\s*(\\s*,\\s*\\w+\\s+" + supportedDataTypes + "\\s*)*)\\s*[)]){1})\\s*;\\s*$";
+    private static CreateSyntax instance = null;
 
+    private CreateSyntax() {
+
+    }
+
+    public static CreateSyntax getInstance() {
+        if (instance == null) {
+            instance = new CreateSyntax();
+        }
+        return instance;
+    }
 
     @Override
     public Pattern getPattern() {
         if (createPattern == null) {
-            createPattern = Pattern.compile(createRegex);
+            createPattern = Pattern.compile(CREATE_REGEX);
         }
         return createPattern;
     }
 
     @Override
     public String getRegex() {
-        return createRegex;
+        return CREATE_REGEX;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getInstance().getRegex());
     }
 }

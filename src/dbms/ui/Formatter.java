@@ -2,6 +2,7 @@ package dbms.ui;
 
 import dbms.util.Record;
 import dbms.util.RecordSet;
+import javafx.util.Pair;
 
 import java.util.*;
 
@@ -166,7 +167,9 @@ public class Formatter {
         records.add(record4);
 
         RecordSet recordSet = new RecordSet(records);
-        recordSet.orderBy(true, "ID");
+        List<Pair<String, Boolean>> order = new ArrayList<>();
+        order.add(new Pair<>("ID", true));
+        recordSet.orderBy(order);
         new Formatter().printTable(recordSet);
 
     }
