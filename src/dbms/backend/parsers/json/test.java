@@ -21,14 +21,16 @@ import dbms.exception.TableNotFoundException;
 
 
 public class test {
+
 	private final static BackendController JSONParserConc = BackendController.getInstance();
+
 	public static void main(String[] args) {
 		try {
 			JSONParserConc.createDatabase("mine");
 		} catch (DatabaseAlreadyCreatedException e) {
 			e.printStackTrace();
 		}
-		Map<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
+		LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
 		passMap.put("column_1", DBInteger.class);
 		passMap.put("column_2", DBString.class);
 		try {

@@ -48,7 +48,7 @@ public class SQLPredicate {
      * @return
      */
     public boolean test(DBDatatype o) {
-        return operator.apply(DatatypeFactory.convertToDataType(o), DatatypeFactory.convertToDataType(value));
+        return operator.apply(o, value);
     }
 
     /**
@@ -58,7 +58,7 @@ public class SQLPredicate {
      * @return
      */
     public boolean test(DBDatatype o1, DBDatatype o2) {
-        return operator.apply(DatatypeFactory.convertToDataType(o1), DatatypeFactory.convertToDataType(o2));
+        return operator.apply(o1, o2);
     }
 
     /**

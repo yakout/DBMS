@@ -273,4 +273,12 @@ public class Table {
 		columns.clear();
 		size = 0;
 	}
+
+	public void setTable(Table table) {
+		this.name = table.getName();
+		this.database = table.getDatabase();
+		for (Column col : table.getColumns()) {
+			this.addColumn(col);
+		}
+	}
 }
