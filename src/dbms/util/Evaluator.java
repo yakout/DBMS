@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
-public class Evaluator extends BooleanExpressionEvaluator{
+public class Evaluator extends BooleanExpressionEvaluator {
 
 	private static Evaluator instance = null;
 
@@ -141,7 +141,7 @@ public class Evaluator extends BooleanExpressionEvaluator{
     }
 
     private Object get(Object val, Map<String, String> columns,
-    		Map<String, Object> row, String colName)
+    		Map<String, DBDatatype> row, String colName)
     				throws IncorrectDataEntryException {
     	if (!columns.containsKey(colName)) {
     		throw new IncorrectDataEntryException("Column doesn't exist!");

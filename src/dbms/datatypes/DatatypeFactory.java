@@ -61,6 +61,11 @@ public class DatatypeFactory {
 		return null;
 	}
 
+	public static Object convertToObject(String data) {
+		// TODO
+		return null;
+	}
+
 	/*
 	 * An alternate strategy to extensively load all datatypes
 	 * is to walk through directories in .classpath and registers any

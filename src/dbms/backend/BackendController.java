@@ -129,8 +129,8 @@ public class BackendController {
 	 */
 	public RecordSet select(String tableName,
 							Collection<String> columns, Condition condition)
-					throws DatabaseNotFoundException,TableNotFoundException,
-					SyntaxErrorException, IncorrectDataEntryException {
+			throws DatabaseNotFoundException,TableNotFoundException,
+			SyntaxErrorException, IncorrectDataEntryException {
 		Table table = new Database(dbName).createTable(tableName);
 		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
 		RecordSet ret = table.select(columns, condition);
@@ -176,9 +176,9 @@ public class BackendController {
 	 * @throws IncorrectDataEntryException
 	 */
 	public int update(String tableName, Map<String, DBDatatype> values,
-			Map<String, String> columns, Condition condition)
-					throws DatabaseNotFoundException, TableNotFoundException,
-					SyntaxErrorException, IncorrectDataEntryException {
+					  Map<String, String> columns, Condition condition)
+			throws DatabaseNotFoundException, TableNotFoundException,
+			SyntaxErrorException, IncorrectDataEntryException {
 		Table table = new Database(dbName).createTable(tableName);
 		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
 		int updateCount = table.update(values, columns, condition);
@@ -221,8 +221,8 @@ public class BackendController {
 	 * @throws TableNotFoundException
 	 * @throws DatabaseNotFoundException
 	 * @throws IncorrectDataEntryException
-     */
-	public void alterAdd(String tableName, String columnName, Class datatype)
+	 */
+	public void alterAdd(String tableName, String columnName, Class<? extends DBDatatype> datatype)
 			throws DatabaseNotFoundException, TableNotFoundException
 			, IncorrectDataEntryException {
 		Class<? extends DBDatatype> type =
@@ -246,7 +246,7 @@ public class BackendController {
 	 * @throws TableNotFoundException
 	 * @throws DatabaseNotFoundException
 	 * @throws IncorrectDataEntryException
-     */
+	 */
 	public void alterDrop(String tableName, String columnName)
 			throws DatabaseNotFoundException, TableNotFoundException
 			, IncorrectDataEntryException {

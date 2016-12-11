@@ -35,5 +35,10 @@ public class DBDate implements DBDatatype {
     public Date getValue() {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return value.toString();
+    }
     
 }

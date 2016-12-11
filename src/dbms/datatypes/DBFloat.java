@@ -34,4 +34,10 @@ public class DBFloat implements DBDatatype {
     public Float getValue() {
         return value;
     }
+
+
+    @Override
+    public String toString() {
+        return value.toString();
+    }
 }

@@ -1,6 +1,7 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
 import dbms.backend.BackendController;
+import dbms.datatypes.DBDatatype;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.TableAlreadyCreatedException;
@@ -9,9 +10,9 @@ import java.util.Map;
 
 public class CreateTable implements DDLStatement {
     private String tableName;
-    private Map<String, Class> columns;
+    private Map<String, Class<? extends DBDatatype>> columns;
 
-    public CreateTable(String tableName, Map<String, Class> columns) {
+    public CreateTable(String tableName, Map<String, Class<? extends DBDatatype>> columns) {
         this.tableName = tableName;
         this.columns = columns;
     }
@@ -20,7 +21,7 @@ public class CreateTable implements DDLStatement {
         return tableName;
     }
 
-    public Map<String, Class> getColumns() {
+    public Map<String, Class<? extends DBDatatype>> getColumns() {
         return columns;
     }
 

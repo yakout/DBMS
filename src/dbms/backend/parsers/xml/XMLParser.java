@@ -201,7 +201,7 @@ public class XMLParser extends BackendParser {
 				}
 				Object entry = DatatypeFactory.getFactory().toObj(
 						row.getTextContent(), colType);
-				col.addEntry(entry);
+				col.addEntry(DatatypeFactory.getFactory().convertToDataType(entry));
 			}
 			table.addColumn(col);
 		}

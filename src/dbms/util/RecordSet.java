@@ -1,5 +1,7 @@
 package dbms.util;
 
+import dbms.datatypes.DBDatatype;
+import dbms.datatypes.DatatypeFactory;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -50,8 +52,8 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 	 * Gets a {@link List} representation of the set.
 	 * @return {@link List} if records.
 	 */
-    public List<Map<String, Object>> getMapList() {
-		List<Map<String, Object>> mapRepresent = new LinkedList<Map<String, Object>>();
+    public List<Map<String, DBDatatype>> getMapList() {
+		List<Map<String, DBDatatype>> mapRepresent = new LinkedList<Map<String, DBDatatype>>();
 		for (int j = 0; j < records.size(); j++) {
 			mapRepresent.add(records.get(j).getRecord());
 		}
@@ -121,14 +123,12 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 		records.sort(new Comparator<Record>() {
 			@Override
 			public int compare(Record o1, Record o2) {
-				Object value1 = o1.get(columns.get(0).getKey());
-				Object value2 = o2.get(columns.get(0).getKey());
+				DBDatatype value1 = o1.get(columns.get(0).getKey());
+				DBDatatype value2 = o2.get(columns.get(0).getKey());
 				if (value1 == null || value2 == null) {
 					return -1;
-				} else if (value1 instanceof String) {
-					return ((String) value1).compareTo((String) value2);
 				} else {
-					return ((Integer) value1).compareTo((Integer) value2);
+					return value1.compareTo(value2);
 				}
 			}
 		});
@@ -175,12 +175,12 @@ public class RecordSet implements Iterable<Record>, Cloneable {
      * @param args
      */
     public static void main(String[] args) {
-        LinkedHashMap<String, Object> map1 = new LinkedHashMap<>();
-        map1.put("ahmed", 1);
-        LinkedHashMap<String, Object> map2 = new LinkedHashMap<>();
-        map2.put("ahmed", 1);
-        LinkedHashMap<String, Object> map3 = new LinkedHashMap<>();
-        map3.put("ahmed", 1);
+        LinkedHashMap<String, DBDatatype> map1 = new LinkedHashMap<>();
+        map1.put("ahmed", DatatypeFactory.convertToDataType(1));
+        LinkedHashMap<String, DBDatatype> map2 = new LinkedHashMap<>();
+        map2.put("ahmed", DatatypeFactory.convertToDataType(1));
+        LinkedHashMap<String, DBDatatype> map3 = new LinkedHashMap<>();
+        map3.put("ahmed", DatatypeFactory.convertToDataType(1));
 
         Record record1 = new Record(map1);
         Record record2 = new Record(map2);

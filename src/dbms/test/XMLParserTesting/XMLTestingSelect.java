@@ -1,16 +1,27 @@
 package dbms.test.XMLParserTesting;
 
 import dbms.backend.BackendController;
-import dbms.sqlparser.sqlInterpreter.Condition;
-import dbms.sqlparser.sqlInterpreter.Where;
-import dbms.util.Record;
-import dbms.util.RecordSet;
-import org.junit.Test;
-
-import java.util.*;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
+import dbms.datatypes.DBDatatype;
+import dbms.datatypes.DBInteger;
+import dbms.datatypes.DBString;
+import dbms.datatypes.DatatypeFactory;
+import dbms.util.Record;
+import org.junit.Test;
+
+import dbms.sqlparser.sqlInterpreter.Condition;
+import dbms.sqlparser.sqlInterpreter.Where;
+import dbms.util.RecordSet;
 
 public class XMLTestingSelect {
 
@@ -22,33 +33,33 @@ public class XMLTestingSelect {
 		try {
 			xmlParserConc.createDatabase("database_select_1");
 
-			Map<String, Class> passMap = new LinkedHashMap<String, Class>();
-			passMap.put("column_1", Integer.class);
-			passMap.put("column_2", String.class);
+			Map<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
+			passMap.put("column_1", DBInteger.class);
+			passMap.put("column_2", DBString.class);
 
 			xmlParserConc.createTable("table_name", passMap);
 
-			Map<String, Object> entriesMap = new LinkedHashMap<String, Object>();
-			entriesMap.put("column_1", 550);
-			entriesMap.put("column_2", "KHalED");
+			Map<String, DBDatatype> entriesMap = new LinkedHashMap<String, DBDatatype>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, Object>();
-			entriesMap.put("column_1", 14);
-			entriesMap.put("column_2", "hamada14");
+			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(14));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("hamada14"));
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, Object>();
-			entriesMap.put("column_1", 17);
-			entriesMap.put("column_2", "Sea");
+			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(17));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("Sea"));
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 			Set<String> columns = new TreeSet<String>();
 
 			columns.add("column_1");
 			columns.add("column_2");
 			RecordSet result = new RecordSet();
-			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
-			resExpected.put("column_1", 550);
-			resExpected.put("column_2", "KHalED");
-			xmlParserConc.alterAdd("table_name", "column_3", String.class);
+			Map<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(550));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
+			xmlParserConc.alterAdd("table_name", "column_3", DBString.class);
 			xmlParserConc.alterDrop("table_name", "column_3");
 			Record expRecord = new Record(resExpected);
 			result.add(expRecord);
@@ -73,17 +84,17 @@ public class XMLTestingSelect {
 		try {
 			xmlParserConc.createDatabase("database_select_2");
 
-			Map<String, Class> passMap = new LinkedHashMap<String, Class>();
-			passMap.put("column_1", Integer.class);
-			passMap.put("column_2", String.class);
+			Map<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
+			passMap.put("column_1", DBInteger.class);
+			passMap.put("column_2", DBString.class);
 
 			xmlParserConc.createTable("table_name", passMap);
 
-			Map<String, Object> entriesMap = new LinkedHashMap<String, Object>();
-			entriesMap.put("column_1", 550);
-			entriesMap.put("column_2", "KHalED");
-			entriesMap.put("column_1", 14);
-			entriesMap.put("column_2", "TOLBa");
+			Map<String, DBDatatype> entriesMap = new LinkedHashMap<String, DBDatatype>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(14));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("TOLBa"));
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 
 			Set<String> columns = new HashSet<String>();
@@ -91,11 +102,11 @@ public class XMLTestingSelect {
 			columns.add("column_1");
 			columns.add("column_2");
 			RecordSet result = new RecordSet();
-			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
-			resExpected.put("column_1", 550);
-			resExpected.put("column_2", "KHalED");
-			resExpected.put("column_1", 14);
-			resExpected.put("column_2", "TOLBa");
+			Map<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(550));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(14));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("TOLBa"));
 			Record expRecord = new Record(resExpected);
 			result.add(expRecord);
 
@@ -120,26 +131,26 @@ public class XMLTestingSelect {
 		try {
 			xmlParserConc.createDatabase("database_select_3");
 
-			Map<String, Class> passMap = new LinkedHashMap<String, Class>();
-			passMap.put("column_1", Integer.class);
-			passMap.put("column_2", String.class);
-			passMap.put("column_3", String.class);
+			Map<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
+			passMap.put("column_1", DBInteger.class);
+			passMap.put("column_2", DBString.class);
+			passMap.put("column_3", DBString.class);
 			xmlParserConc.createTable("table_name", passMap);
 
-			Map<String, Object> entriesMap = new LinkedHashMap<String, Object>();
-			entriesMap.put("column_1", 550);
-			entriesMap.put("column_2", "KHalED");
-			entriesMap.put("column_3", "ANAS");
+			Map<String, DBDatatype> entriesMap = new LinkedHashMap<String, DBDatatype>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType("ANAS"));
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 			entriesMap.clear();
-			entriesMap.put("column_1", 14);
-			entriesMap.put("column_2", "TOLBa");
-			entriesMap.put("column_3", "YAKoUT");
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(14));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("TOLBa"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType("YAKoUT"));
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 			entriesMap.clear();
-			entriesMap.put("column_1", 1512);
-			entriesMap.put("column_2", "Merci");
-			entriesMap.put("column_3", "School");
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(1512));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("Merci"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType("School"));
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 
 			Set<String> columns = new TreeSet<String>();
@@ -148,21 +159,21 @@ public class XMLTestingSelect {
 			columns.add("column_2");
 			columns.add("column_3");
 			RecordSet recordSet = new RecordSet();
-			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
+			Map<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
 
-			resExpected.put("column_1", 550);
-			resExpected.put("column_2", "KHalED");
-			resExpected.put("column_3", "ANAS");
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(550));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("ANAS"));
 			recordSet.add(new Record(resExpected));
-			resExpected = new LinkedHashMap<String, Object>();
-			resExpected.put("column_1", 14);
-			resExpected.put("column_2", "TOLBa");
-			resExpected.put("column_3", "YAKoUT");
+			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(14));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("TOLBa"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("YAKoUT"));
 			recordSet.add(new Record(resExpected));
-			resExpected = new LinkedHashMap<String, Object>();
-			resExpected.put("column_1", 1512);
-			resExpected.put("column_2", "Merci");
-			resExpected.put("column_3", "School");
+			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(1512));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("Merci"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("School"));
 			recordSet.add(new Record(resExpected));
 
 			RecordSet actualRes = xmlParserConc.select("table_name", columns, null);
@@ -186,51 +197,51 @@ public class XMLTestingSelect {
 		try {
 			xmlParserConc.createDatabase("database_select_4");
 
-			Map<String, Class> passMap = new LinkedHashMap<String, Class>();
-			passMap.put("column_1", Integer.class);
-			passMap.put("column_2", String.class);
-			passMap.put("column_3", String.class);
+			Map<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<String, Class<? extends DBDatatype>>();
+			passMap.put("column_1", DBDatatype.class);
+			passMap.put("column_2", DBString.class);
+			passMap.put("column_3", DBString.class);
 			xmlParserConc.createTable("table_name", passMap);
 
-			Map<String, Object> entriesMap = new LinkedHashMap<String, Object>();
-			entriesMap.put("column_1", 550);
-			entriesMap.put("column_2", "KHalED");
-			entriesMap.put("column_3", "ANAS");
+			Map<String, DBDatatype> entriesMap = new LinkedHashMap<String, DBDatatype>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType("ANAS"));
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 			entriesMap.clear();
-			entriesMap.put("column_1", 14);
-			entriesMap.put("column_2", "TOLBa");
-			entriesMap.put("column_3", "YAKoUT");
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(14));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("TOLBa"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType("YAKoUT"));
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 			entriesMap.clear();
-			entriesMap.put("column_1", 1512);
-			entriesMap.put("column_2", "Merci");
-			entriesMap.put("column_3", "School");
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(1512));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("Merci"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType("School"));
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 			entriesMap.clear();
-			entriesMap.put("column_1", 56277);
-			entriesMap.put("column_2", "Merci");
-			entriesMap.put("column_3", "Wal3aa");
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(56277));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("Merci"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType("Wal3aa"));
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 			entriesMap.clear();
-			entriesMap.put("column_1", 889884);
-			entriesMap.put("column_2", "yes");
-			entriesMap.put("column_3", "no");
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(889884));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("yes"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType("no"));
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 			entriesMap.clear();
-			entriesMap.put("column_1", 7777);
-			entriesMap.put("column_2", "HelloFromTheOtherSide");
-			entriesMap.put("column_3", "noAgain");
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(7777));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("HelloFromTheOtherSide"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType("noAgain"));
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 			entriesMap.clear();
-			entriesMap.put("column_1", 7897);
-			entriesMap.put("column_2", "HelloFromTheOtherSideFam");
-			entriesMap.put("column_3", "noAgainNo");
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(7897));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("HelloFromTheOtherSideFam"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType("noAgainNo"));
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 			entriesMap.clear();
 			entriesMap.put("column_2",
-					"HelloFromTheOtherSideFamHHHHhhhHHHHhhhhjkvh sdkjdhlvhczxhvsdhnufhs , oidnoiwhadshkfnh [fsnanhdx");
-			entriesMap.put("column_3", "noAgainNohnifyueirefucnyweifyuewuciuuighrmoxarignriegxfiwhiufhzr");
+					DatatypeFactory.convertToDataType("HelloFromTheOtherSideFamHHHHhhhHHHHhhhhjkvh sdkjdhlvhczxhvsdhnufhs , oidnoiwhadshkfnh [fsnanhdx"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType("noAgainNohnifyueirefucnyweifyuewuciuuighrmoxarignriegxfiwhiufhzr"));
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 
 			Set<String> columns = new TreeSet<String>();
@@ -239,47 +250,47 @@ public class XMLTestingSelect {
 			columns.add("column_2");
 			columns.add("column_3");
 			RecordSet recordSet = new RecordSet();
-			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
+			Map<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
 
-			resExpected.put("column_1", 550);
-			resExpected.put("column_2", "KHalED");
-			resExpected.put("column_3", "ANAS");
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(550));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("ANAS"));
 			recordSet.add(new Record(resExpected));
-			resExpected = new LinkedHashMap<String, Object>();
-			resExpected.put("column_1", 14);
-			resExpected.put("column_2", "TOLBa");
-			resExpected.put("column_3", "YAKoUT");
+			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(14));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("TOLBa"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("YAKoUT"));
 			recordSet.add(new Record(resExpected));
-			resExpected = new LinkedHashMap<String, Object>();
-			resExpected.put("column_1", 1512);
-			resExpected.put("column_2", "Merci");
-			resExpected.put("column_3", "School");
+			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(1512));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("Merci"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("School"));
 			recordSet.add(new Record(resExpected));
-			resExpected = new LinkedHashMap<String, Object>();
-			resExpected.put("column_1", 56277);
-			resExpected.put("column_2", "Merci");
-			resExpected.put("column_3", "Wal3aa");
+			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(56277));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("Merci"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("Wal3aa"));
 			recordSet.add(new Record(resExpected));
-			resExpected = new LinkedHashMap<String, Object>();
-			resExpected.put("column_1", 889884);
-			resExpected.put("column_2", "yes");
-			resExpected.put("column_3", "no");
+			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected.put("column_1",DatatypeFactory.convertToDataType(889884));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("yes"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("no"));
 			recordSet.add(new Record(resExpected));
-			resExpected = new LinkedHashMap<String, Object>();
-			resExpected.put("column_1", 7777);
-			resExpected.put("column_2", "HelloFromTheOtherSide");
-			resExpected.put("column_3", "noAgain");
+			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(7777));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("HelloFromTheOtherSide"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("noAgain"));
 			recordSet.add(new Record(resExpected));
-			resExpected = new LinkedHashMap<String, Object>();
-			resExpected.put("column_1", 7897);
-			resExpected.put("column_2", "HelloFromTheOtherSideFam");
-			resExpected.put("column_3", "noAgainNo");
+			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(7897));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("HelloFromTheOtherSideFam"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("noAgainNo"));
 			recordSet.add(new Record(resExpected));
-			resExpected = new LinkedHashMap<String, Object>();
+			resExpected = new LinkedHashMap<String, DBDatatype>();
 			resExpected.put("column_1", null);
 			resExpected.put("column_2",
-					"HelloFromTheOtherSideFamHHHHhhhHHHHhhhhjkvh sdkjdhlvhczxhvsdhnufhs , oidnoiwhadshkfnh [fsnanhdx");
-			resExpected.put("column_3", "noAgainNohnifyueirefucnyweifyuewuciuuighrmoxarignriegxfiwhiufhzr");
+					DatatypeFactory.convertToDataType("HelloFromTheOtherSideFamHHHHhhhHHHHhhhhjkvh sdkjdhlvhczxhvsdhnufhs , oidnoiwhadshkfnh [fsnanhdx"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("noAgainNohnifyueirefucnyweifyuewuciuuighrmoxarignriegxfiwhiufhzr"));
 			recordSet.add(new Record(resExpected));
 
 			RecordSet actualRes = xmlParserConc.select("table_name", columns, null);
@@ -315,47 +326,47 @@ public class XMLTestingSelect {
 			columns.add("column_2");
 			columns.add("column_3");
 			RecordSet recordSet = new RecordSet();
-			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
+			Map<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
 
-			resExpected.put("column_1", 550);
-			resExpected.put("column_2", "KHalED");
-			resExpected.put("column_3", "ANAS");
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(550));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("ANAS"));
 			recordSet.add(new Record(resExpected));
-			resExpected = new LinkedHashMap<String, Object>();
-			resExpected.put("column_1", 14);
-			resExpected.put("column_2", "TOLBa");
-			resExpected.put("column_3", "YAKoUT");
+			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(14));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("TOLBa"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("YAKoUT"));
 			recordSet.add(new Record(resExpected));
-			resExpected = new LinkedHashMap<String, Object>();
-			resExpected.put("column_1", 1512);
-			resExpected.put("column_2", "Merci");
-			resExpected.put("column_3", "School");
+			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(1512));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("Merci"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("School"));
 			recordSet.add(new Record(resExpected));
-			resExpected = new LinkedHashMap<String, Object>();
-			resExpected.put("column_1", 56277);
-			resExpected.put("column_2", "Merci");
-			resExpected.put("column_3", "Wal3aa");
+			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(56277));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("Merci"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("Wal3aa"));
 			recordSet.add(new Record(resExpected));
-			resExpected = new LinkedHashMap<String, Object>();
-			resExpected.put("column_1", 889884);
-			resExpected.put("column_2", "yes");
-			resExpected.put("column_3", "no");
+			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(889884));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("yes"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("no"));
 			recordSet.add(new Record(resExpected));
-			resExpected = new LinkedHashMap<String, Object>();
-			resExpected.put("column_1", 7777);
-			resExpected.put("column_2", "HelloFromTheOtherSide");
-			resExpected.put("column_3", "noAgain");
+			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(7777));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("HelloFromTheOtherSide"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("noAgain"));
 			recordSet.add(new Record(resExpected));
-			resExpected = new LinkedHashMap<String, Object>();
-			resExpected.put("column_1", 7897);
-			resExpected.put("column_2", "HelloFromTheOtherSideFam");
-			resExpected.put("column_3", "noAgainNo");
+			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(7897));
+			resExpected.put("column_2", DatatypeFactory.convertToDataType("HelloFromTheOtherSideFam"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("noAgainNo"));
 			recordSet.add(new Record(resExpected));
-			resExpected = new LinkedHashMap<String, Object>();
+			resExpected = new LinkedHashMap<String, DBDatatype>();
 			resExpected.put("column_1", null);
 			resExpected.put("column_2",
-					"HelloFromTheOtherSideFamHHHHhhhHHHHhhhhjkvh sdkjdhlvhczxhvsdhnufhs , oidnoiwhadshkfnh [fsnanhdx");
-			resExpected.put("column_3", "noAgainNohnifyueirefucnyweifyuewuciuuighrmoxarignriegxfiwhiufhzr");
+					DatatypeFactory.convertToDataType("HelloFromTheOtherSideFamHHHHhhhHHHHhhhhjkvh sdkjdhlvhczxhvsdhnufhs , oidnoiwhadshkfnh [fsnanhdx"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("noAgainNohnifyueirefucnyweifyuewuciuuighrmoxarignriegxfiwhiufhzr"));
 			recordSet.add(new Record(resExpected));
 
 			RecordSet actualRes = xmlParserConc.select("table_name", columns, null);
@@ -385,23 +396,23 @@ public class XMLTestingSelect {
 		try {
 			xmlParserConc.createDatabase("database_select_5");
 
-			Map<String, Class> passMap = new LinkedHashMap<String, Class>();
-			passMap.put("column_1", Integer.class);
-			passMap.put("column_2", Integer.class);
+			Map<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<String, Class<? extends DBDatatype>>();
+			passMap.put("column_1", DBInteger.class);
+			passMap.put("column_2", DBInteger.class);
 
 			xmlParserConc.createTable("table_name", passMap);
 
-			Map<String, Object> entriesMap = new LinkedHashMap<String, Object>();
-			entriesMap.put("column_1", 550);
+			Map<String, DBDatatype> entriesMap = new LinkedHashMap<String, DBDatatype>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, Object>();
-			entriesMap.put("column_1", 80);
+			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(80));
 			xmlParserConc.insertIntoTable("table_name", entriesMap);
 			Set<String> columns = new TreeSet<String>();
 			columns.add("column_1");
 			Condition conditionQ = new Where("column_1 > 100");
-			Map<String, Object> resExpected = new LinkedHashMap<String, Object>();
-			resExpected.put("column_1", 550);
+			Map<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected.put("column_1", DatatypeFactory.convertToDataType(550));
 			resExpected.put("column_2", null);
 			Record expRecord = new Record(resExpected);
 			RecordSet result = new RecordSet();

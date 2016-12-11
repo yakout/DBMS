@@ -1,5 +1,6 @@
 package dbms.sqlparser;
 
+import dbms.datatypes.*;
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.sqlInterpreter.Where;
 import dbms.sqlparser.sqlInterpreter.rules.*;
@@ -142,14 +143,14 @@ public class SQLParser {
         if (columns.length != values.length) {
             throw new SyntaxErrorException("Error: Columns number does not match values number");
         }
-        HashMap<String, Object> entryMap = new LinkedHashMap<>();
+        HashMap<String, DBDatatype> entryMap = new LinkedHashMap<>();
         for (int i = 0; i < columns.length; i++) {
             String column = columns[i].trim();
             String value = values[i].trim();
             if (value.startsWith("'") || value.startsWith("\"")) {
-                entryMap.put(column, value.replaceAll("('|\")", ""));
+                entryMap.put(column, DatatypeFactory.convertToDataType(value.replaceAll("('|\")", "")));
             } else {
-                entryMap.put(column, Integer.parseInt(value));
+                entryMap.put(column, DatatypeFactory.convertToDataType(Integer.parseInt(value)));
             }
         }
         return new InsertIntoTable(tableName, entryMap);
@@ -245,7 +246,7 @@ public class SQLParser {
 
     private Expression parseUpdate(Matcher matcher) {
         matcher.matches();
-        Map<String, Object> values = new HashMap<>();
+        Map<String, DBDatatype> values = new HashMap<>();
         Map<String, String> columns = new HashMap<>();
 
         String[] setValues = matcher.group(2).split(",");
@@ -253,10 +254,10 @@ public class SQLParser {
             String key = setValues[i].split("=")[0].trim();
             String value = setValues[i].split("=")[1].trim();
             if (value.startsWith("'") || value.startsWith("\"")) {
-                values.put(key, value.replaceAll("('|\")", ""));
+                values.put(key, DatatypeFactory.convertToDataType(value.replaceAll("('|\")", "")));
             } else {
                 try {
-                    values.put(key, Integer.parseInt(value));
+                    values.put(key, DatatypeFactory.convertToDataType(Integer.parseInt(value)));
                 } catch (NumberFormatException e) {
                     columns.put(key, value);
                 }
@@ -284,21 +285,21 @@ public class SQLParser {
 		}
 
 		String[] columnsDesc = matcher.group(6).split(",");
-		Map<String, Class> columns = new LinkedHashMap<>();
+		Map<String, Class<? extends DBDatatype>> columns = new LinkedHashMap<>();
 		for (int i = 0; i < columnsDesc.length; i++) {
 			String key = columnsDesc[i].trim().split("\\s+")[0];
 			switch (columnsDesc[i].trim().split("\\s+")[1].toLowerCase()) {
 			case "int":
-				columns.put(key, Integer.class);
+				columns.put(key, DBInteger.class);
 				break;
 			case "varchar":
-				columns.put(key, String.class);
+				columns.put(key, DBString.class);
 				break;
 			case "date":
-				columns.put(key, java.sql.Date.class);
+				columns.put(key, DBDatatype.class);
 				break;
 			case "float":
-					columns.put(key, Float.class);
+					columns.put(key, DBFloat.class);
 			}
 		}
 
