@@ -42,25 +42,22 @@ public class ColumnAdapter implements JsonSerializer<Column>, JsonDeserializer<C
         JsonArray entries = jsonElement.getAsJsonObject().getAsJsonArray("entries");
         for (JsonElement entry : entries) {
             if (typeProp.equals(DBInteger.KEY)) {
-                Integer x = null;
                 try {
-                    x = entry.getAsJsonPrimitive().getAsInt();
+                    Integer x = entry.getAsJsonPrimitive().getAsInt();
+                    column.addEntry(new DBInteger(x));
                 } catch (NumberFormatException e) {
+                    column.addEntry(null);
                 }
-                column.addEntry(new DBInteger(x));
             } else if (typeProp.equals(DBString.KEY)) {
                 String x = entry.getAsJsonPrimitive().getAsString();
-                if (x == "") {
-                    x = null;
-                }
                 column.addEntry(new DBString(x));
             } else if (typeProp.equals(DBFloat.KEY)) {
-                Float x = null;
                 try {
-                    x = entry.getAsJsonPrimitive().getAsFloat();
+                    Float x = entry.getAsJsonPrimitive().getAsFloat();
+                    column.addEntry(new DBFloat(x));
                 } catch (NumberFormatException e) {
+                    column.addEntry(null);
                 }
-                column.addEntry(new DBFloat(x));
             } else if (typeProp.equals(DBDate.KEY)) {
                 //TODO
             }
@@ -73,19 +70,19 @@ public class ColumnAdapter implements JsonSerializer<Column>, JsonDeserializer<C
         for (DBDatatype entry : column.getEntries()) {
             JsonPrimitive obj = null;
             if (typeProperty.equals(DBInteger.KEY)) {
-                if (entry == null || entry.getValue() == null || entry.getValue().equals("")) {
+                if (entry == null || entry.getValue().equals("")) {
                     obj = new JsonPrimitive("");
                 } else {
                     obj = new JsonPrimitive((Integer) entry.getValue());
                 }
             } else if (typeProperty.equals(DBString.KEY)) {
-                if (entry == null || entry.getValue() == null || entry.getValue().equals("")) {
+                if (entry == null || entry.getValue().equals("")) {
                     obj = new JsonPrimitive("");
                 } else {
                     obj = new JsonPrimitive((String) entry.getValue());
                 }
             } else if (typeProperty.equals(DBFloat.KEY)) {
-                if (entry == null || entry.getValue() == null || entry.getValue().equals("")) {
+                if (entry == null || entry.getValue().equals("")) {
                     obj = new JsonPrimitive("");
                 } else {
                     obj = new JsonPrimitive((Float) entry.getValue());

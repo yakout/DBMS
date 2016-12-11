@@ -333,9 +333,7 @@ public class XMLTestingDelete {
 			RecordSet actualRes = xmlParserConc.select("table_name", null , null);
 			Iterator<Record> actualResItr = actualRes.iterator();
 			while (actualResItr.hasNext()) {
-
 				assertTrue(actualResItr.next() == null);
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

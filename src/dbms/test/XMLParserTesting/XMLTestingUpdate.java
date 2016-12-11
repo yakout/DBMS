@@ -1,10 +1,12 @@
 package dbms.test.XMLParserTesting;
 
 import dbms.backend.BackendController;
+import dbms.backend.parsers.xml.XMLParser;
 import dbms.datatypes.DBDatatype;
 import dbms.datatypes.DBInteger;
 import dbms.datatypes.DBString;
 import dbms.datatypes.DatatypeFactory;
+import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.sqlparser.sqlInterpreter.Where;
 import dbms.util.Record;
