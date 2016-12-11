@@ -53,7 +53,6 @@ public class DBInteger implements DBDatatype {
         DBInteger dbInteger = (DBInteger) o;
 
         return value != null ? value.equals(dbInteger.value) : dbInteger.value == null;
-
     }
 
     @Override

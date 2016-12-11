@@ -1,5 +1,6 @@
 package dbms.sqlparser.sqlInterpreter;
 
+import dbms.datatypes.DBDatatype;
 import dbms.datatypes.DatatypeFactory;
 import dbms.util.Operator;
 
@@ -7,12 +8,12 @@ public class SQLPredicate {
     private String columnName;
     private String columnName2;
     private Operator operator;
-    private Object value;
+    private DBDatatype value;
     private boolean isAlwaysTrue = false;
     private boolean isAlwaysFalse = false;
 
     public SQLPredicate(String columnName, String operator,
-                        Object value) {
+                        DBDatatype value) {
         this.columnName = columnName;
         this.operator = toOperator(operator);
         this.value = value;
@@ -43,33 +44,33 @@ public class SQLPredicate {
 
     /**
      *
-     * @param o object for left-side column of this predicate
+     * @param o DBDatatype for left-side column of this predicate
      * @return
      */
-    public boolean test(Object o) {
+    public boolean test(DBDatatype o) {
         return operator.apply(DatatypeFactory.convertToDataType(o), DatatypeFactory.convertToDataType(value));
     }
 
     /**
      *
-     * @param o1 object for left-side column of this predicate
-     * @param o2 object for right-side column of this predicate.
+     * @param o1 DBDatatype for left-side column of this predicate
+     * @param o2 DBDatatype for right-side column of this predicate.
      * @return
      */
-    public boolean test(Object o1, Object o2) {
+    public boolean test(DBDatatype o1, DBDatatype o2) {
         return operator.apply(DatatypeFactory.convertToDataType(o1), DatatypeFactory.convertToDataType(o2));
     }
 
     /**
      *
      * @param sqlPredicate
-     * @param o1 object for left-side column of this predicate
-     * @param o2 object for right-side column of this predicate
-     * @param o3 object for left-side column of predicate argument
-     * @param o4 object for right-side column of predicate argument
+     * @param o1 DBDatatype for left-side column of this predicate
+     * @param o2 DBDatatype for right-side column of this predicate
+     * @param o3 DBDatatype for left-side column of predicate argument
+     * @param o4 DBDatatype for right-side column of predicate argument
      * @return boolean value true/false
      */
-    public boolean or(SQLPredicate sqlPredicate, Object o1, Object o2, Object o3, Object o4) {
+    public boolean or(SQLPredicate sqlPredicate, DBDatatype o1, DBDatatype o2, DBDatatype o3, DBDatatype o4) {
         if (o4 == null && o3 == null && o2 == null) {
             return test(o1) || sqlPredicate.isAlwaysTrue();
         } else if (o1 == null && o2 == null && o4 == null) {
@@ -92,13 +93,13 @@ public class SQLPredicate {
     /**
      *
      * @param sqlPredicate
-     * @param o1 object for left-side column of this predicate
-     * @param o2 object for right-side column of this predicate
-     * @param o3 object for left-side column of predicate argument
-     * @param o4 object for right-side column of predicate argument
+     * @param o1 DBDatatype for left-side column of this predicate
+     * @param o2 DBDatatype for right-side column of this predicate
+     * @param o3 DBDatatype for left-side column of predicate argument
+     * @param o4 DBDatatype for right-side column of predicate argument
      * @return boolean value true/false
      */
-    public boolean and(SQLPredicate sqlPredicate, Object o1, Object o2, Object o3, Object o4) {
+    public boolean and(SQLPredicate sqlPredicate, DBDatatype o1, DBDatatype o2, DBDatatype o3, DBDatatype o4) {
         if (o4 == null && o3 == null && o2 == null) {
             return test(o1) && sqlPredicate.isAlwaysTrue();
         } else if (o1 == null && o2 == null && o4 == null) {
@@ -122,7 +123,7 @@ public class SQLPredicate {
         return columnName;
     }
 
-    public Object getValue() {
+    public DBDatatype getValue() {
         return value;
     }
 

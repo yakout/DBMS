@@ -53,7 +53,6 @@ public class DBFloat implements DBDatatype {
         DBFloat dbFloat = (DBFloat) o;
 
         return value != null ? value.equals(dbFloat.value) : dbFloat.value == null;
-
     }
 
     @Override

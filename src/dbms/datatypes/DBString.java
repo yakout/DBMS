@@ -9,7 +9,6 @@ public class DBString implements DBDatatype {
 	}
 
 	public DBString() {
-
 	}
 
 	public DBString(String value) {
@@ -49,7 +48,6 @@ public class DBString implements DBDatatype {
 		DBString dbString = (DBString) o;
 
 		return value != null ? value.equals(dbString.value) : dbString.value == null;
-
 	}
 
 	@Override
