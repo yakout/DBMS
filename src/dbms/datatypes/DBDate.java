@@ -40,5 +40,24 @@ public class DBDate implements DBDatatype {
     public String toString() {
         return value.toString();
     }
-    
+
+    @Override
+    public String getKey() {
+        return KEY;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != getClass()) {
+            return false;
+        }
+        DBDate dbDate = (DBDate) obj;
+        if (value != null ? !value.equals(dbDate.getValue()) : dbDate.getValue() != null) {
+            return false;
+        }
+        return true;
+    }
 }

@@ -225,16 +225,10 @@ public class BackendController {
 	public void alterAdd(String tableName, String columnName, Class<? extends DBDatatype> datatype)
 			throws DatabaseNotFoundException, TableNotFoundException
 			, IncorrectDataEntryException {
-		Class<? extends DBDatatype> type =
-				DatatypeFactory.getFactory().getRegisteredDatatype(
-						datatype.getSimpleName());
-		if (type == null) {
-			throw new IncorrectDataEntryException("Datatype not supported!");
-		}
 		Table table = new Table(tableName);
 		table.setDatabase(new Database(dbName));
 		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
-		table.alterAdd(columnName, type);
+		table.alterAdd(columnName, datatype);
 		BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
 		table.clear();
 	}

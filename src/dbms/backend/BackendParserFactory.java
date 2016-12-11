@@ -1,13 +1,14 @@
 package dbms.backend;
 
 import dbms.backend.parsers.json.JSONParser;
+import dbms.backend.parsers.xml.XMLParser;
 
 import java.util.HashMap;
 
 public class BackendParserFactory {
 	private static HashMap<String, BackendParser> registeredParsers = null;
 	private static BackendParserFactory instance = null;
-	private String currentKey = JSONParser.KEY;
+	private String currentKey = XMLParser.KEY;
 
 	private BackendParserFactory() {
 		registeredParsers = new HashMap<>();

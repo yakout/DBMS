@@ -137,22 +137,22 @@ public class Formatter {
     }
 
     public static void main(String[] args) {
-        Map<String, DBDatatype> map = new LinkedHashMap<>();
+        LinkedHashMap<String, DBDatatype> map = new LinkedHashMap<>();
         map.put("ID", DatatypeFactory.convertToDataType(1));
         map.put("Name", DatatypeFactory.convertToDataType("Khaled"));
         map.put("Part", DatatypeFactory.convertToDataType("SQL Parser"));
 
-        Map<String, DBDatatype> map2 = new LinkedHashMap<>();
+        LinkedHashMap<String, DBDatatype> map2 = new LinkedHashMap<>();
         map2.put("ID", DatatypeFactory.convertToDataType(5));
         map2.put("Name", DatatypeFactory.convertToDataType("Tolba"));
         map2.put("Part", DatatypeFactory.convertToDataType("SQL Parser"));
 
-        Map<String, DBDatatype> map3 = new LinkedHashMap<>();
+        LinkedHashMap<String, DBDatatype> map3 = new LinkedHashMap<>();
         map3.put("ID", DatatypeFactory.convertToDataType(4));
         map3.put("Name", DatatypeFactory.convertToDataType("Anas"));
         map3.put("Part", DatatypeFactory.convertToDataType("XML Parser"));
 
-        Map<String, DBDatatype> map4 = new LinkedHashMap<>();
+        LinkedHashMap<String, DBDatatype> map4 = new LinkedHashMap<>();
         map4.put("ID", DatatypeFactory.convertToDataType(9));
         map4.put("Name", null);
         map4.put("Part", DatatypeFactory.convertToDataType("XML Parser                          "));

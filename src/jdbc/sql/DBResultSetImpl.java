@@ -1,5 +1,6 @@
 package jdbc.sql;
 
+import dbms.datatypes.DBDatatype;
 import dbms.util.Record;
 import dbms.util.RecordSet;
 
@@ -15,6 +16,7 @@ public class DBResultSetImpl extends DBResultSet {
     private List<String> columnList = null;
     private Record current = null;
     private int positionBound;
+    private boolean open;
 
     public DBResultSetImpl(RecordSet recordSet) {
         recordList = recordSet.getRecords();
@@ -71,7 +73,7 @@ public class DBResultSetImpl extends DBResultSet {
     @Override
     public int findColumn(String columnLabel) throws SQLException {
         for (int i = 1; i <= columnList.size(); i++) {
-            if (columnList.get(i).equals(columnLabel)) {
+            if (columnList.get(i - 1).equals(columnLabel)) {
                 return i;
             }
         }
@@ -80,17 +82,29 @@ public class DBResultSetImpl extends DBResultSet {
 
     @Override
     public boolean first() throws SQLException {
-        return super.first();
+        if (recordList == null) {
+            return false;
+        }
+        current = recordList.get(0);
+        return true;
     }
 
     @Override
     public int getInt(int columnIndex) throws SQLException {
-        return super.getInt(columnIndex);
+        if (!open || !columnIsValid(columnIndex)) {
+            throw new SQLException();
+        }
+        DBDatatype o =
+                recordList.get(columnIndex - 1).get(columnIndex - 1);
+        if (o.getKey().equals("Integer")) {
+            return (int) o.getValue();
+        }
+        return 0;
     }
 
     @Override
     public int getInt(String columnLabel) throws SQLException {
-        return super.getInt(columnLabel);
+        return getInt(findColumn(columnLabel));
     }
 
     @Override
@@ -105,12 +119,20 @@ public class DBResultSetImpl extends DBResultSet {
 
     @Override
     public String getString(int columnIndex) throws SQLException {
-        return super.getString(columnIndex);
+        if (!open || !columnIsValid(columnIndex)) {
+            throw new SQLException();
+        }
+        DBDatatype o =
+                recordList.get(columnIndex - 1).get(columnIndex - 1);
+        if (o.getKey().equals("Integer")) {
+            return (String) o.getValue();
+        }
+        return null;
     }
 
     @Override
     public String getString(String columnLabel) throws SQLException {
-        return super.getString(columnLabel);
+        return getString(findColumn(columnLabel));
     }
 
     @Override
@@ -125,12 +147,20 @@ public class DBResultSetImpl extends DBResultSet {
 
     @Override
     public Object getObject(int columnIndex) throws SQLException {
-        return super.getObject(columnIndex);
+        if (!open || !columnIsValid(columnIndex)) {
+            throw new SQLException();
+        }
+        DBDatatype o =
+                recordList.get(columnIndex - 1).get(columnIndex - 1);
+        if (o.getKey().equals("Integer")) {
+            return o.getValue();
+        }
+        return null;
     }
 
     @Override
     public Object getObject(String columnLabel) throws SQLException {
-        return super.getObject(columnLabel);
+        return getObject(findColumn(columnLabel));
     }
 
     @Override
@@ -181,5 +211,24 @@ public class DBResultSetImpl extends DBResultSet {
     @Override
     public boolean previous() throws SQLException {
         return super.previous();
+    }
+
+    private boolean columnIsValid(int columnIndex) {
+        try {
+            columnList.get(columnIndex - 1);
+        } catch (IndexOutOfBoundsException e) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean columnIsValid(String columnLabel) {
+        int index;
+        try {
+            index = findColumn(columnLabel);
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
     }
 }

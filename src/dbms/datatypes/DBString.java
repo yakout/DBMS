@@ -9,6 +9,7 @@ public class DBString implements DBDatatype {
 	}
 
 	public DBString() {
+
 	}
 
 	public DBString(String value) {
@@ -30,9 +31,28 @@ public class DBString implements DBDatatype {
 		return value;
 	}
 
-
 	@Override
 	public String toString() {
 		return value;
+	}
+
+	@Override
+	public String getKey() {
+		return KEY;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null || obj.getClass() != getClass()) {
+			return false;
+		}
+		DBString dbString = (DBString) obj;
+		if (value != null ? !value.equals(dbString.getValue()) : dbString.getValue() != null) {
+			return false;
+		}
+		return true;
 	}
 }

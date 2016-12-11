@@ -11,7 +11,7 @@ import java.util.Map;
  * is used with {@link RecordSet}.
  */
 public class Record implements Cloneable {
-	private Map<String, DBDatatype> record;
+	private LinkedHashMap<String, DBDatatype> record;
 
 	/**
 	 * Constructor for a Record.
@@ -25,7 +25,7 @@ public class Record implements Cloneable {
 	 * {@link Map} as a data holder.
 	 * @param record {@link Map} map of data.
 	 */
-	public Record(Map<String, DBDatatype> record) {
+	public Record(LinkedHashMap<String, DBDatatype> record) {
 		this.record = record;
 	}
 
@@ -46,7 +46,7 @@ public class Record implements Cloneable {
 	 * Returns a {@link Map} representation of result.
 	 * @return {@link Map} to be accessed.
 	 */
-	public Map<String, DBDatatype> getRecord() {
+	public LinkedHashMap<String, DBDatatype> getRecord() {
 		return record;
 	}
 

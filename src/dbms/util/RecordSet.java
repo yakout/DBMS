@@ -1,7 +1,7 @@
 package dbms.util;
 
 import dbms.datatypes.DBDatatype;
-import dbms.datatypes.DatatypeFactory;
+
 import javafx.util.Pair;
 
 import java.util.*;
@@ -169,34 +169,4 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 		}
     	return newRecSet;
 	}
-
-	/**
-     * just for testing // TODO: remove
-     * @param args
-     */
-    public static void main(String[] args) {
-        LinkedHashMap<String, DBDatatype> map1 = new LinkedHashMap<>();
-        map1.put("ahmed", DatatypeFactory.convertToDataType(1));
-        LinkedHashMap<String, DBDatatype> map2 = new LinkedHashMap<>();
-        map2.put("ahmed", DatatypeFactory.convertToDataType(1));
-        LinkedHashMap<String, DBDatatype> map3 = new LinkedHashMap<>();
-        map3.put("ahmed", DatatypeFactory.convertToDataType(1));
-
-        Record record1 = new Record(map1);
-        Record record2 = new Record(map2);
-        Record record3 = new Record(map3);
-
-        List<Record> records = new ArrayList<>();
-        records.add(record1);
-        records.add(record2);
-        records.add(record3);
-
-        RecordSet recordSet = new RecordSet(records);
-        RecordSet recordSet1 = new RecordSet(records);
-        recordSet.distinct();
-
-        System.out.print(recordSet.union(recordSet1).size()); // 4
-        System.out.print(recordSet.size()); // 1
-    }
-
 }

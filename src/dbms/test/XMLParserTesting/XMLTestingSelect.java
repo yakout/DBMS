@@ -56,7 +56,7 @@ public class XMLTestingSelect {
 			columns.add("column_1");
 			columns.add("column_2");
 			RecordSet result = new RecordSet();
-			Map<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
+			LinkedHashMap<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
 			resExpected.put("column_1", DatatypeFactory.convertToDataType(550));
 			resExpected.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
 			xmlParserConc.alterAdd("table_name", "column_3", DBString.class);
@@ -65,11 +65,10 @@ public class XMLTestingSelect {
 			result.add(expRecord);
 
 			RecordSet actualRes = xmlParserConc.select("table_name", columns, null);
-			assertTrue(result.next().getRecord().equals(actualRes.next().getRecord()));
+			assertTrue(actualRes.getRecords().get(0).getRecord().equals(result.getRecords().get(0).getRecord()));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Error occured!");
-
 		}
 	}
 
@@ -102,7 +101,7 @@ public class XMLTestingSelect {
 			columns.add("column_1");
 			columns.add("column_2");
 			RecordSet result = new RecordSet();
-			Map<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
+			LinkedHashMap<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
 			resExpected.put("column_1", DatatypeFactory.convertToDataType(550));
 			resExpected.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
 			resExpected.put("column_1", DatatypeFactory.convertToDataType(14));
@@ -159,7 +158,7 @@ public class XMLTestingSelect {
 			columns.add("column_2");
 			columns.add("column_3");
 			RecordSet recordSet = new RecordSet();
-			Map<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
+			LinkedHashMap<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
 
 			resExpected.put("column_1", DatatypeFactory.convertToDataType(550));
 			resExpected.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
@@ -198,7 +197,7 @@ public class XMLTestingSelect {
 			xmlParserConc.createDatabase("database_select_4");
 
 			Map<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<String, Class<? extends DBDatatype>>();
-			passMap.put("column_1", DBDatatype.class);
+			passMap.put("column_1", DBInteger.class);
 			passMap.put("column_2", DBString.class);
 			passMap.put("column_3", DBString.class);
 			xmlParserConc.createTable("table_name", passMap);
@@ -250,7 +249,7 @@ public class XMLTestingSelect {
 			columns.add("column_2");
 			columns.add("column_3");
 			RecordSet recordSet = new RecordSet();
-			Map<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
+			LinkedHashMap<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
 
 			resExpected.put("column_1", DatatypeFactory.convertToDataType(550));
 			resExpected.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
@@ -326,7 +325,7 @@ public class XMLTestingSelect {
 			columns.add("column_2");
 			columns.add("column_3");
 			RecordSet recordSet = new RecordSet();
-			Map<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
+			LinkedHashMap<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
 
 			resExpected.put("column_1", DatatypeFactory.convertToDataType(550));
 			resExpected.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
@@ -411,7 +410,7 @@ public class XMLTestingSelect {
 			Set<String> columns = new TreeSet<String>();
 			columns.add("column_1");
 			Condition conditionQ = new Where("column_1 > 100");
-			Map<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
+			LinkedHashMap<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
 			resExpected.put("column_1", DatatypeFactory.convertToDataType(550));
 			resExpected.put("column_2", null);
 			Record expRecord = new Record(resExpected);
@@ -422,7 +421,6 @@ public class XMLTestingSelect {
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Error occured!");
-
 		}
 	}
 }

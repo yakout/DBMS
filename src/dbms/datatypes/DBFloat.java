@@ -35,9 +35,13 @@ public class DBFloat implements DBDatatype {
         return value;
     }
 
-
     @Override
     public String toString() {
         return value.toString();
+    }
+
+    @Override
+    public String getKey() {
+        return KEY;
     }
 }

@@ -48,6 +48,9 @@ public class DatatypeFactory {
 	}
 
 	public static DBDatatype convertToDataType(Object data) {
+		if (data == null) {
+			return null;
+		}
 		Class<?> classType = data.getClass();
         if (classType == Integer.class) {
 			return new DBInteger((Integer) data);

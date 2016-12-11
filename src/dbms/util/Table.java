@@ -127,7 +127,7 @@ public class Table {
 		}
 		res.setColumnList(columnNames);
 		for (int i = 0; i < size; i++) {
-			Map<String, DBDatatype> row =
+			LinkedHashMap<String, DBDatatype> row =
 					getRow(i, columns);
 			if (!row.isEmpty() && (condition == null || Evaluator.getInstance()
 					.evaluate(row, condition.getPostfix(), mapColumns()))) {
@@ -189,8 +189,8 @@ public class Table {
 		}
 	}
 
-	private Map<String, DBDatatype> getRow(int index, Collection<String> columns) {
-		Map<String, DBDatatype> ret =
+	private LinkedHashMap<String, DBDatatype> getRow(int index, Collection<String> columns) {
+		LinkedHashMap<String, DBDatatype> ret =
 				new LinkedHashMap<String, DBDatatype>();
 		for (Column col : this.columns) {
 			if (columns == null
@@ -260,7 +260,7 @@ public class Table {
 			if (type == null) {
 				throw new IncorrectDataEntryException("Column not found!");
 			}
-			if (!type.equals(entry.getValue().getClass().getSimpleName())) {
+			if (!type.equals(entry.getValue().getKey())) {
 				throw new IncorrectDataEntryException("Datatype conflict!");
 			}
 		}
