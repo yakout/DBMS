@@ -3,6 +3,7 @@ package dbms.sqlparser.sqlInterpreter;
 import dbms.datatypes.DatatypeFactory;
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.syntax.SyntaxUtil;
+import dbms.sqlparser.syntax.WhereSyntax;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -15,7 +16,10 @@ public class BooleanExpression {
     /**
      * regex for predicate syntax used in {@link #getPredicates(String)}.
      */
-    private final String predicateRegex = "(TRUE|(\\w+)\\s*(!=|>=|<=|<|>|=)\\s*(\\w+|'\\w+'|\"\\w+\"|\\d+))";
+    // TODO: move this to syntax package
+    private final String predicateRegex = "(TRUE|(\\w+)\\s*"
+            + WhereSyntax.SUPPORTED_OPERATORS + "\\s*"
+            + WhereSyntax.VALUE_FORMAT+ ")";
     /**
      * error message that will be sent with {@link SyntaxErrorException}.
      */

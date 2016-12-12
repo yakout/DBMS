@@ -3,7 +3,7 @@ package dbms.sqlparser.syntax;
 import java.util.regex.Pattern;
 
 public class WhereSyntax implements SQLSyntax {
-    private final String SUPPORTED_OPERATORS = "(>|<|>=|<=|=|!=){1}";
+    public static final String SUPPORTED_OPERATORS = "(>|<|>=|<=|=|!=){1}";
 
     private final String BOOLEAN_OPERATORS = "(and|or)";
 
