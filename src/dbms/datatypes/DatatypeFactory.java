@@ -112,6 +112,6 @@ public class DatatypeFactory {
 
 
     public static void main(String[] args) {
-         System.out.print(convertToObject("1996-08-17"));
+         System.out.print(convertToObject("'1996-8-17'"));
     }
 }
