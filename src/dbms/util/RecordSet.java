@@ -1,5 +1,6 @@
 package dbms.util;
 
+import com.google.gson.Gson;
 import dbms.datatypes.DBDatatype;
 
 import javafx.util.Pair;
@@ -57,6 +58,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 		for (int j = 0; j < records.size(); j++) {
 			mapRepresent.add(records.get(j).getRecord());
 		}
+
 		return mapRepresent;
 	}
 
@@ -81,7 +83,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 	 * @return boolean value.
 	 */
 	public boolean hasNext() {
-		if (i < records.size()) {
+		if (i < records.size() - 1) {
 			return true;
 		}
 		return false;
@@ -93,11 +95,34 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 	 */
 	public Record next() {
 		if (hasNext()) {
-			Record record = records.get(i);
 			i++;
+			Record record = records.get(i);
 			return record;
 		}
 		return null;
+	}
+
+	public boolean hasPrev() {
+		if (i > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public Record prev() {
+		if (hasPrev()) {
+			i--;
+			Record record = records.get(i);
+			return record;
+		}
+		return null;
+	}
+
+	public Record curr() {
+		if (isEmpty()) {
+			return null;
+		}
+		return records.get(i);
 	}
 
 	@Override

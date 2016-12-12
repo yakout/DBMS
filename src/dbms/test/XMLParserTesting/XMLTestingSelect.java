@@ -103,7 +103,7 @@ public class XMLTestingSelect {
 			result.add(expRecord);
 
 			RecordSet actualRes = xmlParserConc.select("table_name", columns, null);
-			assertTrue(result.next().getRecord().equals(actualRes.next().getRecord()));
+			assertTrue(actualRes.getRecords().get(0).getRecord().equals(result.getRecords().get(0).getRecord()));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Error occured!");

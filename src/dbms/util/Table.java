@@ -106,23 +106,22 @@ public class Table {
 	public RecordSet select(Collection<String> columns, Condition condition)
 			throws IncorrectDataEntryException, SyntaxErrorException,
 			TableNotFoundException, DatabaseNotFoundException {
+		Collection<String> columnsLower = new ArrayList<String>();
 		if (columns != null) {
 			for (String col : columns) {
 				if (!hasColumn(col)) {
 					throw new IncorrectDataEntryException("Column not found!");
 				}
+				columnsLower.add(col.toLowerCase());
 			}
 		}
 		List<String> columnNames =
 				new ArrayList<String>();
 		RecordSet res = new RecordSet();
-		if (columns == null) {
-			for (Column col : this.columns) {
+		for (Column col : this.columns) {
+			if (columns == null || columnsLower.contains(
+					col.getName().toLowerCase())) {
 				columnNames.add(col.getName());
-			}
-		} else {
-			for (String col : columns) {
-				columnNames.add(col);
 			}
 		}
 		res.setColumnList(columnNames);
@@ -192,9 +191,15 @@ public class Table {
 	private LinkedHashMap<String, DBDatatype> getRow(int index, Collection<String> columns) {
 		LinkedHashMap<String, DBDatatype> ret =
 				new LinkedHashMap<String, DBDatatype>();
+		Collection<String> columnsLower = new ArrayList<>();
+		if (columns != null) {
+			for (String col : columns) {
+				columnsLower.add(col.toLowerCase());
+			}
+		}
 		for (Column col : this.columns) {
 			if (columns == null
-					|| columns.contains(col.getName())) {
+					|| columnsLower.contains(col.getName().toLowerCase())) {
 				ret.put(col.getName(), col.get(index));
 			}
 		}
@@ -210,7 +215,7 @@ public class Table {
 
 	public boolean hasColumn(String column) {
 		for (Column col : columns) {
-			if (col.getName().equals(column)) {
+			if (col.getName().toLowerCase().equals(column.toLowerCase())) {
 				return true;
 			}
 		}
@@ -229,7 +234,7 @@ public class Table {
 					| IllegalAccessException | InstantiationException e) {
 				e.printStackTrace();
 			}
-			cols.put(col.getName(), type);
+			cols.put(col.getName().toLowerCase(), type);
 		}
 		return cols;
 	}
@@ -256,7 +261,7 @@ public class Table {
 		}
 		Map<String, String> cols = mapColumns();
 		for (Map.Entry<String, DBDatatype> entry : values.entrySet()) {
-			String type = cols.get(entry.getKey());
+			String type = cols.get(entry.getKey().toLowerCase());
 			if (type == null) {
 				throw new IncorrectDataEntryException("Column not found!");
 			}

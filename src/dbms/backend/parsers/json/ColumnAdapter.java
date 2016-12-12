@@ -6,11 +6,15 @@ import dbms.util.Column;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class ColumnAdapter implements JsonSerializer<Column>, JsonDeserializer<Column> {
 
     @Override
-    public JsonElement serialize(Column column, Type type, JsonSerializationContext jsonSerializationContext) {
+    public JsonElement serialize(Column column, Type type, JsonSerializationContext jsc) {
         JsonObject columnObject = new JsonObject();
         columnObject.addProperty("name", column.getName());
         String typeProperty = null;
@@ -28,7 +32,7 @@ public class ColumnAdapter implements JsonSerializer<Column>, JsonDeserializer<C
     }
 
     @Override
-    public Column deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
+    public Column deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsc)
             throws JsonParseException {
         Column column = new Column();
         String nameProp = jsonElement.getAsJsonObject().getAsJsonPrimitive(
@@ -59,7 +63,14 @@ public class ColumnAdapter implements JsonSerializer<Column>, JsonDeserializer<C
                     column.addEntry(null);
                 }
             } else if (typeProp.equals(DBDate.KEY)) {
-                //TODO
+                String dateString = entry.getAsJsonPrimitive().getAsString();
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    Date x = new Date(format.parse(dateString).getTime());
+                    column.addEntry(new DBDate(x));
+                } catch (ParseException e) {
+                    column.addEntry(null);
+                }
             }
         }
         return column;
@@ -70,7 +81,7 @@ public class ColumnAdapter implements JsonSerializer<Column>, JsonDeserializer<C
         for (DBDatatype entry : column.getEntries()) {
             JsonPrimitive obj = null;
             if (typeProperty.equals(DBInteger.KEY)) {
-                if (entry == null || entry.getValue().equals("")) {
+                if (entry == null) {
                     obj = new JsonPrimitive("");
                 } else {
                     obj = new JsonPrimitive((Integer) entry.getValue());
@@ -82,13 +93,18 @@ public class ColumnAdapter implements JsonSerializer<Column>, JsonDeserializer<C
                     obj = new JsonPrimitive((String) entry.getValue());
                 }
             } else if (typeProperty.equals(DBFloat.KEY)) {
-                if (entry == null || entry.getValue().equals("")) {
+                if (entry == null) {
                     obj = new JsonPrimitive("");
                 } else {
                     obj = new JsonPrimitive((Float) entry.getValue());
                 }
             } else if (typeProperty.equals(DBDate.KEY)) {
-                //TODO
+                if (entry == null) {
+                    obj = new JsonPrimitive("");
+                } else {
+                    DBDate date = (DBDate) entry;
+                    obj = new JsonPrimitive(date.toString());
+                }
             }
             entries.add(obj);
         }

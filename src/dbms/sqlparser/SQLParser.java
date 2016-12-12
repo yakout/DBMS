@@ -295,7 +295,7 @@ public class SQLParser {
 				columns.put(key, DBString.class);
 				break;
 			case "date":
-				columns.put(key, DBDatatype.class);
+				columns.put(key, DBDate.class);
 				break;
 			case "float":
                 columns.put(key, DBFloat.class);
