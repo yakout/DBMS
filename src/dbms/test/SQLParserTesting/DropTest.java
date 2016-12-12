@@ -30,7 +30,7 @@ public class DropTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("DROP DATABASE DATABASE_NAME;");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 		/*
@@ -66,7 +66,7 @@ public class DropTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("dRoP dATaBasE sAxA9BA5E_NmE;");
 		} catch (Exception e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 	}
@@ -117,7 +117,7 @@ public class DropTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("       DROP            " + "DATABASE            " + "DATABASE96_NAME     ;    ");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 	}
@@ -132,7 +132,7 @@ public class DropTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("DROP TABLE TABLE_NAME;");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 		/*
@@ -166,7 +166,7 @@ public class DropTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("dRoP TaBlE sAxA9BA5E_NmE;");
 		} catch (Exception e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -218,7 +218,7 @@ public class DropTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("       DROP            " + "TABLE            " + "TABLE96_NAME     ;    ");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 	}
@@ -239,7 +239,7 @@ public class DropTest extends SqlParserRef {
 			dropDatabaseObjAct = sqlParserObjTest.parse("DROP DATABASE DATABASE_NAME;");
 			assertEquals("DATABASE_NAME", ((DropDatabase) dropDatabaseObjAct).getDbName());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 	}
@@ -256,7 +256,7 @@ public class DropTest extends SqlParserRef {
 			dropDatabaseObjAct = sqlParserObjTest.parse("dRoP DaTAbASe 99999666;");
 			assertEquals("99999666", ((DropDatabase) dropDatabaseObjAct).getDbName());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 		/*
@@ -269,7 +269,7 @@ public class DropTest extends SqlParserRef {
 					.parse("    dRoP          DaTAbASe           database_One11111111     ;        ");
 			assertEquals("database_one11111111", ((DropDatabase) dropDatabaseObjAct).getDbName().toLowerCase());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 	}
@@ -289,7 +289,7 @@ public class DropTest extends SqlParserRef {
 			dropTableObjAct = sqlParserObjTest.parse("DROP TABLE TABLE_NAME;");
 			assertEquals("table_name", ((DropTable) dropTableObjAct).getTableName().toLowerCase());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");			 
+			fail("SyntaxErrorException thrown or AssertionError occurred!");			 
 		}
 	}
 
@@ -306,7 +306,7 @@ public class DropTest extends SqlParserRef {
 			dropTableObjAct = sqlParserObjTest.parse("dRoP TaBlE 99999666;");
 			assertEquals("99999666", ((DropTable) dropTableObjAct).getTableName());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 		/*
@@ -319,7 +319,7 @@ public class DropTest extends SqlParserRef {
 					.parse("    dRoP          TaBlE           table_One11111111     ;        ");
 			assertEquals("table_one11111111", ((DropTable) dropTableObjAct).getTableName().toLowerCase());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 	}

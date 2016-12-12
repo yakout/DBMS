@@ -32,21 +32,21 @@ public class InsertTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("INSERT INTO TABLE_NAME (COL1,COL2) VALUES ('VAL1','VAL2');");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");				 
+			fail("SyntaxErrorException thrown or AssertionError occurred!");				 
 		}
 		try {
 			sqlParserObjTest
 					.parse("        INSERT            INTO        TABLE_NAME           (       COL1  ,            COL2       )             VALUES                   (          'VAL1'         ,      "
 							+ "             'VAL2'             )             ;             ");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");			 
+			fail("SyntaxErrorException thrown or AssertionError occurred!");			 
 		}
 		try {
 			sqlParserObjTest
 					.parse("        InSeRT            InTo        TaBlE_NAmE           (       CoL1  ,            COl2       )             VaLueS                   (          'VaL1'         ,      "
 							+ "             'VAl2'             )             ;             ");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");				 
+			fail("SyntaxErrorException thrown or AssertionError occurred!");				 
 		}
 	}
 
@@ -59,21 +59,21 @@ public class InsertTest extends SqlParserRef {
 	public void testInsertSyntaxValidateTwo() {
 		try {
 			sqlParserObjTest.parse("INSERT INTO TABLE_NAME (COL1 COL2) VALUES ('VAL1','VAL2');");
-			fail("SyntaxErrorException thrown or AssertionError occured!");	
+			fail("SyntaxErrorException thrown or AssertionError occurred!");	
 		} catch (SyntaxErrorException e) {		 
 		}
 		try {
 			sqlParserObjTest
 					.parse("        INSERT            INTO        TABLE_NAME           (       COL1  ,            COL2       )             VALUES                   (          'VAL1'         ,      "
 							+ "             'VAL2             )             ;             ");
-			fail("SyntaxErrorException thrown or AssertionError occured!");	
+			fail("SyntaxErrorException thrown or AssertionError occurred!");	
 		} catch (SyntaxErrorException e) {		 
 		}
 		try {
 			sqlParserObjTest
 					.parse("        InSeRT            InTo                 (       CoL1  ,            COl2       )             VaLueS                   (          'VaL1'         ,      "
 							+ "             'VAl2'             )             ;             ");
-			fail("SyntaxErrorException thrown or AssertionError occured!");	
+			fail("SyntaxErrorException thrown or AssertionError occurred!");	
 		} catch (SyntaxErrorException e) {			 
 		}
 	}
@@ -82,21 +82,21 @@ public class InsertTest extends SqlParserRef {
 	public void testInsertSyntaxValidateThree() {
 		try {
 			sqlParserObjTest.parse("INSERT INTO TABLE_NAME (COL1 , COL2 VALUES ('VAL1','VAL2');");
-			fail("SyntaxErrorException thrown or AssertionError occured!");	
+			fail("SyntaxErrorException thrown or AssertionError occurred!");	
 		} catch (SyntaxErrorException e) {		 
 		}
 		try {
 			sqlParserObjTest
 					.parse("        INSERT            INTO        TABLE_NAME           (       COL1  ,            COL2       )                            (          'VAL1'         ,      "
 							+ "             'VAL2'             )             ;             ");
-			fail("SyntaxErrorException thrown or AssertionError occured!");	
+			fail("SyntaxErrorException thrown or AssertionError occurred!");	
 		} catch (SyntaxErrorException e) {		 
 		}
 		try {
 			sqlParserObjTest
 					.parse("                    InTo        table_name         (       CoL1  ,            COl2       )             VaLueS                   (          'VaL1'         ,      "
 							+ "             'VAl2'             )             ;             ");
-			fail("SyntaxErrorException thrown or AssertionError occured!");	
+			fail("SyntaxErrorException thrown or AssertionError occurred!");	
 		} catch (SyntaxErrorException e) {		 
 		}
 	}
@@ -105,21 +105,21 @@ public class InsertTest extends SqlParserRef {
 	public void testInsertSyntaxValidateFour() {
 		try {
 			sqlParserObjTest.parse("INSERT INTO TABLE_NAME (COL1 , COL2) VALUES (\"VAL1',\"VAL2\");");
-			fail("SyntaxErrorException thrown or AssertionError occured!");	
+			fail("SyntaxErrorException thrown or AssertionError occurred!");	
 		} catch (SyntaxErrorException e) {		 
 		}
 		try {
 			sqlParserObjTest
 					.parse("        INSERT            INTO        TABLE_NAME           (       COL1  ,            COL2       )              values              (          'VAL1'         ,      "
 							+ "             'VAL2\"             )             ;             ");
-			fail("SyntaxErrorException thrown or AssertionError occured!");	
+			fail("SyntaxErrorException thrown or AssertionError occurred!");	
 		} catch (SyntaxErrorException e) {		 
 		}
 		try {
 			sqlParserObjTest
 					.parse("         insert           InTo        table_name         (       CoL1  ,            COl2       )             VaLueS                   (          \"VaL1'         ,      "
 							+ "             'VAl2'             )             ;             ");
-			fail("SyntaxErrorException thrown or AssertionError occured!");	
+			fail("SyntaxErrorException thrown or AssertionError occurred!");	
 		} catch (SyntaxErrorException e) {		 
 		}
 	}
@@ -130,21 +130,21 @@ public class InsertTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("INSERT INTO TABLE_NAME (COL1,COL2) VALUES (\"VAL1\",'VAL2');");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");				 
+			fail("SyntaxErrorException thrown or AssertionError occurred!");				 
 		}
 		try {
 			sqlParserObjTest
 					.parse("        INSERT            INTO        TABLE_NAME           (       COL1  ,            COL2       )             VALUES                   (         \"VAL1\"         ,      "
 							+ "             50000             )             ;             ");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");			 
+			fail("SyntaxErrorException thrown or AssertionError occurred!");			 
 		}
 		try {
 			sqlParserObjTest
 					.parse("        InSeRT            InTo        TaBlE_NAmE           (       CoL1  ,            COl2       )             VaLueS                   (          500         ,      "
 							+ "             \"VAl2\"             )             ;             ");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");				 
+			fail("SyntaxErrorException thrown or AssertionError occurred!");				 
 		}
 	}
 
@@ -163,7 +163,7 @@ public class InsertTest extends SqlParserRef {
 			entryMapCpy.put("col2", DatatypeFactory.convertToDataType("VAL2"));
 			assertTrue(entryMapCpy.equals(((InsertIntoTable) insertObjAct).getEntryMap()));
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");			 
+			fail("SyntaxErrorException thrown or AssertionError occurred!");			 
 		}
 	}
 
@@ -179,7 +179,7 @@ public class InsertTest extends SqlParserRef {
 			entryMapCpy.put("col2", DatatypeFactory.convertToDataType("VAL2"));
 			assertTrue(entryMapCpy.equals(((InsertIntoTable) insertObjAct).getEntryMap()));
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");			 
+			fail("SyntaxErrorException thrown or AssertionError occurred!");			 
 		}
 	}
 
@@ -195,7 +195,7 @@ public class InsertTest extends SqlParserRef {
 			entryMapCpy.put("col2", DatatypeFactory.convertToDataType("VAl2"));
 			assertTrue(entryMapCpy.equals(((InsertIntoTable) insertObjAct).getEntryMap()));
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");			 
+			fail("SyntaxErrorException thrown or AssertionError occurred!");			 
 		}
 	}
 	
@@ -212,7 +212,7 @@ public class InsertTest extends SqlParserRef {
 			entryMapCpy.put("num1", DatatypeFactory.convertToDataType(888));
 			assertTrue(entryMapCpy.equals(((InsertIntoTable) insertObjAct).getEntryMap()));
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");	
+			fail("SyntaxErrorException thrown or AssertionError occurred!");	
 		}
 	}
 	
@@ -228,7 +228,7 @@ public class InsertTest extends SqlParserRef {
 			entryMapCpy.put("num1", DatatypeFactory.convertToDataType("HELLO"));
 			assertTrue(entryMapCpy.equals(((InsertIntoTable) insertObjAct).getEntryMap()));
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");	
+			fail("SyntaxErrorException thrown or AssertionError occurred!");	
 		}
 	}
 	
@@ -244,7 +244,10 @@ public class InsertTest extends SqlParserRef {
 			entryMapCpy.put("num1", DatatypeFactory.convertToDataType("HELLO"));
 			assertTrue(entryMapCpy.equals(((InsertIntoTable) insertObjAct).getEntryMap()));
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");	
+			fail("SyntaxErrorException thrown or AssertionError occurred!");	
 		}
 	}
+
+	// TODO Testing
+	// Insert columns with new data types date and floating - point numbers.
 }

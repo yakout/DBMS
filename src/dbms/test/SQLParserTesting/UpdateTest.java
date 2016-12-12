@@ -32,14 +32,14 @@ public class UpdateTest extends SqlParserRef {
 			sqlParserObjTest
 					.parse("UPDATE TABLE_NAME SET column1='VALUE1',column2='VALUE2' WHERE SOME_COL = 'SOME_VALUE';");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 		try {
 			sqlParserObjTest.parse(
 					"        UPDATE      TABLE_NAME       SET       column1      =  'VALUE1'        ,      column2  =       'VALUE2'   WHERE      SOME_COL    =         'SOME_VALUE'         ;         ");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 	}
@@ -50,14 +50,14 @@ public class UpdateTest extends SqlParserRef {
 			sqlParserObjTest
 					.parse("UPDATE TABLE_NAME SET column1='VALUE1',column2='VALUE2' WHERE SOME_COL > 'SOME_VALUE';");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 		try {
 			sqlParserObjTest.parse(
 					"       UPDATE      TABLE_NAME       SET       column1      =  'VALUE1'        ,      column2  =       'VALUE2'   WHERE      SOME_COL    >        'SOME_VALUE'         ;         ");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 	}
@@ -68,14 +68,14 @@ public class UpdateTest extends SqlParserRef {
 			sqlParserObjTest
 					.parse("UPDATE TABLE_NAME SET column1='VALUE1',column2='VALUE2' WHERE SOME_COL < 'SOME_VALUE';");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 		try {
 			sqlParserObjTest.parse(
 					"      UPDATE      TABLE_NAME       SET       column1      =  'VALUE1'        ,      column2  =       'VALUE2'   WHERE      SOME_COL    <         'SOME_VALUE'         ;         ");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 	}
@@ -87,14 +87,14 @@ public class UpdateTest extends SqlParserRef {
 			sqlParserObjTest
 					.parse("UPDATE TABLE_NAME SET column1='VALUE1',column2='VALUE2' WHERE SOME_COL <= \"SOME_VALUE\";");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 		try {
 			sqlParserObjTest.parse(
 					"      UPDATE      TABLE_NAME       SET       column1      =  'VALUE1'        ,      column2  =       'VALUE2'   WHERE      SOME_COL    !=         \"SOME_VALUE\"         ;         ");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 	}
@@ -108,14 +108,14 @@ public class UpdateTest extends SqlParserRef {
 		try {
 			sqlParserObjTest
 					.parse("UPDATE TABLE_NAME SET column1='VALUE1',column2='VALUE2' WHERE SOME_COL  'SOME_VALUE';");
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		} catch (SyntaxErrorException e) {
 		}
 
 		try {
 			sqlParserObjTest.parse(
 					"        UPDATE      TABLE_NAME       SET       column1      =  'VALUE1'        ,      column2         'VALUE2'   WHERE      SOME_COL    =         'SOME_VALUE'         ;         ");
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		} catch (SyntaxErrorException e) {
 		}
 
@@ -126,14 +126,14 @@ public class UpdateTest extends SqlParserRef {
 		try {
 			sqlParserObjTest
 					.parse("UPDATE TABLE_NAME  column1='VALUE1',column2='VALUE2' WHERE SOME_COL  'SOME_VALUE';");
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		} catch (SyntaxErrorException e) {
 		}
 
 		try {
 			sqlParserObjTest.parse(
 					"        UPDATE      TABLE_NAME       SET       column1      =  'VALUE1'        ,      column2         'VALUE2'         SOME_COL    =         'SOME_VALUE'         ;         ");
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		} catch (SyntaxErrorException e) {
 		}
 
@@ -145,14 +145,14 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableSyntaxValidateSeven() {
 		try {
 			sqlParserObjTest.parse("UPDATE TABLE_NAME  WHERE SOME_COL = 'SOME_VALUE';");
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		} catch (SyntaxErrorException e) {
 		}
 
 		try {
 			sqlParserObjTest.parse(
 					"        UPDATE      TABLE_NAME           WHERE      SOME_COL    =         'SOME_VALUE'         ;         ");
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		} catch (SyntaxErrorException e) {
 		}
 
@@ -168,7 +168,7 @@ public class UpdateTest extends SqlParserRef {
 			sqlParserObjTest
 					.parse("UPDaTe tAbLE_nAMe SeT CoLUMn1='VAlUe1',CoLUmN2='VaLUe2' WhErE SOME_col = 'SOME_VALUE';");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 
 		}
 
@@ -176,7 +176,7 @@ public class UpdateTest extends SqlParserRef {
 			sqlParserObjTest.parse(
 					"          UPDaTe        tAbLE_nAMe            SeT          CoLUMn1='VAlUe1'         , CoLUmN2='VaLUe2'        WhErE          SOME_col          =         'SOME_VALUE'       ;   ");
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -201,7 +201,7 @@ public class UpdateTest extends SqlParserRef {
 			assertEquals("SOME_VALUE", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -221,7 +221,7 @@ public class UpdateTest extends SqlParserRef {
 			assertEquals("SOME_vaLUE", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 
 	}
@@ -242,7 +242,7 @@ public class UpdateTest extends SqlParserRef {
 			assertEquals("some_col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2().toLowerCase());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -262,7 +262,7 @@ public class UpdateTest extends SqlParserRef {
 			assertEquals(5, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.SmallerThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -282,7 +282,7 @@ public class UpdateTest extends SqlParserRef {
 			assertEquals(5, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -302,7 +302,7 @@ public class UpdateTest extends SqlParserRef {
 			assertEquals(5, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -316,7 +316,7 @@ public class UpdateTest extends SqlParserRef {
 			expectedEntryMap.put("column1", "column2");
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -336,7 +336,7 @@ public class UpdateTest extends SqlParserRef {
 			assertEquals(5, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -356,7 +356,7 @@ public class UpdateTest extends SqlParserRef {
 			assertEquals("HEYYY", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -377,7 +377,7 @@ public class UpdateTest extends SqlParserRef {
 			assertEquals("HEYYY", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -397,7 +397,7 @@ public class UpdateTest extends SqlParserRef {
 			assertEquals("HEYYY", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -417,7 +417,7 @@ public class UpdateTest extends SqlParserRef {
 			assertEquals("HEYYY", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
 			assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -438,7 +438,7 @@ public class UpdateTest extends SqlParserRef {
 			assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2().toLowerCase());
 			assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -459,7 +459,7 @@ public class UpdateTest extends SqlParserRef {
 			assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2().toLowerCase());
 			assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -480,7 +480,7 @@ public class UpdateTest extends SqlParserRef {
 			assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2().toLowerCase());
 			assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -501,7 +501,7 @@ public class UpdateTest extends SqlParserRef {
 			assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2().toLowerCase());
 			assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -522,7 +522,7 @@ public class UpdateTest extends SqlParserRef {
 			assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2().toLowerCase());
 			assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -555,7 +555,7 @@ public class UpdateTest extends SqlParserRef {
 
 			assertEquals(BooleanOperator.Operator.And, ((BooleanOperator) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
 
@@ -587,8 +587,12 @@ public class UpdateTest extends SqlParserRef {
 
 			assertEquals(BooleanOperator.Operator.Or, ((BooleanOperator) sqlPredicateQ.peek()).getOperator());
 		} catch (SyntaxErrorException e) {
-			fail("SyntaxErrorException thrown or AssertionError occured!");
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
+
+	// TODO Testing
+	// Update with new data types Date, floating-point numbers.
+	// Update with complex and and or expressions.
 
 }
