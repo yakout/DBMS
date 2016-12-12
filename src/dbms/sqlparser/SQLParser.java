@@ -111,21 +111,27 @@ public class SQLParser {
         matcher.matches();
         String tableName = matcher.group(1);
         String columnName;
-        Class dataType;
+        Class<? extends DBDatatype> dataType = null;
 
         if (matcher.group(7) != null) {
-            columnName = matcher.group(8);
-            if (matcher.group(9).toLowerCase().compareTo("int") == 0) {
-                dataType = Integer.class;
-            } else {
-                dataType = String.class;
+            columnName = matcher.group(8).toLowerCase();
+            switch (matcher.group(9).toLowerCase()) {
+                case "int":
+                    dataType = DBInteger.class;
+                    break;
+                case "varchar":
+                    dataType = DBString.class;
+                    break;
+                case "float":
+                    dataType = DBFloat.class;
+                    break;
+                case "date":
+                    dataType = DBDate.class;
             }
-            AlterAdd alterAdd = new AlterAdd(tableName, columnName, dataType);
-            return alterAdd;
+            return new AlterAdd(tableName, columnName, dataType);
         } else {
             columnName = matcher.group(5);
-            AlterDrop alterDrop = new AlterDrop(tableName, columnName);
-            return alterDrop;
+            return new AlterDrop(tableName, columnName);
         }
     }
 
@@ -145,13 +151,9 @@ public class SQLParser {
         }
         HashMap<String, DBDatatype> entryMap = new LinkedHashMap<>();
         for (int i = 0; i < columns.length; i++) {
-            String column = columns[i].trim();
+            String column = columns[i].trim().toLowerCase();
             String value = values[i].trim();
-            if (value.startsWith("'") || value.startsWith("\"")) {
-                entryMap.put(column, DatatypeFactory.convertToDataType(value.replaceAll("('|\")", "")));
-            } else {
-                entryMap.put(column, DatatypeFactory.convertToDataType(Integer.parseInt(value)));
-            }
+			entryMap.put(column, DatatypeFactory.convertToDataType(DatatypeFactory.convertToObject(value)));
         }
         return new InsertIntoTable(tableName, entryMap);
     }
@@ -173,7 +175,7 @@ public class SQLParser {
 			String[] columnsTemp = matcher.group(2).split(",");
 			Collection<String> columns = new ArrayList<>();
 			for (int i = 0; i < columnsTemp.length; i++) {
-				columns.add(columnsTemp[i].trim());
+				columns.add(columnsTemp[i].trim().toLowerCase());
 			}
 			select.setColumns(columns);
 		}
@@ -196,12 +198,12 @@ public class SQLParser {
 		for (int i = 0; i < orderbyArray.length; i++) {
 			String[] orderby = orderbyArray[i].trim().split("\\s+");
 			if (orderby.length == 1) {
-				columns.add(new Pair<>(orderby[0], true));
+				columns.add(new Pair<>(orderby[0].toLowerCase(), true));
 			} else {
 				if (orderby[1].equals("ASC")) {
-					columns.add(new Pair<>(orderby[0], true));
+					columns.add(new Pair<>(orderby[0].toLowerCase(), false));
 				} else {
-					columns.add(new Pair<>(orderby[0], false));
+					columns.add(new Pair<>(orderby[0].toLowerCase(), true));
 				}
 			}
 		}
@@ -246,25 +248,22 @@ public class SQLParser {
 
     private Expression parseUpdate(Matcher matcher) {
         matcher.matches();
-        Map<String, DBDatatype> values = new HashMap<>();
-        Map<String, String> columns = new HashMap<>();
+        Map<String, DBDatatype> values = new LinkedHashMap<>();
+        Map<String, String> columns = new LinkedHashMap<>();
 
         String[] setValues = matcher.group(2).split(",");
         for (int i = 0; i < setValues.length; i++) {
-            String key = setValues[i].split("=")[0].trim();
+            String key = setValues[i].split("=")[0].trim().toLowerCase();
             String value = setValues[i].split("=")[1].trim();
-            if (value.startsWith("'") || value.startsWith("\"")) {
-                values.put(key, DatatypeFactory.convertToDataType(value.replaceAll("('|\")", "")));
+            if (value.startsWith("'") || value.startsWith("\"") || value.matches(SyntaxUtil.NUMBER_FORMAT)) {
+                values.put(key, DatatypeFactory.convertToDataType(DatatypeFactory.convertToObject(value)));
             } else {
-                try {
-                    values.put(key, DatatypeFactory.convertToDataType(Integer.parseInt(value)));
-                } catch (NumberFormatException e) {
-                    columns.put(key, value);
-                }
+                columns.put(key, value.toLowerCase());
             }
         }
         Update update = new Update(matcher.group(1), values, columns);
 
+        // if where is available
         if (matcher.group(7) != null) {
             update.setWhere(new Where(matcher.group(7)));
         }
@@ -287,7 +286,7 @@ public class SQLParser {
 		String[] columnsDesc = matcher.group(6).split(",");
 		Map<String, Class<? extends DBDatatype>> columns = new LinkedHashMap<>();
 		for (int i = 0; i < columnsDesc.length; i++) {
-			String key = columnsDesc[i].trim().split("\\s+")[0];
+			String key = columnsDesc[i].trim().split("\\s+")[0].toLowerCase();
 			switch (columnsDesc[i].trim().split("\\s+")[1].toLowerCase()) {
 			case "int":
 				columns.put(key, DBInteger.class);
@@ -299,7 +298,7 @@ public class SQLParser {
 				columns.put(key, DBDatatype.class);
 				break;
 			case "float":
-					columns.put(key, DBFloat.class);
+                columns.put(key, DBFloat.class);
 			}
 		}
 

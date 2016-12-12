@@ -1,5 +1,8 @@
 package dbms.test.SQLParserTesting;
 
+import dbms.datatypes.DBDatatype;
+import dbms.datatypes.DBInteger;
+import dbms.datatypes.DBString;
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.SQLParser;
 import dbms.sqlparser.sqlInterpreter.rules.CreateDatabase;
@@ -8,6 +11,7 @@ import dbms.sqlparser.sqlInterpreter.rules.Expression;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -217,9 +221,9 @@ public class CreateTest extends SqlParserRef {
 		try {
 			createTblObj = sqlParserObjTest.parse("CREATE TABLE TABLE_NAME (COL1 INT, COL2 VARCHAR);");
 			assertEquals("table_name", ((CreateTable) createTblObj).getTableName().toLowerCase());
-			Map<String,Class> columnsCpy = new  HashMap<String, Class>();
-			columnsCpy.put("COL1", Integer.class);
-			columnsCpy.put("COL2", String.class);
+			Map<String,Class<? extends DBDatatype>> columnsCpy = new LinkedHashMap<>();
+			columnsCpy.put("col1", DBInteger.class);
+			columnsCpy.put("col2", DBString.class);
 			assertTrue(columnsCpy.equals(((CreateTable)createTblObj).getColumns()));
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");	 
@@ -228,9 +232,9 @@ public class CreateTest extends SqlParserRef {
 		try {
 			createTblObj = sqlParserObjTest.parse("          CREATE          TABLE    TABLE_NAME999  (    COL1       VARCHAR     ,   COL2        VARCHAR       )      ;       ");
 			assertEquals("table_name999", ((CreateTable) createTblObj).getTableName().toLowerCase());
-			Map<String,Class> columnsCpy = new  HashMap<String, Class>();
-			columnsCpy.put("COL1", String.class);
-			columnsCpy.put("COL2", String.class);
+			Map<String,Class<? extends DBDatatype>> columnsCpy = new HashMap<>();
+			columnsCpy.put("col1", DBString.class);
+			columnsCpy.put("col2", DBString.class);
 			assertTrue(columnsCpy.equals(((CreateTable)createTblObj).getColumns()));
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");	 
@@ -240,8 +244,8 @@ public class CreateTest extends SqlParserRef {
 			createTblObj = sqlParserObjTest.parse("          CrEaTE          TAbLe    COUNTRIES  (    bOL1       InT     ,   COl2        inT       )      ;       ");
 			assertEquals("countries", ((CreateTable) createTblObj).getTableName().toLowerCase());
 			Map<String,Class> columnsCpy = new  HashMap<String, Class>();
-			columnsCpy.put("bOL1", Integer.class);
-			columnsCpy.put("COl2", Integer.class);
+			columnsCpy.put("bol1", DBInteger.class);
+			columnsCpy.put("col2", DBInteger.class);
 			assertTrue(columnsCpy.equals(((CreateTable)createTblObj).getColumns()));
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");

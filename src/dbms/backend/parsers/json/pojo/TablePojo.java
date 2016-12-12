@@ -1,7 +1,5 @@
 package dbms.backend.parsers.json.pojo;
 
-import dbms.util.Database;
-
 import java.util.Collection;
 
 public class TablePojo {

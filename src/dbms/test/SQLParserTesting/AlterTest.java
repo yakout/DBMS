@@ -1,5 +1,6 @@
 package dbms.test.SQLParserTesting;
 
+import dbms.datatypes.DBInteger;
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.SQLParser;
 import dbms.sqlparser.sqlInterpreter.rules.AlterAdd;
@@ -143,7 +144,7 @@ public class AlterTest extends SqlParserRef {
 			alterObj = sqlParserObjTest.parse("alter table table_name add column_name int;");
 			assertEquals(((AlterAdd)alterObj).getTableName().toLowerCase(), "table_name");
 			assertEquals(((AlterAdd)alterObj).getColumnName().toLowerCase(), "column_name");
-			assertEquals(((AlterAdd)alterObj).getDataType(), Integer.class);
+			assertEquals(((AlterAdd)alterObj).getDataType(), DBInteger.class);
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}

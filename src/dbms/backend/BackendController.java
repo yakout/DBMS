@@ -1,7 +1,6 @@
 package dbms.backend;
 
 import dbms.datatypes.DBDatatype;
-import dbms.datatypes.DatatypeFactory;
 import dbms.exception.*;
 import dbms.sqlparser.SQLParser;
 import dbms.sqlparser.sqlInterpreter.Condition;
@@ -21,9 +20,9 @@ import java.util.Map;
 public class BackendController {
 	private static BackendController instance = null;
 	private String dbName;
+	private String databaseDir;
 
 	private BackendController() {
-
 	}
 
 	/**
@@ -250,5 +249,13 @@ public class BackendController {
 		table.alterDrop(columnName);
 		BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
 		table.clear();
+	}
+
+	public String getDatabaseDir() {
+		return databaseDir;
+	}
+
+	public void setDatabaseDir(String databaseDir) {
+		this.databaseDir = databaseDir;
 	}
 }

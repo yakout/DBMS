@@ -47,7 +47,6 @@ public class DBString implements DBDatatype {
 		if (o == null || getClass() != o.getClass()) return false;
 
 		DBString dbString = (DBString) o;
-
 		return value != null ? value.equals(dbString.value) : dbString.value == null;
 	}
 

@@ -139,10 +139,11 @@ public class BooleanExpression {
             SQLPredicate sqlPredicate;
             if (matcher.group(4).startsWith("'") || matcher.group(4).startsWith("\"")
                     || matcher.group(4).matches(SyntaxUtil.NUMBER_FORMAT)) {
-                sqlPredicate = new SQLPredicate(matcher.group(2), matcher.group(3)
+                // TODO: remove lower case and let the backend handles the logic
+                sqlPredicate = new SQLPredicate(matcher.group(2).toLowerCase(), matcher.group(3)
                         , DatatypeFactory.convertToDataType(DatatypeFactory.convertToObject(matcher.group(4))));
             } else {
-                sqlPredicate = new SQLPredicate(matcher.group(2),
+                sqlPredicate = new SQLPredicate(matcher.group(2).toLowerCase(),
                             matcher.group(3), matcher.group(4));
             }
 

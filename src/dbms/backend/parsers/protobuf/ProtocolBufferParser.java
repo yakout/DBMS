@@ -21,7 +21,7 @@ public class ProtocolBufferParser extends BackendParser {
     static {
         BackendParserFactory.getFactory().register(KEY, getInstance());
     }
-
+    
     private ProtocolBufferParser() {
     }
 

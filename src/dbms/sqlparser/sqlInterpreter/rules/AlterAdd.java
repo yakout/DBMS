@@ -1,15 +1,16 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
 import dbms.backend.BackendController;
+import dbms.datatypes.DBDatatype;
 import dbms.exception.*;
 
 public class AlterAdd implements DDLStatement {
 
 	private String tableName;
 	private String columnName;
-	private Class dataType;
+	private Class<? extends DBDatatype> dataType;
 
-	public AlterAdd(String tableName, String columnName, Class dataType) {
+	public AlterAdd(String tableName, String columnName, Class<? extends DBDatatype> dataType) {
 		this.tableName = tableName;
 		this.columnName = columnName;
 		this.dataType = dataType;

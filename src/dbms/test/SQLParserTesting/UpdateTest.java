@@ -11,7 +11,7 @@ import dbms.sqlparser.sqlInterpreter.rules.Update;
 import dbms.util.Operator;
 import org.junit.Test;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Queue;
 
@@ -30,14 +30,14 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableSyntaxValidateOne() {
 		try {
 			sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL = 'SOME_VALUE';");
+					.parse("UPDATE TABLE_NAME SET column1='VALUE1',column2='VALUE2' WHERE SOME_COL = 'SOME_VALUE';");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 		try {
 			sqlParserObjTest.parse(
-					"        UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2  =       'VALUE2'   WHERE      SOME_COL    =         'SOME_VALUE'         ;         ");
+					"        UPDATE      TABLE_NAME       SET       column1      =  'VALUE1'        ,      column2  =       'VALUE2'   WHERE      SOME_COL    =         'SOME_VALUE'         ;         ");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -48,14 +48,14 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableSyntaxValidateTwo() {
 		try {
 			sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL > 'SOME_VALUE';");
+					.parse("UPDATE TABLE_NAME SET column1='VALUE1',column2='VALUE2' WHERE SOME_COL > 'SOME_VALUE';");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 		try {
 			sqlParserObjTest.parse(
-					"       UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2  =       'VALUE2'   WHERE      SOME_COL    >        'SOME_VALUE'         ;         ");
+					"       UPDATE      TABLE_NAME       SET       column1      =  'VALUE1'        ,      column2  =       'VALUE2'   WHERE      SOME_COL    >        'SOME_VALUE'         ;         ");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -66,14 +66,14 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableSyntaxValidateThree() {
 		try {
 			sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL < 'SOME_VALUE';");
+					.parse("UPDATE TABLE_NAME SET column1='VALUE1',column2='VALUE2' WHERE SOME_COL < 'SOME_VALUE';");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 		try {
 			sqlParserObjTest.parse(
-					"      UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2  =       'VALUE2'   WHERE      SOME_COL    <         'SOME_VALUE'         ;         ");
+					"      UPDATE      TABLE_NAME       SET       column1      =  'VALUE1'        ,      column2  =       'VALUE2'   WHERE      SOME_COL    <         'SOME_VALUE'         ;         ");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -85,14 +85,14 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableSyntaxValidateFour() {
 		try {
 			sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL <= \"SOME_VALUE\";");
+					.parse("UPDATE TABLE_NAME SET column1='VALUE1',column2='VALUE2' WHERE SOME_COL <= \"SOME_VALUE\";");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
 
 		try {
 			sqlParserObjTest.parse(
-					"      UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2  =       'VALUE2'   WHERE      SOME_COL    !=         \"SOME_VALUE\"         ;         ");
+					"      UPDATE      TABLE_NAME       SET       column1      =  'VALUE1'        ,      column2  =       'VALUE2'   WHERE      SOME_COL    !=         \"SOME_VALUE\"         ;         ");
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		}
@@ -107,14 +107,14 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableSyntaxValidateFive() {
 		try {
 			sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL  'SOME_VALUE';");
+					.parse("UPDATE TABLE_NAME SET column1='VALUE1',column2='VALUE2' WHERE SOME_COL  'SOME_VALUE';");
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
 		}
 
 		try {
 			sqlParserObjTest.parse(
-					"        UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2         'VALUE2'   WHERE      SOME_COL    =         'SOME_VALUE'         ;         ");
+					"        UPDATE      TABLE_NAME       SET       column1      =  'VALUE1'        ,      column2         'VALUE2'   WHERE      SOME_COL    =         'SOME_VALUE'         ;         ");
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
 		}
@@ -125,14 +125,14 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableSyntaxValidateSix() {
 		try {
 			sqlParserObjTest
-					.parse("UPDATE TABLE_NAME  COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL  'SOME_VALUE';");
+					.parse("UPDATE TABLE_NAME  column1='VALUE1',column2='VALUE2' WHERE SOME_COL  'SOME_VALUE';");
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
 		}
 
 		try {
 			sqlParserObjTest.parse(
-					"        UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2         'VALUE2'         SOME_COL    =         'SOME_VALUE'         ;         ");
+					"        UPDATE      TABLE_NAME       SET       column1      =  'VALUE1'        ,      column2         'VALUE2'         SOME_COL    =         'SOME_VALUE'         ;         ");
 			fail("SyntaxErrorException thrown or AssertionError occured!");
 		} catch (SyntaxErrorException e) {
 		}
@@ -189,12 +189,12 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateOne() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL = 'SOME_VALUE';");
+					.parse("UPDATE TABLE_NAME SET column1='VALUE1',column2='VALUE2' WHERE SOME_COL = 'SOME_VALUE';");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
-			expectedEntryMap.put("COLUMN1", DatatypeFactory.convertToDataType("VALUE1"));
-			expectedEntryMap.put("COLUMN2", DatatypeFactory.convertToDataType("VALUE2"));
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
+			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("VALUE1"));
+			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("VALUE2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Queue <Object> sqlPredicateQ = ((Update) updateObjAct).getWhere().getPostfix();
 			assertEquals("some_col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -209,12 +209,12 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateTwo() {
 		try {
 			updateObjAct = sqlParserObjTest.parse(
-					"        UPDATE      TABLE_NAME       SET       COLUMN1      =  'VALUE1'        ,      COLUMN2  =       'VALUE2'   WHERE      SOME_COL    =         'SOME_vaLUE'         ;         ");
+					"        UPDATE      TABLE_NAME       SET       column1      =  'VALUE1'        ,      column2  =       'VALUE2'   WHERE      SOME_COL    =         'SOME_vaLUE'         ;         ");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
-			expectedEntryMap.put("COLUMN1", DatatypeFactory.convertToDataType("VALUE1"));
-			expectedEntryMap.put("COLUMN2", DatatypeFactory.convertToDataType("VALUE2"));
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
+			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("VALUE1"));
+			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("VALUE2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Queue <Object> sqlPredicateQ = ((Update) updateObjAct).getWhere().getPostfix();
 			assertEquals("some_col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -230,12 +230,12 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateThree() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL = SOME_COL2;");
+					.parse("UPDATE TABLE_NAME SET column1='VALUE1',column2='VALUE2' WHERE SOME_COL = SOME_COL2;");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
-			expectedEntryMap.put("COLUMN1", DatatypeFactory.convertToDataType("VALUE1"));
-			expectedEntryMap.put("COLUMN2", DatatypeFactory.convertToDataType("VALUE2"));
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
+			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("VALUE1"));
+			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("VALUE2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Queue <Object> sqlPredicateQ = ((Update) updateObjAct).getWhere().getPostfix();
 			assertEquals("some_col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -250,12 +250,12 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateFour() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='VALUE1',COLUMN2='VALUE2' WHERE SOME_COL < 5;");
+					.parse("UPDATE TABLE_NAME SET column1='VALUE1',column2='VALUE2' WHERE SOME_COL < 5;");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
-			expectedEntryMap.put("COLUMN1", DatatypeFactory.convertToDataType("VALUE1"));
-			expectedEntryMap.put("COLUMN2", DatatypeFactory.convertToDataType("VALUE2"));
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
+			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("VALUE1"));
+			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("VALUE2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Queue <Object> sqlPredicateQ = ((Update) updateObjAct).getWhere().getPostfix();
 			assertEquals("some_col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -270,11 +270,11 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateFive() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',column2='VALUE2' WHERE SOME_COL > 5;");
+					.parse("UPDATE TABLE_NAME SET column1='value1',column2='VALUE2' WHERE SOME_COL > 5;");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
-			expectedEntryMap.put("COLUMN1", DatatypeFactory.convertToDataType("value1"));
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
+			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("value1"));
 			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("VALUE2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Queue <Object> sqlPredicateQ = ((Update) updateObjAct).getWhere().getPostfix();
@@ -293,7 +293,7 @@ public class UpdateTest extends SqlParserRef {
 					.parse("UPDATE TABLE_NAME SET column1='value1',column2='value2' WHERE SOME_COL = 5;");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
 			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("value1"));
 			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("value2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
@@ -309,11 +309,11 @@ public class UpdateTest extends SqlParserRef {
 	@Test
 	public void testUpdateTableParsingValidateSeven() {
 		try {
-			updateObjAct = sqlParserObjTest.parse("UPDATE TABLE_NAME SET COLUMN1 =     COLUMN2;");
+			updateObjAct = sqlParserObjTest.parse("UPDATE TABLE_NAME SET column1 =     column2;");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, String> entryMapCpy = ((Update) updateObjAct).getColumns();
-			Map<String, String> expectedEntryMap = new HashMap<String, String>();
-			expectedEntryMap.put("COLUMN1", "COLUMN2");
+			Map<String, String> expectedEntryMap = new LinkedHashMap<String, String>();
+			expectedEntryMap.put("column1", "column2");
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");
@@ -324,12 +324,12 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateEight() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',COLUMN2='value2' WHERE SOME_COL > 5;");
+					.parse("UPDATE TABLE_NAME SET column1='value1',column2='value2' WHERE SOME_COL > 5;");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
-			expectedEntryMap.put("COLUMN1", DatatypeFactory.convertToDataType("value1"));
-			expectedEntryMap.put("COLUMN2", DatatypeFactory.convertToDataType("value2"));
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
+			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("value1"));
+			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("value2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Queue <Object> sqlPredicateQ = ((Update) updateObjAct).getWhere().getPostfix();
 			assertEquals("some_col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -344,12 +344,12 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateNine() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',COLUMN2='value2' WHERE SOME_COL > 'HEYYY';");
+					.parse("UPDATE TABLE_NAME SET column1='value1',column2='value2' WHERE SOME_COL > 'HEYYY';");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
-			expectedEntryMap.put("COLUMN1", DatatypeFactory.convertToDataType("value1"));
-			expectedEntryMap.put("COLUMN2", DatatypeFactory.convertToDataType("value2"));
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
+			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("value1"));
+			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("value2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Queue <Object> sqlPredicateQ = ((Update) updateObjAct).getWhere().getPostfix();
 			assertEquals("some_col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -365,12 +365,12 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateTen() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',COLUMN2='value2' WHERE SOME_COL >= \"HEYYY\";");
+					.parse("UPDATE TABLE_NAME SET column1='value1',column2='value2' WHERE SOME_COL >= \"HEYYY\";");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
-			expectedEntryMap.put("COLUMN1", DatatypeFactory.convertToDataType("value1"));
-			expectedEntryMap.put("COLUMN2", DatatypeFactory.convertToDataType("value2"));
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
+			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("value1"));
+			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("value2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Queue <Object> sqlPredicateQ = ((Update) updateObjAct).getWhere().getPostfix();
 			assertEquals("some_col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -385,12 +385,12 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateEleven() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',COLUMN2='value2' WHERE SOME_COL != \"HEYYY\";");
+					.parse("UPDATE TABLE_NAME SET column1='value1',column2='value2' WHERE SOME_COL != \"HEYYY\";");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
-			expectedEntryMap.put("COLUMN1", DatatypeFactory.convertToDataType("value1"));
-			expectedEntryMap.put("COLUMN2", DatatypeFactory.convertToDataType("value2"));
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
+			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("value1"));
+			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("value2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Queue <Object> sqlPredicateQ = ((Update) updateObjAct).getWhere().getPostfix();
 			assertEquals("some_col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -405,12 +405,12 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateTwelve() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',COLUMN2='value2' WHERE SOME_COL >= \"HEYYY\";");
+					.parse("UPDATE TABLE_NAME SET column1='value1',column2='value2' WHERE SOME_COL >= \"HEYYY\";");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
-			expectedEntryMap.put("COLUMN1", DatatypeFactory.convertToDataType("value1"));
-			expectedEntryMap.put("COLUMN2", DatatypeFactory.convertToDataType("value2"));
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
+			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("value1"));
+			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("value2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Queue <Object> sqlPredicateQ = ((Update) updateObjAct).getWhere().getPostfix();
 			assertEquals("some_col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -425,12 +425,12 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateThirteen() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',COLUMN2='value2' WHERE SOME_COL >= COL2;");
+					.parse("UPDATE TABLE_NAME SET column1='value1',column2='value2' WHERE SOME_COL >= COL2;");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
-			expectedEntryMap.put("COLUMN1", DatatypeFactory.convertToDataType("value1"));
-			expectedEntryMap.put("COLUMN2", DatatypeFactory.convertToDataType("value2"));
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
+			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("value1"));
+			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("value2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Queue <Object> sqlPredicateQ = ((Update) updateObjAct).getWhere().getPostfix();
 			assertEquals("some_col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -446,12 +446,12 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateFourteen() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',COLUMN2='value2' WHERE SOME_COL <= COL2;");
+					.parse("UPDATE TABLE_NAME SET column1='value1',column2='value2' WHERE SOME_COL <= COL2;");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
-			expectedEntryMap.put("COLUMN1", DatatypeFactory.convertToDataType("value1"));
-			expectedEntryMap.put("COLUMN2", DatatypeFactory.convertToDataType("value2"));
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
+			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("value1"));
+			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("value2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Queue <Object> sqlPredicateQ = ((Update) updateObjAct).getWhere().getPostfix();
 			assertEquals("some_col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -467,12 +467,12 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateFifteen() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',COLUMN2='value2' WHERE SOME_COL != COL2       ;    ");
+					.parse("UPDATE TABLE_NAME SET column1='value1',column2='value2' WHERE SOME_COL != COL2       ;    ");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
-			expectedEntryMap.put("COLUMN1", DatatypeFactory.convertToDataType("value1"));
-			expectedEntryMap.put("COLUMN2", DatatypeFactory.convertToDataType("value2"));
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
+			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("value1"));
+			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("value2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Queue <Object> sqlPredicateQ = ((Update) updateObjAct).getWhere().getPostfix();
 			assertEquals("some_col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -488,12 +488,12 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateSixteen() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',COLUMN2='value2' WHERE SOME_COL != COL2       ;    ");
+					.parse("UPDATE TABLE_NAME SET column1='value1',column2='value2' WHERE SOME_COL != COL2       ;    ");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
-			expectedEntryMap.put("COLUMN1", DatatypeFactory.convertToDataType("value1"));
-			expectedEntryMap.put("COLUMN2", DatatypeFactory.convertToDataType("value2"));
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
+			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("value1"));
+			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("value2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Queue <Object> sqlPredicateQ = ((Update) updateObjAct).getWhere().getPostfix();
 			assertEquals("some_col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -509,12 +509,12 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateSeventeen() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',COLUMN2='value2' WHERE (   (     SOME_COL !=     COL2    )     )       ;    ");
+					.parse("UPDATE TABLE_NAME SET column1='value1',column2='value2' WHERE (   (     SOME_COL !=     COL2    )     )       ;    ");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
-			expectedEntryMap.put("COLUMN1", DatatypeFactory.convertToDataType("value1"));
-			expectedEntryMap.put("COLUMN2", DatatypeFactory.convertToDataType("value2"));
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
+			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("value1"));
+			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("value2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Queue <Object> sqlPredicateQ = ((Update) updateObjAct).getWhere().getPostfix();
 			assertEquals("some_col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -531,12 +531,12 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateEighteen() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',COLUMN2='value2' WHERE (   (     SOME_COL !=     COL2    )     and (COL8 = \"helLLO\" )       ;    ");
+					.parse("UPDATE TABLE_NAME SET column1='value1',column2='value2' WHERE (   (     SOME_COL !=     COL2    )     and (COL8 = \"helLLO\" )       ;    ");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
-			expectedEntryMap.put("COLUMN1", DatatypeFactory.convertToDataType("value1"));
-			expectedEntryMap.put("COLUMN2", DatatypeFactory.convertToDataType("value2"));
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
+			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("value1"));
+			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("value2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Queue <Object> sqlPredicateQ = ((Update) updateObjAct).getWhere().getPostfix();
 			assertEquals("some_col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
@@ -563,12 +563,12 @@ public class UpdateTest extends SqlParserRef {
 	public void testUpdateTableParsingValidateNineteen() {
 		try {
 			updateObjAct = sqlParserObjTest
-					.parse("UPDATE TABLE_NAME SET COLUMN1='value1',COLUMN2='value2' WHERE (   (     SOME_COL <     COL2    )     oR (COL8 >= 'helLLO' )       ;    ");
+					.parse("UPDATE TABLE_NAME SET column1='value1',column2='value2' WHERE (   (     SOME_COL <     COL2    )     oR (COL8 >= 'helLLO' )       ;    ");
 			assertEquals("table_name", ((Update) updateObjAct).getTableName().toLowerCase());
 			Map<String, DBDatatype> entryMapCpy = ((Update) updateObjAct).getValues();
-			Map<String, DBDatatype> expectedEntryMap = new HashMap<String, DBDatatype>();
-			expectedEntryMap.put("COLUMN1", DatatypeFactory.convertToDataType("value1"));
-			expectedEntryMap.put("COLUMN2", DatatypeFactory.convertToDataType("value2"));
+			Map<String, DBDatatype> expectedEntryMap = new LinkedHashMap<String, DBDatatype>();
+			expectedEntryMap.put("column1", DatatypeFactory.convertToDataType("value1"));
+			expectedEntryMap.put("column2", DatatypeFactory.convertToDataType("value2"));
 			assertTrue(expectedEntryMap.equals(entryMapCpy));
 			Queue <Object> sqlPredicateQ = ((Update) updateObjAct).getWhere().getPostfix();
 			assertEquals("some_col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());

@@ -15,14 +15,14 @@ public abstract class BackendParser {
 
 	public static void createDatabase(Database database)
 			throws DatabaseAlreadyCreatedException {
-		File workspace = new File(WORKSPACE_DIR);
+		File workspace = new File(BackendController.getInstance().getDatabaseDir());
 		if (!workspace.exists()) {
-			workspace.mkdir();
+			workspace.mkdirs();
 		}
 		File databaseDir = new File(workspace,
 				database.getName());
 		if (!databaseDir.exists()) {
-			databaseDir.mkdir();
+			databaseDir.mkdirs();
 		} else {
 			throw new DatabaseAlreadyCreatedException();
 		}
@@ -30,8 +30,10 @@ public abstract class BackendParser {
 
 	public static void dropDatabase(Database database)
 			throws DatabaseNotFoundException {
-		File databaseDir = new File(WORKSPACE_DIR + File.separator
-				+ database.getName());
+//		File databaseDir = new File(WORKSPACE_DIR + File.separator
+//				+ database.getName());
+        File databaseDir = new File(BackendController.getInstance().getDatabaseDir()
+                + File.separator + database.getName());
 		if (databaseDir.exists()) {
 			String[] files = databaseDir.list();
 			for (String fileName : files) {

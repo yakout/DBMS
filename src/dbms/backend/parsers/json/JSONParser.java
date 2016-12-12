@@ -1,26 +1,13 @@
 package dbms.backend.parsers.json;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.ResourceBundle;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import dbms.backend.BackendParser;
 import dbms.backend.BackendParserFactory;
-import dbms.backend.parsers.json.pojo.TablePojo;
-import dbms.datatypes.*;
+import dbms.datatypes.DBInteger;
+import dbms.datatypes.DBString;
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.TableAlreadyCreatedException;
@@ -28,6 +15,9 @@ import dbms.exception.TableNotFoundException;
 import dbms.util.Column;
 import dbms.util.Database;
 import dbms.util.Table;
+
+import java.io.*;
+import java.util.ResourceBundle;
 
 public class JSONParser extends BackendParser {
 	public static final String KEY = "json";
@@ -152,6 +142,7 @@ public class JSONParser extends BackendParser {
 		return database;
 	}
 
+
 	public static void main(String[] argv) {
 		JSONParser parser = new JSONParser();
 		Database database = new Database("Yakout");
@@ -173,6 +164,6 @@ public class JSONParser extends BackendParser {
 		} catch (TableNotFoundException | DatabaseNotFoundException e) {
 			e.printStackTrace();
 		}
-
 	}
+
 }

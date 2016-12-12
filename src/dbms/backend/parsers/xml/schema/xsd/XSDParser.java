@@ -1,5 +1,6 @@
 package dbms.backend.parsers.xml.schema.xsd;
 
+import dbms.backend.BackendController;
 import dbms.exception.DatabaseNotFoundException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -55,7 +56,9 @@ public class XSDParser {
 	public void createSchema(String dbName, String tableName) throws
 			 DatabaseNotFoundException {
 
-		File database = new File(WORKSPACE_DIR + File.separator + dbName);
+		// File database = new File(WORKSPACE_DIR + File.separator + dbName);
+		File database = new File(BackendController.getInstance().getDatabaseDir()
+				+ File.separator + dbName);
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException();
 		}

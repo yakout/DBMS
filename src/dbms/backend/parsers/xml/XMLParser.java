@@ -1,5 +1,6 @@
 package dbms.backend.parsers.xml;
 
+import dbms.backend.BackendController;
 import dbms.backend.BackendParser;
 import dbms.backend.BackendParserFactory;
 import dbms.backend.parsers.xml.schema.dtd.DTDSchemaParser;
@@ -220,7 +221,9 @@ public class XMLParser extends BackendParser {
 
 	private File openDB(String dbName)
 			throws DatabaseNotFoundException {
-		File database = new File(WORKSPACE_DIR + File.separator + dbName);
+		// File database = new File(WORKSPACE_DIR + File.separator + dbName);
+		File database = new File(BackendController.getInstance().getDatabaseDir()
+                + File.separator + dbName);
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException();
 		}

@@ -1,5 +1,7 @@
 package dbms.test.SQLParserTesting;
 
+import dbms.datatypes.DBDatatype;
+import dbms.datatypes.DatatypeFactory;
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.SQLParser;
 import dbms.sqlparser.sqlInterpreter.rules.Expression;
@@ -156,9 +158,9 @@ public class InsertTest extends SqlParserRef {
 		try {
 			insertObjAct = sqlParserObjTest.parse("INSERT INTO TABLE_NAME (col1,col2) VALUES ('VAL1','VAL2');");
 			assertEquals("table_name", ((InsertIntoTable) insertObjAct).getTableName().toLowerCase());
-			Map<String, Object> entryMapCpy = new HashMap<String, Object>();
-			entryMapCpy.put("col1", "VAL1");
-			entryMapCpy.put("col2", "VAL2");
+			Map<String, DBDatatype> entryMapCpy = new HashMap<>();
+			entryMapCpy.put("col1", DatatypeFactory.convertToDataType("VAL1"));
+			entryMapCpy.put("col2", DatatypeFactory.convertToDataType("VAL2"));
 			assertTrue(entryMapCpy.equals(((InsertIntoTable) insertObjAct).getEntryMap()));
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");			 
@@ -172,9 +174,9 @@ public class InsertTest extends SqlParserRef {
 					.parse("        INSERT            INTO        COUNTRIES_WORLD           (       COL1  ,            COL2       )             VALUES                   (          'VAL1'         ,      "
 							+ "             'VAL2'             )             ;             ");
 			assertEquals("countries_world", ((InsertIntoTable) insertObjAct).getTableName().toLowerCase());
-			Map<String, Object> entryMapCpy = new HashMap<String, Object>();
-			entryMapCpy.put("COL1", "VAL1");
-			entryMapCpy.put("COL2", "VAL2");
+			Map<String, DBDatatype> entryMapCpy = new HashMap<>();
+			entryMapCpy.put("col1", DatatypeFactory.convertToDataType("VAL1"));
+			entryMapCpy.put("col2", DatatypeFactory.convertToDataType("VAL2"));
 			assertTrue(entryMapCpy.equals(((InsertIntoTable) insertObjAct).getEntryMap()));
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");			 
@@ -188,9 +190,9 @@ public class InsertTest extends SqlParserRef {
 					.parse("        InSeRT            InTo        TaBlE_NAmE           (       col1  ,            col2      )             VaLueS                   (         5        ,      "
 							+ "             'VAl2'             )             ;             ");
 			assertEquals("table_name", ((InsertIntoTable) insertObjAct).getTableName().toLowerCase());
-			Map<String, Object> entryMapCpy = new HashMap<String, Object>();
-			entryMapCpy.put("col1", 5);
-			entryMapCpy.put("col2", "VAl2");
+			Map<String, DBDatatype> entryMapCpy = new HashMap<>();
+			entryMapCpy.put("col1", DatatypeFactory.convertToDataType(5));
+			entryMapCpy.put("col2", DatatypeFactory.convertToDataType("VAl2"));
 			assertTrue(entryMapCpy.equals(((InsertIntoTable) insertObjAct).getEntryMap()));
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");			 
@@ -205,9 +207,9 @@ public class InsertTest extends SqlParserRef {
 					.parse("        InSeRT            InTo        TaBlE_NAmE           (       CoL1  ,            num1       )             VaLueS                   (         5        ,      "
 							+ "             888             )             ;             ");
 			assertEquals("table_name", ((InsertIntoTable) insertObjAct).getTableName().toLowerCase());
-			Map<String, Object> entryMapCpy = new HashMap<String, Object>();
-			entryMapCpy.put("CoL1", 5);
-			entryMapCpy.put("num1", 888);
+			Map<String, DBDatatype> entryMapCpy = new HashMap<>();
+			entryMapCpy.put("col1", DatatypeFactory.convertToDataType(5));
+			entryMapCpy.put("num1", DatatypeFactory.convertToDataType(888));
 			assertTrue(entryMapCpy.equals(((InsertIntoTable) insertObjAct).getEntryMap()));
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");	
@@ -221,9 +223,9 @@ public class InsertTest extends SqlParserRef {
 					.parse("        InSeRT            InTo        TaBlE_NAmE           (       CoL1  ,            num1       )             VaLueS                   (         5        ,      "
 							+ "             \"HELLO\"             )             ;             ");
 			assertEquals("table_name", ((InsertIntoTable) insertObjAct).getTableName().toLowerCase());
-			Map<String, Object> entryMapCpy = new HashMap<String, Object>();
-			entryMapCpy.put("CoL1", 5);
-			entryMapCpy.put("num1", "HELLO");
+			Map<String, DBDatatype> entryMapCpy = new HashMap<>();
+			entryMapCpy.put("col1", DatatypeFactory.convertToDataType(5));
+			entryMapCpy.put("num1", DatatypeFactory.convertToDataType("HELLO"));
 			assertTrue(entryMapCpy.equals(((InsertIntoTable) insertObjAct).getEntryMap()));
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");	
@@ -237,9 +239,9 @@ public class InsertTest extends SqlParserRef {
 					.parse("        InSeRT            InTo        TaBlE_NAmE           (       CoL1  ,            num1       )             VaLueS                   (         'Hey'        ,      "
 							+ "             \"HELLO\"             )             ;             ");
 			assertEquals("table_name", ((InsertIntoTable) insertObjAct).getTableName().toLowerCase());
-			Map<String, Object> entryMapCpy = new HashMap<String, Object>();
-			entryMapCpy.put("CoL1", "Hey");
-			entryMapCpy.put("num1", "HELLO");
+			Map<String, DBDatatype> entryMapCpy = new HashMap<>();
+			entryMapCpy.put("col1", DatatypeFactory.convertToDataType("Hey"));
+			entryMapCpy.put("num1", DatatypeFactory.convertToDataType("HELLO"));
 			assertTrue(entryMapCpy.equals(((InsertIntoTable) insertObjAct).getEntryMap()));
 		} catch (SyntaxErrorException e) {
 			fail("SyntaxErrorException thrown or AssertionError occured!");	

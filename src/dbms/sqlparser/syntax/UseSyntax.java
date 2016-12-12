@@ -4,7 +4,8 @@ import java.util.regex.Pattern;
 
 public class UseSyntax implements SQLSyntax {
     private final String USE_REGEX = "(?i)^\\s*use\\s+("
-            + SyntaxUtil.DATABASE_NAME + ")\\s*;\\s*";
+            + SyntaxUtil.DATABASE_NAME + ")"
+            + SyntaxUtil.SEMI_COLON + "$";
 
     private Pattern usePattern = null;
 
