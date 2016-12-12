@@ -85,6 +85,29 @@ public class Table {
 		return 1; //updateCount
 	}
 
+	public int insertRow(Collection<DBDatatype> entries)
+			throws IncorrectDataEntryException {
+		if (entries == null) {
+			return 0;
+		}
+		int i = 0;
+		for (DBDatatype entry : entries) {
+			Column col = columns.get(i);
+			if (!entry.getClass().equals(col.getType())) {
+				throw new IncorrectDataEntryException("Datatype conflict!");
+			}
+			i++;
+		}
+		i = 0;
+		for (DBDatatype entry : entries) {
+			Column col = columns.get(i);
+			col.addEntry(entry);
+			i++;
+		}
+		size++;
+		return 1;
+	}
+
 	public int delete(Condition condition)
 			throws IncorrectDataEntryException, SyntaxErrorException,
 			TableNotFoundException, DatabaseNotFoundException {

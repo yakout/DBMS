@@ -115,6 +115,16 @@ public class BackendController {
 		return updateCount;
 	}
 
+	public int insertIntoTable(String tableName, Collection<DBDatatype> entries)
+			throws DatabaseNotFoundException, TableNotFoundException, IncorrectDataEntryException {
+		Table table = new Database(dbName).createTable(tableName);
+		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
+		table.insertRow(entries);
+		BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
+		int updateCount = 0;
+		return updateCount;
+	}
+
 	/**
 	 * Selects data from database given a certain condition,
 	 * the result is stored after in a {@link RecordSet}.
