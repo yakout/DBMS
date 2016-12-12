@@ -29,8 +29,6 @@ public class XMLParser extends BackendParser {
 	private static XMLParser instance = null;
 	private static DocumentBuilder docBuilder = null;
 	private static Transformer transformer = null;
-	private static final String WORKSPACE_DIR =
-			System.getProperty("user.home") + File.separator + "databases";
 	private static final ResourceBundle CONSTANTS =
 			ResourceBundle.getBundle("dbms.backend.parsers.xml.Constants");
 
@@ -197,7 +195,7 @@ public class XMLParser extends BackendParser {
 					.getRegisteredDatatype(colType));
 			for (int j = 0; j < colNode.getChildNodes().getLength(); j++) {
 				Node row = colNode.getChildNodes().item(j);
-				if (row instanceof Element == false) {
+				if (!(row instanceof Element)) {
 					continue;
 				}
 				Object entry = DatatypeFactory.getFactory().toObj(
@@ -221,8 +219,7 @@ public class XMLParser extends BackendParser {
 
 	private File openDB(String dbName)
 			throws DatabaseNotFoundException {
-		// File database = new File(WORKSPACE_DIR + File.separator + dbName);
-		File database = new File(BackendController.getInstance().getDatabaseDir()
+		File database = new File(BackendController.getInstance().getCurrentDatabaseDir()
                 + File.separator + dbName);
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException();

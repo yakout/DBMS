@@ -57,7 +57,7 @@ public class XSDParser {
 			 DatabaseNotFoundException {
 
 		// File database = new File(WORKSPACE_DIR + File.separator + dbName);
-		File database = new File(BackendController.getInstance().getDatabaseDir()
+		File database = new File(BackendController.getInstance().getCurrentDatabaseDir()
 				+ File.separator + dbName);
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException();

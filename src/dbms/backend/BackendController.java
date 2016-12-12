@@ -9,6 +9,7 @@ import dbms.util.Database;
 import dbms.util.RecordSet;
 import dbms.util.Table;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 
@@ -20,7 +21,8 @@ import java.util.Map;
 public class BackendController {
 	private static BackendController instance = null;
 	private String dbName;
-	private String databaseDir;
+	private String currentDatabaseDir =
+			System.getProperty("user.home") + File.separator + "databases"; // by default
 
 	private BackendController() {
 	}
@@ -251,11 +253,11 @@ public class BackendController {
 		table.clear();
 	}
 
-	public String getDatabaseDir() {
-		return databaseDir;
+	public String getCurrentDatabaseDir() {
+		return currentDatabaseDir;
 	}
 
-	public void setDatabaseDir(String databaseDir) {
-		this.databaseDir = databaseDir;
+	public void setCurrentDatabaseDir(String currentDatabaseDir) {
+		this.currentDatabaseDir = currentDatabaseDir;
 	}
 }

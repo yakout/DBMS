@@ -4,6 +4,7 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dbms.backend.BackendController;
 import dbms.backend.BackendParser;
 import dbms.backend.BackendParserFactory;
 import dbms.datatypes.DBInteger;
@@ -22,8 +23,6 @@ import java.util.ResourceBundle;
 public class JSONParser extends BackendParser {
 	public static final String KEY = "json";
 	private static JSONParser instance = null;
-	private static final String WORKSPACE_DIR = System.getProperty("user.home")
-			+ File.separator + "databases";
 	private static final ResourceBundle CONSTANTS = ResourceBundle.getBundle(
 			"dbms.backend.parsers.json.Constants");
 	private GsonBuilder builder;
@@ -135,7 +134,8 @@ public class JSONParser extends BackendParser {
 	}
 
 	private static File openDB(String dbName) throws DatabaseNotFoundException {
-		File database = new File(WORKSPACE_DIR + File.separator + dbName);
+		File database = new File(BackendController.getInstance().getCurrentDatabaseDir()
+				+ File.separator + dbName);
 		if (!database.exists()) {
 			throw new DatabaseNotFoundException();
 		}

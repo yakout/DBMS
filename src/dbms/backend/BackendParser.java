@@ -10,12 +10,9 @@ import dbms.util.Table;
 import java.io.File;
 
 public abstract class BackendParser {
-	private static final String WORKSPACE_DIR =
-			System.getProperty("user.home") + File.separator + "databases";
-
 	public static void createDatabase(Database database)
 			throws DatabaseAlreadyCreatedException {
-		File workspace = new File(BackendController.getInstance().getDatabaseDir());
+		File workspace = new File(BackendController.getInstance().getCurrentDatabaseDir());
 		if (!workspace.exists()) {
 			workspace.mkdirs();
 		}
@@ -30,9 +27,7 @@ public abstract class BackendParser {
 
 	public static void dropDatabase(Database database)
 			throws DatabaseNotFoundException {
-//		File databaseDir = new File(WORKSPACE_DIR + File.separator
-//				+ database.getName());
-        File databaseDir = new File(BackendController.getInstance().getDatabaseDir()
+        File databaseDir = new File(BackendController.getInstance().getCurrentDatabaseDir()
                 + File.separator + database.getName());
 		if (databaseDir.exists()) {
 			String[] files = databaseDir.list();
