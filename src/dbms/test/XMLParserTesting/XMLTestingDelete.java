@@ -1,6 +1,7 @@
 package dbms.test.XMLParserTesting;
 
 import dbms.backend.BackendController;
+import dbms.backend.BackendParserFactory;
 import dbms.datatypes.DBDatatype;
 import dbms.datatypes.DBInteger;
 import dbms.datatypes.DBString;
@@ -17,64 +18,65 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class XMLTestingDelete {
-	private final BackendController xmlParserConc = BackendController.getInstance();
+	private final BackendController xmlParser = BackendController.getInstance();
 
 	@Test
 	public void testOne() {
 
+		BackendParserFactory.getFactory().setCurrentParser("xml");
 		try {
-			xmlParserConc.createDatabase("database_delete_1");
+			xmlParser.createDatabase("database_delete_1");
 
-			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<String, Class<? extends DBDatatype>>();
+			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
 			passMap.put("column_1", DBInteger.class);
 			passMap.put("column_2", DBString.class);
 
-			xmlParserConc.createTable("table_name", passMap);
+			xmlParser.createTable("table_name", passMap);
 
-			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<String, DBDatatype>();
+			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
+			xmlParser.insertIntoTable("table_name", entriesMap);
 
 			Condition whereCondition = new Where("    column_1   >=    300 ");
 			RecordSet result = new RecordSet();
-			LinkedHashMap<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
+			LinkedHashMap<String, DBDatatype> resExpected = new LinkedHashMap<>();
 			resExpected.put("column_1", DatatypeFactory.convertToDataType(550));
 			resExpected.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
 			Record expRecord = new Record(resExpected);
 			result.add(expRecord);
 
-			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected = new LinkedHashMap<>();
 			resExpected.put("column_1", DatatypeFactory.convertToDataType(7500));
 			resExpected.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
 			expRecord = new Record(resExpected);
 			result.add(expRecord);
 
-			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected = new LinkedHashMap<>();
 			resExpected.put("column_1", DatatypeFactory.convertToDataType(852));
 			resExpected.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
 			expRecord = new Record(resExpected);
 			result.add(expRecord);
 
-			xmlParserConc.delete("table_name", whereCondition);
+			xmlParser.delete("table_name", whereCondition);
 
-			RecordSet actualRes = xmlParserConc.select("table_name", null, whereCondition);
+			RecordSet actualRes = xmlParser.select("table_name", null, whereCondition);
 
 			Iterator<Record> resultSetItr = result.iterator();
 			Iterator<Record> actualResItr = actualRes.iterator();
@@ -85,7 +87,7 @@ public class XMLTestingDelete {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			fail("Error occured!");
+			fail("Error occurred!");
 
 		}
 	}
@@ -93,61 +95,62 @@ public class XMLTestingDelete {
 	@Test
 	public void testTwo() {
 
+		BackendParserFactory.getFactory().setCurrentParser("xml");
 		try {
-			xmlParserConc.createDatabase("database_delete_2");
+			xmlParser.createDatabase("database_delete_2");
 
-			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<String, Class<? extends DBDatatype>>();
+			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
 			passMap.put("column_1", DBInteger.class);
 			passMap.put("column_2", DBString.class);
 
-			xmlParserConc.createTable("table_name", passMap);
+			xmlParser.createTable("table_name", passMap);
 
-			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<String, DBDatatype>();
+			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
+			xmlParser.insertIntoTable("table_name", entriesMap);
 
 			Condition whereCondition = new Where("   column_1  >=  300  ");
 			RecordSet result = new RecordSet();
 
-			LinkedHashMap<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
+			LinkedHashMap<String, DBDatatype> resExpected = new LinkedHashMap<>();
 			resExpected.put("column_1", DatatypeFactory.convertToDataType(550));
 			Record expRecord = new Record(resExpected);
 			result.add(expRecord);
 
-			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected = new LinkedHashMap<>();
 			resExpected.put("column_1", DatatypeFactory.convertToDataType(7500));
 			expRecord = new Record(resExpected);
 			result.add(expRecord);
 
-			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected = new LinkedHashMap<>();
 			resExpected.put("column_1", DatatypeFactory.convertToDataType(852));
 			expRecord = new Record(resExpected);
 			result.add(expRecord);
 
-			Set<String> columns = new TreeSet<String>();
+			Set<String> columns = new TreeSet<>();
 
 			columns.add("column_1");
 
-			xmlParserConc.delete("table_name", whereCondition);
+			xmlParser.delete("table_name", whereCondition);
 
-			RecordSet actualRes = xmlParserConc.select("table_name", columns, whereCondition);
+			RecordSet actualRes = xmlParser.select("table_name", columns, whereCondition);
 
 			Iterator<Record> resultSetItr = result.iterator();
 			Iterator<Record> actualResItr = actualRes.iterator();
@@ -158,7 +161,7 @@ public class XMLTestingDelete {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			fail("Error occured!");
+			fail("Error occurred!");
 
 		}
 	}
@@ -166,57 +169,58 @@ public class XMLTestingDelete {
 	@Test
 	public void testThree() {
 
+		BackendParserFactory.getFactory().setCurrentParser("xml");
 		try {
-			xmlParserConc.createDatabase("database_delete_3");
+			xmlParser.createDatabase("database_delete_3");
 
-			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<String, Class<? extends DBDatatype>>();
+			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
 			passMap.put("column_1", DBInteger.class);
 			passMap.put("column_2", DBString.class);
 
-			xmlParserConc.createTable("table_name", passMap);
+			xmlParser.createTable("table_name", passMap);
 
-			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<String, DBDatatype>();
+			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
+			xmlParser.insertIntoTable("table_name", entriesMap);
 
 			Condition whereConditionDel = new Where("   column_1  >  300  ");
 			Condition whereConditionSel = new Where("   column_1  >  600  ");
 			RecordSet result = new RecordSet();
 
-			LinkedHashMap<String, DBDatatype> resExpected = new LinkedHashMap<String, DBDatatype>();
+			LinkedHashMap<String, DBDatatype> resExpected = new LinkedHashMap<>();
 			resExpected.put("column_1", DatatypeFactory.convertToDataType(7500));
 			Record expRecord = new Record(resExpected);
 			result.add(expRecord);
 
-			resExpected = new LinkedHashMap<String, DBDatatype>();
+			resExpected = new LinkedHashMap<>();
 			resExpected.put("column_1", DatatypeFactory.convertToDataType(852));
 			expRecord = new Record(resExpected);
 			result.add(expRecord);
 
-			Set<String> columns = new TreeSet<String>();
+			Set<String> columns = new TreeSet<>();
 
 			columns.add("column_1");
 
-			xmlParserConc.delete("table_name", whereConditionDel);
+			xmlParser.delete("table_name", whereConditionDel);
 
-			RecordSet actualRes = xmlParserConc.select("table_name", columns, whereConditionSel);
+			RecordSet actualRes = xmlParser.select("table_name", columns, whereConditionSel);
 
 			Iterator<Record> resultSetItr = result.iterator();
 			Iterator<Record> actualResItr = actualRes.iterator();
@@ -227,7 +231,7 @@ public class XMLTestingDelete {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			fail("Error occured!");
+			fail("Error occurred!");
 
 		}
 	}
@@ -235,46 +239,47 @@ public class XMLTestingDelete {
 	@Test
 	public void testFour() {
 
+		BackendParserFactory.getFactory().setCurrentParser("xml");
 		try {
-			xmlParserConc.createDatabase("database_delete_4");
+			xmlParser.createDatabase("database_delete_4");
 
-			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<String, Class<? extends DBDatatype>>();
+			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
 			passMap.put("column_1", DBInteger.class);
 			passMap.put("column_2", DBString.class);
 
-			xmlParserConc.createTable("table_name", passMap);
+			xmlParser.createTable("table_name", passMap);
 
-			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<String, DBDatatype>();
+			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
+			xmlParser.insertIntoTable("table_name", entriesMap);
 
 			Condition whereConditionDel = new Where("   column_1  <  300  ");
 			Condition whereConditionSel = new Where("   column_1  <  500  ");
-			RecordSet result = new RecordSet();
+			//RecordSet result = new RecordSet();
 
-			Set<String> columns = new TreeSet<String>();
+			Set<String> columns = new TreeSet<>();
 
 			columns.add("column_1");
 
-			xmlParserConc.delete("table_name", whereConditionDel);
-			RecordSet actualRes = xmlParserConc.select("table_name", columns, whereConditionSel);
+			xmlParser.delete("table_name", whereConditionDel);
+			RecordSet actualRes = xmlParser.select("table_name", columns, whereConditionSel);
 			Iterator<Record> actualResItr = actualRes.iterator();
 			while (actualResItr.hasNext()) {
 
@@ -283,7 +288,7 @@ public class XMLTestingDelete {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			fail("Error occured!");
+			fail("Error occurred!");
 
 		}
 	}
@@ -291,54 +296,59 @@ public class XMLTestingDelete {
 	@Test
 	public void testFive() {
 
+		BackendParserFactory.getFactory().setCurrentParser("xml");
 		try {
-			xmlParserConc.createDatabase("database_delete_5");
+			xmlParser.createDatabase("database_delete_5");
 
-			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<String, Class<? extends DBDatatype>>();
+			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
 			passMap.put("column_1", DBInteger.class);
 			passMap.put("column_2", DBString.class);
 
-			xmlParserConc.createTable("table_name", passMap);
+			xmlParser.createTable("table_name", passMap);
 
-			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<String, DBDatatype>();
+			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
-			entriesMap = new LinkedHashMap<String, DBDatatype>();
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
 			entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
 			entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
-			xmlParserConc.insertIntoTable("table_name", entriesMap);
+			xmlParser.insertIntoTable("table_name", entriesMap);
 
 			Condition whereConditionDel = new Where("   column_1  !=  300  ");
 
-			RecordSet result = new RecordSet();
+			//RecordSet result = new RecordSet();
 
-			Set<String> columns = new TreeSet<String>();
+			Set<String> columns = new TreeSet<>();
 
 			columns.add("column_1");
 
-			xmlParserConc.delete("table_name", whereConditionDel);
-			RecordSet actualRes = xmlParserConc.select("table_name", null , null);
+			xmlParser.delete("table_name", whereConditionDel);
+			RecordSet actualRes = xmlParser.select("table_name", null , null);
 			Iterator<Record> actualResItr = actualRes.iterator();
 			while (actualResItr.hasNext()) {
 				assertTrue(actualResItr.next() == null);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			fail("Error occured!");
+			fail("Error occurred!");
 		}
 	}
+
+	// TODO Testing
+	// Delete with new data type date and floating-point numbers.
+	// Delete with complex and and or expressions.
 
 }

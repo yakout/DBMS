@@ -144,14 +144,14 @@ public class SQLParser {
     private Expression parseInsert(Matcher matcher) throws SyntaxErrorException {
         matcher.matches();
         String tableName = matcher.group(1);
-        String[] columns = matcher.group(2).split(",");
+        String[] columns = matcher.group(2) == null ? null : matcher.group(2).split(",");
         String[] values = matcher.group(4).split(",");
-        if (columns.length != values.length) {
+        if (columns != null && columns.length != values.length) {
             throw new SyntaxErrorException("Error: Columns number does not match values number");
         }
         HashMap<String, DBDatatype> entryMap = new LinkedHashMap<>();
-        for (int i = 0; i < columns.length; i++) {
-            String column = columns[i].trim().toLowerCase();
+        for (int i = 0; i < values.length; i++) {
+            String column = columns == null ? String.valueOf(i) : columns[i].trim().toLowerCase();
             String value = values[i].trim();
 			entryMap.put(column, DatatypeFactory.convertToDataType(DatatypeFactory.convertToObject(value)));
         }
@@ -323,8 +323,10 @@ public class SQLParser {
 	 */
 	public static void main(String[] args) {
 		try {
-			System.out.println((new SQLParser()
-					.parseOrderby("col1   DESC  ,    col2   ,  col3     ,col4,col5,col6 ASC,col7 DESC,   col8    ASC    , col9    DESC   ")));
+
+			InsertIntoTable expression = (InsertIntoTable) new SQLParser()
+					.parse("insert into table_Name values ('1996-08-17');");
+			System.out.println(expression.getEntryMap().get("0"));
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

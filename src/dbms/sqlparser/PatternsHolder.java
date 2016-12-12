@@ -94,4 +94,6 @@ public class PatternsHolder {
         }
         return dropPattern;
     }
+
+    
 }
