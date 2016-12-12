@@ -155,7 +155,8 @@ public class JSONParser extends BackendParser {
 		try {
 			parser.createDatabase(database);
 			parser.createTable(tb);
-		} catch (DatabaseNotFoundException | TableAlreadyCreatedException | DatabaseAlreadyCreatedException e) {
+		} catch (DatabaseNotFoundException | TableAlreadyCreatedException
+				| DatabaseAlreadyCreatedException e) {
 			e.printStackTrace();
 		}
 

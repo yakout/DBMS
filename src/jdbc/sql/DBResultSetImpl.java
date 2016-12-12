@@ -20,14 +20,16 @@ public class DBResultSetImpl extends DBResultSet {
     private enum State {
         OPEN, CLOSED
     };
-    private RecordSet recordSet;
+    private RecordSet recordSet = null;
     private Record current = null;
-    private State state;
-    private Position position;
+    private State state = null;
+    private Position position = null;
+    private DBResultSetMetaDataImpl metaData = null;
 
     public DBResultSetImpl(RecordSet recordSet) {
         this.recordSet = recordSet;
         position = Position.BEFORE_FIRST;
+        metaData = new DBResultSetMetaDataImpl(this);
         //TODO: Should have another parameter for statement.
     }
 
@@ -186,8 +188,7 @@ public class DBResultSetImpl extends DBResultSet {
 
     @Override
     public ResultSetMetaData getMetaData() throws SQLException {
-        //TODO
-        return null;
+        return metaData;
     }
 
     @Override
@@ -273,4 +274,9 @@ public class DBResultSetImpl extends DBResultSet {
         }
         return true;
     }
+
+    protected RecordSet getRecordSet() {
+        return recordSet;
+    }
+
 }
