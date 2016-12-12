@@ -9,10 +9,10 @@ public class WhereSyntax implements SQLSyntax {
 
     public static final String VALUE_FORMAT = "("
             + SyntaxUtil.DATE_FORMAT
+            + "|" + SyntaxUtil.NUMBER_FORMAT
             + "|" + SyntaxUtil.MULTIPLE_WORDS_SINGLE_QUOTES
             + "|" + SyntaxUtil.MULTIPLE_WORDS_DOUBLE_QUOTES
-            + "|" + SyntaxUtil.COLUMN_NAME
-            + "|" + SyntaxUtil.NUMBER_FORMAT + ")";
+            + "|" + SyntaxUtil.COLUMN_NAME + ")";
 
     private final String WHERE_REGEX = "(\\s+where\\s+(TRUE|([(]\\s*)*\\s*("
             + SyntaxUtil.COLUMN_NAME + ")\\s*"

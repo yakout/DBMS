@@ -17,7 +17,8 @@ public class BooleanExpression {
      * regex for predicate syntax used in {@link #getPredicates(String)}.
      */
     // TODO: move this to syntax package
-    private final String predicateRegex = "(TRUE|(\\w+)\\s*"
+    private final String predicateRegex = "(TRUE|("
+            + SyntaxUtil.COLUMN_NAME + ")\\s*"
             + WhereSyntax.SUPPORTED_OPERATORS + "\\s*"
             + WhereSyntax.VALUE_FORMAT+ ")";
     /**
@@ -132,6 +133,9 @@ public class BooleanExpression {
      * @return list of SQLPredicates extracted from infix.
      */
     private List<SQLPredicate> getPredicates(String infix) {
+        /**
+         *  TODO: move pattern to {@link dbms.sqlparser.syntax}
+         */
         Matcher matcher = Pattern.compile(predicateRegex).matcher(infix);
         List<SQLPredicate> sqlPredicates = new ArrayList<>();
         while (matcher.find()) {
@@ -161,9 +165,10 @@ public class BooleanExpression {
      * @param args cmd arguments
      */
     public static void main(String[] args) {
+        //System.out.println(new BooleanExpression().predicateRegex);
         Queue<Object> postfix = new LinkedList<>();
         try {
-            postfix = new BooleanExpression().toPostfix("TRUE");
+            postfix = new BooleanExpression().toPostfix("(    (    col      !=      '1996-08-17'  )   and   (     col2    =    6.255   )     )");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
         }
