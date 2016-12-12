@@ -53,8 +53,8 @@ public class XMLTestingUpdate {
 			entriesMap.clear();
 
 			LinkedHashMap<String, DBDatatype> values = new LinkedHashMap<>();
-			values.put("col_1", DatatypeFactory.convertToDataType("changed"));
-			values.put("col_2", DatatypeFactory.convertToDataType("changed"));
+			values.put("COL_1", DatatypeFactory.convertToDataType("changed"));
+			values.put("CoL_2", DatatypeFactory.convertToDataType("changed"));
 			values.put("col_3", DatatypeFactory.convertToDataType("changed"));
 			values.put("col_4", DatatypeFactory.convertToDataType(10000));
 			int updateCount = xmlParser.update("table_1", values, null, null);

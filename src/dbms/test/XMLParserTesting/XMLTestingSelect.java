@@ -48,7 +48,7 @@ public class XMLTestingSelect {
 			xmlParser.insertIntoTable("table_name", entriesMap);
 			Set<String> columns = new TreeSet<>();
 
-			columns.add("column_1");
+			columns.add("COLUMN_1");
 			columns.add("column_2");
 			RecordSet result = new RecordSet();
 			LinkedHashMap<String, DBDatatype> resExpected = new LinkedHashMap<>();

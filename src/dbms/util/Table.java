@@ -55,7 +55,8 @@ public class Table {
 
 	public Column getColumn(String name) {
 		for (Column col : columns) {
-			if (col.getName().equals(name)) {
+			if (col.getName().toLowerCase().equals(
+					name.toLowerCase())) {
 				return col;
 			}
 		}
