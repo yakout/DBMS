@@ -19,6 +19,7 @@ public class Select implements DMLStatement {
     private List<Pair<String, Boolean>> orderBy;
     private boolean isDistinct = false;
     private int updateCount = 0;
+    private RecordSet recordSet;
 
     private Where where;
 
@@ -56,6 +57,10 @@ public class Select implements DMLStatement {
         this.orderBy = orderBy;
     }
 
+    public RecordSet getRecordSet() {
+        return recordSet;
+    }
+
     @Override
     public int getUpdateCount() {
         return updateCount;
@@ -63,7 +68,7 @@ public class Select implements DMLStatement {
 
     @Override
     public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
-        RecordSet recordSet = BackendController.getInstance().select(tableName, columns, where);
+        recordSet = BackendController.getInstance().select(tableName, columns, where);
         if (isDistinct) recordSet.distinct();
         if (orderBy != null) recordSet.orderBy(orderBy);
     	Formatter.getInstance().printTable(recordSet);

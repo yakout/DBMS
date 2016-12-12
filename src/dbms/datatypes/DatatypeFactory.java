@@ -9,7 +9,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.Locale;
 
 public class DatatypeFactory {
 	private static HashMap<String, Class<? extends DBDatatype>> registeredDataTypes = null;

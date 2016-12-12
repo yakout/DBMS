@@ -33,7 +33,7 @@ public class DBDate implements DBDatatype {
 
     @Override
     public Date getValue() {
-        return null;
+        return value;
     }
 
     @Override
