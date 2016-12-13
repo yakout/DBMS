@@ -146,7 +146,7 @@ public class SmokeTest {
         try {
             Statement statement = connection.createStatement();
             statement.execute("CREATE TABLE table_name6(column_name1 varchar, column_name2 int, column_name3 varchar)");
-            statement.executeUpdate("INSERT INTO table_name6(column_name1, column_name2) VALUES ('value1', 4)");
+            statement.executeUpdate("INSERT INTO table_name6 VALUES ('value1', 4)");
             Assert.fail("Inserted with invalid column count!!");
             statement.close();
         } catch (SQLException e) {

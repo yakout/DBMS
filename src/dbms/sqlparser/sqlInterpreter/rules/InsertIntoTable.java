@@ -49,6 +49,7 @@ public class InsertIntoTable implements DMLStatement {
                 entries.add((DBDatatype) pair.getValue());
             }
             updateCount = BackendController.getInstance().insertIntoTable(tableName, entries);
+            return;
         }
         updateCount = BackendController.getInstance().insertIntoTable(tableName, entryMap);
     }

@@ -87,9 +87,9 @@ public class Table {
 
 	public int insertRow(Collection<DBDatatype> entries)
 			throws IncorrectDataEntryException {
-		if (entries == null) {
-			return 0;
-		}
+		if (entries.size() != columns.size()) {
+		    throw new IncorrectDataEntryException("Column count invalid!");
+        }
 		int i = 0;
 		for (DBDatatype entry : entries) {
 			Column col = columns.get(i);

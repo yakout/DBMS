@@ -120,9 +120,8 @@ public class BackendController {
 		System.out.print(entries.size());
 		Table table = new Database(dbName).createTable(tableName);
 		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
-		table.insertRow(entries);
+		int updateCount = table.insertRow(entries);
 		BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
-		int updateCount = 0;
 		return updateCount;
 	}
 

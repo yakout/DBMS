@@ -503,7 +503,7 @@ public class XMLTestingSelect {
 
 		BackendParserFactory.getFactory().setCurrentParser("xml");
 		try {
-			xmlParser.createDatabase("database_delete_6");
+			xmlParser.createDatabase("database_delete_7");
 
 			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
 			passMap.put("column_1", DBInteger.class);
@@ -578,9 +578,7 @@ public class XMLTestingSelect {
 
 		BackendParserFactory.getFactory().setCurrentParser("xml");
 		try {
-            xmlParser.dropDatabase("database_delete_6");
-			xmlParser.createDatabase("database_delete_6");
-
+			xmlParser.createDatabase("database_delete_9");
 			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
 			passMap.put("column_1", DBInteger.class);
 			passMap.put("column_2", DBString.class);
