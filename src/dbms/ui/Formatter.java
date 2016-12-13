@@ -119,7 +119,7 @@ public class Formatter {
     }
 
     public void printTable(RecordSet recordSet) {
-        Record firstRecord = recordSet.next();
+        Record firstRecord = recordSet.curr();
         if (recordSet.isEmpty()) {
             return;
         }
@@ -140,7 +140,7 @@ public class Formatter {
         LinkedHashMap<String, DBDatatype> map = new LinkedHashMap<>();
         map.put("ID", DatatypeFactory.convertToDataType(1));
         map.put("Name", DatatypeFactory.convertToDataType("Ahmed"));
-        map.put("Part", DatatypeFactory.convertToDataType("SQL Parser"));
+        map.put("Part", DatatypeFactory.convertToDataType("XML Parser"));
 
         LinkedHashMap<String, DBDatatype> map2 = new LinkedHashMap<>();
         map2.put("ID", DatatypeFactory.convertToDataType(5));
@@ -149,7 +149,7 @@ public class Formatter {
 
         LinkedHashMap<String, DBDatatype> map3 = new LinkedHashMap<>();
         map3.put("ID", DatatypeFactory.convertToDataType(1));
-        map3.put("Name", DatatypeFactory.convertToDataType("Anas"));
+        map3.put("Name", DatatypeFactory.convertToDataType("Ahmed"));
         map3.put("Part", DatatypeFactory.convertToDataType("XML Parser"));
 
         LinkedHashMap<String, DBDatatype> map4 = new LinkedHashMap<>();
@@ -174,6 +174,7 @@ public class Formatter {
         order.add(new Pair<>("Name", true));
         order.add(new Pair<>("Part", false));
         recordSet.orderBy(order);
-        new Formatter().printTable(recordSet);
+        recordSet.distinct();
+        new Formatter().printTable(recordSet.union(recordSet, true));
     }
 }

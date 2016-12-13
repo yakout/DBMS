@@ -167,12 +167,15 @@ public class SQLParser {
 	 */
 	private Expression parseSelect(Matcher matcher) {
 		matcher.matches();
-		String tableName = matcher.group(5);
+		String tableName = matcher.group(6);
 		Select select = new Select(tableName);
-		if (matcher.group(4) != null) {
+        if (matcher.group(1) != null) {
+            select.distinct();
+        }
+		if (matcher.group(5) != null) {
 			select.setColumns(null);
 		} else {
-			String[] columnsTemp = matcher.group(2).split(",");
+			String[] columnsTemp = matcher.group(3).split(",");
 			Collection<String> columns = new ArrayList<>();
 			for (int i = 0; i < columnsTemp.length; i++) {
 				columns.add(columnsTemp[i].trim().toLowerCase());
@@ -180,11 +183,11 @@ public class SQLParser {
 			select.setColumns(columns);
 		}
 
-		if (matcher.group(7) != null) { // if there is order by statement.
-            select.setOrderBy(parseOrderby(matcher.group(7)));
+		if (matcher.group(8) != null) { // if there is order by statement.
+            select.setOrderBy(parseOrderby(matcher.group(8)));
 		}
-		if (matcher.group(11) != null) { // if there is where condition
-			select.setWhere(new Where(matcher.group(11)));
+		if (matcher.group(12) != null) { // if there is where condition
+			select.setWhere(new Where(matcher.group(12)));
 		}
 		return select;
 	}
@@ -209,6 +212,11 @@ public class SQLParser {
 		}
 		return columns;
 	}
+
+
+    Expression parseUnion(Matcher matcher) {
+        return null;
+    }
 
 	/**
 	 * parse drop statement.
@@ -323,10 +331,11 @@ public class SQLParser {
 	 */
 	public static void main(String[] args) {
 		try {
-
-			InsertIntoTable expression = (InsertIntoTable) new SQLParser()
-					.parse("insert into table_Name values ('1996-08-17');");
-			System.out.println(expression.getEntryMap().get("0"));
+            System.out.print(SelectSyntax.getInstance().getRegex());
+            Select expression = (Select) new SQLParser()
+					.parse("select table_Name values ('1996-08-17');");
+			expression.execute();
+			// System.out.println(expression.getEntryMap().get("0"));
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

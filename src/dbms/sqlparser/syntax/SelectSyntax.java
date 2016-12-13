@@ -14,7 +14,7 @@ public class SelectSyntax implements SQLSyntax {
     private final String ORDERBY_REGEX = "(\\s+(?i)(?:order\\s+by)(?-i)\\s+"
             + ORDERBY_COLUMNS_FORMAT + ")?";
 
-    private final String SELECT_REGEX = "(?i)^\\s*select\\s+(?:distinct\\s+)?"
+    private final String SELECT_REGEX = "(?i)^\\s*select\\s+(distinct\\s+)?"
             + COLUMNS_FORMAT + "\\s+from\\s+("
             + SyntaxUtil.TABLE_NAME + ")"
             + ORDERBY_REGEX

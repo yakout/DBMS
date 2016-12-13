@@ -1,23 +1,16 @@
 package dbms.test;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-import com.google.gson.GsonBuilder;
 import dbms.backend.BackendController;
-import dbms.backend.BackendParserFactory;
-import dbms.backend.parsers.xml.XMLParser;
 import dbms.datatypes.DBDatatype;
 import dbms.datatypes.DBDate;
 import dbms.datatypes.DBInteger;
 import dbms.datatypes.DBString;
 import dbms.exception.*;
 import dbms.sqlparser.SQLParser;
-import dbms.sqlparser.sqlInterpreter.rules.Expression;
 import dbms.util.RecordSet;
 
 import java.io.FileNotFoundException;
 import java.sql.Date;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -31,6 +24,12 @@ public class Test {
 			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender, Date) VALUES (16, 'what_ever', 'Female', '1996-12-15');").execute();
 			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender, Date) VALUES (17, 'Yakouts GF', 'Male', '1995-08-08');").execute();
 			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolbas', 'Female');").execute();
+			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolbas', 'Female');").execute();
+			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolbas', 'Female');").execute();
+			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolbas', 'Female');").execute();
+
+			SQLParser.getInstance().parse("select distinct * from table1 order by ID DESC;").execute();
+
 			Collection<DBDatatype> entries = new ArrayList<DBDatatype>();
 			entries.add(new DBInteger(5));
 			entries.add(new DBString("awalid"));

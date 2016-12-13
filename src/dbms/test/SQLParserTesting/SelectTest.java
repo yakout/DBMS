@@ -10,9 +10,7 @@ import dbms.util.Operator;
 import javafx.util.Pair;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Queue;
-import java.util.StringJoiner;
 
 import static org.junit.Assert.*;
 
@@ -1312,6 +1310,31 @@ public class SelectTest extends SqlParserRef {
 		}
 	}
 
+
+
+	@Test
+	public void testSelectWithUnionClauseFortyThree() {
+		try {
+			selectObjAct = sqlParserObjTest.parse(
+					"        SELECT       distinct col1 , col2 , col3      FROM   customers      " +
+							"     order by country ASC      ,   cities DESC     , towns ASC       ;            ");
+			assertEquals("customers", ((Select) selectObjAct).getTableName().toLowerCase());
+			String[] columnsStr = {"col1", "col2" , "col3"};
+			assertArrayEquals(columnsStr,((Select) selectObjAct).getColumns().toArray());
+			Object[] orderByAct = ((Select) selectObjAct).getOrderBy().toArray();
+			Pair columns = new Pair<>("country",false);
+			Object[] orderByExp = new Object[3];
+			orderByExp[0] = columns;
+			columns = new Pair<>("cities",true);
+			orderByExp[1] = columns;
+			columns = new Pair<>("towns",false);
+			orderByExp[2] = columns;
+			assertArrayEquals(orderByAct,orderByExp);
+		} catch (SyntaxErrorException e) {
+			e.printStackTrace();
+			fail("SyntaxErrorException thrown or AssertionError occurred!");
+		}
+	}
 
 
 	// TODO Testing

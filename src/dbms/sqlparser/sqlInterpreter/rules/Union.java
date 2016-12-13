@@ -11,6 +11,7 @@ import java.util.List;
 public class Union implements DMLStatement {
     private List<Select> selects;
     private int updateCount = 0;
+    private boolean removeDuplicates = true;
 
     public Union(Select... selects) {
         this.selects = Arrays.asList(selects);
@@ -31,7 +32,7 @@ public class Union implements DMLStatement {
         for (Select select : selects) {
             // TODO handel order by and distinct
             result.union(BackendController.getInstance().select(select.getTableName(),
-                    select.getColumns(), select.getWhere()));
+                    select.getColumns(), select.getWhere()), removeDuplicates);
         }
 
         Formatter.getInstance().printTable(result);

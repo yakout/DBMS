@@ -61,6 +61,10 @@ public class Select implements DMLStatement {
         return recordSet;
     }
 
+    public void distinct() {
+        isDistinct = true;
+    }
+
     @Override
     public int getUpdateCount() {
         return updateCount;

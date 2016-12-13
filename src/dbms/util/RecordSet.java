@@ -1,8 +1,6 @@
 package dbms.util;
 
-import com.google.gson.Gson;
 import dbms.datatypes.DBDatatype;
-
 import javafx.util.Pair;
 
 import java.util.*;
@@ -30,7 +28,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 	 * if records and copies data from it.
 	 * @param records {@link ArrayList} of records.
 	 */
-    public RecordSet(List<Record> records) {
+    public RecordSet(Collection<Record> records) {
 		this.records = new ArrayList<>();
 		columns = new ArrayList<>();
 		for (Record res : records) {
@@ -69,6 +67,17 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 	public void add(Record record) {
 		records.add(record);
 	}
+
+
+    /**
+     * Add all elements of {@link Record} in given Collection to records.
+     * @param records {@link Collection<Record>}.
+     */
+    public void addAll(Collection<Record> records) {
+        for (Record record : records) {
+            records.add(record);
+        }
+    }
 
 	/**
 	 * Gets number of records in set.
@@ -172,7 +181,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
      * remove duplicates from records.
      */
     public void distinct() {
-        Set<Record> distinctRecords = new HashSet<>();
+        Set<Record> distinctRecords = new LinkedHashSet<>();
         for (Record record : records) {
             distinctRecords.add(record);
         }
@@ -180,12 +189,18 @@ public class RecordSet implements Iterable<Record>, Cloneable {
         records.addAll(distinctRecords);
     }
 
-    public RecordSet union(RecordSet recordSet) {
-        RecordSet result = new RecordSet(records);
+    public RecordSet union(RecordSet recordSet, Boolean removeDuplicates) {
+        Collection<Record> result;
+        if (removeDuplicates) {
+            result = new LinkedHashSet<>(records);
+        } else {
+            result = new ArrayList<>(records);
+        }
+        result.add(recordSet.curr());
         while(recordSet.hasNext()) {
             result.add(recordSet.next());
         }
-        return result;
+        return new RecordSet(result);
     }
 
 	@Override
