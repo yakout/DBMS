@@ -1110,8 +1110,4 @@ public class DeleteTest extends SqlParserRef {
 		}
 	}
 
-	// TODO Testing
-	// Delete with new data type date and floating-point numbers.
-	// Delete with complex and and or expressions.
-
 }
