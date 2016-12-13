@@ -156,7 +156,9 @@ public class SQLParser {
             String value = values[i].trim();
 			entryMap.put(column, DatatypeFactory.convertToDataType(DatatypeFactory.convertToObject(value)));
         }
-        return new InsertIntoTable(tableName, entryMap);
+        InsertIntoTable insertIntoTable = new InsertIntoTable(tableName, entryMap);
+        if (columns == null) insertIntoTable.insertWithNoColumns(true);
+        return insertIntoTable;
     }
 
 	/**
@@ -341,11 +343,9 @@ public class SQLParser {
 	 */
 	public static void main(String[] args) {
 		try {
-            // String[] selects = "ahmed khalid fd union    all fblabf af d".split("(union\\s+all|union)");
-            // System.out.println(selects[1]);
-            //Select expression = (Select) new SQLParser().parse("select table_Name values ('1996-08-17');");
-			//expression.execute();
-			// System.out.println(expression.getEntryMap().get("0"));
+//            InsertIntoTable expression = (InsertIntoTable) new SQLParser()
+//                    .parse("insert into table_Name values ('1996-08-17');");
+//			expression.execute();
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

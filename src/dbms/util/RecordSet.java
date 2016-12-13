@@ -203,7 +203,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
         } else {
             result = new ArrayList<>(records);
         }
-        result.add(recordSet.curr());
+        result.add(recordSet.next());
         while(recordSet.hasNext()) {
             result.add(recordSet.next());
         }

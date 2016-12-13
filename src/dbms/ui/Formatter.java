@@ -119,7 +119,7 @@ public class Formatter {
     }
 
     public void printTable(RecordSet recordSet) {
-        Record firstRecord = recordSet.curr();
+        Record firstRecord = recordSet.next();
         if (recordSet.isEmpty()) {
             return;
         }

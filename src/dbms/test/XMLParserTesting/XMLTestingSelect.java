@@ -578,6 +578,7 @@ public class XMLTestingSelect {
 
 		BackendParserFactory.getFactory().setCurrentParser("xml");
 		try {
+            xmlParser.dropDatabase("database_delete_6");
 			xmlParser.createDatabase("database_delete_6");
 
 			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
