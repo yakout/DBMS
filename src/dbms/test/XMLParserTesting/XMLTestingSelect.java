@@ -7,14 +7,13 @@ import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.sqlparser.sqlInterpreter.Where;
 import dbms.util.Record;
 import dbms.util.RecordSet;
+import javafx.util.Pair;
 import org.junit.Test;
 import java.sql.Date;
 
 import java.util.*;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class XMLTestingSelect {
 
@@ -303,6 +302,7 @@ public class XMLTestingSelect {
 
 	}
 
+
 	public void testFive() {
 
 		BackendParserFactory.getFactory().setCurrentParser("xml");
@@ -353,8 +353,10 @@ public class XMLTestingSelect {
 			resExpected = new LinkedHashMap<>();
 			resExpected.put("column_1", null);
 			resExpected.put("column_2",
-					DatatypeFactory.convertToDataType("HelloFromTheOtherSideFamHHHHhhhHHHHhhhhjkvh sdkjdhlvhczxhvsdhnufhs , oidnoiwhadshkfnh [fsnanhdx"));
-			resExpected.put("column_3", DatatypeFactory.convertToDataType("noAgainNohnifyueirefucnyweifyuewuciuuighrmoxarignriegxfiwhiufhzr"));
+					DatatypeFactory.convertToDataType("HelloFromTheOtherSideFamHHHHhhhH" +
+							"HHHhhhhjkvh sdkjdhlvhczxhvsdhnufhs , oidnoiwhadshkfnh [fsnanhdx"));
+			resExpected.put("column_3", DatatypeFactory.convertToDataType("noAgainNohnifyueirefucn" +
+					"yweifyuewuciuuighrmoxarignriegxfiwhiufhzr"));
 			recordSet.add(new Record(resExpected));
 
 			RecordSet actualRes = xmlParser.select("table_name", columns, null);
@@ -578,7 +580,8 @@ public class XMLTestingSelect {
 
 		BackendParserFactory.getFactory().setCurrentParser("xml");
 		try {
-			xmlParser.createDatabase("database_delete_9");
+			xmlParser.createDatabase("database_delete_8");
+
 			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
 			passMap.put("column_1", DBInteger.class);
 			passMap.put("column_2", DBString.class);
@@ -649,13 +652,616 @@ public class XMLTestingSelect {
 		}
 	}
 
+	@Test
+	public void testTen() {
+
+		BackendParserFactory.getFactory().setCurrentParser("xml");
+		try {
+			xmlParser.createDatabase("database_delete_9");
+
+			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
+			passMap.put("column_1", DBInteger.class);
+			passMap.put("column_2", DBString.class);
+			passMap.put("column_3", DBDate.class);
+			passMap.put("column_4", DBFloat.class);
+
+			xmlParser.createTable("table_name", passMap);
+
+			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-10.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+
+			Condition whereConditionDel = new Where("  ( (column_1  >  300) and (column_3 > '2001-10-1'))  ");
+
+			Collection<String> selectedColumns = new ArrayList<>();
+
+
+			selectedColumns.add("column_4");
+			selectedColumns.add("column_3");
+
+
+			RecordSet actualRes = xmlParser.select("table_name", selectedColumns , whereConditionDel);
+			Object[] recordsAct = actualRes.getRecords().toArray();
+			Object[] recordsExp = new Object[2];
+
+			Record expectedRecord = new Record();
+
+			expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-10.55));
+			expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
+
+			recordsExp[0] = expectedRecord;
+
+			expectedRecord = new Record();
+
+			expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-0.55));
+			expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2002-10-01")));
+
+			recordsExp[1] = expectedRecord;
+
+			assertArrayEquals(recordsExp,recordsAct);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Error occurred!");
+		}
+	}
+
+	@Test
+	public void testEleven() {
+
+		BackendParserFactory.getFactory().setCurrentParser("xml");
+		try {
+			xmlParser.createDatabase("database_delete_10");
+
+			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
+			passMap.put("column_1", DBInteger.class);
+			passMap.put("column_2", DBString.class);
+			passMap.put("column_3", DBDate.class);
+			passMap.put("column_4", DBFloat.class);
+
+			xmlParser.createTable("table_name", passMap);
+
+			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-10.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+
+			Condition whereConditionDel = new Where("  ( (column_1  >  300) and (column_3 > '2001-10-1'))  ");
+
+			Collection<String> selectedColumns = new ArrayList<>();
+
+
+			selectedColumns.add("COlUmn_4");
+			selectedColumns.add("colUMN_3");
+
+
+			RecordSet actualRes = xmlParser.select("table_name", selectedColumns , whereConditionDel);
+			Object[] recordsAct = actualRes.getRecords().toArray();
+			Object[] recordsExp = new Object[2];
+
+			Record expectedRecord = new Record();
+
+			expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-10.55));
+			expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
+
+			recordsExp[0] = expectedRecord;
+
+			expectedRecord = new Record();
+
+			expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-0.55));
+			expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2002-10-01")));
+
+			recordsExp[1] = expectedRecord;
+
+			assertArrayEquals(recordsExp,recordsAct);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Error occurred!");
+		}
+	}
+
+	@Test
+	public void testTwelve() {
+
+		BackendParserFactory.getFactory().setCurrentParser("xml");
+		try {
+			xmlParser.createDatabase("database_delete_13");
+
+			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
+			passMap.put("column_1", DBInteger.class);
+			passMap.put("column_2", DBString.class);
+			passMap.put("column_3", DBDate.class);
+			passMap.put("column_4", DBFloat.class);
+
+			xmlParser.createTable("table_name", passMap);
+
+			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+
+			Condition whereConditionDel = new Where("  ( (column_1  >  300) and (column_4 > -1.0))  ");
+
+			Collection<String> selectedColumns = new ArrayList<>();
+
+
+			selectedColumns.add("COlUmn_4");
+			selectedColumns.add("colUMN_3");
+
+
+			RecordSet actualRes = xmlParser.select("table_name", selectedColumns , whereConditionDel);
+			Object[] recordsAct = actualRes.getRecords().toArray();
+			Object[] recordsExp = new Object[1];
+
+			Record expectedRecord = new Record();
+
+			expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-0.55));
+			expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2002-10-01")));
+
+			recordsExp[0] = expectedRecord;
+
+			assertArrayEquals(recordsExp,recordsAct);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Error occurred!");
+		}
+	}
+
+	@Test
+	public void testThirteen() {
+
+		BackendParserFactory.getFactory().setCurrentParser("xml");
+		try {
+			xmlParser.createDatabase("database_delete_12");
+
+			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
+			passMap.put("column_1", DBInteger.class);
+			passMap.put("column_2", DBString.class);
+			passMap.put("column_3", DBDate.class);
+			passMap.put("column_4", DBFloat.class);
+
+			xmlParser.createTable("table_name", passMap);
+
+			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-1")));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+
+			Condition whereConditionDel = new Where("  ( (column_1  >  300) and (column_4 > -1.0))  ");
+
+			RecordSet actualRes = xmlParser.select("table_name", null , whereConditionDel);
+			Object[] recordsAct = actualRes.getRecords().toArray();
+			assertEquals(recordsAct.length , 0);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Error occurred!");
+		}
+	}
+
+	@Test
+	public void testFourteen() {
+
+		BackendParserFactory.getFactory().setCurrentParser("xml");
+		try {
+			xmlParser.createDatabase("database_delete_11");
+
+			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
+			passMap.put("column_1", DBInteger.class);
+			passMap.put("column_2", DBString.class);
+			passMap.put("column_3", DBDate.class);
+			passMap.put("column_4", DBFloat.class);
+
+			xmlParser.createTable("table_name", passMap);
+
+			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+
+			Condition whereConditionDel = new Where("  ( (column_1  >  300) and (column_3 > '2001-10-1'))  ");
+
+			Collection<String> selectedColumns = new ArrayList<>();
+
+
+			selectedColumns.add("COlUmn_4");
+			selectedColumns.add("colUMN_3");
+
+
+			RecordSet actualRes = xmlParser.select("table_name", selectedColumns , whereConditionDel);
+			RecordSet actualResUpdated = new RecordSet(actualRes.getRecords());
+			actualResUpdated.distinct();
+			Object[] recordsAct = actualResUpdated.getRecords().toArray();
+			Object[] recordsExp = new Object[1];
+
+			Record expectedRecord = new Record();
+
+			expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-0.55));
+			expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
+
+			recordsExp[0] = expectedRecord;
+
+			assertArrayEquals(recordsExp,recordsAct);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Error occurred!");
+		}
+	}
+
+	@Test
+	public void testFifteen() {
+
+		BackendParserFactory.getFactory().setCurrentParser("xml");
+		try {
+			xmlParser.createDatabase("database_delete_15");
+
+			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
+			passMap.put("column_1", DBInteger.class);
+			passMap.put("column_2", DBString.class);
+			passMap.put("column_3", DBDate.class);
+			passMap.put("column_4", DBFloat.class);
+
+			xmlParser.createTable("table_name", passMap);
+
+			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2010-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-55.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+
+			Condition whereConditionDel = new Where("  ( (column_1  >  300) and (column_3 > '2001-10-1'))  ");
+
+			Collection<String> selectedColumns = new ArrayList<>();
+
+
+			selectedColumns.add("COlUmn_4");
+			selectedColumns.add("colUMN_3");
+
+            List<Pair<String,Boolean> > orderByCols = new ArrayList<>();
+
+            orderByCols.add(new Pair<>("coluMN_3",false));
+
+			RecordSet actualRes = xmlParser.select("table_name", selectedColumns , whereConditionDel);
+			RecordSet actualResUpdated = new RecordSet(actualRes.getRecords());
+			actualResUpdated.orderBy(orderByCols);
+			Object[] recordsAct = actualResUpdated.getRecords().toArray();
+			Object[] recordsExp = new Object[2];
+
+			Record expectedRecord = new Record();
+
+
+			expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-55.55));
+			expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
+
+			recordsExp[0] = expectedRecord;
+
+			expectedRecord = new Record();
+
+			expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-2.55));
+			expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2010-10-01")));
+
+			recordsExp[1] = expectedRecord;
+
+			assertArrayEquals(recordsExp,recordsAct);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Error occurred!");
+		}
+	}
+
+
+	@Test
+	public void testSixteen() {
+
+		BackendParserFactory.getFactory().setCurrentParser("xml");
+		try {
+			xmlParser.createDatabase("database_delete_16");
+
+			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
+			passMap.put("column_1", DBInteger.class);
+			passMap.put("column_2", DBString.class);
+			passMap.put("column_3", DBDate.class);
+			passMap.put("column_4", DBFloat.class);
+
+			xmlParser.createTable("table_name", passMap);
+
+			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2010-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-55.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+
+			Condition whereConditionDel = new Where("  ( (column_1  >  300) and (column_3 > '2001-10-1'))  ");
+
+			Collection<String> selectedColumns = new ArrayList<>();
+
+
+			selectedColumns.add("COlUmn_4");
+			selectedColumns.add("colUMN_3");
+
+			List<Pair<String,Boolean> > orderByCols = new ArrayList<>();
+
+			orderByCols.add(new Pair<>("coluMN_3",true));
+
+			RecordSet actualRes = xmlParser.select("table_name", selectedColumns , whereConditionDel);
+			RecordSet actualResUpdated = new RecordSet(actualRes.getRecords());
+			actualResUpdated.orderBy(orderByCols);
+			Object[] recordsAct = actualResUpdated.getRecords().toArray();
+			Object[] recordsExp = new Object[2];
+
+			Record expectedRecord = new Record();
+
+			expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-2.55));
+			expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2010-10-01")));
+
+			recordsExp[0] = expectedRecord;
+
+			expectedRecord = new Record();
+
+			expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-55.55));
+			expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
+
+			recordsExp[1] = expectedRecord;
+
+			assertArrayEquals(recordsExp,recordsAct);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Error occurred!");
+		}
+	}
+
+	@Test
+	public void testSeventeen() {
+
+		BackendParserFactory.getFactory().setCurrentParser("xml");
+		try {
+			xmlParser.createDatabase("database_delete_17");
+
+			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
+			passMap.put("column_1", DBInteger.class);
+			passMap.put("column_2", DBString.class);
+			passMap.put("column_3", DBDate.class);
+			passMap.put("column_4", DBFloat.class);
+
+			xmlParser.createTable("table_name", passMap);
+
+			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2010-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-55.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+			entriesMap = new LinkedHashMap<>();
+			entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
+			entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
+			entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
+			entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
+			xmlParser.insertIntoTable("table_name", entriesMap);
+
+			Condition whereConditionDel = new Where("  ( (column_1  >  300) and (column_3 > '2001-10-1'))  ");
+
+			Collection<String> selectedColumns = new ArrayList<>();
+
+			selectedColumns.add("COlUmn_4");
+
+			List<Pair<String,Boolean> > orderByCols = new ArrayList<>();
+
+			orderByCols.add(new Pair<>("coluMN_3",true));
+
+			RecordSet actualRes = xmlParser.select("table_name", selectedColumns , whereConditionDel);
+			RecordSet actualResUpdated = new RecordSet(actualRes.getRecords());
+			actualResUpdated.orderBy(orderByCols);
+			Object[] recordsAct = actualResUpdated.getRecords().toArray();
+			Object[] recordsExp = new Object[2];
+
+			Record expectedRecord = new Record();
+
+			expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-2.55));
+
+			recordsExp[0] = expectedRecord;
+
+			expectedRecord = new Record();
+
+			expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-55.55));
+
+			recordsExp[1] = expectedRecord;
+
+			assertArrayEquals(recordsExp,recordsAct);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Error occurred!");
+		}
+	}
+
 
 	// TODO Testing
 	// Select with Union clause.
-	// Select with Distinct clause.
-	// Select with Order by clause.
-	// Select with new data types Date, floating-point numbers.
-	// Select with complex and and or expressions.
-	// Select columns with different order.
-	// Select columns case insensitive.
 }
