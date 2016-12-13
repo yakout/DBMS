@@ -53,6 +53,10 @@ public class Select implements DMLStatement {
         return orderBy;
     }
 
+    public boolean isDistinct() {
+        return isDistinct;
+    }
+
     public void setOrderBy(List<Pair<String, Boolean>> orderBy) {
         this.orderBy = orderBy;
     }

@@ -1017,7 +1017,7 @@ public class SelectTest extends SqlParserRef {
 	}
 
 	@Test
-	public void testDeleteTableSyntaxParsingThirtyTwo() {
+	public void testSelectTableSyntaxParsingThirtyTwo() {
 		try {
 			selectObjAct = sqlParserObjTest.parse(
 					"       Select         * FROM             TABLE_NAME_88         " +
@@ -1074,7 +1074,7 @@ public class SelectTest extends SqlParserRef {
 	}
 
 	@Test
-	public void testDeleteTableSyntaxParsingThirtyThree() {
+	public void testSelectTableSyntaxParsingThirtyThree() {
 		try {
 			selectObjAct = sqlParserObjTest.parse(
 					"       Select         * FROM             TABLE_NAME_88         " +
@@ -1131,7 +1131,7 @@ public class SelectTest extends SqlParserRef {
 	}
 
 	@Test
-	public void testDeleteTableSyntaxParsingThirtyFour() {
+	public void testSelectTableSyntaxParsingThirtyFour() {
 		try {
 			selectObjAct = sqlParserObjTest.parse(
 					"        SELECT               col3, col2 , col1         FROM       " +
@@ -1151,7 +1151,7 @@ public class SelectTest extends SqlParserRef {
 	}
 
 	@Test
-	public void testDeleteTableSyntaxParsingThirtyFive() {
+	public void testSelectTableSyntaxParsingThirtyFive() {
 		try {
 			selectObjAct = sqlParserObjTest.parse(
 					"        SELECT               col3, col2 , col1         FROM         " +
@@ -1171,7 +1171,7 @@ public class SelectTest extends SqlParserRef {
 	}
 
 	@Test
-	public void testDeleteTableSyntaxParsingThirtySix() {
+	public void testSelectTableSyntaxParsingThirtySix() {
 		try {
 			selectObjAct = sqlParserObjTest.parse(
 					"        SELECT               col3, col2 , col1         FROM         " +
@@ -1191,7 +1191,7 @@ public class SelectTest extends SqlParserRef {
 	}
 
 	@Test
-	public void testDeleteTableSyntaxParsingThirtySeven() {
+	public void testSelectTableSyntaxParsingThirtySeven() {
 		try {
 			selectObjAct = sqlParserObjTest.parse(
 					"        SELECT       *      FROM   customers      " +
@@ -1209,7 +1209,7 @@ public class SelectTest extends SqlParserRef {
 	}
 
 	@Test
-	public void testDeleteTableSyntaxParsingThirtyEight() {
+	public void testSelectTableSyntaxParsingThirtyEight() {
 		try {
 			selectObjAct = sqlParserObjTest.parse(
 					"        SELECT       *      FROM   customers      " +
@@ -1227,7 +1227,7 @@ public class SelectTest extends SqlParserRef {
 	}
 
 	@Test
-	public void testDeleteTableSyntaxParsingThirtyNine() {
+	public void testSelectTableSyntaxParsingThirtyNine() {
 		try {
 			selectObjAct = sqlParserObjTest.parse(
 					"        SELECT       *      FROM   customers      " +
@@ -1245,7 +1245,7 @@ public class SelectTest extends SqlParserRef {
 	}
 
 	@Test
-	public void testDeleteTableSyntaxParsingForty() {
+	public void testSelectTableSyntaxParsingForty() {
 		try {
 			selectObjAct = sqlParserObjTest.parse(
 					"        SELECT       *      FROM   customers      " +
@@ -1265,7 +1265,7 @@ public class SelectTest extends SqlParserRef {
 	}
 
 	@Test
-	public void testDeleteTableSyntaxParsingFortyOne() {
+	public void testSelectTableSyntaxParsingFortyOne() {
 		try {
 			selectObjAct = sqlParserObjTest.parse(
 					"        SELECT       *      FROM   customers      " +
@@ -1287,7 +1287,7 @@ public class SelectTest extends SqlParserRef {
 	}
 
 	@Test
-	public void testDeleteTableSyntaxParsingFortyTwo() {
+	public void testSelectTableSyntaxParsingFortyTwo() {
 		try {
 			selectObjAct = sqlParserObjTest.parse(
 					"        SELECT       col1 , col2 , col3      FROM   customers      " +
@@ -1321,6 +1321,7 @@ public class SelectTest extends SqlParserRef {
 			assertEquals("customers", ((Select) selectObjAct).getTableName().toLowerCase());
 			String[] columnsStr = {"col1", "col2" , "col3"};
 			assertArrayEquals(columnsStr,((Select) selectObjAct).getColumns().toArray());
+			assertEquals(true,((Select) selectObjAct).isDistinct());
 			Object[] orderByAct = ((Select) selectObjAct).getOrderBy().toArray();
 			Pair columns = new Pair<>("country",false);
 			Object[] orderByExp = new Object[3];
@@ -1340,7 +1341,7 @@ public class SelectTest extends SqlParserRef {
 	// TODO Testing
 	// Select with new data types Date, floating-point numbers. // done
 	// Select with Union clause. //pending
-	// Select with Distinct clause. //pending
+	// Select with Distinct clause. // done
 	// Select with Order by clause. // done
 	// Select with complex and and or expressions. // done
 }
