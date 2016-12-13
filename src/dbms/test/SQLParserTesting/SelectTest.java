@@ -1313,7 +1313,7 @@ public class SelectTest extends SqlParserRef {
 
 
 	@Test
-	public void testSelectWithUnionClauseFortyThree() {
+	public void testSelectTableSyntaxParsingFortyThree() {
 		try {
 			selectObjAct = sqlParserObjTest.parse(
 					"        SELECT       distinct col1 , col2 , col3      FROM   customers      " +
