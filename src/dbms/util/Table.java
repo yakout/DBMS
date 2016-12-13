@@ -153,7 +153,7 @@ public class Table {
 			LinkedHashMap<String, DBDatatype> row =
 					getRow(i, columns);
 			if (!row.isEmpty() && (condition == null || Evaluator.getInstance()
-					.evaluate(row, condition.getPostfix(), mapColumns()))) {
+					.evaluate(getRow(i, null), condition.getPostfix(), mapColumns()))) {
 				res.add(new Record(row));
 			}
 		}
@@ -216,17 +216,20 @@ public class Table {
 		LinkedHashMap<String, DBDatatype> ret =
 				new LinkedHashMap<String, DBDatatype>();
 		Collection<String> columnsLower = new ArrayList<>();
-		if (columns != null) {
-			for (String col : columns) {
-				columnsLower.add(col.toLowerCase());
-			}
-		}
-		for (Column col : this.columns) {
-			if (columns == null
-					|| columnsLower.contains(col.getName().toLowerCase())) {
-				ret.put(col.getName(), col.get(index));
-			}
-		}
+		if (columns == null) {
+		    for (Column col : this.columns) {
+                ret.put(col.getName(), col.get(index));
+            }
+        } else {
+            for (String colName : columns) {
+                for (Column col : this.columns) {
+                    if (colName.toLowerCase().equals(
+                            col.getName().toLowerCase())) {
+                        ret.put(col.getName(), col.get(index));
+                    }
+                }
+            }
+        }
 		return ret;
 	}
 

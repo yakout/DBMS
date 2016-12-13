@@ -29,22 +29,9 @@ public class Test {
 			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolbas', 'Female');").execute();
 			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolbas', 'Female');").execute();
 
-//            SQLParser.getInstance().parse("select distinct * from table1 order by ID DESC;").execute();
-            SQLParser.getInstance().parse("SELECT * FROM table1 WHERE ID < 18; UNION SELECT * FROM table1 WHERE ID < 18;").execute();
+            SQLParser.getInstance().parse("SELECT * FROM table1 UNION SELECT * FROM table1 WHERE ID < 18").execute();
 
 
-			Collection<DBDatatype> entries = new ArrayList<DBDatatype>();
-			entries.add(new DBInteger(5));
-			entries.add(new DBString("awalid"));
-			entries.add(new DBString("Male"));
-			entries.add(new DBDate(new Date(System.currentTimeMillis())));
-			BackendController.getInstance().insertIntoTable("table1", entries);
-			Collection<String> columns = new ArrayList<>();
-			columns.add("ID");
-			columns.add("name");
-			columns.add("gender");
-			RecordSet rs = BackendController.getInstance().select("table1", columns, null);
-			System.out.print("x");
 		} catch (DatabaseNotFoundException | TableNotFoundException | SyntaxErrorException | DataTypeNotSupportedException | TableAlreadyCreatedException | DatabaseAlreadyCreatedException | IncorrectDataEntryException e) {
 			e.printStackTrace();
 		}

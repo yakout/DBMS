@@ -1,0 +1,129 @@
+package jdbc.imp.statement;
+
+import dbms.exception.*;
+import dbms.sqlparser.SQLParser;
+import dbms.sqlparser.sqlInterpreter.rules.DDLStatement;
+import dbms.sqlparser.sqlInterpreter.rules.DMLStatement;
+import dbms.sqlparser.sqlInterpreter.rules.Expression;
+import dbms.sqlparser.sqlInterpreter.rules.Select;
+import dbms.util.RecordSet;
+import jdbc.imp.resultSet.DBResultSetImpl;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class StatementAdapter extends DBStatement {
+    private Connection connection;
+    private List<String> batch;
+    private ResultSet resultSet;
+
+    public StatementAdapter(Connection connection) {
+        this.connection = connection;
+        this.batch = new ArrayList<>();
+    }
+
+    @Override
+    public Connection getConnection() throws SQLException {
+        return connection;
+    }
+
+
+    @Override
+    public void addBatch(String sql) throws SQLException {
+        batch.add(sql);
+    }
+
+    @Override
+    public void clearBatch() throws SQLException {
+        batch.clear();
+    }
+
+    @Override
+    public int[] executeBatch() throws SQLException {
+        int[] values = new int[batch.size()];
+        for (int i = 0; i < batch.size() ; i++) {
+            String query = batch.get(i);
+            if (execute(query)) values[i] = SUCCESS_NO_INFO;
+            values[i] = executeUpdate(query);
+        }
+        return values;
+    }
+
+    @Override
+    public boolean execute(String sql) throws SQLException {
+        try {
+            Expression expression = SQLParser.getInstance().parse(sql);
+            expression.execute();
+            if (expression.getClass() == Select.class) {
+                expression.execute();
+                RecordSet recordSet = ((Select) expression).getRecordSet();
+                resultSet = new DBResultSetImpl(this, recordSet);
+                if (recordSet.size() == 0) {
+                    return false;
+                }
+                return true;
+            }
+        } catch (dbms.exception.SyntaxErrorException
+                | IncorrectDataEntryException | DataTypeNotSupportedException
+                | DatabaseNotFoundException | TableNotFoundException
+                | DatabaseAlreadyCreatedException | TableAlreadyCreatedException e) {
+            throw new SQLException();
+        }
+        return false; // insert, update, delete, drop, create, use, alter ...
+    }
+
+    @Override
+    public ResultSet executeQuery(String sql) throws SQLException {
+        try {
+            Expression expression = SQLParser.getInstance().parse(sql);
+            expression.execute();
+            RecordSet recordSet = ((Select) expression).getRecordSet();
+            resultSet = new DBResultSetImpl(this, recordSet);
+            return resultSet;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SQLException(e.toString());
+        }
+    }
+
+    @Override
+    public int executeUpdate(String sql) throws SQLException {
+        try {
+            Expression expression = SQLParser.getInstance().parse(sql);
+            expression.execute();
+            if (expression instanceof DDLStatement) {
+                return 0;
+            } else if (expression instanceof DMLStatement) {
+                return ((DMLStatement) expression).getUpdateCount();
+            }
+        } catch (SyntaxErrorException
+                | IncorrectDataEntryException | DataTypeNotSupportedException
+                | DatabaseNotFoundException | TableNotFoundException
+                | DatabaseAlreadyCreatedException | TableAlreadyCreatedException e) {
+            e.printStackTrace();
+            throw new SQLException(e.toString());
+        }
+        throw new SQLException();
+    }
+
+    @Override
+    public ResultSet getResultSet() throws SQLException {
+        return resultSet;
+    }
+
+
+    @Override
+    public int getUpdateCount() throws SQLException {
+        return super.getUpdateCount();
+    }
+
+    @Override
+    public void close() throws SQLException {
+        connection = null;
+        batch = null;
+        resultSet = null;
+    }
+}

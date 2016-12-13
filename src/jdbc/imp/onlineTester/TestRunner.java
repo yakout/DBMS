@@ -1,4 +1,4 @@
-package dbms.test.onlineTester;
+package jdbc.imp.onlineTester;
 
 import org.junit.Assert;
 import org.junit.runner.JUnitCore;

@@ -119,10 +119,10 @@ public class Formatter {
     }
 
     public void printTable(RecordSet recordSet) {
-        Record firstRecord = recordSet.next();
-        if (recordSet.isEmpty()) {
+        if (recordSet == null || recordSet.isEmpty()) {
             return;
         }
+        Record firstRecord = recordSet.next();
         List<Integer> widthOfColumns = getAllColumnsWidth(recordSet, firstRecord);
 
         printTableLine(firstRecord, widthOfColumns);
