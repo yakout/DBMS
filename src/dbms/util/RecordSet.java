@@ -20,7 +20,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
     public RecordSet() {
 		records = new ArrayList<>();
 		columns = new ArrayList<>();
-		i = 0;
+		i = -1;
 	}
 
 	/**
@@ -92,6 +92,9 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 	 * @return boolean value.
 	 */
 	public boolean hasNext() {
+		if (this.isEmpty()) {
+			return false;
+		}
 		if (i < records.size() - 1) {
 			return true;
 		}
@@ -188,6 +191,10 @@ public class RecordSet implements Iterable<Record>, Cloneable {
         records.clear();
         records.addAll(distinctRecords);
     }
+
+    public void reset() {
+    	this.i = -1;
+	}
 
     public RecordSet union(RecordSet recordSet, Boolean removeDuplicates) {
         Collection<Record> result;

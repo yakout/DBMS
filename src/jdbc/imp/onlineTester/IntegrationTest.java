@@ -1,4 +1,4 @@
-package dbms.test.onlineTester;
+package jdbc.imp.onlineTester;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,7 +13,7 @@ public class IntegrationTest {
 
     @Test
     public void test() {
-        Assert.assertNotNull("Failed to create Driver implemenation",  (Driver)TestRunner.getImplementationInstance());
+        Assert.assertNotNull("Failed to create Driver implemenation",  (Driver) TestRunner.getImplementationInstance());
     }
 
 }

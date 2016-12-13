@@ -1,4 +1,4 @@
-package jdbc.sql;
+package jdbc.imp.resultSetMetaData;
 
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;

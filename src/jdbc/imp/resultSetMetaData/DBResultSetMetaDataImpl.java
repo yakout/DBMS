@@ -1,6 +1,13 @@
-package jdbc.sql;
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
 
-import java.sql.ResultSet;
+package jdbc.imp.resultSetMetaData;
+
+
+import jdbc.imp.resultSet.DBResultSetImpl;
+
 import java.sql.SQLException;
 
 public class DBResultSetMetaDataImpl extends DBResultSetMetaData {
@@ -10,25 +17,19 @@ public class DBResultSetMetaDataImpl extends DBResultSetMetaData {
         this.resultSet = resultSet;
     }
 
-    @Override
     public int getColumnCount() throws SQLException {
-        return resultSet.getRecordSet().getColumnList().size();
+        return this.resultSet.getRecordSet().getColumnList().size();
     }
 
-    @Override
     public String getColumnLabel(int column) throws SQLException {
-        //TODO: Have no idea what this is.
         return null;
     }
 
-    @Override
     public String getColumnName(int column) throws SQLException {
-        return resultSet.getRecordSet().getColumnList().get(column);
+        return (String)this.resultSet.getRecordSet().getColumnList().get(column);
     }
 
-    @Override
     public int getColumnType(int column) throws SQLException {
-        //TODO: Make column list keep types for easier access.
         return 0;
     }
 }

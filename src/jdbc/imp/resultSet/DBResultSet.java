@@ -1,4 +1,4 @@
-package jdbc.sql;
+package jdbc.imp.resultSet;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -7,6 +7,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.Calendar;
 import java.util.Map;
+
 
 public class DBResultSet implements ResultSet {
     @Override
