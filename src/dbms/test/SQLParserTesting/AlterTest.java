@@ -22,6 +22,7 @@ public class AlterTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("alter table table_name drop column column_name;");
 		} catch (SyntaxErrorException e) {
+			e.printStackTrace();
 			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
@@ -31,6 +32,7 @@ public class AlterTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("alter table table_name add column_name int;");
 		} catch (SyntaxErrorException e) {
+			e.printStackTrace();
 			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
@@ -40,6 +42,7 @@ public class AlterTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("alter table table_name add column_name varchar;");
 		} catch (SyntaxErrorException e) {
+			e.printStackTrace();
 			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
@@ -49,6 +52,7 @@ public class AlterTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("alter table table_name add column_name varchar;");
 		} catch (SyntaxErrorException e) {
+			e.printStackTrace();
 			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
@@ -59,6 +63,7 @@ public class AlterTest extends SqlParserRef {
 			sqlParserObjTest.parse("alter table table_name column_name varchar;");
 			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		} catch (SyntaxErrorException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -68,6 +73,7 @@ public class AlterTest extends SqlParserRef {
 			sqlParserObjTest.parse("alter table table_name add varchar;");
 			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		} catch (SyntaxErrorException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -77,6 +83,7 @@ public class AlterTest extends SqlParserRef {
 			sqlParserObjTest.parse("alter table table_name add  column_name ;");
 			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		} catch (SyntaxErrorException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -85,6 +92,7 @@ public class AlterTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("alter table table_name drop column column_name ;");
 		} catch (SyntaxErrorException e) {
+			e.printStackTrace();
 			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
@@ -94,6 +102,7 @@ public class AlterTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("   alter     table     table_name       drop    column     column_name      ;              ");
 		} catch (SyntaxErrorException e) {
+			e.printStackTrace();
 			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
@@ -103,6 +112,7 @@ public class AlterTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("   alter     table     table_name       add         column_name    int  ;              ");
 		} catch (SyntaxErrorException e) {
+			e.printStackTrace();
 			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
@@ -112,6 +122,7 @@ public class AlterTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("   aLtEr     TaBlE     tAbLe_nAMe       aDd         colUMn_nAMe    int  ;              ");
 		} catch (SyntaxErrorException e) {
+			e.printStackTrace();
 			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
@@ -121,6 +132,7 @@ public class AlterTest extends SqlParserRef {
 		try {
 			sqlParserObjTest.parse("   aLtEr     TaBlE     tAbLe_nAMe       DrOP     column    colUMn_nAMe     ;              ");
 		} catch (SyntaxErrorException e) {
+			e.printStackTrace();
 			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
@@ -133,6 +145,7 @@ public class AlterTest extends SqlParserRef {
 			assertEquals(((AlterDrop)alterObj).getTableName().toLowerCase(), "table_name");
 			assertEquals(((AlterDrop)alterObj).getColumnName().toLowerCase(), "column_name");
 		} catch (SyntaxErrorException e) {
+			e.printStackTrace();
 			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
@@ -146,6 +159,7 @@ public class AlterTest extends SqlParserRef {
 			assertEquals(((AlterAdd)alterObj).getColumnName().toLowerCase(), "column_name");
 			assertEquals(((AlterAdd)alterObj).getDataType(), DBInteger.class);
 		} catch (SyntaxErrorException e) {
+			e.printStackTrace();
 			fail("SyntaxErrorException thrown or AssertionError occurred!");
 		}
 	}
