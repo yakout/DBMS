@@ -80,5 +80,6 @@ public class Select implements DMLStatement {
         if (isDistinct) recordSet.distinct();
         if (orderBy != null) recordSet.orderBy(orderBy);
     	Formatter.getInstance().printTable(recordSet);
+        recordSet.reset();
     }
 }

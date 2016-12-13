@@ -98,6 +98,13 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 		return false;
 	}
 
+    /**
+     * reset the counter i to = 0;
+     */
+    public void reset() {
+        i = 0;
+    }
+
 	/**
 	 * Gets the next result in line when using an iterator.
 	 * @return next {@link Record}.

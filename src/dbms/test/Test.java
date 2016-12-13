@@ -17,6 +17,7 @@ import java.util.Collection;
 public class Test {
 	public static void main(String[] args) throws FileNotFoundException, IncorrectDataEntryException, TableNotFoundException, DatabaseNotFoundException, SyntaxErrorException, TableAlreadyCreatedException {
 		try {
+            SQLParser.getInstance().parse("drop DATABASE db1;").execute();
 			SQLParser.getInstance().parse("CREATE DATABASE db1;").execute();
 			SQLParser.getInstance().parse("CREATE TABLE table1 (ID int, Name varchar, Gender varchar, Date date);").execute();
 
@@ -28,7 +29,9 @@ public class Test {
 			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolbas', 'Female');").execute();
 			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolbas', 'Female');").execute();
 
-			SQLParser.getInstance().parse("select distinct * from table1 order by ID DESC;").execute();
+//            SQLParser.getInstance().parse("select distinct * from table1 order by ID DESC;").execute();
+            SQLParser.getInstance().parse("SELECT * FROM table1 WHERE ID < 18; UNION SELECT * FROM table1 WHERE ID < 18;").execute();
+
 
 			Collection<DBDatatype> entries = new ArrayList<DBDatatype>();
 			entries.add(new DBInteger(5));
