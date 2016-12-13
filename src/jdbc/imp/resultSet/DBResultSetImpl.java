@@ -6,6 +6,8 @@
 package jdbc.imp.resultSet;
 
 import dbms.datatypes.DBDatatype;
+import dbms.datatypes.DBInteger;
+import dbms.datatypes.DBString;
 import dbms.util.Record;
 import dbms.util.RecordSet;
 import jdbc.imp.resultSetMetaData.DBResultSetMetaDataImpl;
@@ -25,59 +27,59 @@ public class DBResultSetImpl extends DBResultSet {
 
     public DBResultSetImpl(Statement statement, RecordSet recordSet) {
         this.recordSet = recordSet;
-        this.position = DBResultSetImpl.Position.BEFORE_FIRST;
+        this.position = Position.BEFORE_FIRST;
         this.metaData = new DBResultSetMetaDataImpl(this);
         this.statement = statement;
     }
 
     public boolean absolute(int row) throws SQLException {
-        if(row == 0) {
+        if (row == 0) {
             this.current = null;
-            this.position = DBResultSetImpl.Position.BEFORE_FIRST;
+            this.position = Position.BEFORE_FIRST;
             return false;
         } else {
-            if(row > 0) {
+            if (row > 0) {
                 try {
-                    this.current = (Record)this.recordSet.getRecords().get(row - 1);
+                    this.current = this.recordSet.getRecords().get(row - 1);
                 } catch (IndexOutOfBoundsException var4) {
                     this.current = null;
-                    this.position = DBResultSetImpl.Position.AFTER_LAST;
+                    this.position = Position.AFTER_LAST;
                     return false;
                 }
-            } else if(row < 0) {
+            } else if (row < 0) {
                 try {
                     this.current = this.recordSet.getRecords().get(this.recordSet.size() - row);
                 } catch (IndexOutOfBoundsException var3) {
                     this.current = null;
-                    this.position = DBResultSetImpl.Position.BEFORE_FIRST;
+                    this.position = Position.BEFORE_FIRST;
                     return false;
                 }
             }
-
-            this.position = DBResultSetImpl.Position.IN;
+            this.position = Position.IN;
             return true;
         }
     }
 
     public void afterLast() throws SQLException {
         this.current = null;
-        this.position = DBResultSetImpl.Position.AFTER_LAST;
+        this.position = Position.AFTER_LAST;
     }
 
     public void beforeFirst() throws SQLException {
         this.current = null;
-        this.position = DBResultSetImpl.Position.BEFORE_FIRST;
+        this.position = Position.BEFORE_FIRST;
     }
 
     public void close() throws SQLException {
         this.recordSet = null;
         this.current = null;
-        this.position = DBResultSetImpl.Position.BEFORE_FIRST;
+        this.position = Position.BEFORE_FIRST;
     }
 
     public int findColumn(String columnLabel) throws SQLException {
         for(int i = 1; i <= this.recordSet.size(); ++i) {
-            if(((Record)this.recordSet.getRecords().get(i - 1)).equals(columnLabel)) {
+            if (this.recordSet.getColumnList().get(i - 1).toLowerCase()
+                    .equals(columnLabel)) {
                 return i;
             }
         }
@@ -104,16 +106,27 @@ public class DBResultSetImpl extends DBResultSet {
     }
 
     public int getInt(int columnIndex) throws SQLException {
-        if(this.state != DBResultSetImpl.State.CLOSED && this.columnIsValid(columnIndex)) {
-            DBDatatype o = ((Record)this.recordSet.getRecords().get(columnIndex - 1)).get(columnIndex - 1);
-            return o.getKey().equals("Integer")?((Integer)o.getValue()).intValue():0;
-        } else {
-            throw new SQLException();
+        if (this.state != State.CLOSED
+                && this.columnIsValid(columnIndex)) {
+            DBDatatype o = this.current.get(columnIndex - 1);
+            if (o.getKey().equals(DBInteger.KEY)) {
+                return (Integer) o.getValue();
+            }
+            return 0;
         }
+        throw new SQLException();
     }
 
     public int getInt(String columnLabel) throws SQLException {
-        return this.getInt(this.findColumn(columnLabel));
+        if (this.state != State.CLOSED
+                && this.columnIsValid(columnLabel)) {
+            DBDatatype o = this.current.get(columnLabel);
+            if (o.getKey().equals(DBInteger.KEY)) {
+                return (Integer) o.getValue();
+            }
+            return 0;
+        }
+        throw new SQLException();
     }
 
     public Date getDate(int columnIndex) throws SQLException {
@@ -125,20 +138,31 @@ public class DBResultSetImpl extends DBResultSet {
     }
 
     public String getString(int columnIndex) throws SQLException {
-        if(this.state != DBResultSetImpl.State.CLOSED && this.columnIsValid(columnIndex)) {
-            DBDatatype o = ((Record)this.recordSet.getRecords().get(columnIndex - 1)).get(columnIndex - 1);
-            return o.getKey().equals("String")?(String)o.getValue():null;
-        } else {
-            throw new SQLException();
+        if (this.state != State.CLOSED
+                && this.columnIsValid(columnIndex)) {
+            DBDatatype o = this.current.get(columnIndex - 1);
+            if (o.getKey().equals(DBInteger.KEY)) {
+                return (String) o.getValue();
+            }
+            return null;
         }
+        throw new SQLException();
     }
 
     public String getString(String columnLabel) throws SQLException {
-        return this.getString(this.findColumn(columnLabel));
+        if (this.state != State.CLOSED
+                && this.columnIsValid(columnLabel)) {
+            DBDatatype o = this.current.get(columnLabel);
+            if (o.getKey().equals(DBString.KEY)) {
+                return (String) o.getValue();
+            }
+            return null;
+        }
+        throw new SQLException();
     }
 
     public float getFloat(int columnIndex) throws SQLException {
-        if(this.state != DBResultSetImpl.State.CLOSED && this.columnIsValid(columnIndex)) {
+        if(this.state != State.CLOSED && this.columnIsValid(columnIndex)) {
             DBDatatype o = ((Record)this.recordSet.getRecords().get(columnIndex - 1)).get(columnIndex - 1);
             return o.getKey().equals("Float")?((Float)o.getValue()).floatValue():0.0F;
         } else {
@@ -151,7 +175,7 @@ public class DBResultSetImpl extends DBResultSet {
     }
 
     public Object getObject(int columnIndex) throws SQLException {
-        if(this.state != DBResultSetImpl.State.CLOSED && this.columnIsValid(columnIndex)) {
+        if(this.state != State.CLOSED && this.columnIsValid(columnIndex)) {
             DBDatatype o = ((Record)this.recordSet.getRecords().get(columnIndex - 1)).get(columnIndex - 1);
             return o.getValue();
         } else {
@@ -172,15 +196,15 @@ public class DBResultSetImpl extends DBResultSet {
     }
 
     public boolean isAfterLast() throws SQLException {
-        return this.position == DBResultSetImpl.Position.AFTER_LAST;
+        return this.position == Position.AFTER_LAST;
     }
 
     public boolean isBeforeFirst() throws SQLException {
-        return this.position == DBResultSetImpl.Position.BEFORE_FIRST;
+        return this.position == Position.BEFORE_FIRST;
     }
 
     public boolean isClosed() throws SQLException {
-        return this.state == DBResultSetImpl.State.CLOSED;
+        return this.state == State.CLOSED;
     }
 
     public boolean isFirst() throws SQLException {
@@ -193,12 +217,12 @@ public class DBResultSetImpl extends DBResultSet {
 
     public boolean next() throws SQLException {
         if(!this.recordSet.hasNext()) {
-            this.position = DBResultSetImpl.Position.AFTER_LAST;
+            this.position = Position.AFTER_LAST;
             this.current = null;
             return false;
         } else {
-            if(this.position == DBResultSetImpl.Position.BEFORE_FIRST) {
-                this.position = DBResultSetImpl.Position.IN;
+            if(this.position == Position.BEFORE_FIRST) {
+                this.position = Position.IN;
             }
 
             this.current = this.recordSet.next();
@@ -208,12 +232,12 @@ public class DBResultSetImpl extends DBResultSet {
 
     public boolean previous() throws SQLException {
         if(!this.recordSet.hasPrev()) {
-            this.position = DBResultSetImpl.Position.BEFORE_FIRST;
+            this.position = Position.BEFORE_FIRST;
             this.current = null;
             return false;
         } else {
-            if(this.position == DBResultSetImpl.Position.AFTER_LAST) {
-                this.position = DBResultSetImpl.Position.IN;
+            if(this.position == Position.AFTER_LAST) {
+                this.position = Position.IN;
             }
 
             this.current = this.recordSet.prev();

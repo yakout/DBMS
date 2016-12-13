@@ -115,14 +115,16 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 	}
 
 	public boolean hasPrev() {
-		if (i > 0) {
+		if (i >= 0) {
 			return true;
 		}
 		return false;
 	}
 
 	public Record prev() {
-		if (hasPrev()) {
+		if (i == 0) {
+			i = -1;
+		} else if (hasPrev()) {
 			i--;
 			Record record = records.get(i);
 			return record;

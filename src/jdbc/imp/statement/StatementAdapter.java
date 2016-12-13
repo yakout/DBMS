@@ -60,6 +60,7 @@ public class StatementAdapter extends DBStatement {
             if (expression.getClass() == Select.class) {
                 expression.execute();
                 RecordSet recordSet = ((Select) expression).getRecordSet();
+                resultSet = new DBResultSetImpl(this, recordSet);
                 if (recordSet.size() == 0) {
                     return false;
                 }
@@ -69,7 +70,7 @@ public class StatementAdapter extends DBStatement {
                 | IncorrectDataEntryException | DataTypeNotSupportedException
                 | DatabaseNotFoundException | TableNotFoundException
                 | DatabaseAlreadyCreatedException | TableAlreadyCreatedException e) {
-            e.printStackTrace();
+            throw new SQLException();
         }
         return false; // insert, update, delete, drop, create, use, alter ...
     }
@@ -80,7 +81,8 @@ public class StatementAdapter extends DBStatement {
             Expression expression = SQLParser.getInstance().parse(sql);
             expression.execute();
             RecordSet recordSet = ((Select) expression).getRecordSet();
-            return new DBResultSetImpl(this, recordSet);
+            resultSet = new DBResultSetImpl(this, recordSet);
+            return resultSet;
         } catch (Exception e) {
             e.printStackTrace();
             throw new SQLException(e.toString());

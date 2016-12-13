@@ -1,20 +1,20 @@
 package dbms.sqlparser.sqlInterpreter.rules;
 
-import dbms.backend.BackendController;
 import dbms.exception.*;
 import dbms.ui.Formatter;
 import dbms.util.RecordSet;
 
-import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class Union implements DMLStatement {
     private List<Select> selects;
     private int updateCount = 0;
-    private boolean removeDuplicates = true;
+    private boolean removeDuplicates = true; // default
 
-    public Union(Select... selects) {
-        this.selects = Arrays.asList(selects);
+    public Union(List<Select> selects, boolean removeDuplicates) {
+        this.selects = selects;
+        this.removeDuplicates = removeDuplicates;
     }
 
     @Override
@@ -28,13 +28,18 @@ public class Union implements DMLStatement {
             TableAlreadyCreatedException, DatabaseAlreadyCreatedException,
             IncorrectDataEntryException {
 
-        RecordSet result = new RecordSet();
-        for (Select select : selects) {
-            // TODO handel order by and distinct
-            result.union(BackendController.getInstance().select(select.getTableName(),
-                    select.getColumns(), select.getWhere()), removeDuplicates);
+        Iterator<Select> it = selects.iterator();
+        Select firstSelect = it.next();
+        firstSelect.execute();
+        RecordSet recordSet = firstSelect.getRecordSet();
+        RecordSet result = null;
+        while (it.hasNext()) {
+            Select select = it.next();
+            select.execute();
+            result = recordSet.union(select.getRecordSet(), removeDuplicates);
         }
 
         Formatter.getInstance().printTable(result);
+        result.reset();
     }
 }

@@ -870,6 +870,7 @@ public class XMLTestingDelete {
 		}
 	}
 
-
+	//TODO Testing
+	// Select columns case insensitive.
 
 }

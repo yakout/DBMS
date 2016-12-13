@@ -64,6 +64,7 @@ public class SQLParser {
 		Matcher ruleMatcher = validate(rulePattern, query);
 
 		ruleMatcher.matches();
+        if (ruleMatcher.group(2) != null) return parseUnion(query, ruleMatcher.group(2));
 		switch (ruleMatcher.group(1).toLowerCase()) {
 		case "select":
 			Pattern selectPattern = SelectSyntax.getInstance().getPattern();
@@ -214,8 +215,17 @@ public class SQLParser {
 	}
 
 
-    Expression parseUnion(Matcher matcher) {
-        return null;
+    private Expression parseUnion(String query, String unionForm) throws SyntaxErrorException {
+        List<Select>  selectList = new ArrayList<>();
+        String[] selects = query.split("(?i)(union\\s+all|union)");
+        for (int i = 0; i < selects.length; i++) {
+            Select select = (Select) parseSelect(validate(SelectSyntax.getInstance().getPattern(), selects[i]));
+            selectList.add(select);
+        }
+        if (unionForm.toLowerCase().equals("union")) {
+            return new Union(selectList, true);
+        }
+        return new Union(selectList, false);
     }
 
 	/**
@@ -331,10 +341,10 @@ public class SQLParser {
 	 */
 	public static void main(String[] args) {
 		try {
-            System.out.print(SelectSyntax.getInstance().getRegex());
-            Select expression = (Select) new SQLParser()
-					.parse("select table_Name values ('1996-08-17');");
-			expression.execute();
+            // String[] selects = "ahmed khalid fd union    all fblabf af d".split("(union\\s+all|union)");
+            // System.out.println(selects[1]);
+            //Select expression = (Select) new SQLParser().parse("select table_Name values ('1996-08-17');");
+			//expression.execute();
 			// System.out.println(expression.getEntryMap().get("0"));
 		} catch (Exception e) {
 			System.out.println(e.toString());
