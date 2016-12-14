@@ -2,10 +2,7 @@ package jdbc.imp.statement;
 
 import dbms.exception.*;
 import dbms.sqlparser.SQLParser;
-import dbms.sqlparser.sqlInterpreter.rules.DDLStatement;
-import dbms.sqlparser.sqlInterpreter.rules.DMLStatement;
-import dbms.sqlparser.sqlInterpreter.rules.Expression;
-import dbms.sqlparser.sqlInterpreter.rules.Select;
+import dbms.sqlparser.sqlInterpreter.rules.*;
 import dbms.util.RecordSet;
 import jdbc.imp.resultSet.DBResultSetImpl;
 
@@ -65,6 +62,14 @@ public class StatementAdapter extends DBStatement {
                     return false;
                 }
                 return true;
+            } else if (expression.getClass() == Union.class) {
+                expression.execute();
+                RecordSet recordSet = ((Union) expression).getRecordSet();
+                resultSet = new DBResultSetImpl(this, recordSet);
+                if (recordSet.size() == 0) {
+                    return false;
+                }
+                return true;
             }
         } catch (dbms.exception.SyntaxErrorException
                 | IncorrectDataEntryException | DataTypeNotSupportedException
@@ -104,7 +109,7 @@ public class StatementAdapter extends DBStatement {
                 | DatabaseNotFoundException | TableNotFoundException
                 | DatabaseAlreadyCreatedException | TableAlreadyCreatedException e) {
             e.printStackTrace();
-            throw new SQLException(e.toString());
+            throw new SQLException();
         }
         throw new SQLException();
     }

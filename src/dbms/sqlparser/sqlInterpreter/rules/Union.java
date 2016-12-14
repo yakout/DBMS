@@ -11,6 +11,7 @@ public class Union implements DMLStatement {
     private List<Select> selects;
     private int updateCount = 0;
     private boolean removeDuplicates = true; // default
+    private RecordSet recordSet = null;
 
     public Union(List<Select> selects, boolean removeDuplicates) {
         this.selects = selects;
@@ -22,6 +23,10 @@ public class Union implements DMLStatement {
         return updateCount;
     }
 
+    public RecordSet getRecordSet() {
+        return recordSet;
+    }
+
     @Override
     public void execute() throws DatabaseNotFoundException, TableNotFoundException,
             SyntaxErrorException, DataTypeNotSupportedException,
@@ -31,15 +36,14 @@ public class Union implements DMLStatement {
         Iterator<Select> it = selects.iterator();
         Select firstSelect = it.next();
         firstSelect.execute();
-        RecordSet recordSet = firstSelect.getRecordSet();
-        RecordSet result = null;
+        RecordSet firstSelectRecordSet = firstSelect.getRecordSet();
         while (it.hasNext()) {
             Select select = it.next();
             select.execute();
-            result = recordSet.union(select.getRecordSet(), removeDuplicates);
+            recordSet = firstSelectRecordSet.union(select.getRecordSet(), removeDuplicates);
         }
 
-        Formatter.getInstance().printTable(result);
-        result.reset();
+        Formatter.getInstance().printTable(recordSet);
+        recordSet.reset();
     }
 }

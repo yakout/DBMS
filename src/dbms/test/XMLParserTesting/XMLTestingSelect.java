@@ -21,7 +21,6 @@ public class XMLTestingSelect {
 
 	@Test
 	public void testOne() {
-
 		BackendParserFactory.getFactory().setCurrentParser("xml");
 		try {
 			xmlParser.createDatabase("database_select_1");

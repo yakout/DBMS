@@ -117,7 +117,6 @@ public class BackendController {
 
 	public int insertIntoTable(String tableName, Collection<DBDatatype> entries)
 			throws DatabaseNotFoundException, TableNotFoundException, IncorrectDataEntryException {
-		System.out.print(entries.size());
 		Table table = new Database(dbName).createTable(tableName);
 		BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
 		int updateCount = table.insertRow(entries);

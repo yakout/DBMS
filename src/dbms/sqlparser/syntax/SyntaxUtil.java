@@ -10,7 +10,7 @@ public class SyntaxUtil {
     public static final String MULTIPLE_WORDS_SINGLE_QUOTES = "'(?:\\s*\\w+\\s*)*'";
     public static final String DATE_FORMAT = "'\\d+-\\d+-\\d+'";
     public static final String NUMBER_FORMAT = "-?[0-9]\\d*(?:\\.\\d+)?";
-    public static final String SEMI_COLON = "\\s*";
+    public static final String SEMI_COLON = "\\s*"; // \\;\\s*";
     public static final String SUPPORTED_DATA_TYPES = "(int|varchar|date|float){1}";
     public static final String RULE_REGEX = "(?i)^\\s*(.*(union\\s+all|union)|select|drop|insert|update|delete|create|where|use|alter).*";
 
