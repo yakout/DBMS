@@ -1,5 +1,6 @@
 package dbms.backend.parsers.protobuf;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import dbms.datatypes.*;
 import dbms.util.Column;
 import dbms.util.Table;
@@ -14,11 +15,12 @@ import java.util.List;
 
 public class ColumnsAdapterProto {
 
-    public ColumnsAdapterProto (){
+    public ColumnsAdapterProto ()  {
 
     }
 
-    public void desrializeColumns (TableProtoBuf.Table_module tableModule , Table table) {
+    public void desrializeColumns (byte[] deserialzedData, Table table) throws InvalidProtocolBufferException {
+        TableProtoBuf.Table_module tableModule = TableProtoBuf.Table_module.parseFrom(deserialzedData);
         List<TableProtoBuf.Table_module.Column_module> columnsModule = tableModule.getColumnsList();
         List<Column> cloneColumns = new ArrayList<>();
         for (TableProtoBuf.Table_module.Column_module col : columnsModule) {

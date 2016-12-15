@@ -1,4 +1,4 @@
-package dbms.test.JSONParserTesting;
+package dbms.test.ProtoBufParserTesting;
 
 import dbms.backend.BackendController;
 import dbms.backend.BackendParserFactory;
@@ -8,6 +8,7 @@ import dbms.sqlparser.sqlInterpreter.Where;
 import dbms.util.Record;
 import dbms.util.RecordSet;
 import org.junit.Test;
+
 
 import java.sql.Date;
 import java.util.Iterator;
@@ -19,43 +20,43 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-public class JSONTestingDelete {
+public class ProtoBufTestingDelete {
 
-    private final BackendController jsonParser = BackendController.getInstance();
+    private final BackendController protoBufParser = BackendController.getInstance();
 
     @Test
     public void testOne() {
 
         BackendParserFactory.getFactory().setCurrentParser("alt");
         try {
-            jsonParser.createDatabase("database_delete_1");
+            protoBufParser.createDatabase("database_delete_1");
 
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
             passMap.put("column_1", DBInteger.class);
             passMap.put("column_2", DBString.class);
 
-            jsonParser.createTable("table_name", passMap);
+            protoBufParser.createTable("table_name", passMap);
 
             LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereCondition = new Where("    column_1   >=    300 ");
             RecordSet result = new RecordSet();
@@ -77,9 +78,9 @@ public class JSONTestingDelete {
             expRecord = new Record(resExpected);
             result.add(expRecord);
 
-            jsonParser.delete("table_name", whereCondition);
+            protoBufParser.delete("table_name", whereCondition);
 
-            RecordSet actualRes = jsonParser.select("table_name", null, whereCondition);
+            RecordSet actualRes = protoBufParser.select("table_name", null, whereCondition);
 
             Iterator<Record> resultSetItr = result.iterator();
             Iterator<Record> actualResItr = actualRes.iterator();
@@ -100,34 +101,34 @@ public class JSONTestingDelete {
 
         BackendParserFactory.getFactory().setCurrentParser("alt");
         try {
-            jsonParser.createDatabase("database_delete_2");
+            protoBufParser.createDatabase("database_delete_2");
 
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
             passMap.put("column_1", DBInteger.class);
             passMap.put("column_2", DBString.class);
 
-            jsonParser.createTable("table_name", passMap);
+            protoBufParser.createTable("table_name", passMap);
 
             LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereCondition = new Where("   column_1  >=  300  ");
             RecordSet result = new RecordSet();
@@ -151,9 +152,9 @@ public class JSONTestingDelete {
 
             columns.add("column_1");
 
-            jsonParser.delete("table_name", whereCondition);
+            protoBufParser.delete("table_name", whereCondition);
 
-            RecordSet actualRes = jsonParser.select("table_name", columns, whereCondition);
+            RecordSet actualRes = protoBufParser.select("table_name", columns, whereCondition);
 
             Iterator<Record> resultSetItr = result.iterator();
             Iterator<Record> actualResItr = actualRes.iterator();
@@ -175,34 +176,34 @@ public class JSONTestingDelete {
 
         BackendParserFactory.getFactory().setCurrentParser("alt");
         try {
-            jsonParser.createDatabase("database_delete_3");
+            protoBufParser.createDatabase("database_delete_3");
 
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
             passMap.put("column_1", DBInteger.class);
             passMap.put("column_2", DBString.class);
 
-            jsonParser.createTable("table_name", passMap);
+            protoBufParser.createTable("table_name", passMap);
 
             LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereConditionDel = new Where("   column_1  >  300  ");
             Condition whereConditionSel = new Where("   column_1  >  600  ");
@@ -222,9 +223,9 @@ public class JSONTestingDelete {
 
             columns.add("column_1");
 
-            jsonParser.delete("table_name", whereConditionDel);
+            protoBufParser.delete("table_name", whereConditionDel);
 
-            RecordSet actualRes = jsonParser.select("table_name", columns, whereConditionSel);
+            RecordSet actualRes = protoBufParser.select("table_name", columns, whereConditionSel);
 
             Iterator<Record> resultSetItr = result.iterator();
             Iterator<Record> actualResItr = actualRes.iterator();
@@ -245,34 +246,34 @@ public class JSONTestingDelete {
 
         BackendParserFactory.getFactory().setCurrentParser("alt");
         try {
-            jsonParser.createDatabase("database_delete_4");
+            protoBufParser.createDatabase("database_delete_4");
 
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
             passMap.put("column_1", DBInteger.class);
             passMap.put("column_2", DBString.class);
 
-            jsonParser.createTable("table_name", passMap);
+            protoBufParser.createTable("table_name", passMap);
 
             LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereConditionDel = new Where("   column_1  <  300  ");
             Condition whereConditionSel = new Where("   column_1  <  500  ");
@@ -281,8 +282,8 @@ public class JSONTestingDelete {
 
             columns.add("column_1");
 
-            jsonParser.delete("table_name", whereConditionDel);
-            RecordSet actualRes = jsonParser.select("table_name", columns, whereConditionSel);
+            protoBufParser.delete("table_name", whereConditionDel);
+            RecordSet actualRes = protoBufParser.select("table_name", columns, whereConditionSel);
             Iterator<Record> actualResItr = actualRes.iterator();
             while (actualResItr.hasNext()) {
 
@@ -301,34 +302,34 @@ public class JSONTestingDelete {
 
         BackendParserFactory.getFactory().setCurrentParser("alt");
         try {
-            jsonParser.createDatabase("database_delete_5");
+            protoBufParser.createDatabase("database_delete_5");
 
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
             passMap.put("column_1", DBInteger.class);
             passMap.put("column_2", DBString.class);
 
-            jsonParser.createTable("table_name", passMap);
+            protoBufParser.createTable("table_name", passMap);
 
             LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereConditionDel = new Where("   column_1  !=  300  ");
 
@@ -336,8 +337,8 @@ public class JSONTestingDelete {
 
             columns.add("column_1");
 
-            jsonParser.delete("table_name", whereConditionDel);
-            RecordSet actualRes = jsonParser.select("table_name", null , null);
+            protoBufParser.delete("table_name", whereConditionDel);
+            RecordSet actualRes = protoBufParser.select("table_name", null , null);
             Iterator<Record> actualResItr = actualRes.iterator();
             while (actualResItr.hasNext()) {
                 assertTrue(actualResItr.next() == null);
@@ -353,7 +354,7 @@ public class JSONTestingDelete {
 
         BackendParserFactory.getFactory().setCurrentParser("alt");
         try {
-            jsonParser.createDatabase("database_delete_6");
+            protoBufParser.createDatabase("database_delete_6");
 
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
             passMap.put("column_1", DBInteger.class);
@@ -361,43 +362,43 @@ public class JSONTestingDelete {
             passMap.put("column_3", DBDate.class);
             passMap.put("column_4", DBFloat.class);
 
-            jsonParser.createTable("table_name", passMap);
+            protoBufParser.createTable("table_name", passMap);
 
             LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-10.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereConditionDel = new Where("   column_1  >  300  ");
 
-            jsonParser.delete("table_name", whereConditionDel);
-            RecordSet actualRes = jsonParser.select("table_name", null , null);
+            protoBufParser.delete("table_name", whereConditionDel);
+            RecordSet actualRes = protoBufParser.select("table_name", null , null);
             Object[] recordsAct = actualRes.getRecords().toArray();
             Object[] recordsExp = new Object[2];
 
@@ -429,7 +430,7 @@ public class JSONTestingDelete {
 
         BackendParserFactory.getFactory().setCurrentParser("alt");
         try {
-            jsonParser.createDatabase("database_delete_7");
+            protoBufParser.createDatabase("database_delete_7");
 
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
             passMap.put("column_1", DBInteger.class);
@@ -437,43 +438,45 @@ public class JSONTestingDelete {
             passMap.put("column_3", DBDate.class);
             passMap.put("column_4", DBFloat.class);
 
-            jsonParser.createTable("table_name", passMap);
+            protoBufParser.createTable("table_name", passMap);
 
             LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-10.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
+
+            RecordSet actualRes1 = protoBufParser.select("table_name", null , null);
 
             Condition whereConditionDel = new Where("((column_1  >  300) or (column_2 = 'waLiD'))  ");
 
-            jsonParser.delete("table_name", whereConditionDel);
-            RecordSet actualRes = jsonParser.select("table_name", null , null);
+            protoBufParser.delete("table_name", whereConditionDel);
+            RecordSet actualRes = protoBufParser.select("table_name", null , null);
             Object[] recordsAct = actualRes.getRecords().toArray();
             Object[] recordsExp = new Object[1];
 
@@ -497,7 +500,7 @@ public class JSONTestingDelete {
 
         BackendParserFactory.getFactory().setCurrentParser("alt");
         try {
-            jsonParser.createDatabase("database_delete_8");
+            protoBufParser.createDatabase("database_delete_8");
 
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
             passMap.put("column_1", DBInteger.class);
@@ -505,43 +508,43 @@ public class JSONTestingDelete {
             passMap.put("column_3", DBDate.class);
             passMap.put("column_4", DBFloat.class);
 
-            jsonParser.createTable("table_name", passMap);
+            protoBufParser.createTable("table_name", passMap);
 
             LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("kHalED"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-10.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereConditionDel = new Where("((column_1  >  300) and (column_2 = 'waLiD'))  ");
 
-            jsonParser.delete("table_name", whereConditionDel);
-            RecordSet actualRes = jsonParser.select("table_name", null , null);
+            protoBufParser.delete("table_name", whereConditionDel);
+            RecordSet actualRes = protoBufParser.select("table_name", null , null);
             Object[] recordsAct = actualRes.getRecords().toArray();
             Object[] recordsExp = new Object[5];
 
@@ -597,7 +600,7 @@ public class JSONTestingDelete {
 
         BackendParserFactory.getFactory().setCurrentParser("alt");
         try {
-            jsonParser.createDatabase("database_delete_9");
+            protoBufParser.createDatabase("database_delete_9");
 
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
             passMap.put("column_1", DBInteger.class);
@@ -605,43 +608,49 @@ public class JSONTestingDelete {
             passMap.put("column_3", DBDate.class);
             passMap.put("column_4", DBFloat.class);
 
-            jsonParser.createTable("table_name", passMap);
+            protoBufParser.createTable("table_name", passMap);
 
             LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("kHalED"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-10.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
+
+//            RecordSet actualRes = protoBufParser.select("table_name", null , null);
 
             Condition whereConditionDel = new Where("((column_1  >  300) and (column_3 > '2003-10-2'))  ");
 
-            jsonParser.delete("table_name", whereConditionDel);
-            RecordSet actualRes = jsonParser.select("table_name", null , null);
+            RecordSet actualRes1 = protoBufParser.select("table_name", null , null);
+
+            protoBufParser.delete("table_name", whereConditionDel);
+
+
+            RecordSet actualRes = protoBufParser.select("table_name", null , null);
             Object[] recordsAct = actualRes.getRecords().toArray();
             Object[] recordsExp = new Object[4];
 
@@ -690,7 +699,7 @@ public class JSONTestingDelete {
 
         BackendParserFactory.getFactory().setCurrentParser("alt");
         try {
-            jsonParser.createDatabase("database_delete_10");
+            protoBufParser.createDatabase("database_delete_10");
 
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
             passMap.put("column_1", DBInteger.class);
@@ -698,43 +707,43 @@ public class JSONTestingDelete {
             passMap.put("column_3", DBDate.class);
             passMap.put("column_4", DBFloat.class);
 
-            jsonParser.createTable("table_name", passMap);
+            protoBufParser.createTable("table_name", passMap);
 
             LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("kHalED"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-10.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereConditionDel = new Where("((column_1  >  600) and (column_3 > '2003-10-2'))  ");
 
-            jsonParser.delete("table_name", whereConditionDel);
-            RecordSet actualRes = jsonParser.select("table_name", null , null);
+            protoBufParser.delete("table_name", whereConditionDel);
+            RecordSet actualRes = protoBufParser.select("table_name", null , null);
             Object[] recordsAct = actualRes.getRecords().toArray();
             Object[] recordsExp = new Object[5];
 
@@ -791,7 +800,7 @@ public class JSONTestingDelete {
 
         BackendParserFactory.getFactory().setCurrentParser("alt");
         try {
-            jsonParser.createDatabase("database_delete_11");
+            protoBufParser.createDatabase("database_delete_11");
 
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
             passMap.put("column_1", DBInteger.class);
@@ -799,43 +808,43 @@ public class JSONTestingDelete {
             passMap.put("column_3", DBDate.class);
             passMap.put("column_4", DBFloat.class);
 
-            jsonParser.createTable("table_name", passMap);
+            protoBufParser.createTable("table_name", passMap);
 
             LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("kHalED"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-10.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2005-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
             entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
-            jsonParser.insertIntoTable("table_name", entriesMap);
+            protoBufParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereConditionDel = new Where("(((column_1  >  300) and (column_3 > '2003-10-2')) or (column_2 = 'AnAs'))  ");
 
-            jsonParser.delete("table_name", whereConditionDel);
-            RecordSet actualRes = jsonParser.select("table_name", null , null);
+            protoBufParser.delete("table_name", whereConditionDel);
+            RecordSet actualRes = protoBufParser.select("table_name", null , null);
             Object[] recordsAct = actualRes.getRecords().toArray();
             Object[] recordsExp = new Object[3];
 
