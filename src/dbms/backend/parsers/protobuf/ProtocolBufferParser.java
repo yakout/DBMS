@@ -7,16 +7,9 @@ import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.util.Table;
 
-import java.io.File;
-import java.util.ResourceBundle;
-
 public class ProtocolBufferParser extends BackendParser {
     public static final String KEY = "alt";
     private static ProtocolBufferParser instance = null;
-    private static final String WORKSPACE_DIR =
-            System.getProperty("user.home") + File.separator + "databases";
-//    private static final ResourceBundle CONSTANTS =
-//            ResourceBundle.getBundle("dbms.backend.parsers.protobuf.Constants");
 
     static {
         BackendParserFactory.getFactory().register(KEY, getInstance());

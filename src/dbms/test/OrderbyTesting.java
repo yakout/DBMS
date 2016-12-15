@@ -1,18 +1,12 @@
 package dbms.test;
 
-import java.util.LinkedHashMap;
-
-import dbms.backend.BackendController;
-import dbms.datatypes.DBDatatype;
-import dbms.datatypes.DBInteger;
-import dbms.datatypes.DBString;
-import dbms.datatypes.DatatypeFactory;
 import dbms.sqlparser.SQLParser;
 
 public class OrderbyTesting {
 	
 	public static void main(String[] args) {
 		try {
+			SQLParser.getInstance().parse("drop DATABASE db1").execute();
             SQLParser.getInstance().parse("CREATE DATABASE db1").execute();
 
 			SQLParser.getInstance().parse("CREATE TABLE table1 (ID int, Name varchar, Gender varchar, Date date)").execute(); // FAIL
@@ -23,7 +17,7 @@ public class OrderbyTesting {
 //			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolbas', 'Female')").execute();
 //			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolbas', 'Female')").execute();
 //			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolbas', 'Female')").execute();
-			SQLParser.getInstance().parse("SELECT * FROM table1 ORDER BY Date").execute();
+			SQLParser.getInstance().parse("SELECT * FROM table1 ORDER BY id").execute();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

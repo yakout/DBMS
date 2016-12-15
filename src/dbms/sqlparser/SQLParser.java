@@ -207,7 +207,7 @@ public class SQLParser {
 		for (int i = 0; i < orderbyArray.length; i++) {
 			String[] orderby = orderbyArray[i].trim().split("\\s+");
 			if (orderby.length == 1) {
-				columns.add(new Pair<>(orderby[0].toLowerCase(), true));
+				columns.add(new Pair<>(orderby[0].toLowerCase(), false));
 			} else {
 				if (orderby[1].equals("ASC")) {
 					columns.add(new Pair<>(orderby[0].toLowerCase(), false));
@@ -284,7 +284,7 @@ public class SQLParser {
                 columns.put(key, value.toLowerCase());
             }
         }
-        Update update = new Update(matcher.group(1), values, columns);
+        Update update = new Update(matcher.group(1).toLowerCase(), values, columns);
 
         // if where is available
         if (matcher.group(7) != null) {
@@ -294,7 +294,7 @@ public class SQLParser {
     }
 	/**
 	 * parse create statement.
-	 * 
+	 *
 	 * @param matcher
 	 *            matched pattern from query.
 	 * @return {@link Expression}.
@@ -325,7 +325,7 @@ public class SQLParser {
 			}
 		}
 
-		return new CreateTable(matcher.group(5), columns);
+		return new CreateTable(matcher.group(5).toLowerCase(), columns);
 	}
 
 	/**
