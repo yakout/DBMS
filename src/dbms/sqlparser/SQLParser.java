@@ -207,7 +207,7 @@ public class SQLParser {
 		for (int i = 0; i < orderbyArray.length; i++) {
 			String[] orderby = orderbyArray[i].trim().split("\\s+");
 			if (orderby.length == 1) {
-				columns.add(new Pair<>(orderby[0].toLowerCase(), false));
+				columns.add(new Pair<>(orderby[0].toLowerCase(), true));
 			} else {
 				if (orderby[1].equals("ASC")) {
 					columns.add(new Pair<>(orderby[0].toLowerCase(), false));
@@ -256,7 +256,7 @@ public class SQLParser {
 	 * parse delete statement.
 	 * 
 	 * @param matcher
-	 *            matched pattern from query.
+	 * matched pattern from query.
 	 * @return {@link Expression}.
 	 */
 	private Expression parseDelete(Matcher matcher) {
@@ -284,7 +284,7 @@ public class SQLParser {
                 columns.put(key, value.toLowerCase());
             }
         }
-        Update update = new Update(matcher.group(1).toLowerCase(), values, columns);
+        Update update = new Update(matcher.group(1), values, columns);
 
         // if where is available
         if (matcher.group(7) != null) {
@@ -325,7 +325,7 @@ public class SQLParser {
 			}
 		}
 
-		return new CreateTable(matcher.group(5).toLowerCase(), columns);
+		return new CreateTable(matcher.group(5), columns);
 	}
 
 	/**
@@ -338,19 +338,5 @@ public class SQLParser {
 	private Expression parseUse(Matcher matcher) {
 		matcher.matches();
 		return new UseDatabase(matcher.group(1));
-	}
-
-	/**
-	 *
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		try {
-//            InsertIntoTable expression = (InsertIntoTable) new SQLParser()
-//                    .parse("insert into table_Name values ('1996-08-17');");
-//			expression.execute();
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
 	}
 }

@@ -10,37 +10,20 @@ import dbms.datatypes.DatatypeFactory;
 import dbms.sqlparser.SQLParser;
 
 public class OrderbyTesting {
-	private final static BackendController xmlParser = BackendController.getInstance();
 	
 	public static void main(String[] args) {
 		try {
-			xmlParser.createDatabase("test1");
-			LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
-			passMap.put("col_1", DBString.class);
-			passMap.put("col_2", DBString.class);
-			passMap.put("col_3", DBString.class);
-			passMap.put("col_4", DBInteger.class);
-			xmlParser.createTable("table_1", passMap);
-			LinkedHashMap<String, DBDatatype> entriesMap = new LinkedHashMap<>();
-			entriesMap.put("col_1", DatatypeFactory.convertToDataType("Sea"));
-			entriesMap.put("col_2", DatatypeFactory.convertToDataType("SQL"));
-			entriesMap.put("col_3", DatatypeFactory.convertToDataType("SkY"));
-			entriesMap.put("col_4", DatatypeFactory.convertToDataType(1));
-			xmlParser.insertIntoTable("table_1", entriesMap);
-			entriesMap.clear();
-			entriesMap.put("col_1", DatatypeFactory.convertToDataType("high"));
-			entriesMap.put("col_2", DatatypeFactory.convertToDataType("CFFF"));
-			entriesMap.put("col_3", DatatypeFactory.convertToDataType("wyyyyy"));
-			entriesMap.put("col_4", DatatypeFactory.convertToDataType(10));
-			xmlParser.insertIntoTable("table_1", entriesMap);
-			entriesMap.clear();
-			entriesMap.put("col_1", DatatypeFactory.convertToDataType("key"));
-			entriesMap.put("col_2", DatatypeFactory.convertToDataType("steadyyy"));
-			entriesMap.put("col_3", DatatypeFactory.convertToDataType("andddd"));
-			entriesMap.put("col_4", DatatypeFactory.convertToDataType(100));
-			xmlParser.insertIntoTable("table_1", entriesMap);
-			entriesMap.clear();
-			SQLParser.getInstance().parse("SELECT * FROM table_1 ORDER BY col_1").execute();
+            SQLParser.getInstance().parse("CREATE DATABASE db1").execute();
+
+			SQLParser.getInstance().parse("CREATE TABLE table1 (ID int, Name varchar, Gender varchar, Date date)").execute(); // FAIL
+			SQLParser.getInstance().parse("INSERT INTO table1 VALUES (15, 'whatever', 'Male', '1996-08-17')").execute();
+			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender, Date) VALUES (16, 'yakout', 'Female', '1996-12-15')").execute();
+			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender, Date) VALUES (17, 'hamada14', 'Male', '1995-08-08')").execute();
+			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolbas', 'Female')").execute();
+//			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolbas', 'Female')").execute();
+//			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolbas', 'Female')").execute();
+//			SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolbas', 'Female')").execute();
+			SQLParser.getInstance().parse("SELECT * FROM table1 ORDER BY Date").execute();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
