@@ -32,30 +32,31 @@ public class DBResultSetImpl extends DBResultSet {
 
     @Override
     public boolean absolute(int row) throws SQLException {
-        if (row == 0) {
-            current = null;
-            position = Position.BEFORE_FIRST;
-            return false;
-        } else {
-            if (row > 0) {
-                try {
-                    current = recordSet.getRecords().get(row - 1);
-                } catch (IndexOutOfBoundsException e) {
-                    current = null;
-                    position = Position.AFTER_LAST;
-                    return false;
-                }
-            } else if (row < 0) {
-                try {
-                    current = recordSet.getRecords().get(recordSet.size() - row);
-                } catch (IndexOutOfBoundsException e) {
-                    current = null;
-                    position = Position.BEFORE_FIRST;
-                    return false;
-                }
-            }
-            position = Position.IN;
-            return true;
+//        if (row == 0) {
+//            current = null;
+//            position = Position.BEFORE_FIRST;
+//            return false;
+//        } else {
+//            if (row > 0) {
+//                try {
+//                    current = recordSet.getRecords().get(row - 1);
+//                } catch (IndexOutOfBoundsException e) {
+//                    current = null;
+//                    position = Position.AFTER_LAST;
+//                    return false;
+//                }
+//            } else if (row < 0) {
+//                try {
+//                    current = recordSet.getRecords().get(recordSet.size() - row);
+//                } catch (IndexOutOfBoundsException e) {
+//                    current = null;
+//                    position = Position.BEFORE_FIRST;
+//                    return false;
+//                }
+//            }
+//            position = Position.IN;
+//            return true;
+        throw new SQLException("absolute");
         }
     }
 
