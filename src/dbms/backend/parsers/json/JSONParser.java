@@ -21,7 +21,7 @@ import java.io.*;
 import java.util.ResourceBundle;
 
 public class JSONParser extends BackendParser {
-	public static final String KEY = "json";
+	public static final String KEY = "alt";
 	private static JSONParser instance = null;
 	private static final ResourceBundle CONSTANTS = ResourceBundle.getBundle(
 			"dbms.backend.parsers.json.Constants");
