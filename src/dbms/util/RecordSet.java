@@ -17,7 +17,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 	 * Constructor for a {@link RecordSet}, initiates an empty
 	 * set.
 	 */
-    public RecordSet() {
+	public RecordSet() {
 		records = new ArrayList<>();
 		columns = new ArrayList<>();
 		i = -1;
@@ -28,7 +28,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 	 * if records and copies data from it.
 	 * @param records {@link ArrayList} of records.
 	 */
-    public RecordSet(Collection<Record> records) {
+	public RecordSet(Collection<Record> records) {
 		this.records = new ArrayList<>();
 		columns = new ArrayList<>();
 		for (Record res : records) {
@@ -40,18 +40,18 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 	}
 
 	public void setColumnList(List<String> columnList) {
-    	columns = columnList;
+		columns = columnList;
 	}
 
 	public List<String> getColumnList() {
-    	return columns;
+		return columns;
 	}
 
 	/**
 	 * Gets a {@link List} representation of the set.
 	 * @return {@link List} if records.
 	 */
-    public List<Map<String, DBDatatype>> getMapList() {
+	public List<Map<String, DBDatatype>> getMapList() {
 		List<Map<String, DBDatatype>> mapRepresent = new LinkedList<Map<String, DBDatatype>>();
 		for (int j = 0; j < records.size(); j++) {
 			mapRepresent.add(records.get(j).getRecord());
@@ -69,15 +69,15 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 	}
 
 
-    /**
-     * Add all elements of {@link Record} in given Collection to records.
-     * @param records {@link Collection<Record>}.
-     */
-    public void addAll(Collection<Record> records) {
-        for (Record record : records) {
-            records.add(record);
-        }
-    }
+	/**
+	 * Add all elements of {@link Record} in given Collection to records.
+	 * @param records {@link Collection<Record>}.
+	 */
+	public void addAll(Collection<Record> records) {
+		for (Record record : records) {
+			records.add(record);
+		}
+	}
 
 	/**
 	 * Gets number of records in set.
@@ -115,7 +115,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 	}
 
 	public boolean hasPrev() {
-		if (i >= 0) {
+		if (i > 0) {
 			return true;
 		}
 		return false;
@@ -157,60 +157,60 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 	/**
 	 *
 	 * @param columns
-     */
+	 */
 	public void orderBy(final List<Pair<String, Boolean>> columns) {
-        DBComparatorChain<Record> comparatorChain = new DBComparatorChain<>();
-        for (Pair<String, Boolean> pair : columns) {
-            Comparator<Record> recordComparator = new Comparator<Record>() {
-                @Override
-                public int compare(Record o1, Record o2) {
-                    DBDatatype value1 = o1.get(pair.getKey());
-                    DBDatatype value2 = o2.get(pair.getKey());
-                    if (value1 == null || value2 == null) {
-                        return -1;
-                    } else {
-                        return value1.compareTo(value2);
-                    }
-                }
-            };
-            comparatorChain.addComparator(recordComparator, pair.getValue());
-        }
-        records.sort(comparatorChain);
+		DBComparatorChain<Record> comparatorChain = new DBComparatorChain<>();
+		for (Pair<String, Boolean> pair : columns) {
+			Comparator<Record> recordComparator = new Comparator<Record>() {
+				@Override
+				public int compare(Record o1, Record o2) {
+					DBDatatype value1 = o1.get(pair.getKey());
+					DBDatatype value2 = o2.get(pair.getKey());
+					if (value1 == null || value2 == null) {
+						return -1;
+					} else {
+						return value1.compareTo(value2);
+					}
+				}
+			};
+			comparatorChain.addComparator(recordComparator, pair.getValue());
+		}
+		records.sort(comparatorChain);
 	}
 
 	public List<Record> getRecords() {
 		return records;
 	}
 
-    /**
-     * remove duplicates from records.
-     */
-    public void distinct() {
-        Set<Record> distinctRecords = new LinkedHashSet<>();
-        for (Record record : records) {
-            distinctRecords.add(record);
-        }
-        records.clear();
-        records.addAll(distinctRecords);
-    }
-
-    public void reset() {
-    	this.i = -1;
+	/**
+	 * remove duplicates from records.
+	 */
+	public void distinct() {
+		Set<Record> distinctRecords = new LinkedHashSet<>();
+		for (Record record : records) {
+			distinctRecords.add(record);
+		}
+		records.clear();
+		records.addAll(distinctRecords);
 	}
 
-    public RecordSet union(RecordSet recordSet, Boolean removeDuplicates) {
-        Collection<Record> result;
-        if (removeDuplicates) {
-            result = new LinkedHashSet<>(records);
-        } else {
-            result = new ArrayList<>(records);
-        }
-        result.add(recordSet.next());
-        while(recordSet.hasNext()) {
-            result.add(recordSet.next());
-        }
-        return new RecordSet(result);
-    }
+	public void reset() {
+		this.i = -1;
+	}
+
+	public RecordSet union(RecordSet recordSet, Boolean removeDuplicates) {
+		Collection<Record> result;
+		if (removeDuplicates) {
+			result = new LinkedHashSet<>(records);
+		} else {
+			result = new ArrayList<>(records);
+		}
+		result.add(recordSet.next());
+		while(recordSet.hasNext()) {
+			result.add(recordSet.next());
+		}
+		return new RecordSet(result);
+	}
 
 	@Override
 	public RecordSet clone() {
@@ -218,6 +218,6 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 		for (Record record : records) {
 			newRecSet.add(record.clone());
 		}
-    	return newRecSet;
+		return newRecSet;
 	}
 }

@@ -39,7 +39,14 @@ public class Record implements Cloneable {
 	}
 
 	public DBDatatype get(String columnName) {
-		return record.get(columnName);
+		for (Map.Entry<String, DBDatatype> entry
+				: record.entrySet()) {
+			if (entry.getKey().toLowerCase()
+					.equals(columnName.toLowerCase())) {
+				return entry.getValue();
+			}
+		}
+		return null;
 	}
 
 	/**
