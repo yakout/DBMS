@@ -6,6 +6,7 @@ public class OrderbyTesting {
 	
 	public static void main(String[] args) {
 		try {
+			SQLParser.getInstance().parse("drop DATABASE db1").execute();
             SQLParser.getInstance().parse("CREATE DATABASE db1").execute();
 
 			SQLParser.getInstance().parse("CREATE TABLE table1 (ID int, Name varchar, Gender varchar, Date date)").execute(); // FAIL

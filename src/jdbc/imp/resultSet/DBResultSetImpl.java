@@ -79,6 +79,7 @@ public class DBResultSetImpl extends DBResultSet {
     public void close() throws SQLException {
         recordSet = null;
         current = null;
+        state = State.CLOSED;
         position = Position.BEFORE_FIRST;
     }
 
@@ -253,7 +254,7 @@ public class DBResultSetImpl extends DBResultSet {
             if (o == null) {
                 return null;
             }
-            return o;
+            return o.getValue();
         }
         throw new SQLException();
     }

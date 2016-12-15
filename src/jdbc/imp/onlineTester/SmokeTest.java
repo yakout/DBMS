@@ -19,7 +19,7 @@ import java.util.Properties;
  **/
 public class SmokeTest {
 
-    private String protocol = "xmldb";
+    private String protocol = "altdb";
     private String tmp = System.getProperty("java.io.tmpdir");
 
     public static Class<?> getSpecifications() {
@@ -438,8 +438,7 @@ public class SmokeTest {
         Connection connection = createUseDatabase("TestDB_Create");
         try {
             Statement statement = connection.createStatement();
-            statement
-                    .execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
+            statement.execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
             int count1 = statement.executeUpdate(
                     "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count1);
@@ -518,8 +517,7 @@ public class SmokeTest {
         Connection connection = createUseDatabase("TestDB_Create");
         try {
             Statement statement = connection.createStatement();
-            statement
-                    .execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
+            statement.execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
             int count1 = statement.executeUpdate(
                     "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count1);

@@ -5,6 +5,8 @@ import dbms.sqlparser.SQLParser;
 import dbms.sqlparser.sqlInterpreter.rules.*;
 import dbms.util.RecordSet;
 import jdbc.imp.resultSet.DBResultSetImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -16,6 +18,7 @@ public class StatementAdapter extends DBStatement {
     private Connection connection;
     private List<String> batch;
     private ResultSet resultSet;
+    private Logger log = LogManager.getLogger(StatementAdapter.class.getName());
 
     public StatementAdapter(Connection connection) {
         this.connection = connection;
@@ -54,6 +57,7 @@ public class StatementAdapter extends DBStatement {
         try {
             Expression expression = SQLParser.getInstance().parse(sql);
             expression.execute();
+            log.debug(expression.getClass() + "Command executed successfully");
             if (expression.getClass() == Select.class) {
                 expression.execute();
                 RecordSet recordSet = ((Select) expression).getRecordSet();

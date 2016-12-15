@@ -71,6 +71,10 @@ public class Table {
 		this.size = size;
 	}
 
+	public void setColumns(List<Column> newColumns) {
+		columns = newColumns;
+	}
+
 	public int insertRow(Map<String, DBDatatype> entryMap)
 			throws IncorrectDataEntryException,
 			TableNotFoundException, DatabaseNotFoundException {

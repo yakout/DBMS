@@ -18,7 +18,7 @@ public class DBResultSetMetaDataImpl extends DBResultSetMetaData {
     }
 
     public int getColumnCount() throws SQLException {
-        return this.resultSet.getRecordSet().getColumnList().size();
+        return resultSet.getRecordSet().getColumnList().size();
     }
 
     public String getColumnLabel(int column) throws SQLException {
@@ -26,7 +26,7 @@ public class DBResultSetMetaDataImpl extends DBResultSetMetaData {
     }
 
     public String getColumnName(int column) throws SQLException {
-        return (String)this.resultSet.getRecordSet().getColumnList().get(column);
+        return resultSet.getRecordSet().getColumnList().get(column);
     }
 
     public int getColumnType(int column) throws SQLException {
