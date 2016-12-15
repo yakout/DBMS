@@ -57,9 +57,9 @@ public class StatementAdapter extends DBStatement {
         try {
             Expression expression = SQLParser.getInstance().parse(sql);
             expression.execute();
-            log.debug(expression.getClass() + "Command executed successfully");
+            log.debug(expression.getClass().toString().replace("dbms.sqlparser.sqlInterpreter.rules.", "")
+                    + " Command executed successfully");
             if (expression.getClass() == Select.class) {
-                expression.execute();
                 RecordSet recordSet = ((Select) expression).getRecordSet();
                 resultSet = new DBResultSetImpl(this, recordSet);
                 if (recordSet.size() == 0) {
@@ -67,7 +67,6 @@ public class StatementAdapter extends DBStatement {
                 }
                 return true;
             } else if (expression.getClass() == Union.class) {
-                expression.execute();
                 RecordSet recordSet = ((Union) expression).getRecordSet();
                 resultSet = new DBResultSetImpl(this, recordSet);
                 if (recordSet.size() == 0) {
@@ -79,6 +78,7 @@ public class StatementAdapter extends DBStatement {
                 | IncorrectDataEntryException | DataTypeNotSupportedException
                 | DatabaseNotFoundException | TableNotFoundException
                 | DatabaseAlreadyCreatedException | TableAlreadyCreatedException e) {
+            log.error("Invalid sql command " + e.toString());
             throw new SQLException();
         }
         return false; // insert, update, delete, drop, create, use, alter ...
@@ -89,12 +89,14 @@ public class StatementAdapter extends DBStatement {
         try {
             Expression expression = SQLParser.getInstance().parse(sql);
             expression.execute();
-            RecordSet recordSet = ((Select) expression).getRecordSet();
+            log.debug(expression.getClass().toString().replace("dbms.sqlparser.sqlInterpreter.rules.", "")
+                    + " Command executed successfully");
+                    RecordSet recordSet = ((Select) expression).getRecordSet();
             resultSet = new DBResultSetImpl(this, recordSet);
             return resultSet;
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new SQLException(e.toString());
+            log.error("Invalid sql command " + e.toString());
+            throw new SQLException();
         }
     }
 
@@ -103,19 +105,19 @@ public class StatementAdapter extends DBStatement {
         try {
             Expression expression = SQLParser.getInstance().parse(sql);
             expression.execute();
+            log.debug(expression.getClass().toString().replace("dbms.sqlparser.sqlInterpreter.rules.", "")
+                    + " Command executed successfully");
             if (expression instanceof DDLStatement) {
                 return 0;
-            } else if (expression instanceof DMLStatement) {
-                return ((DMLStatement) expression).getUpdateCount();
             }
+            return ((DMLStatement) expression).getUpdateCount();
         } catch (SyntaxErrorException
                 | IncorrectDataEntryException | DataTypeNotSupportedException
                 | DatabaseNotFoundException | TableNotFoundException
                 | DatabaseAlreadyCreatedException | TableAlreadyCreatedException e) {
-            e.printStackTrace();
+            log.error("Invalid sql command " + e.toString());
             throw new SQLException();
         }
-        throw new SQLException();
     }
 
     @Override
