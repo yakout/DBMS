@@ -11,6 +11,9 @@ import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.util.Column;
 import dbms.util.Table;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -25,12 +28,13 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class XMLParser extends BackendParser {
+	private static Logger log = LogManager.getLogger(XMLParser.class);
 	public static final String KEY = "xml";
 	private static XMLParser instance = null;
 	private static DocumentBuilder docBuilder = null;
 	private static Transformer transformer = null;
 	private static final ResourceBundle CONSTANTS =
-			ResourceBundle.getBundle("dbms.backend.parsers.xml.Constants");
+	ResourceBundle.getBundle("dbms.backend.parsers.xml.Constants");
 
 	static {
 		BackendParserFactory.getFactory().register(KEY, getInstance());
@@ -73,8 +77,11 @@ public class XMLParser extends BackendParser {
 		File tableFile = new File(openDB(table.getDatabase().getName()), table.getName()
 				+ CONSTANTS.getString("extension.xml"));
 		if (tableFile.exists()) {
+			log.error("Can't create table with name" + table.getName()
+					+ " this nameDatabase already created");
 			throw new TableAlreadyCreatedException();
 		}
+		log.debug("\'" + table.getName() + "\' is created successfully.");
 		write(table, tableFile);
 		XSDParser.getInstance().createSchema(table.getDatabase().getName()
 				, table.getName());
@@ -90,8 +97,10 @@ public class XMLParser extends BackendParser {
 		try {
 			doc = docBuilder.parse(tableFile);
 		} catch (SAXException | IOException e) {
+			log.error("Error occured while loading the table.");
 			e.printStackTrace();
 		}
+		log.debug("\'" + table.getName() + "\' is loaded successfully.");
 		validateDB(doc, table.getDatabase().getName());
 		doc.getDocumentElement().normalize();
 		parseDataToTable(table, doc);
@@ -101,6 +110,7 @@ public class XMLParser extends BackendParser {
 	public void writeToFile(Table table) throws TableNotFoundException, DatabaseNotFoundException {
 		File tableFile = openTable(table.getDatabase().getName(), table.getName());
 		write(table, tableFile);
+		log.debug("Saved into file successfully.");
 	}
 
 	@Override
@@ -114,12 +124,15 @@ public class XMLParser extends BackendParser {
 				+ CONSTANTS.getString("extensionDTD.schema"));
 		if (tableFile.exists()) {
 			tableFile.delete();
+			log.debug(table.getName() + " is deleted succussfully.");
 		}
 		if (xsdFile.exists()) {
 			xsdFile.delete();
+			log.debug(table.getName() + " XSD file is deleted succussfully.");
 		}
 		if (dtdFile.exists()) {
 			dtdFile.delete();
+			log.debug(table.getName() + " DTD file is deleted succussfully.");
 		}
 	}
 
@@ -136,6 +149,7 @@ public class XMLParser extends BackendParser {
 		doc.appendChild(tableElement);
 		addColumns(doc, table, tableElement);
 		transform(doc, tableFile, table.getName());
+		log.debug("Rows is added successfully.");
 	}
 
 	private void addColumns(Document doc, Table table, Element tableElement) {
@@ -151,6 +165,7 @@ public class XMLParser extends BackendParser {
 			} catch (DOMException | IllegalArgumentException
 					| IllegalAccessException | NoSuchFieldException
 					| SecurityException | InstantiationException e) {
+				log.error("Error occured while parsing!");
 				e.printStackTrace();
 			}
 			addRows(doc, col, colElement);
@@ -201,10 +216,10 @@ public class XMLParser extends BackendParser {
 				Object entry = DatatypeFactory.getFactory().toObj(
 						row.getTextContent(), colType);
 				col.addEntry(DatatypeFactory.getFactory().convertToDataType(entry));
-				// TODO: add a support for getting DBDatatype immediately.
 			}
 			table.addColumn(col);
 		}
+		log.debug("Data is cached successfully");
 	}
 
 	private File openTable(String dbName, String tableName)
@@ -212,6 +227,7 @@ public class XMLParser extends BackendParser {
 		File tableFile = new File(openDB(dbName), tableName
 				+ CONSTANTS.getString("extension.xml"));
 		if (!tableFile.exists()) {
+			log.error("Error occured: Table is not found.");
 			throw new TableNotFoundException();
 		}
 		return tableFile;
@@ -222,6 +238,7 @@ public class XMLParser extends BackendParser {
 		File database = new File(BackendController.getInstance().getCurrentDatabaseDir()
                 + File.separator + dbName);
 		if (!database.exists()) {
+			log.error("Error occured: Database is not found.");
 			throw new DatabaseNotFoundException();
 		}
 		return database;
@@ -233,8 +250,10 @@ public class XMLParser extends BackendParser {
 				"table.element")).item(0).getAttributes().getNamedItem(
 						CONSTANTS.getString("db.attr")).getTextContent();
 		if (!db.equals(dbName)) {
+			log.error("Error occured: Table is not found.");
 			throw new TableNotFoundException();
 		}
+		log.debug("Table is set successfully.");
 	}
 
 	private void transform(Document doc, File tableFile, String tableName) {
@@ -251,7 +270,9 @@ public class XMLParser extends BackendParser {
 		try {
 			transformer.transform(source, result);
 		} catch (TransformerException e) {
+			log.error("Error occured while transforming to XML file.");
 			e.printStackTrace();
 		}
+		log.debug("Data is parsed successfully.");
 	}
 }
