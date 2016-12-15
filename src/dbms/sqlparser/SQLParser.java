@@ -64,7 +64,10 @@ public class SQLParser {
 		Matcher ruleMatcher = validate(rulePattern, query);
 
 		ruleMatcher.matches();
-        if (ruleMatcher.group(2) != null) return parseUnion(query, ruleMatcher.group(2));
+        if (ruleMatcher.group(2) != null)
+       	{
+        	return parseUnion(query, ruleMatcher.group(2));
+       	}
 		switch (ruleMatcher.group(1).toLowerCase()) {
 		case "select":
 			Pattern selectPattern = SelectSyntax.getInstance().getPattern();
@@ -253,7 +256,7 @@ public class SQLParser {
 	 * parse delete statement.
 	 * 
 	 * @param matcher
-	 *            matched pattern from query.
+	 * matched pattern from query.
 	 * @return {@link Expression}.
 	 */
 	private Expression parseDelete(Matcher matcher) {
@@ -335,19 +338,5 @@ public class SQLParser {
 	private Expression parseUse(Matcher matcher) {
 		matcher.matches();
 		return new UseDatabase(matcher.group(1));
-	}
-
-	/**
-	 *
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		try {
-//            InsertIntoTable expression = (InsertIntoTable) new SQLParser()
-//                    .parse("insert into table_Name values ('1996-08-17');");
-//			expression.execute();
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
 	}
 }
