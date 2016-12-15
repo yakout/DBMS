@@ -71,10 +71,6 @@ public class Table {
 		this.size = size;
 	}
 
-	public void setColumns(List<Column> newColumns) {
-		columns = newColumns;
-	}
-
 	public int insertRow(Map<String, DBDatatype> entryMap)
 			throws IncorrectDataEntryException,
 			TableNotFoundException, DatabaseNotFoundException {
@@ -92,8 +88,8 @@ public class Table {
 	public int insertRow(Collection<DBDatatype> entries)
 			throws IncorrectDataEntryException {
 		if (entries.size() != columns.size()) {
-		    throw new IncorrectDataEntryException("Column count invalid!");
-        }
+			throw new IncorrectDataEntryException("Column count invalid!");
+		}
 		int i = 0;
 		for (DBDatatype entry : entries) {
 			Column col = columns.get(i);
@@ -221,19 +217,19 @@ public class Table {
 				new LinkedHashMap<String, DBDatatype>();
 		Collection<String> columnsLower = new ArrayList<>();
 		if (columns == null) {
-		    for (Column col : this.columns) {
-                ret.put(col.getName(), col.get(index));
-            }
-        } else {
-            for (String colName : columns) {
-                for (Column col : this.columns) {
-                    if (colName.toLowerCase().equals(
-                            col.getName().toLowerCase())) {
-                        ret.put(col.getName(), col.get(index));
-                    }
-                }
-            }
-        }
+			for (Column col : this.columns) {
+				ret.put(col.getName(), col.get(index));
+			}
+		} else {
+			for (String colName : columns) {
+				for (Column col : this.columns) {
+					if (colName.toLowerCase().equals(
+							col.getName().toLowerCase())) {
+						ret.put(col.getName(), col.get(index));
+					}
+				}
+			}
+		}
 		return ret;
 	}
 

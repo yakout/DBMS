@@ -26,44 +26,40 @@ public class DBResultSetImpl extends DBResultSet {
     public DBResultSetImpl(Statement statement, RecordSet recordSet) {
         this.recordSet = recordSet;
         position = Position.BEFORE_FIRST;
+        state = State.OPEN;
         metaData = new DBResultSetMetaDataImpl(this);
         this.statement = statement;
     }
 
     @Override
     public boolean absolute(int row) throws SQLException {
+        if (state == State.CLOSED) {
+            throw new SQLException();
+        }
         if (row == 0) {
             current = null;
+            recordSet.reset();
             position = Position.BEFORE_FIRST;
-            return false;
         } else {
-            if (row > 0) {
-                try {
-                    current = recordSet.getRecords().get(row - 1);
-                } catch (IndexOutOfBoundsException e) {
-                    current = null;
+            try {
+                current = recordSet.moveTo(row - 1);
+                position = Position.IN;
+                return true;
+            } catch (IndexOutOfBoundsException e) {
+                current = null;
+                if (row > 0) {
                     position = Position.AFTER_LAST;
-                    return false;
-                }
-            } else if (row < 0) {
-                try {
-                    current = recordSet.getRecords().get(recordSet.size() - row);
-                } catch (IndexOutOfBoundsException e) {
-                    current = null;
+                } else if (row < 0) {
                     position = Position.BEFORE_FIRST;
-                    return false;
                 }
             }
-            position = Position.IN;
-            return true;
         }
+        return false;
     }
 
     @Override
     public void afterLast() throws SQLException {
-        while (recordSet.hasNext()) {
-            recordSet.next();
-        }
+        recordSet.moveTo(recordSet.size() - 1);
         current = null;
         position = Position.AFTER_LAST;
     }
@@ -96,12 +92,10 @@ public class DBResultSetImpl extends DBResultSet {
 
     @Override
     public boolean first() throws SQLException {
-        if(recordSet.isEmpty()) {
+        if (recordSet.isEmpty()) {
             return false;
         } else {
-            while (recordSet.hasPrev()) {
-                current = recordSet.prev();
-            }
+            current = recordSet.moveTo(0);
             position = Position.IN;
             return true;
         }
@@ -109,12 +103,10 @@ public class DBResultSetImpl extends DBResultSet {
 
     @Override
     public boolean last() throws SQLException {
-        if(recordSet.isEmpty()) {
+        if (recordSet.isEmpty()) {
             return false;
         } else {
-            while (recordSet.hasNext()) {
-                current = recordSet.next();
-            }
+            current = recordSet.moveTo(recordSet.size() - 1);
             position = Position.IN;
             return true;
         }
@@ -122,12 +114,15 @@ public class DBResultSetImpl extends DBResultSet {
 
     @Override
     public int getInt(int columnIndex) throws SQLException {
-        if (state != State.CLOSED
+        if (current != null && state != State.CLOSED
                 && columnIsValid(columnIndex)) {
             DBDatatype o = current.get(columnIndex - 1);
             if (o == null) {
                 return 0;
             } else if (o.getKey().equals(DBInteger.KEY)) {
+                if (o.getValue() == null) {
+                    return 0;
+                }
                 return (Integer) o.getValue();
             }
         }
@@ -136,12 +131,15 @@ public class DBResultSetImpl extends DBResultSet {
 
     @Override
     public int getInt(String columnLabel) throws SQLException {
-        if (state != State.CLOSED
+        if (current != null && state != State.CLOSED
                 && columnIsValid(columnLabel)) {
             DBDatatype o = current.get(columnLabel);
             if (o == null) {
                 return 0;
             } else if (o.getKey().equals(DBInteger.KEY)) {
+                if (o.getValue() == null) {
+                    return 0;
+                }
                 return (Integer) o.getValue();
             }
         }
@@ -178,12 +176,14 @@ public class DBResultSetImpl extends DBResultSet {
 
     @Override
     public String getString(int columnIndex) throws SQLException {
-        if (state != State.CLOSED
+        if (current != null && state != State.CLOSED
                 && columnIsValid(columnIndex)) {
             DBDatatype o = current.get(columnIndex - 1);
             if (o == null) {
                 return null;
             } else if (o.getKey().equals(DBString.KEY)) {
+                if (o.getValue().equals(""))
+                    return null;
                 return (String) o.getValue();
             }
         }
@@ -193,12 +193,14 @@ public class DBResultSetImpl extends DBResultSet {
 
     @Override
     public String getString(String columnLabel) throws SQLException {
-        if (state != State.CLOSED
+        if (current != null && state != State.CLOSED
                 && columnIsValid(columnLabel)) {
             DBDatatype o = current.get(columnLabel);
             if (o == null) {
                 return null;
             } else if (o.getKey().equals(DBString.KEY)) {
+                if (o.getValue().equals(""))
+                    return null;
                 return (String) o.getValue();
             }
         }
@@ -241,6 +243,10 @@ public class DBResultSetImpl extends DBResultSet {
             if (o == null) {
                 return null;
             }
+            if (o.getKey().equals(DBString.KEY)) {
+                if (o.getValue().equals(""))
+                    return null;
+            }
             return o.getValue();
         }
         throw new SQLException();
@@ -253,6 +259,10 @@ public class DBResultSetImpl extends DBResultSet {
             DBDatatype o = current.get(columnLabel);
             if (o == null) {
                 return null;
+            }
+            if (o.getKey().equals(DBString.KEY)) {
+                if (o.getValue().equals(""))
+                    return null;
             }
             return o.getValue();
         }
@@ -307,7 +317,11 @@ public class DBResultSetImpl extends DBResultSet {
 
     @Override
     public boolean previous() throws SQLException {
-        current = recordSet.prev();
+        if (position == Position.AFTER_LAST) {
+            current = recordSet.curr();
+        } else {
+            current = recordSet.prev();
+        }
         if (current == null) {
             position = Position.BEFORE_FIRST;
             return false;
