@@ -64,7 +64,10 @@ public class SQLParser {
 		Matcher ruleMatcher = validate(rulePattern, query);
 
 		ruleMatcher.matches();
-        if (ruleMatcher.group(2) != null) return parseUnion(query, ruleMatcher.group(2));
+        if (ruleMatcher.group(2) != null)
+       	{
+        	return parseUnion(query, ruleMatcher.group(2));
+       	}
 		switch (ruleMatcher.group(1).toLowerCase()) {
 		case "select":
 			Pattern selectPattern = SelectSyntax.getInstance().getPattern();

@@ -10,7 +10,6 @@ public class Test {
             TableNotFoundException, DatabaseNotFoundException,
             SyntaxErrorException, TableAlreadyCreatedException {
 		try {
-            SQLParser.getInstance().parse("drop DATABASE db1").execute();
             SQLParser.getInstance().parse("CREATE DATABASE db1").execute();
 
 			SQLParser.getInstance().parse("CREATE TABLE table1 (ID int, Name varchar, Gender varchar, Date date)").execute(); // FAIL
