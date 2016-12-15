@@ -18,7 +18,6 @@ import java.util.Properties;
  will have many of them.
  **/
 public class SmokeTest {
-
     private String protocol = "altdb";
     private String tmp = System.getProperty("java.io.tmpdir");
 
