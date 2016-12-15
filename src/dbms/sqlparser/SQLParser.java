@@ -281,7 +281,7 @@ public class SQLParser {
                 columns.put(key, value.toLowerCase());
             }
         }
-        Update update = new Update(matcher.group(1), values, columns);
+        Update update = new Update(matcher.group(1).toLowerCase(), values, columns);
 
         // if where is available
         if (matcher.group(7) != null) {
@@ -322,7 +322,7 @@ public class SQLParser {
 			}
 		}
 
-		return new CreateTable(matcher.group(5), columns);
+		return new CreateTable(matcher.group(5).toLowerCase(), columns);
 	}
 
 	/**
