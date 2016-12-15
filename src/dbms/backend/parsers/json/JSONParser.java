@@ -20,8 +20,12 @@ import dbms.util.Table;
 import java.io.*;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class JSONParser extends BackendParser {
-	public static final String KEY = "alt2";
+	private static Logger log = LogManager.getLogger(JSONParser.class);
+	public static final String KEY = "alt";
 	private static JSONParser instance = null;
 	private static final ResourceBundle CONSTANTS = ResourceBundle.getBundle(
 			"dbms.backend.parsers.json.Constants");
@@ -77,8 +81,10 @@ public class JSONParser extends BackendParser {
 			bufferedReader = new BufferedReader(new FileReader(openTable(
 					table.getDatabase().getName(), table.getName())));
 		} catch (FileNotFoundException e) {
+			log.error("Error occured while loading the table.");
 			throw new TableNotFoundException();
 		}
+		log.debug("\'" + table.getName() + "\' is loaded successfully.");
 		table.setTable(gson.fromJson(bufferedReader, Table.class));
 	}
 
@@ -89,8 +95,10 @@ public class JSONParser extends BackendParser {
 		try {
 			write(table, tableFile);
 		} catch (IOException e) {
+			log.error("Error occured while saving in JSON file.");
 			e.printStackTrace();
 		}
+		log.debug("Saved into JSON file successfully.");
 	}
 	
 	@Override
@@ -99,13 +107,17 @@ public class JSONParser extends BackendParser {
 		File tableFile = new File(openDB(table.getDatabase().getName()),
 				table.getName() + CONSTANTS.getString("extension.json"));
 		if (tableFile.exists()) {
+			log.error("Can't create table with name" + table.getName()
+			+ " this nameDatabase already created");
 			throw new TableAlreadyCreatedException();
 		}
 		try {
 			write(table, tableFile);
 		} catch (IOException e) {
+			log.error("Error ocurred while parsing!");
 			e.printStackTrace();
-		}	
+		}
+		log.debug("\'" + table.getName() + "\' is created successfully.");
 	}
 
 	private void write(Table table, File tableFile) throws IOException {
@@ -121,13 +133,18 @@ public class JSONParser extends BackendParser {
 				+ CONSTANTS.getString("extension.json"));
 		if (tableFile.exists()) {
 			tableFile.delete();
+			log.debug(table.getName() + " file is successfully deleted.");
+		} else {
+			log.error("Error occured: " + table.getName() + " file is not found!");
 		}
 	}
 
 	private static File openTable(String dbName, String tableName) throws TableNotFoundException,
 		DatabaseNotFoundException {
-		File tableFile = new File(openDB(dbName), tableName + CONSTANTS.getString("extension.json"));
+		File tableFile = new File(openDB(dbName), tableName + CONSTANTS.getString(
+				"extension.json"));
 		if (!tableFile.exists()) {
+			log.error("Error occured: " + tableName + " file is not found!");
 			throw new TableNotFoundException();
 		}
 		return tableFile;
@@ -137,34 +154,10 @@ public class JSONParser extends BackendParser {
 		File database = new File(BackendController.getInstance().getCurrentDatabaseDir()
 				+ File.separator + dbName);
 		if (!database.exists()) {
+			log.error("Error occured: Database is not found.");
 			throw new DatabaseNotFoundException();
 		}
 		return database;
-	}
-
-
-	public static void main(String[] argv) {
-		JSONParser parser = new JSONParser();
-		Database database = new Database("Yakout");
-		Table tb = database.createTable(("IdiotTable"));
-		tb.setDatabase(database);
-		tb.addColumn(new Column("hamada", DBString.class));
-		tb.addColumn(new Column("Naggar", DBString.class));
-		tb.addColumn(new Column("tolba", DBInteger.class));
-		
-		try {
-			parser.createDatabase(database);
-			parser.createTable(tb);
-		} catch (DatabaseNotFoundException | TableAlreadyCreatedException
-				| DatabaseAlreadyCreatedException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			parser.writeToFile(tb);
-		} catch (TableNotFoundException | DatabaseNotFoundException e) {
-			e.printStackTrace();
-		}
 	}
 
 }

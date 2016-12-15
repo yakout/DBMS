@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 public class ProtocolBufferParser extends BackendParser {
-    public static final String KEY = "alt";
+    public static final String KEY = "pb";
     private static ProtocolBufferParser instance = null;
 
     static {

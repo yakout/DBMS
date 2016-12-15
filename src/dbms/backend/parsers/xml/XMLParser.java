@@ -149,7 +149,6 @@ public class XMLParser extends BackendParser {
 		doc.appendChild(tableElement);
 		addColumns(doc, table, tableElement);
 		transform(doc, tableFile, table.getName());
-		log.debug("Rows is added successfully.");
 	}
 
 	private void addColumns(Document doc, Table table, Element tableElement) {
@@ -253,7 +252,7 @@ public class XMLParser extends BackendParser {
 			log.error("Error occured: Table is not found.");
 			throw new TableNotFoundException();
 		}
-		log.debug("Table is set successfully.");
+		log.debug("Table is currently set successfully.");
 	}
 
 	private void transform(Document doc, File tableFile, String tableName) {
