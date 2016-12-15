@@ -1,4 +1,4 @@
-package jdbc.imp.onlineTester;
+package jdbc.imp.test.onlineTester;
 
 import jdbc.imp.driver.DriverAdapter;
 import org.junit.Assert;
@@ -51,7 +51,6 @@ public class SmokeTest {
         // folder for
         // that database
         // within dbDir.
-
         statement.execute("USE " + databaseName); // Set the state of your
         // connection to use
         // "databaseName", all next
@@ -64,6 +63,7 @@ public class SmokeTest {
     @Test //
     public void testCreateTable() throws SQLException {
         Connection connection = createUseDatabase("TestDB_Create");
+        System.getProperty("java.io.tmpdir");
         try {
             Statement statement = connection.createStatement();
             statement.execute("CREATE TABLE table_name1(column_name1 varchar, column_name2 int, column_name3 date)");

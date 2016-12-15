@@ -13,9 +13,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ColumnsAdapterProto {
+public class ColumnsAdapterProtoBuf {
 
-    public ColumnsAdapterProto ()  {
+    public ColumnsAdapterProtoBuf()  {
     }
 
     public void desrializeColumns (byte[] deserialzedData, Table table) throws InvalidProtocolBufferException {

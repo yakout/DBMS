@@ -87,7 +87,7 @@ public class ProtocolBufferParser extends BackendParser {
 
     private void write (Table table, File tableFile) throws InvocationTargetException, NoSuchMethodException,
             InstantiationException, IllegalAccessException, IOException {
-        ColumnsAdapterProto columnAdapter = new ColumnsAdapterProto();
+        ColumnsAdapterProtoBuf columnAdapter = new ColumnsAdapterProtoBuf();
         byte[] serializedData = columnAdapter.serializeTable(table);
         FileOutputStream fileOutputStream = new FileOutputStream(tableFile);
         fileOutputStream.write(serializedData);
@@ -97,7 +97,7 @@ public class ProtocolBufferParser extends BackendParser {
 
     private void load (Table table , File tableFile) throws DatabaseNotFoundException,
             TableNotFoundException, IOException {
-        ColumnsAdapterProto columnAdapter = new ColumnsAdapterProto();
+        ColumnsAdapterProtoBuf columnAdapter = new ColumnsAdapterProtoBuf();
         FileInputStream fileInputStream = new FileInputStream(tableFile);
         byte[] deSerializedData = new byte[(int)tableFile.length()];
         fileInputStream.read(deSerializedData);
