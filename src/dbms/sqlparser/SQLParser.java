@@ -207,7 +207,7 @@ public class SQLParser {
 		for (int i = 0; i < orderbyArray.length; i++) {
 			String[] orderby = orderbyArray[i].trim().split("\\s+");
 			if (orderby.length == 1) {
-				columns.add(new Pair<>(orderby[0].toLowerCase(), true));
+				columns.add(new Pair<>(orderby[0].toLowerCase(), false));
 			} else {
 				if (orderby[1].equals("ASC")) {
 					columns.add(new Pair<>(orderby[0].toLowerCase(), false));
