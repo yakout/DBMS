@@ -3,6 +3,10 @@ package dbms.datatypes;
 import java.sql.Date;
 
 public class DBDate implements DBDatatype {
+
+    /**
+     * Key identifier to DBDate.
+     */
     public static final String KEY = "Date";
 
     static {
@@ -12,6 +16,7 @@ public class DBDate implements DBDatatype {
     private Date value;
 
     public DBDate() {
+
     }
 
     public DBDate(Date value) {

@@ -12,16 +12,30 @@ import java.util.ResourceBundle;
  * Generates a DTD schema file for XML database.
  */
 public class DTDSchemaParser {
-    private static final String WORKSPACE_DIR =
-            System.getProperty("user.home") + File.separator + "databases";
+
+    /**
+     * Resource bundle to constants.
+     */
     private static final ResourceBundle CONSTANTS =
             ResourceBundle.getBundle("dbms.backend.parsers.xml.Constants");
+
+    /**
+     * Static singleton instance.
+     */
     private static DTDSchemaParser instance = null;
+
+    /**
+     * TODO
+     */
     private PrintWriter out;
 
     private DTDSchemaParser() {
     }
 
+    /**
+     * Gets static singleton instance.
+     * @return static singleton instance.
+     */
     public static DTDSchemaParser getInstance() {
         if (instance == null) {
             instance = new DTDSchemaParser();

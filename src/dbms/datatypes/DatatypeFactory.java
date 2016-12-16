@@ -10,8 +10,20 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 
+/**
+ * Registers and grants access to any of the supported datatypes
+ * in DBMS.
+ */
 public class DatatypeFactory {
-    private static HashMap<String, Class<? extends DBDatatype>> registeredDataTypes = null;
+    /**
+     * Holds all registered data types in factory.
+     */
+    private static HashMap<String, Class<
+            ? extends DBDatatype>> registeredDataTypes = null;
+
+    /**
+     * Singleton static instance.
+     */
     private static DatatypeFactory instance = null;
 
     private DatatypeFactory() {
@@ -19,6 +31,10 @@ public class DatatypeFactory {
         loadDatatypes();
     }
 
+    /**
+     * Gets static instance to factory.
+     * @return static instance.
+     */
     public static DatatypeFactory getFactory() {
         if (instance == null) {
             instance = new DatatypeFactory();
@@ -26,23 +42,35 @@ public class DatatypeFactory {
         return instance;
     }
 
-    public static DBDatatype convertToDataType(Object data) {
-        if (data == null) {
+    /**
+     * Converts a primitive java object to its equivalent
+     * {@link DBDatatype}.
+     * @param o Object to get converted.
+     * @return {@link DBDatatype} object to get converted to.
+     */
+    public static DBDatatype convertToDataType(Object o) {
+        if (o == null) {
             return null;
         }
-        Class<?> classType = data.getClass();
+        Class<?> classType = o.getClass();
         if (classType == Integer.class) {
-            return new DBInteger((Integer) data);
+            return new DBInteger((Integer) o);
         } else if (classType == Date.class) {
-            return new DBDate((Date) data);
+            return new DBDate((Date) o);
         } else if (classType == Float.class) {
-            return new DBFloat((Float) data);
+            return new DBFloat((Float) o);
         } else if (classType == String.class) {
-            return new DBString((String) data);
+            return new DBString((String) o);
         }
         return null;
     }
 
+    /**
+     * Converts a string value to its equivalent
+     * {@link DBDatatype} object.
+     * @param value String value.
+     * @return {@link DBDatatype} object.
+     */
     public static Object convertToObject(String value) {
         if (value.matches(SyntaxUtil.DATE_FORMAT)) {
             value = value.replaceAll("'", "");
@@ -68,21 +96,34 @@ public class DatatypeFactory {
         return value.replaceAll("('|\")", "");
     }
 
-    public static void main(String[] args) {
-        System.out.print(convertToObject("'1996-8-17'"));
+    /**
+     * Registers a new datatype to factory.
+     * @param key datatype key.
+     * @param datatype Class of the datatype.
+     */
+    public void register(String key, Class<? extends DBDatatype> datatype) {
+        registeredDataTypes.put(key, datatype);
     }
 
-    public void register(String name, Class<? extends DBDatatype> datatype) {
-        registeredDataTypes.put(name, datatype);
-    }
-
+    /**
+     * Gets registered datatype
+     * @param name
+     * @return
+     */
     public Class<? extends DBDatatype> getRegisteredDatatype(String name) {
         return registeredDataTypes.get(name);
     }
 
-    public Object toObj(String s, String type) {
+    /**
+     * Converts a string value to an object given
+     * key to {@link DBDatatype}.
+     * @param s string value.
+     * @param key {@link DBDatatype} key.
+     * @return Object.
+     */
+    public Object toObj(String s, String key) {
         Class<? extends DBDatatype> datatype = registeredDataTypes
-                .get(type);
+                .get(key);
         if (datatype == null) {
             return null;
         }
