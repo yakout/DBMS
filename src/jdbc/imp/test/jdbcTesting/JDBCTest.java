@@ -800,56 +800,21 @@ public class JDBCTest {
         }
         connection.close();
     }
-
     @Test
     public void testJDBCTwenty() throws SQLException {
-        final Connection connection = createUseDatabase("sqlDatabase");
-        try {
-            final Statement statement = connection.createStatement();
-            statement.execute("Create table tb (CurrentTime dateTime,"
-                    + " Name varchar, GradE float, Birth date)");
-            int count = statement.executeUpdate("INSERT INTO tb (Name,"
-                    + " GrAde, birth, currentTime)"
-                    + " VALUES ('hello', -.366, '2001-10-10', '2000-09-03 11:02:09')");
-            Assert.assertEquals("Table Insertion did not return 1", 1, count);
-            count = statement.executeUpdate("INSERT INTO tb"
-                    + " VALUES ('2001-09-03 11:02:09','A spaced string', 101.00002, '0001-01-01')");
-            Assert.assertEquals("Table Insertion did not return 1", 1, count);
-            count = statement.executeUpdate("INSERT INTO tb"
-                    + " VALUES ('2001-09-03 11:02:09','a float is .003', .003, '8488-11-30')");
-            Assert.assertEquals("Table Insertion did not return 1", 1, count);
-            final ResultSet resultSet = statement.executeQuery("select biRth, gRAde, cuRRentTiMe, naMe from tb where "
-                    + "currenttime > '0001-01-01 01:01:01' order by currenttime, grade desc");
-            resultSet.first();
-            Assert.assertEquals(resultSet.getString(4), "hello");
-            Assert.assertEquals(resultSet.getFloat(2), -0.366, 0.001);
-            resultSet.next();
-            Assert.assertEquals(resultSet.getString("name"), "A spaced string");
-            Assert.assertEquals(resultSet.getFloat("grade"), 101.00002, 0.001);
-            try {
-                Assert.assertEquals(resultSet.getFloat("name"), 101.00002, 0.001);
-            } catch (final SQLException e) {
-            }
-
-        } catch (final SQLException e) {
-            e.printStackTrace();
-        }
-        connection.close();
-    }
-
-    @Test
-    public void testJDBCTwentyOne() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
-            statement.execute("CREATE TABLE table_name1(column_name1 varchar, column_name2 int, column_name3 date)");
+            statement.execute("CREATE TABLE table_name1(column_name1 varchar, column_name2 " +
+                    "int, column_name3 date)");
             statement.close();
         } catch (final Throwable e) {
             e.printStackTrace();
         }
         try {
             final Statement statement = connection.createStatement();
-            statement.execute("CREATE TABLE table_name1(column_name1 varchar, column_name2 int, column_name3 date)");
+            statement.execute("CREATE TABLE table_name1(column_name1 varchar, column_name2 int," +
+                    " column_name3 date)");
             Assert.fail("Created existing table successfully!");
         } catch (final SQLException e) {
 
@@ -866,5 +831,125 @@ public class JDBCTest {
             e.printStackTrace();
         }
         connection.close();
+    }
+
+    @Test
+    public void testJDBCTwentyOne() throws SQLException {
+        final Connection connection = createUseDatabase("School");
+        try {
+            final Statement statement = connection.createStatement();
+            statement.execute("Create table Student (ID int, Name varchar, Grade float)");
+            int count = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
+                    + " VALUES (1 ,'Ahmed Khaled', 90.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
+                    + " VALUES (2 ,'Ahmed El Naggar', 90.2)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2,'tolba',155.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("upDATE Student set id = 500 where grade > 10.5 ");
+            Assert.assertEquals("Table Insertion did not return 1", 3, count);
+            count = statement.executeUpdate("delETE from StUDENT wheRE grade < 100.0");
+            Assert.assertEquals("Table Insertion did not return 1", 2, count);
+            final ResultSet resultSet = statement.executeQuery("SELECT * FROM Student");
+            resultSet.next();
+            Assert.assertEquals("Failed to get Correct Float Value",
+                    155.5, resultSet.getFloat("Grade"), 0.0001);
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
+        connection.close();
+    }
+
+    @Test
+    public void testJDBCTwentyTwo() throws SQLException {
+        final Connection connection = createUseDatabase("School");
+        try {
+            final Statement statement = connection.createStatement();
+            statement.execute("Create table Student (ID int, Name varchar, Grade float)");
+            int count = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
+                    + " VALUES (1 ,'Ahmed Khaled', 90.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
+                    + " VALUES (2 ,'Ahmed El Naggar', 90.2)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2,'tolba',155.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (800,'tolba fam',125.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (88,'Bars',1889.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2,'Naggor',855.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2007,' ehYaEtchy ',1577.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2828,'eh ya Barry',15588.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+
+            count = statement.executeUpdate("upDATE Student set id = 500 where grade > 10.5 ");
+            Assert.assertEquals("Table Insertion did not return 1", 8, count);
+            count = statement.executeUpdate("delETE from StUDENT wheRE grade < 100.0");
+            Assert.assertEquals("Table Insertion did not return 1", 2, count);
+            final ResultSet resultSet = statement.executeQuery("SELECT * FROM Student");
+            resultSet.next();
+            Assert.assertEquals("Failed to get Correct Float Value",
+                    155.5, resultSet.getFloat("Grade"), 0.0001);
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
+        connection.close();
+    }
+
+    @Test
+    public void testJDBCTwentyThree() throws SQLException {
+        final Connection connection = createUseDatabase("School");
+        try {
+            final Statement statement = connection.createStatement();
+            statement.execute("Create table Student (ID int, Name varchar, Grade float)");
+            int count = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
+                    + " VALUES (1 ,'Ahmed Khaled', 90.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
+                    + " VALUES (2 ,'Ahmed El Naggar', 90.2)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2,'tolba',155.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (800,'tolba fam',125.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (88,'Bars',1889.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2,'Naggor',855.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2007,' ehYaEtchy ',1577.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2828,'eh ya Barry',15588.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2828,'88282',588.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2828,'one1919',15588.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2828,'TWO202',158828.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2828,'Tree552',15992988.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2828,'fatfatfat',159222.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2828,'eh ya Barry',15588.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2828,'eh ya etchy',2016.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("upDATE Student set id = 500 where grade > 10.5 ");
+            Assert.assertEquals("Table Insertion did not return 1", 15, count);
+            count = statement.executeUpdate("delETE from StUDENT wheRE grade < 100.0");
+            Assert.assertEquals("Table Insertion did not return 1", 2, count);
+            final ResultSet resultSet = statement.executeQuery("SELECT * FROM Student");
+            resultSet.next();
+            Assert.assertEquals("Failed to get Correct Float Value",
+                    155.5, resultSet.getFloat("Grade"), 0.0001);
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
+        connection.close();
+
     }
 }
