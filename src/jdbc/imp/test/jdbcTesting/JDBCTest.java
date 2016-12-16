@@ -896,6 +896,10 @@ public class JDBCTest {
         connection.close();
     }
 
+
+
+
+
     @Test
     public void testJDBCTwentyThree() throws SQLException {
         final Connection connection = createUseDatabase("School");
