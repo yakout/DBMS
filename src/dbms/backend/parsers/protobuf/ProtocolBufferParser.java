@@ -17,8 +17,10 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 public class ProtocolBufferParser extends BackendParser {
-    public static final String KEY = "pb";
-    private static Logger log = LogManager.getLogger(ProtocolBufferParser.class);
+
+	private static Logger log = LogManager.getLogger(ProtocolBufferParser.class);
+    public static final String KEY = "alt";
+
     private static ProtocolBufferParser instance = null;
 
     static {
@@ -33,26 +35,6 @@ public class ProtocolBufferParser extends BackendParser {
             instance = new ProtocolBufferParser();
         }
         return instance;
-    }
-
-    private static File openDB(String dbName) throws DatabaseNotFoundException {
-        File database = new File(BackendController.getInstance().getCurrentDatabaseDir()
-                + File.separator + dbName);
-        if (!database.exists()) {
-            log.error("Error occured: " + dbName + " database is not found!");
-            throw new DatabaseNotFoundException();
-        }
-        return database;
-    }
-
-    private static File openTable(String dbName, String tableName) throws TableNotFoundException,
-            DatabaseNotFoundException {
-        File tableFile = new File(openDB(dbName), tableName + ".txt");
-        if (!tableFile.exists()) {
-            log.error("Error occured: " + tableName + " is not found!");
-            throw new TableNotFoundException();
-        }
-        return tableFile;
     }
 
     @Override
@@ -90,7 +72,7 @@ public class ProtocolBufferParser extends BackendParser {
     @Override
     public void createTable(Table table) throws DatabaseNotFoundException, TableAlreadyCreatedException {
         File tableFile = new File(openDB(table.getDatabase().getName()),
-                table.getName() + ".txt");
+                table.getName() + ".protoBuf");
         if (tableFile.exists()) {
             log.error("Error occured: table is already created!");
             throw new TableAlreadyCreatedException();
@@ -109,7 +91,8 @@ public class ProtocolBufferParser extends BackendParser {
     @Override
     public void dropTable(Table table) throws DatabaseNotFoundException {
         File tableFile = new File(openDB(table.getDatabase().getName()),
-                table.getName() + ".txt");
+                table.getName() + ".protoBuf" );
+
         if (tableFile.exists()) {
             tableFile.delete();
             log.debug("Table data is droped successfully.");
@@ -132,6 +115,26 @@ public class ProtocolBufferParser extends BackendParser {
         FileInputStream fileInputStream = new FileInputStream(tableFile);
         byte[] deSerializedData = new byte[(int) tableFile.length()];
         fileInputStream.read(deSerializedData);
-        columnAdapter.desrializeColumns(deSerializedData, table);
+        columnAdapter.deserializeColumns(deSerializedData,table);
+    }
+
+    private static File openDB(String dbName) throws DatabaseNotFoundException {
+        File database = new File(BackendController.getInstance().getCurrentDatabaseDir()
+                + File.separator + dbName);
+        if (!database.exists()) {
+        	log.error("Error occured: " + dbName + " database is not found!");
+            throw new DatabaseNotFoundException();
+        }
+        return database;
+    }
+
+    private static File openTable(String dbName, String tableName) throws TableNotFoundException,
+            DatabaseNotFoundException {
+        File tableFile = new File(openDB(dbName), tableName + ".protoBuf");
+        if (!tableFile.exists()) {
+        	log.error("Error occured: " + tableName + " is not found!");
+            throw new TableNotFoundException();
+        }
+        return tableFile;
     }
 }

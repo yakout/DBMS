@@ -18,7 +18,8 @@ public class ColumnsAdapterProtoBuf {
     public ColumnsAdapterProtoBuf() {
     }
 
-    public void desrializeColumns(byte[] deserialzedData, Table table) throws InvalidProtocolBufferException {
+
+    public void deserializeColumns (byte[] deserialzedData, Table table) throws InvalidProtocolBufferException {
         TableProtoBuf.TableModule tableModule = TableProtoBuf.TableModule.parseFrom(deserialzedData);
         List<TableProtoBuf.TableModule.ColumnModule> columnsModule = tableModule.getColumnsList();
         List<Column> cloneColumns = new ArrayList<>();
