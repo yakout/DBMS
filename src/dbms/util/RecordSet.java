@@ -159,6 +159,11 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 	 * @param columns
 	 */
 	public void orderBy(final List<Pair<String, Boolean>> columns) {
+//		for (Pair<String, Boolean> pair : columns) {
+//			if (this.columns.size() == 1) {
+//				return;
+//			}
+//		}
 		DBComparatorChain<Record> comparatorChain = new DBComparatorChain<>();
 		for (Pair<String, Boolean> pair : columns) {
 			Comparator<Record> recordComparator = new Comparator<Record>() {

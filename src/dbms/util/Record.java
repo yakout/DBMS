@@ -41,8 +41,8 @@ public class Record implements Cloneable {
 	public DBDatatype get(String columnName) {
 		for (Map.Entry<String, DBDatatype> entry
 				: record.entrySet()) {
-			if (entry.getKey().toLowerCase()
-					.equals(columnName.toLowerCase())) {
+			if (entry.getKey().equalsIgnoreCase(
+					columnName)) {
 				return entry.getValue();
 			}
 		}
