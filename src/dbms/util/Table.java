@@ -248,14 +248,14 @@ public class Table {
         RecordSet res = new RecordSet();
         if (columns == null) {
             for (Column col : this.columns) {
-                columnsResultSet.add(new Pair<>(col.getName(),
+                columnsResultSet.add(new Pair<String, Class<? extends DBDatatype>>(col.getName(),
                         col.getType()));
             }
         } else {
             for (String colName : columns) {
                 for (Column col : this.columns) {
                     if (col.getName().equalsIgnoreCase(colName)) {
-                        columnsResultSet.add(new Pair<>(colName,
+                        columnsResultSet.add(new Pair<String, Class<? extends DBDatatype>>(colName,
                                 col.getType()));
                     }
                 }

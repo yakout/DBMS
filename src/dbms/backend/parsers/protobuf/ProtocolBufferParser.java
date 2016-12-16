@@ -15,11 +15,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ResourceBundle;
 
 public class ProtocolBufferParser extends BackendParser {
 
 	private static Logger log = LogManager.getLogger(ProtocolBufferParser.class);
     public static final String KEY = "alt";
+    private static final ResourceBundle CONSTANTS = ResourceBundle.getBundle(
+            "dbms.backend.parsers.protobuf.Constants");
 
     private static ProtocolBufferParser instance = null;
 
@@ -72,7 +75,8 @@ public class ProtocolBufferParser extends BackendParser {
     @Override
     public void createTable(Table table) throws DatabaseNotFoundException, TableAlreadyCreatedException {
         File tableFile = new File(openDB(table.getDatabase().getName()),
-                table.getName() + ".protoBuf");
+                table.getName()
+                        + CONSTANTS.getString("extension.proto"));
         if (tableFile.exists()) {
             log.error("Error occured: table is already created!");
             throw new TableAlreadyCreatedException();
@@ -91,7 +95,8 @@ public class ProtocolBufferParser extends BackendParser {
     @Override
     public void dropTable(Table table) throws DatabaseNotFoundException {
         File tableFile = new File(openDB(table.getDatabase().getName()),
-                table.getName() + ".protoBuf" );
+                table.getName()
+                        + CONSTANTS.getString("extension.proto") );
 
         if (tableFile.exists()) {
             tableFile.delete();
@@ -130,7 +135,8 @@ public class ProtocolBufferParser extends BackendParser {
 
     private static File openTable(String dbName, String tableName) throws TableNotFoundException,
             DatabaseNotFoundException {
-        File tableFile = new File(openDB(dbName), tableName + ".protoBuf");
+        File tableFile = new File(openDB(dbName), tableName
+                + CONSTANTS.getString("extension.proto"));
         if (!tableFile.exists()) {
         	log.error("Error occured: " + tableName + " is not found!");
             throw new TableNotFoundException();
