@@ -10,24 +10,27 @@ import java.util.*;
 
 public class Evaluator extends BooleanExpressionEvaluator {
 
+    /**
+     * Static singleton instance.
+     */
     private static Evaluator instance = null;
 
+    /**
+     * Constructor to a new evaluator.
+     */
     private Evaluator() {
         super();
     }
 
+    /**
+     * Gets static instance to evaluator which evaluates a given postfix condition.
+     * @return {@link Evaluator} evaluator.
+     */
     public static Evaluator getInstance() {
         if (instance == null) {
             instance = new Evaluator();
         }
         return instance;
-    }
-
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-
     }
 
     @Override
