@@ -339,3 +339,8 @@ public class InsertTest extends SqlParserRef {
 		}
 	}
 }
+
+
+
+   //TODO
+   // Test the another form of the Insert SQL command.

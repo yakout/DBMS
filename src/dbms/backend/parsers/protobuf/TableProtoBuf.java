@@ -9,7 +9,7 @@ public final class TableProtoBuf {
             com.google.protobuf.ExtensionRegistry registry) {
     }
     public interface Table_moduleOrBuilder extends
-            // @@protoc_insertion_point(interface_extends:dbms.Table_module)
+            // @@protoc_insertion_point(interface_extends:dbms.TableModule)
             com.google.protobuf.MessageOrBuilder {
 
         /**
@@ -41,49 +41,49 @@ public final class TableProtoBuf {
         getTableNameBytes();
 
         /**
-         * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+         * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
          */
-        java.util.List<dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module>
+        java.util.List<dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule>
         getColumnsList();
         /**
-         * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+         * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
          */
-        dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module getColumns(int index);
+        dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule getColumns(int index);
         /**
-         * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+         * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
          */
         int getColumnsCount();
         /**
-         * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+         * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
          */
-        java.util.List<? extends dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_moduleOrBuilder>
+        java.util.List<? extends dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.Column_moduleOrBuilder>
         getColumnsOrBuilderList();
         /**
-         * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+         * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
          */
-        dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_moduleOrBuilder getColumnsOrBuilder(
+        dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.Column_moduleOrBuilder getColumnsOrBuilder(
                 int index);
     }
     /**
-     * Protobuf type {@code dbms.Table_module}
+     * Protobuf type {@code dbms.TableModule}
      */
-    public static final class Table_module extends
+    public static final class TableModule extends
             com.google.protobuf.GeneratedMessage implements
-            // @@protoc_insertion_point(message_implements:dbms.Table_module)
+            // @@protoc_insertion_point(message_implements:dbms.TableModule)
             Table_moduleOrBuilder {
-        // Use Table_module.newBuilder() to construct.
-        private Table_module(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        // Use TableModule.newBuilder() to construct.
+        private TableModule(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
             super(builder);
             this.unknownFields = builder.getUnknownFields();
         }
-        private Table_module(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+        private TableModule(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-        private static final Table_module defaultInstance;
-        public static Table_module getDefaultInstance() {
+        private static final TableModule defaultInstance;
+        public static TableModule getDefaultInstance() {
             return defaultInstance;
         }
 
-        public Table_module getDefaultInstanceForType() {
+        public TableModule getDefaultInstanceForType() {
             return defaultInstance;
         }
 
@@ -93,7 +93,7 @@ public final class TableProtoBuf {
         getUnknownFields() {
             return this.unknownFields;
         }
-        private Table_module(
+        private TableModule(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws com.google.protobuf.InvalidProtocolBufferException {
@@ -130,10 +130,10 @@ public final class TableProtoBuf {
                         }
                         case 26: {
                             if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                                columns_ = new java.util.ArrayList<dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module>();
+                                columns_ = new java.util.ArrayList<dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule>();
                                 mutable_bitField0_ |= 0x00000004;
                             }
-                            columns_.add(input.readMessage(dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.PARSER, extensionRegistry));
+                            columns_.add(input.readMessage(dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.PARSER, extensionRegistry));
                             break;
                         }
                     }
@@ -160,26 +160,26 @@ public final class TableProtoBuf {
         internalGetFieldAccessorTable() {
             return dbms.backend.parsers.protobuf.TableProtoBuf.internal_static_dbms_Table_module_fieldAccessorTable
                     .ensureFieldAccessorsInitialized(
-                            dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.class, dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Builder.class);
+                            dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.class, dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.Builder.class);
         }
 
-        public static com.google.protobuf.Parser<Table_module> PARSER =
-                new com.google.protobuf.AbstractParser<Table_module>() {
-                    public Table_module parsePartialFrom(
+        public static com.google.protobuf.Parser<TableModule> PARSER =
+                new com.google.protobuf.AbstractParser<TableModule>() {
+                    public TableModule parsePartialFrom(
                             com.google.protobuf.CodedInputStream input,
                             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                             throws com.google.protobuf.InvalidProtocolBufferException {
-                        return new Table_module(input, extensionRegistry);
+                        return new TableModule(input, extensionRegistry);
                     }
                 };
 
         @java.lang.Override
-        public com.google.protobuf.Parser<Table_module> getParserForType() {
+        public com.google.protobuf.Parser<TableModule> getParserForType() {
             return PARSER;
         }
 
         public interface Column_moduleOrBuilder extends
-                // @@protoc_insertion_point(interface_extends:dbms.Table_module.Column_module)
+                // @@protoc_insertion_point(interface_extends:dbms.TableModule.ColumnModule)
                 com.google.protobuf.MessageOrBuilder {
 
             /**
@@ -230,25 +230,25 @@ public final class TableProtoBuf {
             getEntriesBytes(int index);
         }
         /**
-         * Protobuf type {@code dbms.Table_module.Column_module}
+         * Protobuf type {@code dbms.TableModule.ColumnModule}
          */
-        public static final class Column_module extends
+        public static final class ColumnModule extends
                 com.google.protobuf.GeneratedMessage implements
-                // @@protoc_insertion_point(message_implements:dbms.Table_module.Column_module)
+                // @@protoc_insertion_point(message_implements:dbms.TableModule.ColumnModule)
                 Column_moduleOrBuilder {
-            // Use Column_module.newBuilder() to construct.
-            private Column_module(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+            // Use ColumnModule.newBuilder() to construct.
+            private ColumnModule(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
                 super(builder);
                 this.unknownFields = builder.getUnknownFields();
             }
-            private Column_module(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+            private ColumnModule(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-            private static final Column_module defaultInstance;
-            public static Column_module getDefaultInstance() {
+            private static final ColumnModule defaultInstance;
+            public static ColumnModule getDefaultInstance() {
                 return defaultInstance;
             }
 
-            public Column_module getDefaultInstanceForType() {
+            public ColumnModule getDefaultInstanceForType() {
                 return defaultInstance;
             }
 
@@ -258,7 +258,7 @@ public final class TableProtoBuf {
             getUnknownFields() {
                 return this.unknownFields;
             }
-            private Column_module(
+            private ColumnModule(
                     com.google.protobuf.CodedInputStream input,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                     throws com.google.protobuf.InvalidProtocolBufferException {
@@ -326,21 +326,21 @@ public final class TableProtoBuf {
             internalGetFieldAccessorTable() {
                 return dbms.backend.parsers.protobuf.TableProtoBuf.internal_static_dbms_Table_module_Column_module_fieldAccessorTable
                         .ensureFieldAccessorsInitialized(
-                                dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.class, dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.Builder.class);
+                                dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.class, dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.Builder.class);
             }
 
-            public static com.google.protobuf.Parser<Column_module> PARSER =
-                    new com.google.protobuf.AbstractParser<Column_module>() {
-                        public Column_module parsePartialFrom(
+            public static com.google.protobuf.Parser<ColumnModule> PARSER =
+                    new com.google.protobuf.AbstractParser<ColumnModule>() {
+                        public ColumnModule parsePartialFrom(
                                 com.google.protobuf.CodedInputStream input,
                                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                                 throws com.google.protobuf.InvalidProtocolBufferException {
-                            return new Column_module(input, extensionRegistry);
+                            return new ColumnModule(input, extensionRegistry);
                         }
                     };
 
             @java.lang.Override
-            public com.google.protobuf.Parser<Column_module> getParserForType() {
+            public com.google.protobuf.Parser<ColumnModule> getParserForType() {
                 return PARSER;
             }
 
@@ -523,53 +523,53 @@ public final class TableProtoBuf {
                 return super.writeReplace();
             }
 
-            public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module parseFrom(
+            public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule parseFrom(
                     com.google.protobuf.ByteString data)
                     throws com.google.protobuf.InvalidProtocolBufferException {
                 return PARSER.parseFrom(data);
             }
-            public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module parseFrom(
+            public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule parseFrom(
                     com.google.protobuf.ByteString data,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                     throws com.google.protobuf.InvalidProtocolBufferException {
                 return PARSER.parseFrom(data, extensionRegistry);
             }
-            public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module parseFrom(byte[] data)
+            public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule parseFrom(byte[] data)
                     throws com.google.protobuf.InvalidProtocolBufferException {
                 return PARSER.parseFrom(data);
             }
-            public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module parseFrom(
+            public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule parseFrom(
                     byte[] data,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                     throws com.google.protobuf.InvalidProtocolBufferException {
                 return PARSER.parseFrom(data, extensionRegistry);
             }
-            public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module parseFrom(java.io.InputStream input)
+            public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule parseFrom(java.io.InputStream input)
                     throws java.io.IOException {
                 return PARSER.parseFrom(input);
             }
-            public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module parseFrom(
+            public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule parseFrom(
                     java.io.InputStream input,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                     throws java.io.IOException {
                 return PARSER.parseFrom(input, extensionRegistry);
             }
-            public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module parseDelimitedFrom(java.io.InputStream input)
+            public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule parseDelimitedFrom(java.io.InputStream input)
                     throws java.io.IOException {
                 return PARSER.parseDelimitedFrom(input);
             }
-            public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module parseDelimitedFrom(
+            public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule parseDelimitedFrom(
                     java.io.InputStream input,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                     throws java.io.IOException {
                 return PARSER.parseDelimitedFrom(input, extensionRegistry);
             }
-            public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module parseFrom(
+            public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule parseFrom(
                     com.google.protobuf.CodedInputStream input)
                     throws java.io.IOException {
                 return PARSER.parseFrom(input);
             }
-            public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module parseFrom(
+            public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule parseFrom(
                     com.google.protobuf.CodedInputStream input,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                     throws java.io.IOException {
@@ -578,7 +578,7 @@ public final class TableProtoBuf {
 
             public static Builder newBuilder() { return Builder.create(); }
             public Builder newBuilderForType() { return newBuilder(); }
-            public static Builder newBuilder(dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module prototype) {
+            public static Builder newBuilder(dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule prototype) {
                 return newBuilder().mergeFrom(prototype);
             }
             public Builder toBuilder() { return newBuilder(this); }
@@ -590,12 +590,12 @@ public final class TableProtoBuf {
                 return builder;
             }
             /**
-             * Protobuf type {@code dbms.Table_module.Column_module}
+             * Protobuf type {@code dbms.TableModule.ColumnModule}
              */
             public static final class Builder extends
                     com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-                    // @@protoc_insertion_point(builder_implements:dbms.Table_module.Column_module)
-                    dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_moduleOrBuilder {
+                    // @@protoc_insertion_point(builder_implements:dbms.TableModule.ColumnModule)
+                    dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.Column_moduleOrBuilder {
                 public static final com.google.protobuf.Descriptors.Descriptor
                 getDescriptor() {
                     return dbms.backend.parsers.protobuf.TableProtoBuf.internal_static_dbms_Table_module_Column_module_descriptor;
@@ -605,10 +605,10 @@ public final class TableProtoBuf {
                 internalGetFieldAccessorTable() {
                     return dbms.backend.parsers.protobuf.TableProtoBuf.internal_static_dbms_Table_module_Column_module_fieldAccessorTable
                             .ensureFieldAccessorsInitialized(
-                                    dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.class, dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.Builder.class);
+                                    dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.class, dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.Builder.class);
                 }
 
-                // Construct using dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.newBuilder()
+                // Construct using dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.newBuilder()
                 private Builder() {
                     maybeForceBuilderInitialization();
                 }
@@ -646,20 +646,20 @@ public final class TableProtoBuf {
                     return dbms.backend.parsers.protobuf.TableProtoBuf.internal_static_dbms_Table_module_Column_module_descriptor;
                 }
 
-                public dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module getDefaultInstanceForType() {
-                    return dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.getDefaultInstance();
+                public dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule getDefaultInstanceForType() {
+                    return dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.getDefaultInstance();
                 }
 
-                public dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module build() {
-                    dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module result = buildPartial();
+                public dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule build() {
+                    dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule result = buildPartial();
                     if (!result.isInitialized()) {
                         throw newUninitializedMessageException(result);
                     }
                     return result;
                 }
 
-                public dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module buildPartial() {
-                    dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module result = new dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module(this);
+                public dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule buildPartial() {
+                    dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule result = new dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule(this);
                     int from_bitField0_ = bitField0_;
                     int to_bitField0_ = 0;
                     if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -681,16 +681,16 @@ public final class TableProtoBuf {
                 }
 
                 public Builder mergeFrom(com.google.protobuf.Message other) {
-                    if (other instanceof dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module) {
-                        return mergeFrom((dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module)other);
+                    if (other instanceof dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule) {
+                        return mergeFrom((dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule)other);
                     } else {
                         super.mergeFrom(other);
                         return this;
                     }
                 }
 
-                public Builder mergeFrom(dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module other) {
-                    if (other == dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.getDefaultInstance()) return this;
+                public Builder mergeFrom(dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule other) {
+                    if (other == dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.getDefaultInstance()) return this;
                     if (other.hasColumnName()) {
                         bitField0_ |= 0x00000001;
                         columnName_ = other.columnName_;
@@ -723,11 +723,11 @@ public final class TableProtoBuf {
                         com.google.protobuf.CodedInputStream input,
                         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                         throws java.io.IOException {
-                    dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module parsedMessage = null;
+                    dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule parsedMessage = null;
                     try {
                         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
                     } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-                        parsedMessage = (dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module) e.getUnfinishedMessage();
+                        parsedMessage = (dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule) e.getUnfinishedMessage();
                         throw e;
                     } finally {
                         if (parsedMessage != null) {
@@ -983,15 +983,15 @@ public final class TableProtoBuf {
                     return this;
                 }
 
-                // @@protoc_insertion_point(builder_scope:dbms.Table_module.Column_module)
+                // @@protoc_insertion_point(builder_scope:dbms.TableModule.ColumnModule)
             }
 
             static {
-                defaultInstance = new Column_module(true);
+                defaultInstance = new ColumnModule(true);
                 defaultInstance.initFields();
             }
 
-            // @@protoc_insertion_point(class_scope:dbms.Table_module.Column_module)
+            // @@protoc_insertion_point(class_scope:dbms.TableModule.ColumnModule)
         }
 
         private int bitField0_;
@@ -1080,36 +1080,36 @@ public final class TableProtoBuf {
         }
 
         public static final int COLUMNS_FIELD_NUMBER = 3;
-        private java.util.List<dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module> columns_;
+        private java.util.List<dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule> columns_;
         /**
-         * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+         * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
          */
-        public java.util.List<dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module> getColumnsList() {
+        public java.util.List<dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule> getColumnsList() {
             return columns_;
         }
         /**
-         * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+         * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
          */
-        public java.util.List<? extends dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_moduleOrBuilder>
+        public java.util.List<? extends dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.Column_moduleOrBuilder>
         getColumnsOrBuilderList() {
             return columns_;
         }
         /**
-         * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+         * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
          */
         public int getColumnsCount() {
             return columns_.size();
         }
         /**
-         * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+         * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
          */
-        public dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module getColumns(int index) {
+        public dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule getColumns(int index) {
             return columns_.get(index);
         }
         /**
-         * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+         * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
          */
-        public dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_moduleOrBuilder getColumnsOrBuilder(
+        public dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.Column_moduleOrBuilder getColumnsOrBuilder(
                 int index) {
             return columns_.get(index);
         }
@@ -1182,53 +1182,53 @@ public final class TableProtoBuf {
             return super.writeReplace();
         }
 
-        public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module parseFrom(
+        public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule parseFrom(
                 com.google.protobuf.ByteString data)
                 throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
         }
-        public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module parseFrom(
+        public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule parseFrom(
                 com.google.protobuf.ByteString data,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
         }
-        public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module parseFrom(byte[] data)
+        public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule parseFrom(byte[] data)
                 throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data);
         }
-        public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module parseFrom(
+        public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule parseFrom(
                 byte[] data,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws com.google.protobuf.InvalidProtocolBufferException {
             return PARSER.parseFrom(data, extensionRegistry);
         }
-        public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module parseFrom(java.io.InputStream input)
+        public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule parseFrom(java.io.InputStream input)
                 throws java.io.IOException {
             return PARSER.parseFrom(input);
         }
-        public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module parseFrom(
+        public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule parseFrom(
                 java.io.InputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws java.io.IOException {
             return PARSER.parseFrom(input, extensionRegistry);
         }
-        public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module parseDelimitedFrom(java.io.InputStream input)
+        public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule parseDelimitedFrom(java.io.InputStream input)
                 throws java.io.IOException {
             return PARSER.parseDelimitedFrom(input);
         }
-        public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module parseDelimitedFrom(
+        public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule parseDelimitedFrom(
                 java.io.InputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws java.io.IOException {
             return PARSER.parseDelimitedFrom(input, extensionRegistry);
         }
-        public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module parseFrom(
+        public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule parseFrom(
                 com.google.protobuf.CodedInputStream input)
                 throws java.io.IOException {
             return PARSER.parseFrom(input);
         }
-        public static dbms.backend.parsers.protobuf.TableProtoBuf.Table_module parseFrom(
+        public static dbms.backend.parsers.protobuf.TableProtoBuf.TableModule parseFrom(
                 com.google.protobuf.CodedInputStream input,
                 com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                 throws java.io.IOException {
@@ -1237,7 +1237,7 @@ public final class TableProtoBuf {
 
         public static Builder newBuilder() { return Builder.create(); }
         public Builder newBuilderForType() { return newBuilder(); }
-        public static Builder newBuilder(dbms.backend.parsers.protobuf.TableProtoBuf.Table_module prototype) {
+        public static Builder newBuilder(dbms.backend.parsers.protobuf.TableProtoBuf.TableModule prototype) {
             return newBuilder().mergeFrom(prototype);
         }
         public Builder toBuilder() { return newBuilder(this); }
@@ -1249,11 +1249,11 @@ public final class TableProtoBuf {
             return builder;
         }
         /**
-         * Protobuf type {@code dbms.Table_module}
+         * Protobuf type {@code dbms.TableModule}
          */
         public static final class Builder extends
                 com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-                // @@protoc_insertion_point(builder_implements:dbms.Table_module)
+                // @@protoc_insertion_point(builder_implements:dbms.TableModule)
                 dbms.backend.parsers.protobuf.TableProtoBuf.Table_moduleOrBuilder {
             public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
@@ -1264,10 +1264,10 @@ public final class TableProtoBuf {
             internalGetFieldAccessorTable() {
                 return dbms.backend.parsers.protobuf.TableProtoBuf.internal_static_dbms_Table_module_fieldAccessorTable
                         .ensureFieldAccessorsInitialized(
-                                dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.class, dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Builder.class);
+                                dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.class, dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.Builder.class);
             }
 
-            // Construct using dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.newBuilder()
+            // Construct using dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.newBuilder()
             private Builder() {
                 maybeForceBuilderInitialization();
             }
@@ -1310,20 +1310,20 @@ public final class TableProtoBuf {
                 return dbms.backend.parsers.protobuf.TableProtoBuf.internal_static_dbms_Table_module_descriptor;
             }
 
-            public dbms.backend.parsers.protobuf.TableProtoBuf.Table_module getDefaultInstanceForType() {
-                return dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.getDefaultInstance();
+            public dbms.backend.parsers.protobuf.TableProtoBuf.TableModule getDefaultInstanceForType() {
+                return dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.getDefaultInstance();
             }
 
-            public dbms.backend.parsers.protobuf.TableProtoBuf.Table_module build() {
-                dbms.backend.parsers.protobuf.TableProtoBuf.Table_module result = buildPartial();
+            public dbms.backend.parsers.protobuf.TableProtoBuf.TableModule build() {
+                dbms.backend.parsers.protobuf.TableProtoBuf.TableModule result = buildPartial();
                 if (!result.isInitialized()) {
                     throw newUninitializedMessageException(result);
                 }
                 return result;
             }
 
-            public dbms.backend.parsers.protobuf.TableProtoBuf.Table_module buildPartial() {
-                dbms.backend.parsers.protobuf.TableProtoBuf.Table_module result = new dbms.backend.parsers.protobuf.TableProtoBuf.Table_module(this);
+            public dbms.backend.parsers.protobuf.TableProtoBuf.TableModule buildPartial() {
+                dbms.backend.parsers.protobuf.TableProtoBuf.TableModule result = new dbms.backend.parsers.protobuf.TableProtoBuf.TableModule(this);
                 int from_bitField0_ = bitField0_;
                 int to_bitField0_ = 0;
                 if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -1349,16 +1349,16 @@ public final class TableProtoBuf {
             }
 
             public Builder mergeFrom(com.google.protobuf.Message other) {
-                if (other instanceof dbms.backend.parsers.protobuf.TableProtoBuf.Table_module) {
-                    return mergeFrom((dbms.backend.parsers.protobuf.TableProtoBuf.Table_module)other);
+                if (other instanceof dbms.backend.parsers.protobuf.TableProtoBuf.TableModule) {
+                    return mergeFrom((dbms.backend.parsers.protobuf.TableProtoBuf.TableModule)other);
                 } else {
                     super.mergeFrom(other);
                     return this;
                 }
             }
 
-            public Builder mergeFrom(dbms.backend.parsers.protobuf.TableProtoBuf.Table_module other) {
-                if (other == dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.getDefaultInstance()) return this;
+            public Builder mergeFrom(dbms.backend.parsers.protobuf.TableProtoBuf.TableModule other) {
+                if (other == dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.getDefaultInstance()) return this;
                 if (other.hasDatabaseName()) {
                     bitField0_ |= 0x00000001;
                     databaseName_ = other.databaseName_;
@@ -1415,11 +1415,11 @@ public final class TableProtoBuf {
                     com.google.protobuf.CodedInputStream input,
                     com.google.protobuf.ExtensionRegistryLite extensionRegistry)
                     throws java.io.IOException {
-                dbms.backend.parsers.protobuf.TableProtoBuf.Table_module parsedMessage = null;
+                dbms.backend.parsers.protobuf.TableProtoBuf.TableModule parsedMessage = null;
                 try {
                     parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
                 } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-                    parsedMessage = (dbms.backend.parsers.protobuf.TableProtoBuf.Table_module) e.getUnfinishedMessage();
+                    parsedMessage = (dbms.backend.parsers.protobuf.TableProtoBuf.TableModule) e.getUnfinishedMessage();
                     throw e;
                 } finally {
                     if (parsedMessage != null) {
@@ -1582,22 +1582,22 @@ public final class TableProtoBuf {
                 return this;
             }
 
-            private java.util.List<dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module> columns_ =
+            private java.util.List<dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule> columns_ =
                     java.util.Collections.emptyList();
             private void ensureColumnsIsMutable() {
                 if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-                    columns_ = new java.util.ArrayList<dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module>(columns_);
+                    columns_ = new java.util.ArrayList<dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule>(columns_);
                     bitField0_ |= 0x00000004;
                 }
             }
 
             private com.google.protobuf.RepeatedFieldBuilder<
-                    dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module, dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.Builder, dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_moduleOrBuilder> columnsBuilder_;
+                    dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule, dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.Builder, dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.Column_moduleOrBuilder> columnsBuilder_;
 
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
-            public java.util.List<dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module> getColumnsList() {
+            public java.util.List<dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule> getColumnsList() {
                 if (columnsBuilder_ == null) {
                     return java.util.Collections.unmodifiableList(columns_);
                 } else {
@@ -1605,7 +1605,7 @@ public final class TableProtoBuf {
                 }
             }
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
             public int getColumnsCount() {
                 if (columnsBuilder_ == null) {
@@ -1615,9 +1615,9 @@ public final class TableProtoBuf {
                 }
             }
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
-            public dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module getColumns(int index) {
+            public dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule getColumns(int index) {
                 if (columnsBuilder_ == null) {
                     return columns_.get(index);
                 } else {
@@ -1625,10 +1625,10 @@ public final class TableProtoBuf {
                 }
             }
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
             public Builder setColumns(
-                    int index, dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module value) {
+                    int index, dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule value) {
                 if (columnsBuilder_ == null) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -1642,10 +1642,10 @@ public final class TableProtoBuf {
                 return this;
             }
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
             public Builder setColumns(
-                    int index, dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.Builder builderForValue) {
+                    int index, dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.Builder builderForValue) {
                 if (columnsBuilder_ == null) {
                     ensureColumnsIsMutable();
                     columns_.set(index, builderForValue.build());
@@ -1656,9 +1656,9 @@ public final class TableProtoBuf {
                 return this;
             }
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
-            public Builder addColumns(dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module value) {
+            public Builder addColumns(dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule value) {
                 if (columnsBuilder_ == null) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -1672,10 +1672,10 @@ public final class TableProtoBuf {
                 return this;
             }
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
             public Builder addColumns(
-                    int index, dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module value) {
+                    int index, dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule value) {
                 if (columnsBuilder_ == null) {
                     if (value == null) {
                         throw new NullPointerException();
@@ -1689,10 +1689,10 @@ public final class TableProtoBuf {
                 return this;
             }
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
             public Builder addColumns(
-                    dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.Builder builderForValue) {
+                    dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.Builder builderForValue) {
                 if (columnsBuilder_ == null) {
                     ensureColumnsIsMutable();
                     columns_.add(builderForValue.build());
@@ -1703,10 +1703,10 @@ public final class TableProtoBuf {
                 return this;
             }
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
             public Builder addColumns(
-                    int index, dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.Builder builderForValue) {
+                    int index, dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.Builder builderForValue) {
                 if (columnsBuilder_ == null) {
                     ensureColumnsIsMutable();
                     columns_.add(index, builderForValue.build());
@@ -1717,10 +1717,10 @@ public final class TableProtoBuf {
                 return this;
             }
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
             public Builder addAllColumns(
-                    java.lang.Iterable<? extends dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module> values) {
+                    java.lang.Iterable<? extends dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule> values) {
                 if (columnsBuilder_ == null) {
                     ensureColumnsIsMutable();
                     com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -1732,7 +1732,7 @@ public final class TableProtoBuf {
                 return this;
             }
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
             public Builder clearColumns() {
                 if (columnsBuilder_ == null) {
@@ -1745,7 +1745,7 @@ public final class TableProtoBuf {
                 return this;
             }
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
             public Builder removeColumns(int index) {
                 if (columnsBuilder_ == null) {
@@ -1758,16 +1758,16 @@ public final class TableProtoBuf {
                 return this;
             }
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
-            public dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.Builder getColumnsBuilder(
+            public dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.Builder getColumnsBuilder(
                     int index) {
                 return getColumnsFieldBuilder().getBuilder(index);
             }
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
-            public dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_moduleOrBuilder getColumnsOrBuilder(
+            public dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.Column_moduleOrBuilder getColumnsOrBuilder(
                     int index) {
                 if (columnsBuilder_ == null) {
                     return columns_.get(index);  } else {
@@ -1775,9 +1775,9 @@ public final class TableProtoBuf {
                 }
             }
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
-            public java.util.List<? extends dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_moduleOrBuilder>
+            public java.util.List<? extends dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.Column_moduleOrBuilder>
             getColumnsOrBuilderList() {
                 if (columnsBuilder_ != null) {
                     return columnsBuilder_.getMessageOrBuilderList();
@@ -1786,33 +1786,33 @@ public final class TableProtoBuf {
                 }
             }
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
-            public dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.Builder addColumnsBuilder() {
+            public dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.Builder addColumnsBuilder() {
                 return getColumnsFieldBuilder().addBuilder(
-                        dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.getDefaultInstance());
+                        dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.getDefaultInstance());
             }
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
-            public dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.Builder addColumnsBuilder(
+            public dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.Builder addColumnsBuilder(
                     int index) {
                 return getColumnsFieldBuilder().addBuilder(
-                        index, dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.getDefaultInstance());
+                        index, dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.getDefaultInstance());
             }
             /**
-             * <code>repeated .dbms.Table_module.Column_module columns = 3;</code>
+             * <code>repeated .dbms.TableModule.ColumnModule columns = 3;</code>
              */
-            public java.util.List<dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.Builder>
+            public java.util.List<dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.Builder>
             getColumnsBuilderList() {
                 return getColumnsFieldBuilder().getBuilderList();
             }
             private com.google.protobuf.RepeatedFieldBuilder<
-                    dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module, dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.Builder, dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_moduleOrBuilder>
+                    dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule, dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.Builder, dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.Column_moduleOrBuilder>
             getColumnsFieldBuilder() {
                 if (columnsBuilder_ == null) {
                     columnsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-                            dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module, dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_module.Builder, dbms.backend.parsers.protobuf.TableProtoBuf.Table_module.Column_moduleOrBuilder>(
+                            dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule, dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.ColumnModule.Builder, dbms.backend.parsers.protobuf.TableProtoBuf.TableModule.Column_moduleOrBuilder>(
                             columns_,
                             ((bitField0_ & 0x00000004) == 0x00000004),
                             getParentForChildren(),
@@ -1822,15 +1822,15 @@ public final class TableProtoBuf {
                 return columnsBuilder_;
             }
 
-            // @@protoc_insertion_point(builder_scope:dbms.Table_module)
+            // @@protoc_insertion_point(builder_scope:dbms.TableModule)
         }
 
         static {
-            defaultInstance = new Table_module(true);
+            defaultInstance = new TableModule(true);
             defaultInstance.initFields();
         }
 
-        // @@protoc_insertion_point(class_scope:dbms.Table_module)
+        // @@protoc_insertion_point(class_scope:dbms.TableModule)
     }
 
     private static final com.google.protobuf.Descriptors.Descriptor
@@ -1854,8 +1854,8 @@ public final class TableProtoBuf {
         java.lang.String[] descriptorData = {
                 "\n\013Table.proto\022\004dbms\"\274\001\n\014Table_module\022\025\n\r" +
                         "database_name\030\001 \002(\t\022\022\n\ntable_name\030\002 \002(\t\022" +
-                        "1\n\007columns\030\003 \003(\0132 .dbms.Table_module.Col" +
-                        "umn_module\032N\n\rColumn_module\022\023\n\013column_na" +
+                        "1\n\007columns\030\003 \003(\0132 .dbms.TableModule.Col" +
+                        "umn_module\032N\n\rColumnModule\022\023\n\013column_na" +
                         "me\030\001 \001(\t\022\027\n\017column_dataType\030\002 \001(\t\022\017\n\007ent" +
                         "ries\030\003 \003(\tB.\n\035dbms.backend.parsers.proto" +
                         "bufB\rTableProtoBuf"

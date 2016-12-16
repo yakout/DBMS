@@ -63,6 +63,10 @@ public class Table {
 		return null;
 	}
 
+	public void setColumns (List<Column> newColumns) {
+		columns = newColumns;
+	}
+
 	public int getSize() {
 		return size;
 	}

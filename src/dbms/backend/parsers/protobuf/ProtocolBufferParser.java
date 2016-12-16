@@ -3,6 +3,7 @@ package dbms.backend.parsers.protobuf;
 import dbms.backend.BackendController;
 import dbms.backend.BackendParser;
 import dbms.backend.BackendParserFactory;
+import dbms.backend.parsers.xml.XMLParser;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
@@ -14,7 +15,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ProtocolBufferParser extends BackendParser {
+	private static Logger log = LogManager.getLogger(ProtocolBufferParser.class);
     public static final String KEY = "pb";
     private static ProtocolBufferParser instance = null;
 
@@ -43,8 +48,10 @@ public class ProtocolBufferParser extends BackendParser {
         try {
             load(table, tableFile);
         } catch (IOException e) {
+        	log.error("Error occured while loading the table!");
             e.printStackTrace();
         }
+        log.debug("Table is loaded successfully.");
 
     }
 
@@ -56,8 +63,10 @@ public class ProtocolBufferParser extends BackendParser {
         } catch (IOException | NoSuchMethodException
                 | InstantiationException | IllegalAccessException
                 | InvocationTargetException e) {
+        	log.error("Error occured while parsing!");
             e.printStackTrace();
         }
+        log.debug("Data is saved successfully.");
     }
 
     @Override
@@ -65,15 +74,18 @@ public class ProtocolBufferParser extends BackendParser {
         File tableFile = new File(openDB(table.getDatabase().getName()),
                 table.getName() + ".txt");
         if (tableFile.exists()) {
-            throw new TableAlreadyCreatedException();
+            log.error("Error occured: table is already created!");
+        	throw new TableAlreadyCreatedException();
         }
         try {
             write(table, tableFile);
         } catch (IOException | NoSuchMethodException
                 | InstantiationException | IllegalAccessException
                 | InvocationTargetException e) {
+        	log.error("Error occured while creating table!");
             e.printStackTrace();
         }
+        log.debug("Table data is created successfully.");
     }
 
     @Override
@@ -82,12 +94,13 @@ public class ProtocolBufferParser extends BackendParser {
                 table.getName() + ".txt" );
         if (tableFile.exists()) {
             tableFile.delete();
+            log.debug("Table data is droped successfully.");
         }
     }
 
     private void write (Table table, File tableFile) throws InvocationTargetException, NoSuchMethodException,
             InstantiationException, IllegalAccessException, IOException {
-        ColumnsAdapterProto columnAdapter = new ColumnsAdapterProto();
+        ColumnsAdapterProtoBuf columnAdapter = new ColumnsAdapterProtoBuf();
         byte[] serializedData = columnAdapter.serializeTable(table);
         FileOutputStream fileOutputStream = new FileOutputStream(tableFile);
         fileOutputStream.write(serializedData);
@@ -97,7 +110,7 @@ public class ProtocolBufferParser extends BackendParser {
 
     private void load (Table table , File tableFile) throws DatabaseNotFoundException,
             TableNotFoundException, IOException {
-        ColumnsAdapterProto columnAdapter = new ColumnsAdapterProto();
+        ColumnsAdapterProtoBuf columnAdapter = new ColumnsAdapterProtoBuf();
         FileInputStream fileInputStream = new FileInputStream(tableFile);
         byte[] deSerializedData = new byte[(int)tableFile.length()];
         fileInputStream.read(deSerializedData);
@@ -108,6 +121,7 @@ public class ProtocolBufferParser extends BackendParser {
         File database = new File(BackendController.getInstance().getCurrentDatabaseDir()
                 + File.separator + dbName);
         if (!database.exists()) {
+        	log.error("Error occured: " + dbName + " database is not found!");
             throw new DatabaseNotFoundException();
         }
         return database;
@@ -117,6 +131,7 @@ public class ProtocolBufferParser extends BackendParser {
             DatabaseNotFoundException {
         File tableFile = new File(openDB(dbName), tableName + ".txt");
         if (!tableFile.exists()) {
+        	log.error("Error occured: " + tableName + " is not found!");
             throw new TableNotFoundException();
         }
         return tableFile;
