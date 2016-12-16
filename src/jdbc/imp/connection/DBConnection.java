@@ -6,6 +6,10 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 public class DBConnection implements Connection {
+    public static void main(String[] args) {
+        System.out.print(System.getProperty("java.io.tmpdir"));
+    }
+
     @Override
     public Statement createStatement() throws SQLException {
         return null;
@@ -27,13 +31,13 @@ public class DBConnection implements Connection {
     }
 
     @Override
-    public void setAutoCommit(boolean autoCommit) throws SQLException {
-
+    public boolean getAutoCommit() throws SQLException {
+        return false;
     }
 
     @Override
-    public boolean getAutoCommit() throws SQLException {
-        return false;
+    public void setAutoCommit(boolean autoCommit) throws SQLException {
+
     }
 
     @Override
@@ -62,17 +66,12 @@ public class DBConnection implements Connection {
     }
 
     @Override
-    public void setReadOnly(boolean readOnly) throws SQLException {
-
-    }
-
-    @Override
     public boolean isReadOnly() throws SQLException {
         return false;
     }
 
     @Override
-    public void setCatalog(String catalog) throws SQLException {
+    public void setReadOnly(boolean readOnly) throws SQLException {
 
     }
 
@@ -82,13 +81,18 @@ public class DBConnection implements Connection {
     }
 
     @Override
-    public void setTransactionIsolation(int level) throws SQLException {
+    public void setCatalog(String catalog) throws SQLException {
 
     }
 
     @Override
     public int getTransactionIsolation() throws SQLException {
         return 0;
+    }
+
+    @Override
+    public void setTransactionIsolation(int level) throws SQLException {
+
     }
 
     @Override
@@ -127,13 +131,13 @@ public class DBConnection implements Connection {
     }
 
     @Override
-    public void setHoldability(int holdability) throws SQLException {
-
+    public int getHoldability() throws SQLException {
+        return 0;
     }
 
     @Override
-    public int getHoldability() throws SQLException {
-        return 0;
+    public void setHoldability(int holdability) throws SQLException {
+
     }
 
     @Override
@@ -217,11 +221,6 @@ public class DBConnection implements Connection {
     }
 
     @Override
-    public void setClientInfo(Properties properties) throws SQLClientInfoException {
-
-    }
-
-    @Override
     public String getClientInfo(String name) throws SQLException {
         return null;
     }
@@ -229,6 +228,11 @@ public class DBConnection implements Connection {
     @Override
     public Properties getClientInfo() throws SQLException {
         return null;
+    }
+
+    @Override
+    public void setClientInfo(Properties properties) throws SQLClientInfoException {
+
     }
 
     @Override
@@ -242,13 +246,13 @@ public class DBConnection implements Connection {
     }
 
     @Override
-    public void setSchema(String schema) throws SQLException {
-
+    public String getSchema() throws SQLException {
+        return null;
     }
 
     @Override
-    public String getSchema() throws SQLException {
-        return null;
+    public void setSchema(String schema) throws SQLException {
+
     }
 
     @Override
@@ -274,9 +278,5 @@ public class DBConnection implements Connection {
     @Override
     public boolean isWrapperFor(Class<?> iface) throws SQLException {
         return false;
-    }
-
-    public static void main(String[] args) {
-        System.out.print(System.getProperty("java.io.tmpdir"));
     }
 }

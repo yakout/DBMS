@@ -44,7 +44,7 @@ public class InsertIntoTable implements DMLStatement {
         if (insertWithNoColumns) {
             Collection<DBDatatype> entries = new ArrayList<>();
             Iterator<Map.Entry<String, DBDatatype>> it = entryMap.entrySet().iterator();
-            while(it.hasNext()) {
+            while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry) it.next();
                 entries.add((DBDatatype) pair.getValue());
             }

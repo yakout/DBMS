@@ -4,16 +4,14 @@ import java.util.regex.Pattern;
 
 public class WhereSyntax implements SQLSyntax {
     public static final String SUPPORTED_OPERATORS = "(>|<|>=|<=|=|!=){1}";
-
-    private final String BOOLEAN_OPERATORS = "(and|or)";
-
     public static final String VALUE_FORMAT = "("
             + SyntaxUtil.DATE_FORMAT
             + "|" + SyntaxUtil.NUMBER_FORMAT
             + "|" + SyntaxUtil.MULTIPLE_WORDS_SINGLE_QUOTES
             + "|" + SyntaxUtil.MULTIPLE_WORDS_DOUBLE_QUOTES
             + "|" + SyntaxUtil.COLUMN_NAME + ")";
-
+    private static WhereSyntax instance = null;
+    private final String BOOLEAN_OPERATORS = "(and|or)";
     private final String WHERE_REGEX = "(\\s+where\\s+(TRUE|([(]\\s*)*\\s*("
             + SyntaxUtil.COLUMN_NAME + ")\\s*"
             + SUPPORTED_OPERATORS + "\\s*"
@@ -24,10 +22,7 @@ public class WhereSyntax implements SQLSyntax {
             + VALUE_FORMAT + "\\s*(\\s*[)])*\\s*))*))?"
             + SyntaxUtil.SEMI_COLON
             + "$";
-
     private Pattern wherePattern = null;
-
-    private static WhereSyntax instance = null;
 
     private WhereSyntax() {
     }
@@ -37,6 +32,10 @@ public class WhereSyntax implements SQLSyntax {
             instance = new WhereSyntax();
         }
         return instance;
+    }
+
+    public static void main(String[] args) {
+        System.out.print(getInstance().getRegex());
     }
 
     @Override
@@ -50,9 +49,5 @@ public class WhereSyntax implements SQLSyntax {
     @Override
     public String getRegex() {
         return WHERE_REGEX;
-    }
-
-    public static void main(String[] args) {
-        System.out.print(getInstance().getRegex());
     }
 }

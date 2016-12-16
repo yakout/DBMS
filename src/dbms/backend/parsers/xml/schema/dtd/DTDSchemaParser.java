@@ -10,72 +10,73 @@ import java.util.ResourceBundle;
 
 /**
  * Generates a DTD schema file for XML database.
- *
  */
 public class DTDSchemaParser {
-	private static DTDSchemaParser instance = null;
-	private static final String WORKSPACE_DIR =
-			System.getProperty("user.home") + File.separator + "databases";
-	private static final ResourceBundle CONSTANTS =
-			ResourceBundle.getBundle("dbms.backend.parsers.xml.Constants");
-	private PrintWriter out;
+    private static final String WORKSPACE_DIR =
+            System.getProperty("user.home") + File.separator + "databases";
+    private static final ResourceBundle CONSTANTS =
+            ResourceBundle.getBundle("dbms.backend.parsers.xml.Constants");
+    private static DTDSchemaParser instance = null;
+    private PrintWriter out;
 
-	private DTDSchemaParser() {}
+    private DTDSchemaParser() {
+    }
 
-	public static DTDSchemaParser getInstance(){
-		if (instance == null) {
-			instance = new DTDSchemaParser();
-		}
-		return instance;
-	}
+    public static DTDSchemaParser getInstance() {
+        if (instance == null) {
+            instance = new DTDSchemaParser();
+        }
+        return instance;
+    }
 
-	public void createDTDSchema(String dbName, String tableName)
-		throws DatabaseNotFoundException {
-		// File database = new File(WORKSPACE_DIR + File.separator + dbName);
-		File database = new File(BackendController.getInstance().getCurrentDatabaseDir() + File.separator + dbName);
-		if (!database.exists()) {
-			throw new DatabaseNotFoundException();
-		}
-		File schema = new File(database, tableName
-				+ CONSTANTS.getString("extensionDTD.schema"));
-		if (schema.exists()) {
-			return;
-		}
-		try {
-			out = new PrintWriter(schema);
-			writeElements(schema, out);
-			writeAttributes(schema, out);
-			out.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
+    public void createDTDSchema(String dbName, String tableName)
+            throws DatabaseNotFoundException {
+        // File database = new File(WORKSPACE_DIR + File.separator + dbName);
+        File database = new File(BackendController.getInstance().getCurrentDatabaseDir() + File.separator + dbName);
+        if (!database.exists()) {
+            throw new DatabaseNotFoundException();
+        }
+        File schema = new File(database, tableName
+                + CONSTANTS.getString("extensionDTD.schema"));
+        if (schema.exists()) {
+            return;
+        }
+        try {
+            out = new PrintWriter(schema);
+            writeElements(schema, out);
+            writeAttributes(schema, out);
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
-	private void writeElements(File schema, PrintWriter pWriter) throws FileNotFoundException {
+    private void writeElements(File schema, PrintWriter pWriter) throws FileNotFoundException {
 
-		DTDElementCreator.createElement(
-				CONSTANTS.getString("table.element"),
-				CONSTANTS.getString("optional.col"), pWriter);
-		DTDElementCreator.createElement(
-				CONSTANTS.getString("column.element"),
-				CONSTANTS.getString("optional.row"), pWriter);
-		DTDElementCreator.createElement(
-				CONSTANTS.getString("row.element"),
-				CONSTANTS.getString("pc.data"), pWriter);
-	}
-	private void writeAttributes(File schema, PrintWriter pWriter) throws FileNotFoundException {
-		DTDAttributeCreator.createElement(CONSTANTS.getString("table.element"),
-				CONSTANTS.getString("db.attr"), CONSTANTS.getString("req.type"), pWriter);
-		DTDAttributeCreator.createElement(CONSTANTS.getString("table.element"),
-				CONSTANTS.getString("name.attr"), CONSTANTS.getString("req.type"), pWriter);
-		DTDAttributeCreator.createElement(CONSTANTS.getString("table.element"),
-				CONSTANTS.getString("rows.attr"), "\"0\"", pWriter);
-		DTDAttributeCreator.createElement(CONSTANTS.getString("column.element"),
-				CONSTANTS.getString("name.attr"), CONSTANTS.getString("req.type"), pWriter);
-		DTDAttributeCreator.createElement(CONSTANTS.getString("column.element"),
-				CONSTANTS.getString("type.attr"), CONSTANTS.getString("req.type"), pWriter);
-		DTDAttributeCreator.createElement(CONSTANTS.getString("row.element"),
-				CONSTANTS.getString("index.val"), CONSTANTS.getString("req.type"), pWriter);
+        DTDElementCreator.createElement(
+                CONSTANTS.getString("table.element"),
+                CONSTANTS.getString("optional.col"), pWriter);
+        DTDElementCreator.createElement(
+                CONSTANTS.getString("column.element"),
+                CONSTANTS.getString("optional.row"), pWriter);
+        DTDElementCreator.createElement(
+                CONSTANTS.getString("row.element"),
+                CONSTANTS.getString("pc.data"), pWriter);
+    }
 
-	}
+    private void writeAttributes(File schema, PrintWriter pWriter) throws FileNotFoundException {
+        DTDAttributeCreator.createElement(CONSTANTS.getString("table.element"),
+                CONSTANTS.getString("db.attr"), CONSTANTS.getString("req.type"), pWriter);
+        DTDAttributeCreator.createElement(CONSTANTS.getString("table.element"),
+                CONSTANTS.getString("name.attr"), CONSTANTS.getString("req.type"), pWriter);
+        DTDAttributeCreator.createElement(CONSTANTS.getString("table.element"),
+                CONSTANTS.getString("rows.attr"), "\"0\"", pWriter);
+        DTDAttributeCreator.createElement(CONSTANTS.getString("column.element"),
+                CONSTANTS.getString("name.attr"), CONSTANTS.getString("req.type"), pWriter);
+        DTDAttributeCreator.createElement(CONSTANTS.getString("column.element"),
+                CONSTANTS.getString("type.attr"), CONSTANTS.getString("req.type"), pWriter);
+        DTDAttributeCreator.createElement(CONSTANTS.getString("row.element"),
+                CONSTANTS.getString("index.val"), CONSTANTS.getString("req.type"), pWriter);
+
+    }
 }

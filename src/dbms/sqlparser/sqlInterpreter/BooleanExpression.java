@@ -20,17 +20,37 @@ public class BooleanExpression {
     private final String predicateRegex = "(TRUE|("
             + SyntaxUtil.COLUMN_NAME + ")\\s*"
             + WhereSyntax.SUPPORTED_OPERATORS + "\\s*"
-            + WhereSyntax.VALUE_FORMAT+ ")";
+            + WhereSyntax.VALUE_FORMAT + ")";
     /**
      * error message that will be sent with {@link SyntaxErrorException}.
      */
     private final String errorMessage = "invalid condition syntax";
 
     /**
+     * main for testing toPostfix converter
+     *
+     * @param args cmd arguments
+     */
+    public static void main(String[] args) {
+        //System.out.println(new BooleanExpression().predicateRegex);
+        Queue<Object> postfix = new LinkedList<>();
+        try {
+            postfix = new BooleanExpression().toPostfix("(    (    col      !=      '1996-08-17'  )   and   (     col2    =    6.255   )     )");
+        } catch (SyntaxErrorException e) {
+            e.printStackTrace();
+        }
+        int size = postfix.size();
+        for (int i = 0; i < size; i++) {
+            System.out.println(postfix.poll());
+        }
+    }
+
+    /**
      * infix to postfix converter.
+     *
      * @param infix
      * @return a queue of (SQLPredicates and/or BooleanOperator) contains
-     *         the postfix representation of boolean expression.
+     * the postfix representation of boolean expression.
      * @throws SyntaxErrorException if the boolean expression is badly constructed.
      */
     public Queue<Object> toPostfix(String infix) throws SyntaxErrorException {
@@ -59,15 +79,17 @@ public class BooleanExpression {
                 }
                 helperStack.pop();
             } else if (i + 3 < infix.length() && infix.substring(i, i + 3).toLowerCase().equals("and")) {
-                pushAndToPostfix(postfix, helperStack); i += 2;
+                pushAndToPostfix(postfix, helperStack);
+                i += 2;
             } else if (i + 2 < infix.length() && infix.substring(i, i + 2).toLowerCase().equals("or")) {
-                pushOrToPostfix(postfix, helperStack); i++;
+                pushOrToPostfix(postfix, helperStack);
+                i++;
             } else if (currentChar == ' ') {
                 continue;
             } else {
                 try {
                     postfix.add(sqlPredicates.get(predicateNumber++));
-                    while(infix.charAt(++i) != ')') {
+                    while (infix.charAt(++i) != ')') {
                         if (i + 3 < infix.length() && infix.substring(i, i + 3).equals(" or")
                                 || i + 4 < infix.length() && infix.substring(i, i + 4).equals(" and")) {
                             throw new SyntaxErrorException(errorMessage);
@@ -94,6 +116,7 @@ public class BooleanExpression {
 
     /**
      * helper method for toPostfix() that adds BooleanOperator (AND) to postfix queue.
+     *
      * @param postfix
      * @param helperStack
      */
@@ -107,9 +130,9 @@ public class BooleanExpression {
         }
     }
 
-
     /**
      * helper method for toPostfix() that adds BooleanOperator (OR) to postfix queue.
+     *
      * @param postfix
      * @param helperStack
      */
@@ -129,6 +152,7 @@ public class BooleanExpression {
     /**
      * this helper function used to to extract predicates from infix representation
      * of boolean expression.
+     *
      * @param infix infix representation for boolean expression.
      * @return list of SQLPredicates extracted from infix.
      */
@@ -152,29 +176,11 @@ public class BooleanExpression {
                         , DatatypeFactory.convertToDataType(DatatypeFactory.convertToObject(matcher.group(4))));
             } else {
                 sqlPredicate = new SQLPredicate(matcher.group(2).toLowerCase(),
-                            matcher.group(3), matcher.group(4));
+                        matcher.group(3), matcher.group(4));
             }
 
             sqlPredicates.add(sqlPredicate);
         }
         return sqlPredicates;
-    }
-
-    /**
-     * main for testing toPostfix converter
-     * @param args cmd arguments
-     */
-    public static void main(String[] args) {
-        //System.out.println(new BooleanExpression().predicateRegex);
-        Queue<Object> postfix = new LinkedList<>();
-        try {
-            postfix = new BooleanExpression().toPostfix("(    (    col      !=      '1996-08-17'  )   and   (     col2    =    6.255   )     )");
-        } catch (SyntaxErrorException e) {
-            e.printStackTrace();
-        }
-        int size = postfix.size();
-        for (int i = 0; i < size; i++) {
-            System.out.println(postfix.poll());
-        }
     }
 }

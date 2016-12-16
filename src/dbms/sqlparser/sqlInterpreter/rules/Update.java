@@ -23,12 +23,12 @@ public class Update implements DMLStatement {
         this.columns = columns;
     }
 
-    public void setWhere(Where where) {
-        this.where = where;
-    }
-
     public Where getWhere() {
         return where;
+    }
+
+    public void setWhere(Where where) {
+        this.where = where;
     }
 
     public Map<String, DBDatatype> getValues() {

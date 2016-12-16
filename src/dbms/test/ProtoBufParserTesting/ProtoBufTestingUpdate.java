@@ -27,7 +27,7 @@ public class ProtoBufTestingUpdate {
     @Test
     public void testOne() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBuffParser.createDatabase("test1");
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
@@ -91,7 +91,7 @@ public class ProtoBufTestingUpdate {
                 assertTrue(resultSetIt.next().getRecord().equals(
                         actualResultIt.next().getRecord()));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             fail("Not yet implemented");
         }
@@ -100,7 +100,7 @@ public class ProtoBufTestingUpdate {
     @Test
     public void testTwo() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBuffParser.createDatabase("test2");
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
@@ -148,7 +148,7 @@ public class ProtoBufTestingUpdate {
             resExpected.put("col_2", DatatypeFactory.convertToDataType("steadyyy"));
             resExpected.put("col_4", DatatypeFactory.convertToDataType(100));
             recordSet.add(new Record(resExpected));
-            Condition where2 =  new Where("col_4 < 10000");
+            Condition where2 = new Where("col_4 < 10000");
             RecordSet actualRes = protoBuffParser.select("table_1", columns, where2);
             Iterator<Record> resultSetIt = recordSet.iterator();
             Iterator<Record> actualResultIt = actualRes.iterator();
@@ -156,7 +156,7 @@ public class ProtoBufTestingUpdate {
                 assertTrue(resultSetIt.next().getRecord().equals(
                         actualResultIt.next().getRecord()));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             fail("Not yet implemented");
         }
@@ -165,7 +165,7 @@ public class ProtoBufTestingUpdate {
     @Test
     public void testThree() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBuffParser.createDatabase("test3");
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
@@ -235,7 +235,7 @@ public class ProtoBufTestingUpdate {
                 assertTrue(resultSetIt.next().getRecord().equals(
                         actualResultIt.next().getRecord()));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             fail("Not yet implemented");
         }
@@ -244,7 +244,7 @@ public class ProtoBufTestingUpdate {
     @Test
     public void testFour() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBuffParser.createDatabase("test4");
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
@@ -314,7 +314,7 @@ public class ProtoBufTestingUpdate {
                 assertTrue(resultSetIt.next().getRecord().equals(
                         actualResultIt.next().getRecord()));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             fail("Not yet implemented");
         }
@@ -323,7 +323,7 @@ public class ProtoBufTestingUpdate {
     @Test
     public void testFive() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBuffParser.createDatabase("test5");
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
@@ -393,7 +393,7 @@ public class ProtoBufTestingUpdate {
                 assertTrue(resultSetIt.next().getRecord().equals(
                         actualResultIt.next().getRecord()));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             fail("Not yet implemented");
         }
@@ -403,7 +403,7 @@ public class ProtoBufTestingUpdate {
     @Test
     public void testSix() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBuffParser.createDatabase("test6");
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
@@ -470,7 +470,7 @@ public class ProtoBufTestingUpdate {
                 assertTrue(resultSetIt.next().getRecord().equals(
                         actualResultIt.next().getRecord()));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             fail("Not yet implemented");
         }

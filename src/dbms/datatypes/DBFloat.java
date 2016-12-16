@@ -2,11 +2,12 @@ package dbms.datatypes;
 
 public class DBFloat implements DBDatatype {
     public static final String KEY = "Float";
-    private Float value;
 
-    static  {
+    static {
         DatatypeFactory.getFactory().register(KEY, DBFloat.class);
     }
+
+    private Float value;
 
     public DBFloat() {
 

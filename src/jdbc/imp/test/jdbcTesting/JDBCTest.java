@@ -7,12 +7,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+import jdbc.imp.driver.DBDriver;
+import jdbc.imp.resultSet.DBResultSet;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import jdbc.imp.driver.*;
-import jdbc.imp.resultSet.DBResultSet;
+import java.sql.*;
+
 
 public class JDBCTest {
     private final String protocol = "altdb";
@@ -44,7 +46,7 @@ public class JDBCTest {
             int count = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
                     + " VALUES (1 ,'Ahmed Khaled', 90.5)");
             Assert.assertEquals("Table Insertion did not return 1", 1, count);
-            count  = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
+            count = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
                     + " VALUES (2 ,'Ahmed El Naggar', 90.2)");
             Assert.assertEquals("Table Insertion did not return 1", 1, count);
             final ResultSet resultSet = statement.executeQuery("SELECT * FROM Student");
@@ -66,12 +68,12 @@ public class JDBCTest {
             int count = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
                     + " VALUES (1 ,'Ahmed Khaled', 90.5)");
             Assert.assertEquals("Table Insertion did not return 1", 1, count);
-            count  = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
+            count = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
                     + " VALUES (2 ,'Ahmed El Naggar', 90.2)");
             Assert.assertEquals("Table Insertion did not return 1", 1, count);
-            count  = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
+            count = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
                     + " VALUES (3 ,'Ahmed Walid', 90.5)");
-            count  = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
+            count = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
                     + " VALUES (4 ,'Anas Harby', 90.5)");
             final DBResultSet resultSet = (DBResultSet)
                     statement.executeQuery("SELECT * FROM Student WHERE ID > 1");
@@ -133,10 +135,10 @@ public class JDBCTest {
             int count = statement.executeUpdate("INSERT INTO tb (ID, Name, Grade, birth)"
                     + " VALUES (-30, 'hello', -0.366, '2001-10-10')");
             Assert.assertEquals("Table Insertion did not return 1", 1, count);
-            count  = statement.executeUpdate("INSERT INTO tb"
+            count = statement.executeUpdate("INSERT INTO tb"
                     + " VALUES (-2 ,'A spaced string', 101.00002, '0001-01-01')");
             Assert.assertEquals("Table Insertion did not return 1", 1, count);
-            count  = statement.executeUpdate("INSERT INTO tb"
+            count = statement.executeUpdate("INSERT INTO tb"
                     + " VALUES (333 ,'a float is 003', 0.003, '8488-11-30')");
             Assert.assertEquals("Table Insertion did not return 1", 1, count);
             final ResultSet resultSet =
@@ -153,7 +155,47 @@ public class JDBCTest {
     }
 
     @Test
+
     public void testJDBCFive() throws SQLException {
+
+        final Connection connection = createUseDatabase("sqlDatabase");
+        try {
+            final Statement statement = connection.createStatement();
+            statement.execute("Create table tb (ID int, Name varchar, GradE float, Birth date)");
+            int count = statement.executeUpdate("INSERT INTO tb (ID, Name, GrAde, birth)"
+                    + " VALUES (-30, 'hello', -.366, '2001-10-10')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("INSERT INTO tb"
+                    + " VALUES (-2 ,'A spaced string', 101.00002, '0001-01-01')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("INSERT INTO tb"
+                    + " VALUES (333 ,'a float is .003', .003, '8488-11-30')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            final ResultSet resultSet = statement.executeQuery("select birth, gRAde, id from tb where "
+                    + "birth > '0001-01-01' order by id");
+            int rows = 0;
+            while (resultSet.next()) {
+                rows++;
+            }
+            Assert.assertEquals("Invalid Result Set Size", 2, rows);
+            Assert.assertEquals(Types.DATE, resultSet.
+                    getMetaData().getColumnType(resultSet.findColumn("BirTh")));
+            Assert.assertEquals(Types.FLOAT, resultSet.
+                    getMetaData().getColumnType(resultSet.findColumn("gRAdE")));
+            Assert.assertEquals(Types.INTEGER, resultSet.
+                    getMetaData().getColumnType(resultSet.findColumn("iD")));
+            Assert.assertEquals(3, resultSet.getMetaData().getColumnCount());
+            Assert.assertTrue(resultSet.getMetaData().getTableName(1).equalsIgnoreCase("Tb"));
+            Assert.assertTrue(resultSet.getMetaData().
+                    getColumnLabel(1).equalsIgnoreCase("birth"));
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
+        connection.close();
+    }
+
+    @Test
+    public void testInsertWithoutColumnNames() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
@@ -660,8 +702,8 @@ public class JDBCTest {
                     .execute("SELECT * FROM table_name13 ORDER BY column_name2 ASC, COLUMN_name3 DESC");
             Assert.assertTrue("Wrong return for select UNION existing records", result3);
             final ResultSet res2 = statement.getResultSet();
-            while (res2.next());
-            while (res2.previous());
+            while (res2.next()) ;
+            while (res2.previous()) ;
             Assert.assertTrue(res2.isBeforeFirst());
             res2.next();
             Assert.assertTrue(res2.isFirst());
@@ -683,7 +725,7 @@ public class JDBCTest {
             Assert.assertEquals("value6", res2.getString("colUmn_Name3"));
             res2.next();
             Assert.assertTrue(res2.isAfterLast());
-            while (res2.previous());
+            while (res2.previous()) ;
             Assert.assertTrue(res2.isBeforeFirst());
             res2.next();
             Assert.assertTrue(res2.isFirst());
@@ -705,9 +747,9 @@ public class JDBCTest {
             Assert.assertEquals("value6", res2.getString(3));
             res2.next();
             Assert.assertTrue(res2.isAfterLast());
-            while (res2.previous());
-            while (res2.next());
-            while (res2.previous());
+            while (res2.previous()) ;
+            while (res2.next()) ;
+            while (res2.previous()) ;
             Assert.assertTrue(res2.isBeforeFirst());
             res2.next();
             Assert.assertTrue(res2.isFirst());
@@ -759,5 +801,70 @@ public class JDBCTest {
         connection.close();
     }
 
+    @Test
+    public void testJDBCTwenty() throws SQLException {
+        final Connection connection = createUseDatabase("sqlDatabase");
+        try {
+            final Statement statement = connection.createStatement();
+            statement.execute("Create table tb (CurrentTime dateTime,"
+                    + " Name varchar, GradE float, Birth date)");
+            int count = statement.executeUpdate("INSERT INTO tb (Name,"
+                    + " GrAde, birth, currentTime)"
+                    + " VALUES ('hello', -.366, '2001-10-10', '2000-09-03 11:02:09')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("INSERT INTO tb"
+                    + " VALUES ('2001-09-03 11:02:09','A spaced string', 101.00002, '0001-01-01')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("INSERT INTO tb"
+                    + " VALUES ('2001-09-03 11:02:09','a float is .003', .003, '8488-11-30')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            final ResultSet resultSet = statement.executeQuery("select biRth, gRAde, cuRRentTiMe, naMe from tb where "
+                    + "currenttime > '0001-01-01 01:01:01' order by currenttime, grade desc");
+            resultSet.first();
+            Assert.assertEquals(resultSet.getString(4), "hello");
+            Assert.assertEquals(resultSet.getFloat(2), -0.366, 0.001);
+            resultSet.next();
+            Assert.assertEquals(resultSet.getString("name"), "A spaced string");
+            Assert.assertEquals(resultSet.getFloat("grade"), 101.00002, 0.001);
+            try {
+                Assert.assertEquals(resultSet.getFloat("name"), 101.00002, 0.001);
+            } catch (final SQLException e) {
+            }
 
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
+        connection.close();
+    }
+
+    @Test
+    public void testJDBCTwentyOne() throws SQLException {
+        final Connection connection = createUseDatabase("TestDB_Create");
+        try {
+            final Statement statement = connection.createStatement();
+            statement.execute("CREATE TABLE table_name1(column_name1 varchar, column_name2 int, column_name3 date)");
+            statement.close();
+        } catch (final Throwable e) {
+            e.printStackTrace();
+        }
+        try {
+            final Statement statement = connection.createStatement();
+            statement.execute("CREATE TABLE table_name1(column_name1 varchar, column_name2 int, column_name3 date)");
+            Assert.fail("Created existing table successfully!");
+        } catch (final SQLException e) {
+
+        } catch (final Throwable e) {
+            e.printStackTrace();
+        }
+
+        try {
+            final Statement statement = connection.createStatement();
+            statement.execute("CREATE TABLE incomplete_table_name1");
+            Assert.fail("Create invalid table succeed");
+        } catch (final SQLException e) {
+        } catch (final Throwable e) {
+            e.printStackTrace();
+        }
+        connection.close();
+    }
 }

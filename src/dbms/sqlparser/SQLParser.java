@@ -15,103 +15,99 @@ import java.util.regex.Pattern;
  * validate and parse a sql query.
  */
 public class SQLParser {
-	private static final String[] reservedKeywords = new String[] {
+    private static final String[] reservedKeywords = new String[]{
             "select", "create", "insert", "into", "delete", "update", "use", "from", "drop", "alter",
-            "where", "and", "or", "not", "distinct", "ASC", "DESC","database", "table", "column", "row",
+            "where", "and", "or", "not", "distinct", "ASC", "DESC", "database", "table", "column", "row",
             "int", "varchar", "float", "date", "order", "by", "add", "is", "union"
-	};
-	/**
-	 * singleton instance of {@link SQLParser}.
-	 */
-	private static SQLParser instance;
+    };
+    /**
+     * singleton instance of {@link SQLParser}.
+     */
+    private static SQLParser instance;
 
-	private SQLParser() {
-	}
+    private SQLParser() {
+    }
 
-	/**
-	 * validate the query.
-	 * 
-	 * @param regex
-	 *            the pattern to validate against.
-	 * @param query
-	 *            the sql statement.
-	 * @return return the index of the error
-	 */
-	public Matcher validate(Pattern regex, String query) throws SyntaxErrorException {
+    /**
+     * will returns the SQLParser singleton instance or create a new instance if
+     * not found.
+     *
+     * @return the singleton instance.
+     */
+    public static SQLParser getInstance() {
+        if (instance == null) {
+            instance = new SQLParser();
+        }
+        return instance;
+    }
+
+    /**
+     * validate the query.
+     *
+     * @param regex the pattern to validate against.
+     * @param query the sql statement.
+     * @return return the index of the error
+     */
+    public Matcher validate(Pattern regex, String query) throws SyntaxErrorException {
 //		for (int i = 0; i <= query.length(); i++) {
 //			Matcher m = regex.matcher(query.substring(0, i));
 //			if (!m.matches() && !m.hitEnd()) {
 //				throw new SyntaxErrorException("Error: near \"" + query.substring(i - 1, i) + "\" : syntax error");
 //			}
 //		}
-		if (regex.matcher(query).matches()) {
-			return regex.matcher(query);
-		} else {
-			throw new SyntaxErrorException("Error: statement must end with \";\": syntax error");
-		}
-	}
+        if (regex.matcher(query).matches()) {
+            return regex.matcher(query);
+        } else {
+            throw new SyntaxErrorException("Error: statement must end with \";\": syntax error");
+        }
+    }
 
-	/**
-	 * parse the query.
-	 * 
-	 * @param query
-	 *            sql statement
-	 * @return {@link Expression}.
-	 * @throws SyntaxErrorException
-	 */
-	public Expression parse(String query) throws SyntaxErrorException {
-		Pattern rulePattern = SyntaxUtil.RULE_PATTERN;
-		Matcher ruleMatcher = validate(rulePattern, query);
+    /**
+     * parse the query.
+     *
+     * @param query sql statement
+     * @return {@link Expression}.
+     * @throws SyntaxErrorException
+     */
+    public Expression parse(String query) throws SyntaxErrorException {
+        Pattern rulePattern = SyntaxUtil.RULE_PATTERN;
+        Matcher ruleMatcher = validate(rulePattern, query);
 
-		ruleMatcher.matches();
-        if (ruleMatcher.group(2) != null)
-       	{
-        	return parseUnion(query, ruleMatcher.group(2));
-       	}
-		switch (ruleMatcher.group(1).toLowerCase()) {
-		case "select":
-			Pattern selectPattern = SelectSyntax.getInstance().getPattern();
-			return parseSelect(validate(selectPattern, query));
-		case "drop":
-			Pattern dropPattern = DropSyntax.getInstance().getPattern();
-			return parseDrop(validate(dropPattern, query));
-		case "insert":
-			Pattern insertPattern = InsertSyntax.getInstance().getPattern();
-			return parseInsert(validate(insertPattern, query));
-		case "delete":
-			Pattern deletePattern = DeleteSyntax.getInstance().getPattern();
-			return parseDelete(validate(deletePattern, query));
-		case "update":
-			Pattern updatePattern = UpdateSyntax.getInstance().getPattern();
-			return parseUpdate(validate(updatePattern, query));
-		case "create":
-			Pattern createPattern = CreateSyntax.getInstance().getPattern();
-			return parseCreate(validate(createPattern, query));
-		case "alter":
-			Pattern alterPattern = AlterSyntax.getInstance().getPattern();
-			return parseAlter(validate(alterPattern, query));
-		case "use":
-			Pattern usePattern = UseSyntax.getInstance().getPattern();
-			return parseUse(validate(usePattern, query));
-		default:
-			return null;
-		}
-	}
+        ruleMatcher.matches();
+        if (ruleMatcher.group(2) != null) {
+            return parseUnion(query, ruleMatcher.group(2));
+        }
+        switch (ruleMatcher.group(1).toLowerCase()) {
+            case "select":
+                Pattern selectPattern = SelectSyntax.getInstance().getPattern();
+                return parseSelect(validate(selectPattern, query));
+            case "drop":
+                Pattern dropPattern = DropSyntax.getInstance().getPattern();
+                return parseDrop(validate(dropPattern, query));
+            case "insert":
+                Pattern insertPattern = InsertSyntax.getInstance().getPattern();
+                return parseInsert(validate(insertPattern, query));
+            case "delete":
+                Pattern deletePattern = DeleteSyntax.getInstance().getPattern();
+                return parseDelete(validate(deletePattern, query));
+            case "update":
+                Pattern updatePattern = UpdateSyntax.getInstance().getPattern();
+                return parseUpdate(validate(updatePattern, query));
+            case "create":
+                Pattern createPattern = CreateSyntax.getInstance().getPattern();
+                return parseCreate(validate(createPattern, query));
+            case "alter":
+                Pattern alterPattern = AlterSyntax.getInstance().getPattern();
+                return parseAlter(validate(alterPattern, query));
+            case "use":
+                Pattern usePattern = UseSyntax.getInstance().getPattern();
+                return parseUse(validate(usePattern, query));
+            default:
+                return null;
+        }
+    }
 
-	/**
-	 * will returns the SQLParser singleton instance or create a new instance if
-	 * not found.
-	 * 
-	 * @return the singleton instance.
-	 */
-	public static SQLParser getInstance() {
-		if (instance == null) {
-			instance = new SQLParser();
-		}
-		return instance;
-	}
-
-	private Expression parseAlter(Matcher matcher) {
+    private Expression parseAlter(Matcher matcher) {
         matcher.matches();
         String tableName = matcher.group(1);
         String columnName;
@@ -141,6 +137,7 @@ public class SQLParser {
 
     /**
      * parse insert statement.
+     *
      * @param matcher matched pattern from query.
      * @return {@link Expression}.
      * @throws SyntaxErrorException
@@ -157,71 +154,70 @@ public class SQLParser {
         for (int i = 0; i < values.length; i++) {
             String column = columns == null ? String.valueOf(i) : columns[i].trim().toLowerCase();
             String value = values[i].trim();
-			entryMap.put(column, DatatypeFactory.convertToDataType(DatatypeFactory.convertToObject(value)));
+            entryMap.put(column, DatatypeFactory.convertToDataType(DatatypeFactory.convertToObject(value)));
         }
         InsertIntoTable insertIntoTable = new InsertIntoTable(tableName, entryMap);
         if (columns == null) insertIntoTable.insertWithNoColumns(true);
         return insertIntoTable;
     }
 
-	/**
-	 * parse select statement
-	 * 
-	 * @param matcher
-	 *            matched pattern from query.
-	 * @return {@link Expression}.
-	 */
-	private Expression parseSelect(Matcher matcher) {
-		matcher.matches();
-		String tableName = matcher.group(6);
-		Select select = new Select(tableName);
+    /**
+     * parse select statement
+     *
+     * @param matcher matched pattern from query.
+     * @return {@link Expression}.
+     */
+    private Expression parseSelect(Matcher matcher) {
+        matcher.matches();
+        String tableName = matcher.group(6);
+        Select select = new Select(tableName);
         if (matcher.group(1) != null) {
             select.distinct();
         }
-		if (matcher.group(5) != null) {
-			select.setColumns(null);
-		} else {
-			String[] columnsTemp = matcher.group(3).split(",");
-			Collection<String> columns = new ArrayList<>();
-			for (int i = 0; i < columnsTemp.length; i++) {
-				columns.add(columnsTemp[i].trim().toLowerCase());
-			}
-			select.setColumns(columns);
-		}
+        if (matcher.group(5) != null) {
+            select.setColumns(null);
+        } else {
+            String[] columnsTemp = matcher.group(3).split(",");
+            Collection<String> columns = new ArrayList<>();
+            for (int i = 0; i < columnsTemp.length; i++) {
+                columns.add(columnsTemp[i].trim().toLowerCase());
+            }
+            select.setColumns(columns);
+        }
 
-		if (matcher.group(8) != null) { // if there is order by statement.
+        if (matcher.group(8) != null) { // if there is order by statement.
             select.setOrderBy(parseOrderby(matcher.group(8)));
-		}
-		if (matcher.group(12) != null) { // if there is where condition
-			select.setWhere(new Where(matcher.group(12)));
-		}
-		return select;
-	}
+        }
+        if (matcher.group(12) != null) { // if there is where condition
+            select.setWhere(new Where(matcher.group(12)));
+        }
+        return select;
+    }
 
-	/**
-	 * Helper Method for {@link SQLParser#parseSelect(Matcher)}
-	 */
-	private List<Pair<String, Boolean>> parseOrderby(String query) {
-		List<Pair<String, Boolean>> columns = new ArrayList<>();
-		String[] orderbyArray = query.trim().split(",");
-		for (int i = 0; i < orderbyArray.length; i++) {
-			String[] orderby = orderbyArray[i].trim().split("\\s+");
-			if (orderby.length == 1) {
-				columns.add(new Pair<>(orderby[0].toLowerCase(), false));
-			} else {
-				if (orderby[1].equals("ASC")) {
-					columns.add(new Pair<>(orderby[0].toLowerCase(), false));
-				} else {
-					columns.add(new Pair<>(orderby[0].toLowerCase(), true));
-				}
-			}
-		}
-		return columns;
-	}
+    /**
+     * Helper Method for {@link SQLParser#parseSelect(Matcher)}
+     */
+    private List<Pair<String, Boolean>> parseOrderby(String query) {
+        List<Pair<String, Boolean>> columns = new ArrayList<>();
+        String[] orderbyArray = query.trim().split(",");
+        for (int i = 0; i < orderbyArray.length; i++) {
+            String[] orderby = orderbyArray[i].trim().split("\\s+");
+            if (orderby.length == 1) {
+                columns.add(new Pair<>(orderby[0].toLowerCase(), false));
+            } else {
+                if (orderby[1].equals("ASC")) {
+                    columns.add(new Pair<>(orderby[0].toLowerCase(), false));
+                } else {
+                    columns.add(new Pair<>(orderby[0].toLowerCase(), true));
+                }
+            }
+        }
+        return columns;
+    }
 
 
     private Expression parseUnion(String query, String unionForm) throws SyntaxErrorException {
-        List<Select>  selectList = new ArrayList<>();
+        List<Select> selectList = new ArrayList<>();
         String[] selects = query.split("(?i)(union\\s+all|union)");
         for (int i = 0; i < selects.length; i++) {
             Select select = (Select) parseSelect(validate(SelectSyntax.getInstance().getPattern(), selects[i]));
@@ -233,41 +229,39 @@ public class SQLParser {
         return new Union(selectList, false);
     }
 
-	/**
-	 * parse drop statement.
-	 * 
-	 * @param matcher
-	 *            matched pattern from query.
-	 * @return {@link Expression}.
-	 */
-	private Expression parseDrop(Matcher matcher) {
-		matcher.matches();
-		switch (matcher.group(1).toLowerCase()) {
-		case "database":
-			return new DropDatabase(matcher.group(2));
-		case "table":
-			return new DropTable(matcher.group(2));
-		default:
-			return null;
-		}
-	}
+    /**
+     * parse drop statement.
+     *
+     * @param matcher matched pattern from query.
+     * @return {@link Expression}.
+     */
+    private Expression parseDrop(Matcher matcher) {
+        matcher.matches();
+        switch (matcher.group(1).toLowerCase()) {
+            case "database":
+                return new DropDatabase(matcher.group(2));
+            case "table":
+                return new DropTable(matcher.group(2));
+            default:
+                return null;
+        }
+    }
 
-	/**
-	 * parse delete statement.
-	 * 
-	 * @param matcher
-	 * matched pattern from query.
-	 * @return {@link Expression}.
-	 */
-	private Expression parseDelete(Matcher matcher) {
-		matcher.matches();
-		Delete delete = new Delete(matcher.group(2));
+    /**
+     * parse delete statement.
+     *
+     * @param matcher matched pattern from query.
+     * @return {@link Expression}.
+     */
+    private Expression parseDelete(Matcher matcher) {
+        matcher.matches();
+        Delete delete = new Delete(matcher.group(2));
 
-		if (matcher.group(4) != null) {
-			delete.setWhere(new Where(matcher.group(4)));
-		}
-		return delete;
-	}
+        if (matcher.group(4) != null) {
+            delete.setWhere(new Where(matcher.group(4)));
+        }
+        return delete;
+    }
 
     private Expression parseUpdate(Matcher matcher) {
         matcher.matches();
@@ -292,51 +286,50 @@ public class SQLParser {
         }
         return update;
     }
-	/**
-	 * parse create statement.
-	 *
-	 * @param matcher
-	 *            matched pattern from query.
-	 * @return {@link Expression}.
-	 */
-	private Expression parseCreate(Matcher matcher) {
-		matcher.matches();
 
-		if (matcher.group(1).toLowerCase().startsWith("database")) {
-			return new CreateDatabase(matcher.group(3));
-		}
+    /**
+     * parse create statement.
+     *
+     * @param matcher matched pattern from query.
+     * @return {@link Expression}.
+     */
+    private Expression parseCreate(Matcher matcher) {
+        matcher.matches();
 
-		String[] columnsDesc = matcher.group(6).split(",");
-		Map<String, Class<? extends DBDatatype>> columns = new LinkedHashMap<>();
-		for (int i = 0; i < columnsDesc.length; i++) {
-			String key = columnsDesc[i].trim().split("\\s+")[0].toLowerCase();
-			switch (columnsDesc[i].trim().split("\\s+")[1].toLowerCase()) {
-			case "int":
-				columns.put(key, DBInteger.class);
-				break;
-			case "varchar":
-				columns.put(key, DBString.class);
-				break;
-			case "date":
-				columns.put(key, DBDate.class);
-				break;
-			case "float":
-                columns.put(key, DBFloat.class);
-			}
-		}
+        if (matcher.group(1).toLowerCase().startsWith("database")) {
+            return new CreateDatabase(matcher.group(3));
+        }
 
-		return new CreateTable(matcher.group(5).toLowerCase(), columns);
-	}
+        String[] columnsDesc = matcher.group(6).split(",");
+        Map<String, Class<? extends DBDatatype>> columns = new LinkedHashMap<>();
+        for (int i = 0; i < columnsDesc.length; i++) {
+            String key = columnsDesc[i].trim().split("\\s+")[0].toLowerCase();
+            switch (columnsDesc[i].trim().split("\\s+")[1].toLowerCase()) {
+                case "int":
+                    columns.put(key, DBInteger.class);
+                    break;
+                case "varchar":
+                    columns.put(key, DBString.class);
+                    break;
+                case "date":
+                    columns.put(key, DBDate.class);
+                    break;
+                case "float":
+                    columns.put(key, DBFloat.class);
+            }
+        }
 
-	/**
-	 * parse the use statement.
-	 * 
-	 * @param matcher
-	 *            matched pattern from query.
-	 * @return {@link Expression}.
-	 */
-	private Expression parseUse(Matcher matcher) {
-		matcher.matches();
-		return new UseDatabase(matcher.group(1));
-	}
+        return new CreateTable(matcher.group(5).toLowerCase(), columns);
+    }
+
+    /**
+     * parse the use statement.
+     *
+     * @param matcher matched pattern from query.
+     * @return {@link Expression}.
+     */
+    private Expression parseUse(Matcher matcher) {
+        matcher.matches();
+        return new UseDatabase(matcher.group(1));
+    }
 }

@@ -25,7 +25,7 @@ public class PatternsHolder {
     private static Pattern createPattern;
 
 
-    static synchronized  Pattern getSelectPattern() {
+    static synchronized Pattern getSelectPattern() {
         if (selectPattern == null) {
             selectPattern = Pattern.compile(
                     SQLRegexProperties.getString("select.regex")
@@ -35,7 +35,7 @@ public class PatternsHolder {
         return selectPattern;
     }
 
-    static synchronized  Pattern getAlterPattern() {
+    static synchronized Pattern getAlterPattern() {
         if (alterPattern == null) {
             alterPattern = Pattern.compile(SQLRegexProperties.getString("alter.regex"));
         }
@@ -95,5 +95,5 @@ public class PatternsHolder {
         return dropPattern;
     }
 
-    
+
 }

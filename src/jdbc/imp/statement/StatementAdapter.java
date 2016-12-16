@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatementAdapter extends DBStatement {
+    /**
+     *
+     */
     private Connection connection;
     private List<String> batch;
     private ResultSet resultSet;
@@ -44,7 +47,7 @@ public class StatementAdapter extends DBStatement {
     @Override
     public int[] executeBatch() throws SQLException {
         int[] values = new int[batch.size()];
-        for (int i = 0; i < batch.size() ; i++) {
+        for (int i = 0; i < batch.size(); i++) {
             String query = batch.get(i);
             if (execute(query)) values[i] = SUCCESS_NO_INFO;
             values[i] = executeUpdate(query);
@@ -91,7 +94,7 @@ public class StatementAdapter extends DBStatement {
             expression.execute();
             log.debug(expression.getClass().toString().replace("dbms.sqlparser.sqlInterpreter.rules.", "")
                     + " Command executed successfully");
-                    RecordSet recordSet = ((Select) expression).getRecordSet();
+            RecordSet recordSet = ((Select) expression).getRecordSet();
             resultSet = new DBResultSetImpl(this, recordSet);
             return resultSet;
         } catch (Exception e) {

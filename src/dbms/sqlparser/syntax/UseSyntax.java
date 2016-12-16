@@ -3,13 +3,11 @@ package dbms.sqlparser.syntax;
 import java.util.regex.Pattern;
 
 public class UseSyntax implements SQLSyntax {
+    private static UseSyntax instance = null;
     private final String USE_REGEX = "(?i)^\\s*use\\s+("
             + SyntaxUtil.DATABASE_NAME + ")"
             + SyntaxUtil.SEMI_COLON + "$";
-
     private Pattern usePattern = null;
-
-    private static UseSyntax instance = null;
 
     private UseSyntax() {
     }

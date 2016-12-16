@@ -27,38 +27,36 @@ public class Select implements DMLStatement {
         this.tableName = tableName;
     }
 
-    public void setColumns(Collection<String> columns) {
-        this.columns = columns;
+    public Where getWhere() {
+        return where;
     }
-
 
     public void setWhere(Where where) {
         this.where = where;
     }
 
-    public Where getWhere() {
-    	return where;
-    }
-
     public Collection<String> getColumns() {
-    	return columns;
+        return columns;
     }
 
+    public void setColumns(Collection<String> columns) {
+        this.columns = columns;
+    }
 
     public String getTableName() {
-    	return tableName;
+        return tableName;
     }
 
     public List<Pair<String, Boolean>> getOrderBy() {
         return orderBy;
     }
 
-    public boolean isDistinct() {
-        return isDistinct;
-    }
-
     public void setOrderBy(List<Pair<String, Boolean>> orderBy) {
         this.orderBy = orderBy;
+    }
+
+    public boolean isDistinct() {
+        return isDistinct;
     }
 
     public RecordSet getRecordSet() {
@@ -79,7 +77,7 @@ public class Select implements DMLStatement {
         recordSet = BackendController.getInstance().select(tableName, columns, where);
         if (isDistinct) recordSet.distinct();
         if (orderBy != null) recordSet.orderBy(orderBy);
-    	Formatter.getInstance().printTable(recordSet);
+        Formatter.getInstance().printTable(recordSet);
         recordSet.reset();
     }
 }

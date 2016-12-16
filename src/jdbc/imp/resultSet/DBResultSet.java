@@ -66,6 +66,7 @@ public class DBResultSet implements ResultSet {
     }
 
     @Override
+    @Deprecated
     public BigDecimal getBigDecimal(int columnIndex, int scale) throws SQLException {
         return null;
     }
@@ -96,6 +97,7 @@ public class DBResultSet implements ResultSet {
     }
 
     @Override
+    @Deprecated
     public InputStream getUnicodeStream(int columnIndex) throws SQLException {
         return null;
     }
@@ -146,6 +148,7 @@ public class DBResultSet implements ResultSet {
     }
 
     @Override
+    @Deprecated
     public BigDecimal getBigDecimal(String columnLabel, int scale) throws SQLException {
         return null;
     }
@@ -176,6 +179,7 @@ public class DBResultSet implements ResultSet {
     }
 
     @Override
+    @Deprecated
     public InputStream getUnicodeStream(String columnLabel) throws SQLException {
         return null;
     }
@@ -301,23 +305,23 @@ public class DBResultSet implements ResultSet {
     }
 
     @Override
-    public void setFetchDirection(int direction) throws SQLException {
-
-    }
-
-    @Override
     public int getFetchDirection() throws SQLException {
         return 0;
     }
 
     @Override
-    public void setFetchSize(int rows) throws SQLException {
+    public void setFetchDirection(int direction) throws SQLException {
 
     }
 
     @Override
     public int getFetchSize() throws SQLException {
         return 0;
+    }
+
+    @Override
+    public void setFetchSize(int rows) throws SQLException {
+
     }
 
     @Override

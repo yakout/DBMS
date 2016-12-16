@@ -13,7 +13,7 @@ public class Union implements DMLStatement {
     private boolean removeDuplicates = true; // default
     private RecordSet recordSet = null;
 
-    public Union(List<Select> selects, boolean removeDuplicates) {
+    public Union(final List<Select> selects, boolean removeDuplicates) {
         this.selects = selects;
         this.removeDuplicates = removeDuplicates;
     }
@@ -42,7 +42,8 @@ public class Union implements DMLStatement {
             // TODO: check for datatype, optimize it
             if (firstSelect.getColumns() != null || select.getColumns() != null) {
                 throw new SyntaxErrorException("wrong number of columns");
-            } else if (firstSelect.getColumns() != null && select.getColumns() != null && firstSelect.getColumns().size() != select.getColumns().size()) {
+            } else if (firstSelect.getColumns() != null && select.getColumns() != null
+                    && firstSelect.getColumns().size() != select.getColumns().size()) {
                 throw new SyntaxErrorException("wrong number of columns");
             }
             select.execute();

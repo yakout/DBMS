@@ -13,7 +13,7 @@ public class Where implements Condition {
 
     @Override
     public Queue<Object> getPostfix() throws SyntaxErrorException {
-    	return new BooleanExpression().toPostfix(infix);
+        return new BooleanExpression().toPostfix(infix);
     }
 
     @Override
