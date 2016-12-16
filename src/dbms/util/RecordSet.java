@@ -160,7 +160,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 	 */
 	public void orderBy(final List<Pair<String, Boolean>> columns) {
 		DBComparatorChain<Record> comparatorChain = new DBComparatorChain<>();
-		for (Pair<String, Boolean> pair : columns) {
+		for (final Pair<String, Boolean> pair : columns) {
 			Comparator<Record> recordComparator = new Comparator<Record>() {
 				@Override
 				public int compare(Record o1, Record o2) {
