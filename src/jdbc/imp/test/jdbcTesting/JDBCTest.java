@@ -922,5 +922,6 @@ public class JDBCTest {
             e.printStackTrace();
         }
         connection.close();
+
     }
 }
