@@ -9,8 +9,8 @@ import dbms.util.Record;
 import dbms.util.RecordSet;
 import javafx.util.Pair;
 import org.junit.Test;
-import java.sql.Date;
 
+import java.sql.Date;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -258,7 +258,7 @@ public class ProtoBufTestingSelect {
             resExpected.put("column_3", DatatypeFactory.convertToDataType("Wal3aa"));
             recordSet.add(new Record(resExpected));
             resExpected = new LinkedHashMap<>();
-            resExpected.put("column_1",DatatypeFactory.convertToDataType(889884));
+            resExpected.put("column_1", DatatypeFactory.convertToDataType(889884));
             resExpected.put("column_2", DatatypeFactory.convertToDataType("yes"));
             resExpected.put("column_3", DatatypeFactory.convertToDataType("no"));
             recordSet.add(new Record(resExpected));
@@ -432,64 +432,64 @@ public class ProtoBufTestingSelect {
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-10.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -10.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -7.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -2.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -0.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -5.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereConditionDel = new Where("   column_1  >  300  ");
 
-            RecordSet actualRes = protoBuffParser.select("table_name", null , whereConditionDel);
+            RecordSet actualRes = protoBuffParser.select("table_name", null, whereConditionDel);
             Object[] recordsAct = actualRes.getRecords().toArray();
             Object[] recordsExp = new Object[3];
 
             Record expectedRecord = new Record();
 
-            expectedRecord.add("column_1",DatatypeFactory.convertToDataType(550));
-            expectedRecord.add("column_2",DatatypeFactory.convertToDataType("KHalED"));
-            expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-10.55));
+            expectedRecord.add("column_1", DatatypeFactory.convertToDataType(550));
+            expectedRecord.add("column_2", DatatypeFactory.convertToDataType("KHalED"));
+            expectedRecord.add("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -10.55));
             recordsExp[0] = expectedRecord;
 
             expectedRecord = new Record();
 
-            expectedRecord.add("column_1",DatatypeFactory.convertToDataType(7500));
-            expectedRecord.add("column_2",DatatypeFactory.convertToDataType("AnAs"));
-            expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2001-10-01")));
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-2.55));
+            expectedRecord.add("column_1", DatatypeFactory.convertToDataType(7500));
+            expectedRecord.add("column_2", DatatypeFactory.convertToDataType("AnAs"));
+            expectedRecord.add("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-01")));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -2.55));
             recordsExp[1] = expectedRecord;
 
             expectedRecord = new Record();
 
-            expectedRecord.add("column_1",DatatypeFactory.convertToDataType(852));
-            expectedRecord.add("column_2",DatatypeFactory.convertToDataType("YaKoUt"));
-            expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2002-10-01")));
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-0.55));
+            expectedRecord.add("column_1", DatatypeFactory.convertToDataType(852));
+            expectedRecord.add("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
+            expectedRecord.add("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-01")));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -0.55));
             recordsExp[2] = expectedRecord;
 
-            assertArrayEquals(recordsExp,recordsAct);
+            assertArrayEquals(recordsExp, recordsAct);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Error occurred!");
@@ -515,56 +515,56 @@ public class ProtoBufTestingSelect {
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-10.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -10.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -7.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -2.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -0.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -5.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereConditionDel = new Where("  ( (column_1  >  300) and (column_3 > '2001-10-1'))  ");
 
-            RecordSet actualRes = protoBuffParser.select("table_name", null , whereConditionDel);
+            RecordSet actualRes = protoBuffParser.select("table_name", null, whereConditionDel);
             Object[] recordsAct = actualRes.getRecords().toArray();
             Object[] recordsExp = new Object[2];
 
             Record expectedRecord = new Record();
 
-            expectedRecord.add("column_1",DatatypeFactory.convertToDataType(550));
-            expectedRecord.add("column_2",DatatypeFactory.convertToDataType("KHalED"));
-            expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-10.55));
+            expectedRecord.add("column_1", DatatypeFactory.convertToDataType(550));
+            expectedRecord.add("column_2", DatatypeFactory.convertToDataType("KHalED"));
+            expectedRecord.add("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -10.55));
             recordsExp[0] = expectedRecord;
 
             expectedRecord = new Record();
 
-            expectedRecord.add("column_1",DatatypeFactory.convertToDataType(852));
-            expectedRecord.add("column_2",DatatypeFactory.convertToDataType("YaKoUt"));
-            expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2002-10-01")));
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-0.55));
+            expectedRecord.add("column_1", DatatypeFactory.convertToDataType(852));
+            expectedRecord.add("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
+            expectedRecord.add("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-01")));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -0.55));
             recordsExp[1] = expectedRecord;
 
-            assertArrayEquals(recordsExp,recordsAct);
+            assertArrayEquals(recordsExp, recordsAct);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Error occurred!");
@@ -590,31 +590,31 @@ public class ProtoBufTestingSelect {
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-10.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -10.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -7.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -2.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -0.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -5.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereConditionDel = new Where("  ( (column_1  >  300) and (column_3 > '2001-10-1'))  ");
@@ -625,23 +625,23 @@ public class ProtoBufTestingSelect {
             selectedColumns.add("column_3");
             selectedColumns.add("column_4");
 
-            RecordSet actualRes = protoBuffParser.select("table_name", selectedColumns , whereConditionDel);
+            RecordSet actualRes = protoBuffParser.select("table_name", selectedColumns, whereConditionDel);
             Object[] recordsAct = actualRes.getRecords().toArray();
             Object[] recordsExp = new Object[2];
 
             Record expectedRecord = new Record();
 
-            expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-10.55));
+            expectedRecord.add("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -10.55));
             recordsExp[0] = expectedRecord;
 
             expectedRecord = new Record();
 
-            expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2002-10-01")));
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-0.55));
+            expectedRecord.add("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-01")));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -0.55));
             recordsExp[1] = expectedRecord;
 
-            assertArrayEquals(recordsExp,recordsAct);
+            assertArrayEquals(recordsExp, recordsAct);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Error occurred!");
@@ -667,31 +667,31 @@ public class ProtoBufTestingSelect {
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-10.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -10.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -7.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -2.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -0.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -5.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereConditionDel = new Where("  ( (column_1  >  300) and (column_3 > '2001-10-1'))  ");
@@ -703,25 +703,25 @@ public class ProtoBufTestingSelect {
             selectedColumns.add("column_3");
 
 
-            RecordSet actualRes = protoBuffParser.select("table_name", selectedColumns , whereConditionDel);
+            RecordSet actualRes = protoBuffParser.select("table_name", selectedColumns, whereConditionDel);
             Object[] recordsAct = actualRes.getRecords().toArray();
             Object[] recordsExp = new Object[2];
 
             Record expectedRecord = new Record();
 
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-10.55));
-            expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -10.55));
+            expectedRecord.add("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
 
             recordsExp[0] = expectedRecord;
 
             expectedRecord = new Record();
 
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-0.55));
-            expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2002-10-01")));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -0.55));
+            expectedRecord.add("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-01")));
 
             recordsExp[1] = expectedRecord;
 
-            assertArrayEquals(recordsExp,recordsAct);
+            assertArrayEquals(recordsExp, recordsAct);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Error occurred!");
@@ -747,31 +747,31 @@ public class ProtoBufTestingSelect {
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-10.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -10.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -7.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -2.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -0.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -5.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereConditionDel = new Where("  ( (column_1  >  300) and (column_3 > '2001-10-1'))  ");
@@ -783,25 +783,25 @@ public class ProtoBufTestingSelect {
             selectedColumns.add("colUMN_3");
 
 
-            RecordSet actualRes = protoBuffParser.select("table_name", selectedColumns , whereConditionDel);
+            RecordSet actualRes = protoBuffParser.select("table_name", selectedColumns, whereConditionDel);
             Object[] recordsAct = actualRes.getRecords().toArray();
             Object[] recordsExp = new Object[2];
 
             Record expectedRecord = new Record();
 
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-10.55));
-            expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -10.55));
+            expectedRecord.add("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
 
             recordsExp[0] = expectedRecord;
 
             expectedRecord = new Record();
 
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-0.55));
-            expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2002-10-01")));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -0.55));
+            expectedRecord.add("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-01")));
 
             recordsExp[1] = expectedRecord;
 
-            assertArrayEquals(recordsExp,recordsAct);
+            assertArrayEquals(recordsExp, recordsAct);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Error occurred!");
@@ -831,18 +831,18 @@ public class ProtoBufTestingSelect {
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -7.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -2.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -0.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
@@ -859,18 +859,18 @@ public class ProtoBufTestingSelect {
             selectedColumns.add("colUMN_3");
 
 
-            RecordSet actualRes = protoBuffParser.select("table_name", selectedColumns , whereConditionDel);
+            RecordSet actualRes = protoBuffParser.select("table_name", selectedColumns, whereConditionDel);
             Object[] recordsAct = actualRes.getRecords().toArray();
             Object[] recordsExp = new Object[1];
 
             Record expectedRecord = new Record();
 
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-0.55));
-            expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2002-10-01")));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -0.55));
+            expectedRecord.add("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2002-10-01")));
 
             recordsExp[0] = expectedRecord;
 
-            assertArrayEquals(recordsExp,recordsAct);
+            assertArrayEquals(recordsExp, recordsAct);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Error occurred!");
@@ -900,13 +900,13 @@ public class ProtoBufTestingSelect {
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -7.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -2.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
@@ -920,9 +920,9 @@ public class ProtoBufTestingSelect {
 
             Condition whereConditionDel = new Where("  ( (column_1  >  300) and (column_4 > -1.0))  ");
 
-            RecordSet actualRes = protoBuffParser.select("table_name", null , whereConditionDel);
+            RecordSet actualRes = protoBuffParser.select("table_name", null, whereConditionDel);
             Object[] recordsAct = actualRes.getRecords().toArray();
-            assertEquals(recordsAct.length , 0);
+            assertEquals(recordsAct.length, 0);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Error occurred!");
@@ -948,31 +948,31 @@ public class ProtoBufTestingSelect {
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -0.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -7.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -2.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-0.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -0.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -5.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereConditionDel = new Where("  ( (column_1  >  300) and (column_3 > '2001-10-1'))  ");
@@ -984,7 +984,7 @@ public class ProtoBufTestingSelect {
             selectedColumns.add("colUMN_3");
 
 
-            RecordSet actualRes = protoBuffParser.select("table_name", selectedColumns , whereConditionDel);
+            RecordSet actualRes = protoBuffParser.select("table_name", selectedColumns, whereConditionDel);
             RecordSet actualResUpdated = new RecordSet(actualRes.getRecords());
             actualResUpdated.distinct();
             Object[] recordsAct = actualResUpdated.getRecords().toArray();
@@ -992,12 +992,12 @@ public class ProtoBufTestingSelect {
 
             Record expectedRecord = new Record();
 
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-0.55));
-            expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -0.55));
+            expectedRecord.add("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
 
             recordsExp[0] = expectedRecord;
 
-            assertArrayEquals(recordsExp,recordsAct);
+            assertArrayEquals(recordsExp, recordsAct);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Error occurred!");
@@ -1024,31 +1024,31 @@ public class ProtoBufTestingSelect {
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2010-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -2.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -7.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -2.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-55.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -55.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -5.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereConditionDel = new Where("  ( (column_1  >  300) and (column_3 > '2001-10-1'))  ");
@@ -1059,11 +1059,11 @@ public class ProtoBufTestingSelect {
             selectedColumns.add("COlUmn_4");
             selectedColumns.add("colUMN_3");
 
-            List<Pair<String,Boolean>> orderByCols = new ArrayList<>();
+            List<Pair<String, Boolean>> orderByCols = new ArrayList<>();
 
-            orderByCols.add(new Pair<>("coluMN_3",false));
+            orderByCols.add(new Pair<>("coluMN_3", false));
 
-            RecordSet actualRes = protoBuffParser.select("table_name", selectedColumns , whereConditionDel);
+            RecordSet actualRes = protoBuffParser.select("table_name", selectedColumns, whereConditionDel);
             RecordSet actualResUpdated = new RecordSet(actualRes.getRecords());
             actualResUpdated.orderBy(orderByCols);
             Object[] recordsAct = actualResUpdated.getRecords().toArray();
@@ -1072,19 +1072,19 @@ public class ProtoBufTestingSelect {
             Record expectedRecord = new Record();
 
 
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-55.55));
-            expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -55.55));
+            expectedRecord.add("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
 
             recordsExp[1] = expectedRecord;
 
             expectedRecord = new Record();
 
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-2.55));
-            expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2010-10-01")));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -2.55));
+            expectedRecord.add("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2010-10-01")));
 
             recordsExp[0] = expectedRecord;
 
-            assertArrayEquals(recordsExp,recordsAct);
+            assertArrayEquals(recordsExp, recordsAct);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Error occurred!");
@@ -1111,31 +1111,31 @@ public class ProtoBufTestingSelect {
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2010-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -2.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -7.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -2.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-55.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -55.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -5.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereConditionDel = new Where("  ( (column_1  >  300) and (column_3 > '2001-10-1'))  ");
@@ -1146,11 +1146,11 @@ public class ProtoBufTestingSelect {
             selectedColumns.add("COlUmn_4");
             selectedColumns.add("colUMN_3");
 
-            List<Pair<String,Boolean> > orderByCols = new ArrayList<>();
+            List<Pair<String, Boolean>> orderByCols = new ArrayList<>();
 
-            orderByCols.add(new Pair<>("coluMN_3",true));
+            orderByCols.add(new Pair<>("coluMN_3", true));
 
-            RecordSet actualRes = protoBuffParser.select("table_name", selectedColumns , whereConditionDel);
+            RecordSet actualRes = protoBuffParser.select("table_name", selectedColumns, whereConditionDel);
             RecordSet actualResUpdated = new RecordSet(actualRes.getRecords());
             actualResUpdated.orderBy(orderByCols);
             Object[] recordsAct = actualResUpdated.getRecords().toArray();
@@ -1158,19 +1158,19 @@ public class ProtoBufTestingSelect {
 
             Record expectedRecord = new Record();
 
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-2.55));
-            expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2010-10-01")));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -2.55));
+            expectedRecord.add("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2010-10-01")));
 
             recordsExp[1] = expectedRecord;
 
             expectedRecord = new Record();
 
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-55.55));
-            expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -55.55));
+            expectedRecord.add("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
 
             recordsExp[0] = expectedRecord;
 
-            assertArrayEquals(recordsExp,recordsAct);
+            assertArrayEquals(recordsExp, recordsAct);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Error occurred!");
@@ -1196,31 +1196,31 @@ public class ProtoBufTestingSelect {
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2010-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -2.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(200));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("waLiD"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2000-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-7.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -7.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(7500));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("AnAs"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2001-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-2.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -2.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(852));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("YaKoUt"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2050-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-55.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -55.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
             entriesMap = new LinkedHashMap<>();
             entriesMap.put("column_1", DatatypeFactory.convertToDataType(189));
             entriesMap.put("column_2", DatatypeFactory.convertToDataType("BaRRy"));
             entriesMap.put("column_3", DatatypeFactory.convertToDataType(Date.valueOf("2003-10-1")));
-            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float)-5.55));
+            entriesMap.put("column_4", DatatypeFactory.convertToDataType((float) -5.55));
             protoBuffParser.insertIntoTable("table_name", entriesMap);
 
             Condition whereConditionDel = new Where("  ( (column_1  >  300) and (column_3 > '2001-10-1'))  ");
@@ -1231,11 +1231,11 @@ public class ProtoBufTestingSelect {
             selectedColumns.add("COlUmn_4");
 //			selectedColumns.add("colUMN_3");
 
-            List<Pair<String,Boolean> > orderByCols = new ArrayList<>();
+            List<Pair<String, Boolean>> orderByCols = new ArrayList<>();
 
-            orderByCols.add(new Pair<>("coluMN_3",true));
+            orderByCols.add(new Pair<>("coluMN_3", true));
 
-            RecordSet actualRes = protoBuffParser.select("table_name", selectedColumns , whereConditionDel);
+            RecordSet actualRes = protoBuffParser.select("table_name", selectedColumns, whereConditionDel);
             RecordSet actualResUpdated = new RecordSet(actualRes.getRecords());
             actualResUpdated.orderBy(orderByCols);
             Object[] recordsAct = actualResUpdated.getRecords().toArray();
@@ -1243,17 +1243,17 @@ public class ProtoBufTestingSelect {
 
             Record expectedRecord = new Record();
 
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-2.55));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -2.55));
 
             recordsExp[0] = expectedRecord;
 
             expectedRecord = new Record();
 
-            expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-55.55));
+            expectedRecord.add("column_4", DatatypeFactory.convertToDataType((float) -55.55));
 
             recordsExp[1] = expectedRecord;
 
-            assertArrayEquals(recordsExp,recordsAct);
+            assertArrayEquals(recordsExp, recordsAct);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Error occurred!");

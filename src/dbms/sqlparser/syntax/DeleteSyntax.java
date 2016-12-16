@@ -3,13 +3,11 @@ package dbms.sqlparser.syntax;
 import java.util.regex.Pattern;
 
 public class DeleteSyntax implements SQLSyntax {
+    private static DeleteSyntax instance = null;
     private final String DELETE_REGEX = "(?i)^\\s*delete\\s+([*]{1}\\s+)?from\\s+("
             + SyntaxUtil.TABLE_NAME + ")"
             + WhereSyntax.getInstance().getRegex();
-
     private Pattern deletePattern = Pattern.compile(DELETE_REGEX);
-
-    private static DeleteSyntax instance = null;
 
     private DeleteSyntax() {
 
@@ -22,6 +20,9 @@ public class DeleteSyntax implements SQLSyntax {
         return instance;
     }
 
+    public static void main(String[] args) {
+        System.out.print(getInstance().getRegex());
+    }
 
     @Override
     public Pattern getPattern() {
@@ -34,9 +35,5 @@ public class DeleteSyntax implements SQLSyntax {
     @Override
     public String getRegex() {
         return DELETE_REGEX;
-    }
-
-    public static void main(String[] args) {
-        System.out.print(getInstance().getRegex());
     }
 }

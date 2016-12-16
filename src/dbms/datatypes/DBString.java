@@ -1,57 +1,58 @@
 package dbms.datatypes;
 
 public class DBString implements DBDatatype {
-	public static final String KEY = "String";
-	private String value = null;
+    public static final String KEY = "String";
 
-	static {
-		DatatypeFactory.getFactory().register(KEY, DBString.class);
-	}
+    static {
+        DatatypeFactory.getFactory().register(KEY, DBString.class);
+    }
 
-	public DBString() {
-	}
+    private String value = null;
 
-	public DBString(String value) {
-		this.value = value;
-	}
+    public DBString() {
+    }
 
-	@Override
-	public Object toObj(String s) {
-		return s;
-	}
+    public DBString(String value) {
+        this.value = value;
+    }
 
-	@Override
-	public int compareTo(DBDatatype data) {
-		return value.compareTo((String) data.getValue());
-	}
+    @Override
+    public Object toObj(String s) {
+        return s;
+    }
 
-	@Override
-	public String getValue() {
-		return value;
-	}
+    @Override
+    public int compareTo(DBDatatype data) {
+        return value.compareTo((String) data.getValue());
+    }
 
-	@Override
-	public String toString() {
-		return value;
-	}
+    @Override
+    public String getValue() {
+        return value;
+    }
 
-	@Override
+    @Override
+    public String toString() {
+        return value;
+    }
 
-	public String getKey() {
-		return KEY;
-	}
+    @Override
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+    public String getKey() {
+        return KEY;
+    }
 
-		DBString dbString = (DBString) o;
-		return value != null ? value.equals(dbString.value) : dbString.value == null;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-	@Override
-	public int hashCode() {
-		return value != null ? value.hashCode() : 0;
-	}
+        DBString dbString = (DBString) o;
+        return value != null ? value.equals(dbString.value) : dbString.value == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return value != null ? value.hashCode() : 0;
+    }
 }

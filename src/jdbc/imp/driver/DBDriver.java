@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 public class DBDriver implements Driver {
     private static final String URL_REGEX = "jdbc:(\\w+)db://localhost";
     private static final Pattern urlPattern = Pattern.compile(URL_REGEX);
-    private final String INVALID_URL = "Invalid url Format";
 
     static {
         try {
@@ -21,6 +20,8 @@ public class DBDriver implements Driver {
         } catch (SQLException e) {
         }
     }
+
+    private final String INVALID_URL = "Invalid url Format";
 
     public DBDriver() {
     }

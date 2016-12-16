@@ -2,11 +2,6 @@ package dbms.sqlparser.sqlInterpreter;
 
 
 public class BooleanOperator {
-    public enum Operator {
-        And,
-        Or
-    }
-
     private Operator operator;
 
     public BooleanOperator(Operator operator) {
@@ -22,5 +17,10 @@ public class BooleanOperator {
         return "BooleanOperator{" +
                 "operator=" + operator +
                 '}';
+    }
+
+    public enum Operator {
+        And,
+        Or
     }
 }

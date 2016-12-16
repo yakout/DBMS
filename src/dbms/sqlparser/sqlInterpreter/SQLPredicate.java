@@ -1,7 +1,6 @@
 package dbms.sqlparser.sqlInterpreter;
 
 import dbms.datatypes.DBDatatype;
-import dbms.datatypes.DatatypeFactory;
 import dbms.util.Operator;
 
 public class SQLPredicate {
@@ -43,7 +42,6 @@ public class SQLPredicate {
     }
 
     /**
-     *
      * @param o DBDatatype for left-side column of this predicate
      * @return
      */
@@ -52,7 +50,6 @@ public class SQLPredicate {
     }
 
     /**
-     *
      * @param o1 DBDatatype for left-side column of this predicate
      * @param o2 DBDatatype for right-side column of this predicate.
      * @return
@@ -62,12 +59,11 @@ public class SQLPredicate {
     }
 
     /**
-     *
      * @param sqlPredicate
-     * @param o1 DBDatatype for left-side column of this predicate
-     * @param o2 DBDatatype for right-side column of this predicate
-     * @param o3 DBDatatype for left-side column of predicate argument
-     * @param o4 DBDatatype for right-side column of predicate argument
+     * @param o1           DBDatatype for left-side column of this predicate
+     * @param o2           DBDatatype for right-side column of this predicate
+     * @param o3           DBDatatype for left-side column of predicate argument
+     * @param o4           DBDatatype for right-side column of predicate argument
      * @return boolean value true/false
      */
     public boolean or(SQLPredicate sqlPredicate, DBDatatype o1, DBDatatype o2, DBDatatype o3, DBDatatype o4) {
@@ -86,17 +82,16 @@ public class SQLPredicate {
         } else if (o4 == null) {
             return test(o1, o2) || sqlPredicate.test(o3);
         } else {
-        	return test(o1, o2) || sqlPredicate.test(o3, o4);
+            return test(o1, o2) || sqlPredicate.test(o3, o4);
         }
     }
 
     /**
-     *
      * @param sqlPredicate
-     * @param o1 DBDatatype for left-side column of this predicate
-     * @param o2 DBDatatype for right-side column of this predicate
-     * @param o3 DBDatatype for left-side column of predicate argument
-     * @param o4 DBDatatype for right-side column of predicate argument
+     * @param o1           DBDatatype for left-side column of this predicate
+     * @param o2           DBDatatype for right-side column of this predicate
+     * @param o3           DBDatatype for left-side column of predicate argument
+     * @param o4           DBDatatype for right-side column of predicate argument
      * @return boolean value true/false
      */
     public boolean and(SQLPredicate sqlPredicate, DBDatatype o1, DBDatatype o2, DBDatatype o3, DBDatatype o4) {
@@ -105,17 +100,17 @@ public class SQLPredicate {
         } else if (o1 == null && o2 == null && o4 == null) {
             return isAlwaysTrue() && sqlPredicate.test(o3);
         } else if (o1 == null && o2 == null) {
-        	return isAlwaysTrue && sqlPredicate.test(o3, o4);
+            return isAlwaysTrue && sqlPredicate.test(o3, o4);
         } else if (o2 == null && o4 == null) {
-        	return test(o1) && sqlPredicate.test(o3);
+            return test(o1) && sqlPredicate.test(o3);
         } else if (o3 == null && o4 == null) {
-        	return test(o1, o2) && sqlPredicate.isAlwaysTrue();
+            return test(o1, o2) && sqlPredicate.isAlwaysTrue();
         } else if (o2 == null) {
-        	return test(o1) && sqlPredicate.test(o3, o4);
+            return test(o1) && sqlPredicate.test(o3, o4);
         } else if (o4 == null) {
-        	return test(o1, o2) && sqlPredicate.test(o3);
+            return test(o1, o2) && sqlPredicate.test(o3);
         } else {
-        	return test(o1, o2) && sqlPredicate.test(o3, o4);
+            return test(o1, o2) && sqlPredicate.test(o3, o4);
         }
     }
 

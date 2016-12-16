@@ -91,7 +91,7 @@ public class ProtoBufTestingUpdate {
                 assertTrue(resultSetIt.next().getRecord().equals(
                         actualResultIt.next().getRecord()));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             fail("Not yet implemented");
         }
@@ -148,7 +148,7 @@ public class ProtoBufTestingUpdate {
             resExpected.put("col_2", DatatypeFactory.convertToDataType("steadyyy"));
             resExpected.put("col_4", DatatypeFactory.convertToDataType(100));
             recordSet.add(new Record(resExpected));
-            Condition where2 =  new Where("col_4 < 10000");
+            Condition where2 = new Where("col_4 < 10000");
             RecordSet actualRes = protoBuffParser.select("table_1", columns, where2);
             Iterator<Record> resultSetIt = recordSet.iterator();
             Iterator<Record> actualResultIt = actualRes.iterator();
@@ -156,7 +156,7 @@ public class ProtoBufTestingUpdate {
                 assertTrue(resultSetIt.next().getRecord().equals(
                         actualResultIt.next().getRecord()));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             fail("Not yet implemented");
         }
@@ -235,7 +235,7 @@ public class ProtoBufTestingUpdate {
                 assertTrue(resultSetIt.next().getRecord().equals(
                         actualResultIt.next().getRecord()));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             fail("Not yet implemented");
         }
@@ -314,7 +314,7 @@ public class ProtoBufTestingUpdate {
                 assertTrue(resultSetIt.next().getRecord().equals(
                         actualResultIt.next().getRecord()));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             fail("Not yet implemented");
         }
@@ -393,7 +393,7 @@ public class ProtoBufTestingUpdate {
                 assertTrue(resultSetIt.next().getRecord().equals(
                         actualResultIt.next().getRecord()));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             fail("Not yet implemented");
         }
@@ -470,7 +470,7 @@ public class ProtoBufTestingUpdate {
                 assertTrue(resultSetIt.next().getRecord().equals(
                         actualResultIt.next().getRecord()));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             fail("Not yet implemented");
         }

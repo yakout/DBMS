@@ -17,7 +17,7 @@ public abstract class BooleanExpressionEvaluator {
     }
 
     public void setPostfix(Queue<Object> postfix) {
-    	this.postfix = postfix;
+        this.postfix = postfix;
     }
 
     private Object fetchFromColumn(String columnName) {

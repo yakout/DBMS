@@ -4,10 +4,10 @@ import dbms.exception.*;
 
 public interface Expression {
     void execute() throws DatabaseNotFoundException,
-    TableNotFoundException,
-    SyntaxErrorException,
-    DataTypeNotSupportedException,
-    TableAlreadyCreatedException,
-    DatabaseAlreadyCreatedException,
-    IncorrectDataEntryException;
+            TableNotFoundException,
+            SyntaxErrorException,
+            DataTypeNotSupportedException,
+            TableAlreadyCreatedException,
+            DatabaseAlreadyCreatedException,
+            IncorrectDataEntryException;
 }

@@ -4,11 +4,12 @@ import java.sql.Date;
 
 public class DBDate implements DBDatatype {
     public static final String KEY = "Date";
-    private Date value;
 
     static {
         DatatypeFactory.getFactory().register(KEY, DBDate.class);
     }
+
+    private Date value;
 
     public DBDate() {
     }

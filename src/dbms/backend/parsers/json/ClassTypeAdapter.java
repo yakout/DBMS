@@ -9,30 +9,29 @@ import java.io.IOException;
 
 public class ClassTypeAdapter extends TypeAdapter<Class<?>> {
 
-	@Override
-	public Class<?> read(JsonReader jsonReader) throws IOException {
-		 if (jsonReader.peek() == JsonToken.NULL) {
-	            jsonReader.nextNull();
-	            return null;
-	        }
-	        Class<?> clazz = null;
-	        try {
-	            clazz = Class.forName(jsonReader.nextString());
-	        } catch (ClassNotFoundException exception) {
-	            throw new IOException(exception);
-	        }
-	        return clazz;
-	    }
+    @Override
+    public Class<?> read(JsonReader jsonReader) throws IOException {
+        if (jsonReader.peek() == JsonToken.NULL) {
+            jsonReader.nextNull();
+            return null;
+        }
+        Class<?> clazz = null;
+        try {
+            clazz = Class.forName(jsonReader.nextString());
+        } catch (ClassNotFoundException exception) {
+            throw new IOException(exception);
+        }
+        return clazz;
+    }
 
 
-	@Override
-	public void write(JsonWriter jsonWriter, Class<?> clazz) throws IOException {
-		if(clazz == null){
+    @Override
+    public void write(JsonWriter jsonWriter, Class<?> clazz) throws IOException {
+        if (clazz == null) {
             jsonWriter.nullValue();
             return;
         }
         jsonWriter.value(clazz.getName());
-
-	}
+    }
 
 }

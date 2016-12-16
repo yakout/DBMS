@@ -82,7 +82,7 @@ public class DBResultSetImpl extends DBResultSet {
         if (state == State.CLOSED) {
             throw new SQLException();
         }
-        for(int i = 0; i < recordSet.getColumnList().size(); i++) {
+        for (int i = 0; i < recordSet.getColumnList().size(); i++) {
             if (recordSet.getColumnList().get(i).getKey()
                     .equalsIgnoreCase(columnLabel)) {
                 return i + 1;

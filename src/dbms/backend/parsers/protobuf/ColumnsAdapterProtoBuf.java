@@ -15,10 +15,10 @@ import java.util.List;
 
 public class ColumnsAdapterProtoBuf {
 
-    public ColumnsAdapterProtoBuf()  {
+    public ColumnsAdapterProtoBuf() {
     }
 
-    public void desrializeColumns (byte[] deserialzedData, Table table) throws InvalidProtocolBufferException {
+    public void desrializeColumns(byte[] deserialzedData, Table table) throws InvalidProtocolBufferException {
         TableProtoBuf.TableModule tableModule = TableProtoBuf.TableModule.parseFrom(deserialzedData);
         List<TableProtoBuf.TableModule.ColumnModule> columnsModule = tableModule.getColumnsList();
         List<Column> cloneColumns = new ArrayList<>();
@@ -70,8 +70,7 @@ public class ColumnsAdapterProtoBuf {
     }
 
 
-
-    public byte[] serializeTable (Table table) throws IllegalAccessException, InstantiationException,
+    public byte[] serializeTable(Table table) throws IllegalAccessException, InstantiationException,
             NoSuchMethodException, InvocationTargetException {
         List<TableProtoBuf.TableModule.ColumnModule> columnsModule = new ArrayList<>();
         List<Column> columns = table.getColumns();
@@ -89,7 +88,7 @@ public class ColumnsAdapterProtoBuf {
 
             }
 
-            TableProtoBuf.TableModule.ColumnModule columnMod  =  TableProtoBuf.TableModule.ColumnModule
+            TableProtoBuf.TableModule.ColumnModule columnMod = TableProtoBuf.TableModule.ColumnModule
                     .newBuilder()
                     .setColumnName(col.getName())
                     .setColumnDataType((String) col.getType().getMethod(

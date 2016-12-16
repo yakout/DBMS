@@ -305,23 +305,23 @@ public class DBResultSet implements ResultSet {
     }
 
     @Override
-    public void setFetchDirection(int direction) throws SQLException {
-
-    }
-
-    @Override
     public int getFetchDirection() throws SQLException {
         return 0;
     }
 
     @Override
-    public void setFetchSize(int rows) throws SQLException {
+    public void setFetchDirection(int direction) throws SQLException {
 
     }
 
     @Override
     public int getFetchSize() throws SQLException {
         return 0;
+    }
+
+    @Override
+    public void setFetchSize(int rows) throws SQLException {
+
     }
 
     @Override

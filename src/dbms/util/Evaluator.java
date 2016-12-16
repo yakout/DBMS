@@ -10,31 +10,38 @@ import java.util.*;
 
 public class Evaluator extends BooleanExpressionEvaluator {
 
-	private static Evaluator instance = null;
+    private static Evaluator instance = null;
 
-	private Evaluator() {
-		super();
-	}
+    private Evaluator() {
+        super();
+    }
 
-	public static Evaluator getInstance() {
-		if (instance == null) {
-			instance = new Evaluator();
-		}
-		return instance;
-	}
+    public static Evaluator getInstance() {
+        if (instance == null) {
+            instance = new Evaluator();
+        }
+        return instance;
+    }
 
-	@Override
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+
+    }
+
+    @Override
     public boolean evaluate(Map<String, DBDatatype> row, Queue<Object> postfix,
                             Map<String, String> columns) throws IncorrectDataEntryException {
-	    Map<String, DBDatatype> rowLower = new LinkedHashMap<String, DBDatatype>();
-	    for (Map.Entry<String, DBDatatype> entry : row.entrySet()) {
-	        rowLower.put(entry.getKey().toLowerCase(), entry.getValue());
+        Map<String, DBDatatype> rowLower = new LinkedHashMap<String, DBDatatype>();
+        for (Map.Entry<String, DBDatatype> entry : row.entrySet()) {
+            rowLower.put(entry.getKey().toLowerCase(), entry.getValue());
         }
-	    Stack<Object> helperStack = new Stack<>();
-		Queue<Object> postfixClone = new LinkedList<Object>(postfix);
+        Stack<Object> helperStack = new Stack<>();
+        Queue<Object> postfixClone = new LinkedList<Object>(postfix);
         // in case if only on predicate
-        if(postfix.size() == 1) {
-            SQLPredicate sqlPredicate =((SQLPredicate) postfix.poll());
+        if (postfix.size() == 1) {
+            SQLPredicate sqlPredicate = ((SQLPredicate) postfix.poll());
             if (sqlPredicate.isAlwaysTrue() || sqlPredicate.isAlwaysFalse()) {
                 return sqlPredicate.isAlwaysTrue();
 
@@ -49,7 +56,7 @@ public class Evaluator extends BooleanExpressionEvaluator {
             }
         }
 
-        while(!postfixClone.isEmpty()) {
+        while (!postfixClone.isEmpty()) {
             Object object = postfixClone.poll();
             if (object instanceof SQLPredicate) {
                 helperStack.push(object);
@@ -142,29 +149,21 @@ public class Evaluator extends BooleanExpressionEvaluator {
     }
 
     private DBDatatype get(DBDatatype val, Map<String, String> columns,
-    		Map<String, DBDatatype> row, String colName)
-    				throws IncorrectDataEntryException {
-    	if (!columns.containsKey(colName)) {
-    		throw new IncorrectDataEntryException("Column doesn't exist!");
-    	}
-    	if (val == null) {
-    		return row.get(colName);
-    	}
-    	if (!val.getKey().equals(columns.get(colName))) {
-    		throw new IncorrectDataEntryException("Data type is incorrect!");
-    	}
-    	return row.get(colName);
+                           Map<String, DBDatatype> row, String colName)
+            throws IncorrectDataEntryException {
+        if (!columns.containsKey(colName)) {
+            throw new IncorrectDataEntryException("Column doesn't exist!");
+        }
+        if (val == null) {
+            return row.get(colName);
+        }
+        if (!val.getKey().equals(columns.get(colName))) {
+            throw new IncorrectDataEntryException("Data type is incorrect!");
+        }
+        return row.get(colName);
     }
 
     private boolean predicateHasResult(SQLPredicate sqlPredicate) {
         return sqlPredicate.isAlwaysFalse() || sqlPredicate.isAlwaysTrue();
-    }
-
-    /**
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-
     }
 }

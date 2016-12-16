@@ -4,27 +4,27 @@ import dbms.backend.BackendController;
 import dbms.exception.*;
 
 public class AlterDrop implements DDLStatement {
-	private String tableName;
-	private String columnName;
+    private String tableName;
+    private String columnName;
 
-    public AlterDrop(String tableName , String columnName) {
-		this.tableName = tableName;
-		this.columnName = columnName;
-	}
-    
+    public AlterDrop(String tableName, String columnName) {
+        this.tableName = tableName;
+        this.columnName = columnName;
+    }
+
     public String getTableName() {
-    	return tableName;
+        return tableName;
     }
-    
+
     public String getColumnName() {
-    	return columnName;
+        return columnName;
     }
 
-	@Override
-	public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException,
-			DataTypeNotSupportedException, TableAlreadyCreatedException, DatabaseAlreadyCreatedException,
-			IncorrectDataEntryException {
-		BackendController.getInstance().alterDrop(tableName, columnName);
+    @Override
+    public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException,
+            DataTypeNotSupportedException, TableAlreadyCreatedException, DatabaseAlreadyCreatedException,
+            IncorrectDataEntryException {
+        BackendController.getInstance().alterDrop(tableName, columnName);
 
-	}
+    }
 }

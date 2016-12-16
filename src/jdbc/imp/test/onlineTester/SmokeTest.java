@@ -1,7 +1,6 @@
 package jdbc.imp.test.onlineTester;
 
 import jdbc.imp.driver.DriverAdapter;
-import jdbc.imp.test.onlineTester.TestRunner;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,12 +10,12 @@ import java.util.Properties;
 
 /**
  * Notes:
- 1- Any test with "xmldb" can be replaced with "jsondb".
-
- 2- You can manipulate this file as much as you can, add more tests, change these tests ... etc.
-
- 3- This file does not cover all the required test cases but that does not mean that these test cases will be forgotten, the SanityTest
- will have many of them.
+ * 1- Any test with "xmldb" can be replaced with "jsondb".
+ * <p>
+ * 2- You can manipulate this file as much as you can, add more tests, change these tests ... etc.
+ * <p>
+ * 3- This file does not cover all the required test cases but that does not mean that these test cases will be forgotten, the SanityTest
+ * will have many of them.
  **/
 public class SmokeTest {
 
@@ -467,7 +466,7 @@ public class SmokeTest {
                 rows2++;
             Assert.assertEquals("Wrong number of rows", 1, rows2);
 
-            while (res2.previous());
+            while (res2.previous()) ;
             res2.next();
 
             Assert.assertNull("Retrieved date is not null", res2.getDate("column_name4"));
@@ -538,8 +537,8 @@ public class SmokeTest {
                     .execute("SELECT column_name3, column_name2 FROM table_name13 ORDER BY column_name2 ASC, COLUMN_name3 DESC");
             Assert.assertTrue("Wrong return for select UNION existing records", result3);
             ResultSet res2 = statement.getResultSet();
-            while (res2.next());
-            while (res2.previous());
+            while (res2.next()) ;
+            while (res2.previous()) ;
             Assert.assertTrue(res2.isBeforeFirst());
             res2.next();
             Assert.assertTrue(res2.isFirst());
@@ -584,12 +583,12 @@ public class SmokeTest {
             Assert.assertEquals(6, res2.getInt(2));
             Assert.assertEquals("value6", res2.getString(1));
             res2.next();
-            while (res2.previous());
+            while (res2.previous()) ;
             res2.afterLast();
             Assert.assertTrue(res2.isAfterLast());
-            while (res2.previous());
-            while (res2.next());
-            while (res2.previous());
+            while (res2.previous()) ;
+            while (res2.next()) ;
+            while (res2.previous()) ;
             Assert.assertTrue(res2.isBeforeFirst());
             res2.next();
             Assert.assertTrue(res2.isFirst());
@@ -699,10 +698,10 @@ public class SmokeTest {
             int count = statement.executeUpdate("INSERT INTO tb (ID, Name, GrAde, birth)"
                     + " VALUES (-30, 'hello', -0.366, '2001-10-10')");
             Assert.assertEquals("Table Insertion did not return 1", 1, count);
-            count  = statement.executeUpdate("INSERT INTO tb"
+            count = statement.executeUpdate("INSERT INTO tb"
                     + " VALUES (-2 ,'A spaced string', 101.00002, '0001-01-01')");
             Assert.assertEquals("Table Insertion did not return 1", 1, count);
-            count  = statement.executeUpdate("INSERT INTO tb"
+            count = statement.executeUpdate("INSERT INTO tb"
                     + " VALUES (333 ,'a float is 003', 0.003, '8488-11-30')");
             Assert.assertEquals("Table Insertion did not return 1", 1, count);
             final ResultSet resultSet = statement.executeQuery("select birth, gRAde, id from tb order by id where birth > '0001-01-01'");

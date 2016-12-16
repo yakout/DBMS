@@ -14,32 +14,32 @@ import java.util.Map;
 
 public class test {
 
-	private final static BackendController JSONParserConc = BackendController.getInstance();
+    private final static BackendController JSONParserConc = BackendController.getInstance();
 
-	public static void main(String[] args) {
-		try {
-			JSONParserConc.createDatabase("mine");
-		} catch (DatabaseAlreadyCreatedException e) {
-			e.printStackTrace();
-		}
-		LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
-		passMap.put("column_1", DBInteger.class);
-		passMap.put("column_2", DBString.class);
-		try {
-			JSONParserConc.createTable("table11", passMap);
-		} catch (DatabaseNotFoundException | TableAlreadyCreatedException | IncorrectDataEntryException e) {
-			e.printStackTrace();
-		}
-		Map<String, DBDatatype> entriesMap = new LinkedHashMap<String, DBDatatype>();
-		entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
-		entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
-		try {
-			JSONParserConc.insertIntoTable("table11", entriesMap);
-			RecordSet rs = JSONParserConc.select("table11", null, null);
-		} catch (DatabaseNotFoundException | TableNotFoundException | IncorrectDataEntryException e) {
-			e.printStackTrace();
-		} catch (SyntaxErrorException e) {
-			e.printStackTrace();
-		}
-	}
+    public static void main(String[] args) {
+        try {
+            JSONParserConc.createDatabase("mine");
+        } catch (DatabaseAlreadyCreatedException e) {
+            e.printStackTrace();
+        }
+        LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
+        passMap.put("column_1", DBInteger.class);
+        passMap.put("column_2", DBString.class);
+        try {
+            JSONParserConc.createTable("table11", passMap);
+        } catch (DatabaseNotFoundException | TableAlreadyCreatedException | IncorrectDataEntryException e) {
+            e.printStackTrace();
+        }
+        Map<String, DBDatatype> entriesMap = new LinkedHashMap<String, DBDatatype>();
+        entriesMap.put("column_1", DatatypeFactory.convertToDataType(550));
+        entriesMap.put("column_2", DatatypeFactory.convertToDataType("KHalED"));
+        try {
+            JSONParserConc.insertIntoTable("table11", entriesMap);
+            RecordSet rs = JSONParserConc.select("table11", null, null);
+        } catch (DatabaseNotFoundException | TableNotFoundException | IncorrectDataEntryException e) {
+            e.printStackTrace();
+        } catch (SyntaxErrorException e) {
+            e.printStackTrace();
+        }
+    }
 }
