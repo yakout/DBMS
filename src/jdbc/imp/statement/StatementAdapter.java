@@ -109,7 +109,7 @@ public class StatementAdapter extends DBStatement {
                     + " Command executed successfully");
             if (expression instanceof DDLStatement) {
                 return 0;
-            }
+            } 
             return ((DMLStatement) expression).getUpdateCount();
         } catch (SyntaxErrorException
                 | IncorrectDataEntryException | DataTypeNotSupportedException

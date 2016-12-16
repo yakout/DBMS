@@ -100,10 +100,10 @@ public class XMLParser extends BackendParser {
 			log.error("Error occured while loading the table.");
 			e.printStackTrace();
 		}
-		log.debug("\'" + table.getName() + "\' is loaded successfully.");
 		validateDB(doc, table.getDatabase().getName());
 		doc.getDocumentElement().normalize();
 		parseDataToTable(table, doc);
+		log.debug("\'" + table.getName() + "\' is loaded successfully.");
 	}
 
 	@Override
@@ -218,7 +218,7 @@ public class XMLParser extends BackendParser {
 			}
 			table.addColumn(col);
 		}
-		log.debug("Data is cached successfully");
+		log.debug("Data is reloaded successfully");
 	}
 
 	private File openTable(String dbName, String tableName)
@@ -226,7 +226,7 @@ public class XMLParser extends BackendParser {
 		File tableFile = new File(openDB(dbName), tableName
 				+ CONSTANTS.getString("extension.xml"));
 		if (!tableFile.exists()) {
-			log.error("Error occured: Table is not found.");
+			log.error("Error occured:" + tableName + " table is not found.");
 			throw new TableNotFoundException();
 		}
 		return tableFile;
@@ -244,15 +244,14 @@ public class XMLParser extends BackendParser {
 	}
 
 	private void validateDB(Document doc, String dbName)
-			throws TableNotFoundException {
+			throws  DatabaseNotFoundException {
 		String db = doc.getElementsByTagName(CONSTANTS.getString(
 				"table.element")).item(0).getAttributes().getNamedItem(
 						CONSTANTS.getString("db.attr")).getTextContent();
 		if (!db.equals(dbName)) {
-			log.error("Error occured: Table is not found.");
-			throw new TableNotFoundException();
+			log.error("Error occured:" + dbName +  " database is not found.");
+			throw new DatabaseNotFoundException();
 		}
-		log.debug("Table is currently set successfully.");
 	}
 
 	private void transform(Document doc, File tableFile, String tableName) {
