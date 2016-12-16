@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 
 public class JSONParser extends BackendParser {
 	private static Logger log = LogManager.getLogger(JSONParser.class);
-	public static final String KEY = "alt";
+	public static final String KEY = "kkk";
 	private static JSONParser instance = null;
 	private static final ResourceBundle CONSTANTS = ResourceBundle.getBundle(
 			"dbms.backend.parsers.json.Constants");

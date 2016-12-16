@@ -6,7 +6,6 @@ import java.sql.Driver;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Types;
 import java.util.Properties;
 
 import org.junit.Assert;
@@ -37,7 +36,7 @@ public class JDBCTest {
     }
 
     @Test
-    public void testSelectAll() throws SQLException {
+    public void testJDBCOne() throws SQLException {
         final Connection connection = createUseDatabase("School");
         try {
             final Statement statement = connection.createStatement();
@@ -59,7 +58,7 @@ public class JDBCTest {
     }
 
     @Test
-    public void testSelectWhere() throws SQLException {
+    public void testJDBCTwo() throws SQLException {
         final Connection connection = createUseDatabase("School");
         try {
             final Statement statement = connection.createStatement();
@@ -88,26 +87,32 @@ public class JDBCTest {
     }
 
     @Test
-    public void testComplexOrderBy() throws SQLException {
+    public void testJDBCThree() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
             statement
-                    .execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
+                    .execute("CREATE TABLE table_name13(column_name1 varchar, column_name2" +
+                            " int, column_name3 varchar)");
             final int count1 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
+                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) " +
+                            "VALUES ('value1', 'value3', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count1);
             final boolean result1 = statement.execute(
-                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) VALUES ('value1', 4, 'value5')");
+                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3)" +
+                            " VALUES ('value1', 4, 'value5')");
             Assert.assertFalse("Wrong return for insert record", result1);
             final int count3 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', 'value4', 5)");
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) " +
+                            "VALUES ('value2', 'value4', 5)");
             Assert.assertEquals("Insert returned a number != 1", 1, count3);
             final int count4 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value5', 'value6', 6)");
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) " +
+                            "VALUES ('value5', 'value6', 6)");
             Assert.assertEquals("Insert returned a number != 1", 1, count4);
             final boolean result3 = statement
-                    .execute("SELECT * FROM table_name13 ORDER BY column_name2 ASC, COLUMN_name3 DESC");
+                    .execute("SELECT * FROM table_name13" +
+                            " ORDER BY column_name2 ASC, COLUMN_name3 DESC");
             Assert.assertTrue("Wrong return for select UNION existing records", result3);
             final ResultSet res2 = statement.getResultSet();
 
@@ -120,7 +125,7 @@ public class JDBCTest {
     }
 
     @Test
-    public void testDateTime() throws SQLException {
+    public void testJDBCFour() throws SQLException {
         final Connection connection = createUseDatabase("sqlDatabase");
         try {
             final Statement statement = connection.createStatement();
@@ -148,12 +153,14 @@ public class JDBCTest {
     }
 
     @Test
-    public void testInsertWithoutColumnNames() throws SQLException {
+    public void testJDBCFive() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
-            statement.execute("CREATE TABLE table_name3(column_name1 varchar, column_name2 int, column_name3 float)");
-            final int count = statement.executeUpdate("INSERT INTO table_name3 VALUES ('value1', 3, 1.3)");
+            statement.execute("CREATE TABLE table_name3(column_name1 varchar, " +
+                    "column_name2 int, column_name3 float)");
+            final int count = statement.executeUpdate("INSERT INTO table_name3 " +
+                    "VALUES ('value1', 3, 1.3)");
             Assert.assertEquals("Insert returned a number != 1", 1, count);
             statement.close();
         } catch (final Throwable e) {
@@ -163,13 +170,15 @@ public class JDBCTest {
     }
 
     @Test
-    public void testInsertWithColumnNames() throws SQLException {
+    public void testJDBCSix() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
-            statement.execute("CREATE TABLE table_name4(column_name1 varchar, column_name2 int, column_name3 date)");
+            statement.execute("CREATE TABLE table_name4(column_name1 varchar," +
+                    " column_name2 int, column_name3 date)");
             final int count = statement.executeUpdate(
-                    "INSERT INTO table_name4(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', '2011-01-25', 4)");
+                    "INSERT INTO table_name4(column_NAME1, COLUMN_name3, column_name2)" +
+                            " VALUES ('value1', '2011-01-25', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count);
             statement.close();
         } catch (final Throwable e) {
@@ -179,13 +188,15 @@ public class JDBCTest {
     }
 
     @Test
-    public void testInsertWithWrongColumnNames() throws SQLException {
+    public void testJDBCSeven() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
-            statement.execute("CREATE TABLE table_name5(column_name1 varchar, column_name2 int, column_name3 varchar)");
+            statement.execute("CREATE TABLE table_name5(column_name1 varchar, " +
+                    "column_name2 int, column_name3 varchar)");
             statement.executeUpdate(
-                    "INSERT INTO table_name5(invalid_column_name1, column_name3, column_name2) VALUES ('value1', 'value3', 4)");
+                    "INSERT INTO table_name5(invalid_column_name1, column_name3, " +
+                            "column_name2) VALUES ('value1', 'value3', 4)");
             Assert.fail("Inserted with invalid column name!!");
             statement.close();
         } catch (final SQLException e) {
@@ -196,22 +207,27 @@ public class JDBCTest {
     }
 
     @Test
-    public void testUpdate() throws SQLException {
+    public void testJDBCEight() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
-            statement.execute("CREATE TABLE table_name7(column_name1 varchar, column_name2 int, column_name3 varchar)");
+            statement.execute("CREATE TABLE table_name7(column_name1 varchar, " +
+                    "column_name2 int, column_name3 varchar)");
             final int count1 = statement.executeUpdate(
-                    "INSERT INTO table_name7(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
+                    "INSERT INTO table_name7(column_NAME1, COLUMN_name3, column_name2)" +
+                            " VALUES ('value1', 'value3', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count1);
             final int count2 = statement.executeUpdate(
-                    "INSERT INTO table_name7(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
+                    "INSERT INTO table_name7(column_NAME1, COLUMN_name3, column_name2)" +
+                            " VALUES ('value1', 'value3', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count2);
             final int count3 = statement.executeUpdate(
-                    "INSERT INTO table_name7(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', 'value4', 5)");
+                    "INSERT INTO table_name7(column_name1, COLUMN_NAME3, column_NAME2)" +
+                            " VALUES ('value2', 'value4', 5)");
             Assert.assertEquals("Insert returned a number != 1", 1, count3);
             final int count4 = statement.executeUpdate(
-                    "UPDATE table_name7 SET column_name1='1111111111', COLUMN_NAME2=2222222, column_name3='333333333'");
+                    "UPDATE table_name7 SET column_name1='1111111111', " +
+                            "COLUMN_NAME2=2222222, column_name3='333333333'");
             Assert.assertEquals("Updated returned wrong number", count1 + count2 + count3, count4);
             statement.close();
         } catch (final Throwable e) {
@@ -221,27 +237,32 @@ public class JDBCTest {
     }
 
     @Test
-    public void testConditionalUpdate() throws SQLException {
+    public void testJDBCNine() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
             statement.execute(
-                    "CREATE TABLE table_name8(column_name1 varchar, column_name2 int, column_name3 date, column_name4 float)");
+                    "CREATE TABLE table_name8(column_name1 varchar, column_name2 int," +
+                            " column_name3 date, column_name4 float)");
 
             final int count1 = statement.executeUpdate(
-                    "INSERT INTO table_name8(column_NAME1, COLUMN_name3, column_name2, column_name4) VALUES ('value1', '2011-01-25', 3, 1.3)");
+                    "INSERT INTO table_name8(column_NAME1, COLUMN_name3, column_name2, " +
+                            "column_name4) VALUES ('value1', '2011-01-25', 3, 1.3)");
             Assert.assertEquals("Insert returned a number != 1", 1, count1);
 
             final int count2 = statement.executeUpdate(
-                    "INSERT INTO table_name8(column_NAME1, COLUMN_name3, column_name2, column_name4) VALUES ('value1', '2011-01-28', 3456, 1.01)");
+                    "INSERT INTO table_name8(column_NAME1, COLUMN_name3, column_name2," +
+                            " column_name4) VALUES ('value1', '2011-01-28', 3456, 1.01)");
             Assert.assertEquals("Insert returned a number != 1", 1, count2);
 
             final int count3 = statement.executeUpdate(
-                    "INSERT INTO table_name8(column_NAME1, COLUMN_name3, column_name2, column_name4) VALUES ('value2', '2011-02-11', -123, 3.14159)");
+                    "INSERT INTO table_name8(column_NAME1, COLUMN_name3, column_name2, " +
+                            "column_name4) VALUES ('value2', '2011-02-11', -123, 3.14159)");
             Assert.assertEquals("Insert returned a number != 1", 1, count3);
 
             final int count4 = statement.executeUpdate(
-                    "UPDATE table_name8 SET COLUMN_NAME2=222222, column_name3='1993-10-03' WHERE coLUmn_NAME1='value1'");
+                    "UPDATE table_name8 SET COLUMN_NAME2=222222, column_name3='1993-10-03'" +
+                            " WHERE coLUmn_NAME1='value1'");
             Assert.assertEquals("Updated returned wrong number", count1 + count2, count4);
 
             statement.close();
@@ -252,13 +273,15 @@ public class JDBCTest {
     }
 
     @Test
-    public void testUpdateEmptyOrInvalidTable() throws SQLException {
+    public void testJDBCTen() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
-            statement.execute("CREATE TABLE table_name9(column_name1 varchar, column_name2 int, column_name3 varchar)");
+            statement.execute("CREATE TABLE table_name9(column_name1 varchar, column_name2 int, " +
+                    "column_name3 varchar)");
             final int count = statement.executeUpdate(
-                    "UPDATE table_name9 SET column_name1='value1', column_name2=15, column_name3='value2'");
+                    "UPDATE table_name9 SET column_name1='value1', column_name2=15, " +
+                            "column_name3='value2'");
             Assert.assertEquals("Updated empty table retruned non-zero count!", 0, count);
             statement.close();
         } catch (final Throwable e) {
@@ -268,7 +291,8 @@ public class JDBCTest {
         try {
             final Statement statement = connection.createStatement();
             statement.executeUpdate(
-                    "UPDATE wrong_table_name9 SET column_name1='value1', column_name2=15, column_name3='value2'");
+                    "UPDATE wrong_table_name9 SET column_name1='value1'," +
+                            " column_name2=15, column_name3='value2'");
             Assert.fail("Updated empty table retruned non-zero count!");
             statement.close();
         } catch (final SQLException e) {
@@ -279,19 +303,23 @@ public class JDBCTest {
     }
 
     @Test
-    public void testDelete() throws SQLException {
+    public void testJDBCEleven() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
-            statement.execute("CREATE TABLE table_name10(column_name1 varchar, column_name2 int, column_name3 date)");
+            statement.execute("CREATE TABLE table_name10(column_name1 varchar," +
+                    " column_name2 int, column_name3 date)");
             final int count1 = statement.executeUpdate(
-                    "INSERT INTO table_name10(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', '2011-01-25', 4)");
+                    "INSERT INTO table_name10(column_NAME1, COLUMN_name3, column_name2)" +
+                            " VALUES ('value1', '2011-01-25', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count1);
             final int count2 = statement.executeUpdate(
-                    "INSERT INTO table_name10(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', '2011-01-28', 4)");
+                    "INSERT INTO table_name10(column_NAME1, COLUMN_name3, column_name2) " +
+                            "VALUES ('value1', '2011-01-28', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count2);
             final int count3 = statement.executeUpdate(
-                    "INSERT INTO table_name10(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', '2011-02-11', 5)");
+                    "INSERT INTO table_name10(column_name1, COLUMN_NAME3, column_NAME2)" +
+                            " VALUES ('value2', '2011-02-11', 5)");
             Assert.assertEquals("Insert returned a number != 1", 1, count3);
             final int count4 = statement.executeUpdate("DELETE From table_name10");
             Assert.assertEquals("Delete returned wrong number", 3, count4);
@@ -303,21 +331,26 @@ public class JDBCTest {
     }
 
     @Test
-    public void testConditionalDelete() throws SQLException {
+    public void testJDBCTwelve() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
-            statement.execute("CREATE TABLE table_name11(column_name1 varchar, column_name2 int, column_name3 DATE)");
+            statement.execute("CREATE TABLE table_name11(column_name1 varchar, " +
+                    "column_name2 int, column_name3 DATE)");
             final int count1 = statement.executeUpdate(
-                    "INSERT INTO table_name11(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', '2011-01-25', 4)");
+                    "INSERT INTO table_name11(column_NAME1, COLUMN_name3, column_name2) " +
+                            "VALUES ('value1', '2011-01-25', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count1);
             final int count2 = statement.executeUpdate(
-                    "INSERT INTO table_name11(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', '2013-06-30', 4)");
+                    "INSERT INTO table_name11(column_NAME1, COLUMN_name3, column_name2)" +
+                            " VALUES ('value1', '2013-06-30', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count2);
             final int count3 = statement.executeUpdate(
-                    "INSERT INTO table_name11(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', '2013-07-03', 5)");
+                    "INSERT INTO table_name11(column_name1, COLUMN_NAME3, column_NAME2) " +
+                            "VALUES ('value2', '2013-07-03', 5)");
             Assert.assertEquals("Insert returned a number != 1", 1, count3);
-            final int count4 = statement.executeUpdate("DELETE From table_name11  WHERE coLUmn_NAME3>'2011-01-25'");
+            final int count4 = statement.executeUpdate("DELETE From table_name11 " +
+                    " WHERE coLUmn_NAME3>'2011-01-25'");
             Assert.assertEquals("Delete returned wrong number", 2, count4);
             statement.close();
         } catch (final Throwable e) {
@@ -327,23 +360,28 @@ public class JDBCTest {
     }
 
     @Test
-    public void testSelect() throws SQLException {
+    public void testJDBCThirteen() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
             statement
-                    .execute("CREATE TABLE table_name12(column_name1 varchar, column_name2 int, column_name3 varchar)");
+                    .execute("CREATE TABLE table_name12(column_name1 varchar, " +
+                            "column_name2 int, column_name3 varchar)");
             final int count1 = statement.executeUpdate(
-                    "INSERT INTO table_name12(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
+                    "INSERT INTO table_name12(column_NAME1, COLUMN_name3, column_name2)" +
+                            " VALUES ('value1', 'value3', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count1);
             final int count2 = statement.executeUpdate(
-                    "INSERT INTO table_name12(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
+                    "INSERT INTO table_name12(column_NAME1, COLUMN_name3, column_name2)" +
+                            " VALUES ('value1', 'value3', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count2);
             final int count3 = statement.executeUpdate(
-                    "INSERT INTO table_name12(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', 'value4', 5)");
+                    "INSERT INTO table_name12(column_name1, COLUMN_NAME3, column_NAME2) " +
+                            "VALUES ('value2', 'value4', 5)");
             Assert.assertEquals("Insert returned a number != 1", 1, count3);
             final int count4 = statement.executeUpdate(
-                    "INSERT INTO table_name12(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value5', 'value6', 6)");
+                    "INSERT INTO table_name12(column_name1, COLUMN_NAME3, column_NAME2) " +
+                            "VALUES ('value5', 'value6', 6)");
             Assert.assertEquals("Insert returned a number != 1", 1, count4);
             final ResultSet result = statement.executeQuery("SELECT * From table_name12");
             int rows = 0;
@@ -360,25 +398,31 @@ public class JDBCTest {
     }
 
     @Test
-    public void testConditionalSelect() throws SQLException {
+    public void testJDBCFourteen() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
             statement
-                    .execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
+                    .execute("CREATE TABLE table_name13(column_name1 varchar, " +
+                            "column_name2 int, column_name3 varchar)");
             final int count1 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
+                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2)" +
+                            " VALUES ('value1', 'value3', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count1);
             final int count2 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) VALUES ('value1', 4, 'value3')");
+                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) " +
+                            "VALUES ('value1', 4, 'value3')");
             Assert.assertEquals("Insert returned a number != 1", 1, count2);
             final int count3 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', 'value4', 5)");
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) " +
+                            "VALUES ('value2', 'value4', 5)");
             Assert.assertEquals("Insert returned a number != 1", 1, count3);
             final int count4 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value5', 'value6', 6)");
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) " +
+                            "VALUES ('value5', 'value6', 6)");
             Assert.assertEquals("Insert returned a number != 1", 1, count4);
-            final ResultSet result = statement.executeQuery("SELECT column_name1 FROM table_name13 WHERE coluMN_NAME2 < 5");
+            final ResultSet result = statement.executeQuery("SELECT column_name1 FROM " +
+                    "table_name13 WHERE coluMN_NAME2 < 5");
             int rows = 0;
             while (result.next())
                 rows++;
@@ -393,29 +437,36 @@ public class JDBCTest {
     }
 
     @Test
-    public void testExecute() throws SQLException {
+    public void testJDBCFifteen() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
             statement
-                    .execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
+                    .execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int," +
+                            " column_name3 varchar)");
             final int count1 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
+                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) " +
+                            "VALUES ('value1', 'value3', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count1);
             final boolean result1 = statement.execute(
-                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) VALUES ('value1', 8, 'value3')");
+                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3)" +
+                            " VALUES ('value1', 8, 'value3')");
             Assert.assertFalse("Wrong return from 'execute' for insert record", result1);
             final int count3 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', 'value4', 5)");
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2)" +
+                            " VALUES ('value2', 'value4', 5)");
             Assert.assertEquals("Insert returned a number != 1", 1, count3);
             final int count4 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value5', 'value6', 6)");
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2)" +
+                            " VALUES ('value5', 'value6', 6)");
             Assert.assertEquals("Insert returned a number != 1", 1, count4);
 
-            final boolean result2 = statement.execute("SELECT column_name1 FROM table_name13 WHERE coluMN_NAME2 = 8");
+            final boolean result2 = statement.execute("SELECT column_name1 FROM table_name13 " +
+                    "WHERE coluMN_NAME2 = 8");
             Assert.assertTrue("Wrong return for select existing records", result2);
 
-            final boolean result3 = statement.execute("SELECT column_name1 FROM table_name13 WHERE coluMN_NAME2 > 100");
+            final boolean result3 = statement.execute("SELECT column_name1 FROM table_name13" +
+                    " WHERE coluMN_NAME2 > 100");
             Assert.assertFalse("Wrong return for select non existing records", result3);
 
             statement.close();
@@ -426,26 +477,32 @@ public class JDBCTest {
     }
 
     @Test
-    public void testDistinct() throws SQLException {
+    public void testJDBCSixteen() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
             statement
-                    .execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
+                    .execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 " +
+                            "int, column_name3 varchar)");
             final int count1 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
+                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) " +
+                            "VALUES ('value1', 'value3', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count1);
             final boolean result1 = statement.execute(
-                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) VALUES ('value1', 4, 'value5')");
+                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) " +
+                            "VALUES ('value1', 4, 'value5')");
             Assert.assertFalse("Wrong return for insert record", result1);
             final int count3 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', 'value4', 5)");
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) " +
+                            "VALUES ('value2', 'value4', 5)");
             Assert.assertEquals("Insert returned a number != 1", 1, count3);
             final int count4 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value5', 'value6', 6)");
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) " +
+                            "VALUES ('value5', 'value6', 6)");
             Assert.assertEquals("Insert returned a number != 1", 1, count4);
 
-            final boolean result2 = statement.execute("SELECT DISTINCT column_name2 FROM table_name13");
+            final boolean result2 = statement.execute("SELECT DISTINCT column_name2 " +
+                    "FROM table_name13");
             Assert.assertTrue("Wrong return for select existing records", result2);
             final ResultSet res1 = statement.getResultSet();
 
@@ -455,7 +512,8 @@ public class JDBCTest {
             Assert.assertEquals("Wrong number of rows", 3, rows);
 
             final boolean result3 = statement
-                    .execute("SELECT DISTINCT column_name2, column_name3 FROM table_name13 WHERE coluMN_NAME2 < 5");
+                    .execute("SELECT DISTINCT column_name2, column_name3 FROM " +
+                            "table_name13 WHERE coluMN_NAME2 < 5");
             Assert.assertTrue("Wrong return for select existing records", result3);
             final ResultSet res2 = statement.getResultSet();
 
@@ -472,29 +530,36 @@ public class JDBCTest {
     }
 
     @Test
-    public void testAlterTable() throws SQLException {
+    public void testJDBCSeventeen() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
             statement
-                    .execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
+                    .execute("CREATE TABLE table_name13(column_name1 varchar, " +
+                            "column_name2 int, column_name3 varchar)");
             final int count1 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
+                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2)" +
+                            " VALUES ('value1', 'value3', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count1);
             final boolean result1 = statement.execute(
-                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) VALUES ('value1', 4, 'value5')");
+                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3)" +
+                            " VALUES ('value1', 4, 'value5')");
             Assert.assertFalse("Wrong return for insert record", result1);
             final int count3 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', 'value4', 5)");
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2)" +
+                            " VALUES ('value2', 'value4', 5)");
             Assert.assertEquals("Insert returned a number != 1", 1, count3);
             final int count4 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value5', 'value6', 6)");
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2)" +
+                            " VALUES ('value5', 'value6', 6)");
             Assert.assertEquals("Insert returned a number != 1", 1, count4);
 
-            final boolean result2 = statement.execute("ALTER TABLE table_name13 ADD column_name4 date");
+            final boolean result2 = statement.execute("ALTER TABLE table_name13 ADD " +
+                    "column_name4 date");
             Assert.assertFalse("Wrong return for ALTER TABLE", result2);
 
-            final boolean result3 = statement.execute("SELECT column_name4 FROM table_name13 WHERE coluMN_NAME2 = 5");
+            final boolean result3 = statement.execute("SELECT column_name4 FROM table_name13 " +
+                    "WHERE coluMN_NAME2 = 5");
             Assert.assertTrue("Wrong return for select existing records", result3);
             final ResultSet res2 = statement.getResultSet();
             int rows2 = 0;
@@ -516,23 +581,28 @@ public class JDBCTest {
     }
 
     @Test
-    public void testOrderBy() throws SQLException {
+    public void testJDBCEighteen() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
             statement
-                    .execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
+                    .execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int," +
+                            " column_name3 varchar)");
             final int count1 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
+                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES " +
+                            "('value1', 'value3', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count1);
             final boolean result1 = statement.execute(
-                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) VALUES ('value1', 4, 'value5')");
+                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) VALUES " +
+                            "('value1', 4, 'value5')");
             Assert.assertFalse("Wrong return for insert record", result1);
             final int count3 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', 'value4', 5)");
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES " +
+                            "('value2', 'value4', 5)");
             Assert.assertEquals("Insert returned a number != 1", 1, count3);
             final int count4 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value5', 'value6', 6)");
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES " +
+                            "('value5', 'value6', 6)");
             Assert.assertEquals("Insert returned a number != 1", 1, count4);
 
             final boolean result3 = statement
@@ -543,10 +613,7 @@ public class JDBCTest {
             while (res2.next())
                 rows2++;
             Assert.assertEquals("Wrong number of rows", 4, rows2);
-
-            while (res2.previous())
-                ;
-
+            while (res2.previous()) ;
             res2.next();
             Assert.assertEquals("Wrong order of rows", 4, res2.getInt("column_name2"));
             Assert.assertEquals("Wrong order of rows", "value5", res2.getString("column_name3"));
@@ -566,23 +633,28 @@ public class JDBCTest {
     }
 
     @Test
-    public void sanityTestOnOrderBy() throws SQLException {
+    public void testJDBCNineteen() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
             statement
-                    .execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
+                    .execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 " +
+                            "int, column_name3 varchar)");
             final int count1 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
+                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) " +
+                            "VALUES ('value1', 'value3', 4)");
             Assert.assertEquals("Insert returned a number != 1", 1, count1);
             final boolean result1 = statement.execute(
-                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) VALUES ('value1', 4, 'value5')");
+                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) " +
+                            "VALUES ('value1', 4, 'value5')");
             Assert.assertFalse("Wrong return for insert record", result1);
             final int count3 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', 'value4', 5)");
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2)" +
+                            " VALUES ('value2', 'value4', 5)");
             Assert.assertEquals("Insert returned a number != 1", 1, count3);
             final int count4 = statement.executeUpdate(
-                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value5', 'value6', 6)");
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) " +
+                            "VALUES ('value5', 'value6', 6)");
             Assert.assertEquals("Insert returned a number != 1", 1, count4);
             final boolean result3 = statement
                     .execute("SELECT * FROM table_name13 ORDER BY column_name2 ASC, COLUMN_name3 DESC");
@@ -686,4 +758,6 @@ public class JDBCTest {
         }
         connection.close();
     }
+
+
 }
