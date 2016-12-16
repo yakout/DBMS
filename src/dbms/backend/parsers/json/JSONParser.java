@@ -139,6 +139,7 @@ public class JSONParser extends BackendParser {
             e.printStackTrace();
         }
         log.debug("\'" + table.getName() + "\' is created successfully.");
+
     }
 
     private void write(Table table, File tableFile) throws IOException {
