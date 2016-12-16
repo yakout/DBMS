@@ -9,8 +9,8 @@ import java.util.*;
  * Data holder for a collection of records.
  */
 public class RecordSet implements Iterable<Record>, Cloneable {
-	private List<Record> records;
-	private List<String> columns;
+	private List<Record> records = null;
+	private List<Pair<String, Class<? extends DBDatatype>>> columns = null;
 	private int i;
 
 	/**
@@ -39,11 +39,12 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 		}
 	}
 
-	public void setColumnList(List<String> columnList) {
+	public void setColumnList(List<Pair<String, Class <
+			? extends DBDatatype>>> columnList) {
 		columns = columnList;
 	}
 
-	public List<String> getColumnList() {
+	public List<Pair<String, Class <? extends DBDatatype>>>getColumnList() {
 		return columns;
 	}
 

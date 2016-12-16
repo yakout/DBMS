@@ -32,7 +32,7 @@ public class ClassTypeAdapter extends TypeAdapter<Class<?>> {
             return;
         }
         jsonWriter.value(clazz.getName());
-		
+
 	}
 
 }

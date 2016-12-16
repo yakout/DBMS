@@ -27,7 +27,7 @@ public class ProtoBufTestingDelete {
     @Test
     public void testOne() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBufParser.createDatabase("database_delete_1");
 
@@ -99,7 +99,7 @@ public class ProtoBufTestingDelete {
     @Test
     public void testTwo() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBufParser.createDatabase("database_delete_2");
 
@@ -174,7 +174,7 @@ public class ProtoBufTestingDelete {
     @Test
     public void testThree() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBufParser.createDatabase("database_delete_3");
 
@@ -244,7 +244,7 @@ public class ProtoBufTestingDelete {
     @Test
     public void testFour() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBufParser.createDatabase("database_delete_4");
 
@@ -300,7 +300,7 @@ public class ProtoBufTestingDelete {
     @Test
     public void testFive() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBufParser.createDatabase("database_delete_5");
 
@@ -352,7 +352,7 @@ public class ProtoBufTestingDelete {
     @Test
     public void testSix() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBufParser.createDatabase("database_delete_6");
 
@@ -428,7 +428,7 @@ public class ProtoBufTestingDelete {
     @Test
     public void testSeven() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBufParser.createDatabase("database_delete_7");
 
@@ -498,7 +498,7 @@ public class ProtoBufTestingDelete {
     @Test
     public void testEight() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBufParser.createDatabase("database_delete_8");
 
@@ -598,7 +598,7 @@ public class ProtoBufTestingDelete {
     @Test
     public void testNine() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBufParser.createDatabase("database_delete_9");
 
@@ -697,7 +697,7 @@ public class ProtoBufTestingDelete {
     @Test
     public void testTen() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBufParser.createDatabase("database_delete_10");
 
@@ -798,7 +798,7 @@ public class ProtoBufTestingDelete {
     @Test
     public void testEleven() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBufParser.createDatabase("database_delete_11");
 

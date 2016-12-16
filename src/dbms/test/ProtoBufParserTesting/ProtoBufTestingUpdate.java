@@ -27,7 +27,7 @@ public class ProtoBufTestingUpdate {
     @Test
     public void testOne() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBuffParser.createDatabase("test1");
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
@@ -100,7 +100,7 @@ public class ProtoBufTestingUpdate {
     @Test
     public void testTwo() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBuffParser.createDatabase("test2");
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
@@ -165,7 +165,7 @@ public class ProtoBufTestingUpdate {
     @Test
     public void testThree() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBuffParser.createDatabase("test3");
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
@@ -244,7 +244,7 @@ public class ProtoBufTestingUpdate {
     @Test
     public void testFour() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBuffParser.createDatabase("test4");
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
@@ -323,7 +323,7 @@ public class ProtoBufTestingUpdate {
     @Test
     public void testFive() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBuffParser.createDatabase("test5");
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();
@@ -403,7 +403,7 @@ public class ProtoBufTestingUpdate {
     @Test
     public void testSix() {
 
-        BackendParserFactory.getFactory().setCurrentParser("alt");
+        BackendParserFactory.getFactory().setCurrentParser("pb");
         try {
             protoBuffParser.createDatabase("test6");
             LinkedHashMap<String, Class<? extends DBDatatype>> passMap = new LinkedHashMap<>();

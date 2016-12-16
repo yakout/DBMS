@@ -1061,9 +1061,9 @@ public class XMLTestingSelect {
 			selectedColumns.add("COlUmn_4");
 			selectedColumns.add("colUMN_3");
 
-            List<Pair<String,Boolean> > orderByCols = new ArrayList<>();
+			List<Pair<String,Boolean> > orderByCols = new ArrayList<>();
 
-            orderByCols.add(new Pair<>("coluMN_3",false));
+			orderByCols.add(new Pair<>("coluMN_3",false));
 
 			RecordSet actualRes = xmlParser.select("table_name", selectedColumns , whereConditionDel);
 			RecordSet actualResUpdated = new RecordSet(actualRes.getRecords());
@@ -1077,14 +1077,14 @@ public class XMLTestingSelect {
 			expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-55.55));
 			expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
 
-			recordsExp[0] = expectedRecord;
+			recordsExp[1] = expectedRecord;
 
 			expectedRecord = new Record();
 
 			expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-2.55));
 			expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2010-10-01")));
 
-			recordsExp[1] = expectedRecord;
+			recordsExp[0] = expectedRecord;
 
 			assertArrayEquals(recordsExp,recordsAct);
 		} catch (Exception e) {
@@ -1163,14 +1163,14 @@ public class XMLTestingSelect {
 			expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-2.55));
 			expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2010-10-01")));
 
-			recordsExp[0] = expectedRecord;
+			recordsExp[1] = expectedRecord;
 
 			expectedRecord = new Record();
 
 			expectedRecord.add("column_4",DatatypeFactory.convertToDataType((float)-55.55));
 			expectedRecord.add("column_3",DatatypeFactory.convertToDataType(Date.valueOf("2050-10-01")));
 
-			recordsExp[1] = expectedRecord;
+			recordsExp[0] = expectedRecord;
 
 			assertArrayEquals(recordsExp,recordsAct);
 		} catch (Exception e) {

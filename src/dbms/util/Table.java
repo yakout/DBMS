@@ -6,6 +6,7 @@ import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
 import dbms.exception.TableNotFoundException;
 import dbms.sqlparser.sqlInterpreter.Condition;
+import javafx.util.Pair;
 
 import java.util.*;
 
@@ -140,19 +141,28 @@ public class Table {
 				if (!hasColumn(col)) {
 					throw new IncorrectDataEntryException("Column not found!");
 				}
-				columnsLower.add(col.toLowerCase());
+				columnsLower.add(col);
 			}
 		}
-		List<String> columnNames =
-				new ArrayList<String>();
+		List<Pair<String, Class<? extends DBDatatype>>> columnsResultSet
+				= new ArrayList<Pair<String, Class<? extends DBDatatype>>>();
 		RecordSet res = new RecordSet();
-		for (Column col : this.columns) {
-			if (columns == null || columnsLower.contains(
-					col.getName().toLowerCase())) {
-				columnNames.add(col.getName());
+		if (columns == null) {
+			for (Column col : this.columns) {
+				columnsResultSet.add(new Pair<>(col.getName(),
+						col.getType()));
+			}
+		} else {
+			for (String colName : columns) {
+				for (Column col : this.columns) {
+					if (col.getName().equalsIgnoreCase(colName)) {
+						columnsResultSet.add(new Pair<>(colName,
+								col.getType()));
+					}
+				}
 			}
 		}
-		res.setColumnList(columnNames);
+		res.setColumnList(columnsResultSet);
 		for (int i = 0; i < size; i++) {
 			LinkedHashMap<String, DBDatatype> row =
 					getRow(i, columns);

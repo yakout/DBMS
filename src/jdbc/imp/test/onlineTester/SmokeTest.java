@@ -1,6 +1,7 @@
 package jdbc.imp.test.onlineTester;
 
 import jdbc.imp.driver.DriverAdapter;
+import jdbc.imp.test.onlineTester.TestRunner;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -51,6 +52,7 @@ public class SmokeTest {
         // folder for
         // that database
         // within dbDir.
+
         statement.execute("USE " + databaseName); // Set the state of your
         // connection to use
         // "databaseName", all next
@@ -63,7 +65,6 @@ public class SmokeTest {
     @Test //
     public void testCreateTable() throws SQLException {
         Connection connection = createUseDatabase("TestDB_Create");
-        System.getProperty("java.io.tmpdir");
         try {
             Statement statement = connection.createStatement();
             statement.execute("CREATE TABLE table_name1(column_name1 varchar, column_name2 int, column_name3 date)");
@@ -534,7 +535,7 @@ public class SmokeTest {
                     "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value5', 'value6', 6)");
             Assert.assertEquals("Insert returned a number != 1", 1, count4);
             boolean result3 = statement
-                    .execute("SELECT * FROM table_name13 ORDER BY column_name2 ASC, COLUMN_name3 DESC");
+                    .execute("SELECT column_name3, column_name2 FROM table_name13 ORDER BY column_name2 ASC, COLUMN_name3 DESC");
             Assert.assertTrue("Wrong return for select UNION existing records", result3);
             ResultSet res2 = statement.getResultSet();
             while (res2.next());
@@ -542,45 +543,49 @@ public class SmokeTest {
             Assert.assertTrue(res2.isBeforeFirst());
             res2.next();
             Assert.assertTrue(res2.isFirst());
-            Assert.assertEquals("value1", res2.getString("colUmn_Name1"));
+            res2.next();
+            res2.first();
+//            Assert.assertEquals("value1", res2.getString("colUmn_Name1"));
             Assert.assertEquals(4, res2.getInt("colUmn_Name2"));
             Assert.assertEquals("value5", res2.getString("colUmn_Name3"));
             res2.next();
-            Assert.assertEquals("value1", res2.getString("colUmn_Name1"));
+//            Assert.assertEquals("value1", res2.getString("colUmn_Name1"));
             Assert.assertEquals(4, res2.getInt("colUmn_Name2"));
             Assert.assertEquals("value3", res2.getString("colUmn_Name3"));
             res2.next();
-            Assert.assertEquals("value2", res2.getString("colUmn_Name1"));
+//            Assert.assertEquals("value2", res2.getString("colUmn_Name1"));
             Assert.assertEquals(5, res2.getInt("colUmn_Name2"));
             Assert.assertEquals("value4", res2.getString("colUmn_Name3"));
             res2.next();
             Assert.assertTrue(res2.isLast());
-            Assert.assertEquals("value5", res2.getString("colUmn_Name1"));
+//            Assert.assertEquals("value5", res2.getString("colUmn_Name1"));
             Assert.assertEquals(6, res2.getInt("colUmn_Name2"));
             Assert.assertEquals("value6", res2.getString("colUmn_Name3"));
             res2.next();
             Assert.assertTrue(res2.isAfterLast());
-            while (res2.previous());
+            res2.beforeFirst();
             Assert.assertTrue(res2.isBeforeFirst());
             res2.next();
             Assert.assertTrue(res2.isFirst());
-            Assert.assertEquals("value1", res2.getString(1));
+//            Assert.assertEquals("value1", res2.getString(1));
             Assert.assertEquals(4, res2.getInt(2));
-            Assert.assertEquals("value5", res2.getString(3));
+            Assert.assertEquals("value5", res2.getString(1));
             res2.next();
-            Assert.assertEquals("value1", res2.getString(1));
+//            Assert.assertEquals("value1", res2.getString(1));
             Assert.assertEquals(4, res2.getInt(2));
-            Assert.assertEquals("value3", res2.getString(3));
+            Assert.assertEquals("value3", res2.getString(1));
             res2.next();
-            Assert.assertEquals("value2", res2.getString(1));
+//            Assert.assertEquals("value2", res2.getString(1));
             Assert.assertEquals(5, res2.getInt(2));
-            Assert.assertEquals("value4", res2.getString(3));
+            Assert.assertEquals("value4", res2.getString(1));
             res2.next();
             Assert.assertTrue(res2.isLast());
-            Assert.assertEquals("value5", res2.getString(1));
+//            Assert.assertEquals("value5", res2.getString(1));
             Assert.assertEquals(6, res2.getInt(2));
-            Assert.assertEquals("value6", res2.getString(3));
+            Assert.assertEquals("value6", res2.getString(1));
             res2.next();
+            while (res2.previous());
+            res2.afterLast();
             Assert.assertTrue(res2.isAfterLast());
             while (res2.previous());
             while (res2.next());
@@ -589,48 +594,213 @@ public class SmokeTest {
             res2.next();
             Assert.assertTrue(res2.isFirst());
             res2.first();
-            Assert.assertEquals("value1", res2.getObject(res2.findColumn("colUmn_Name1")));
+//            Assert.assertEquals("value1", res2.getObject(res2.findColumn("colUmn_Name1")));
             Assert.assertEquals(4, res2.getObject(res2.findColumn("colUmn_Name2")));
             Assert.assertEquals("value5", res2.getObject(res2.findColumn("colUmn_Name3")));
             res2.next();
-            Assert.assertEquals("value1", res2.getObject(res2.findColumn("colUmn_Name1")));
+//            Assert.assertEquals("value1", res2.getObject(res2.findColumn("colUmn_Name1")));
             Assert.assertEquals(4, res2.getObject(res2.findColumn("colUmn_Name2")));
             Assert.assertEquals("value3", res2.getObject("colUmn_Name3"));
             res2.next();
-            Assert.assertEquals("value2", res2.getObject("colUmn_Name1"));
+//            Assert.assertEquals("value2", res2.getObject("colUmn_Name1"));
             Assert.assertEquals(5, res2.getObject("colUmn_Name2"));
             Assert.assertEquals("value4", res2.getObject("colUmn_Name3"));
             res2.next();
             Assert.assertTrue(res2.isLast());
-            Assert.assertEquals("value5", res2.getObject("colUmn_Name1"));
+//            Assert.assertEquals("value5", res2.getObject("colUmn_Name1"));
             Assert.assertEquals(6, res2.getObject("colUmn_Name2"));
             Assert.assertEquals("value6", res2.getObject("colUmn_Name3"));
             res2.next();
             Assert.assertTrue(res2.isAfterLast());
             res2.previous();
-            Assert.assertEquals("value5", res2.getObject("colUmn_Name1"));
+//            Assert.assertEquals("value5", res2.getObject("colUmn_Name1"));
             Assert.assertEquals(6, res2.getObject("colUmn_Name2"));
             res2.absolute(1);
-            Assert.assertEquals("value1", res2.getString(1));
-            Assert.assertEquals(4, res2.getInt(2));
-            Assert.assertEquals("value5", res2.getString(3));
-            res2.next();
-            Assert.assertEquals("value1", res2.getString(1));
-            Assert.assertEquals(4, res2.getInt(2));
-            Assert.assertEquals("value3", res2.getString(3));
-            res2.next();
-            Assert.assertEquals("value2", res2.getString(1));
-            Assert.assertEquals(5, res2.getInt(2));
-            Assert.assertEquals("value4", res2.getString(3));
-            res2.next();
+//            Assert.assertEquals("value1", res2.getObject(1));
+            Assert.assertEquals(4, res2.getObject(2));
+            Assert.assertEquals("value5", res2.getObject(1));
+            res2.absolute(2);
+//            Assert.assertEquals("value1", res2.getObject(1));
+            Assert.assertEquals(4, res2.getObject(2));
+            Assert.assertEquals("value3", res2.getObject(1));
+            res2.absolute(4);
+            res2.previous();
+//            Assert.assertEquals("value2", res2.getObject(1));
+            Assert.assertEquals(5, res2.getObject(2));
+            Assert.assertEquals("value4", res2.getObject(1));
+            res2.absolute(15125);
+            res2.previous();
             Assert.assertTrue(res2.isLast());
-            Assert.assertEquals("value5", res2.getString(1));
-            Assert.assertEquals(6, res2.getInt(2));
-            Assert.assertEquals("value6", res2.getString(3));
+//            Assert.assertEquals("value5", res2.getObject(1));
+            Assert.assertEquals(6, res2.getObject(2));
+            Assert.assertEquals("value6", res2.getObject(1));
             res2.next();
             Assert.assertTrue(res2.isAfterLast());
+//            res2.absolute(-124);
+//            Assert.assertTrue(res2.isBeforeFirst());
+//            res2.next();
+//            Assert.assertTrue(res2.isFirst());
+//            Assert.assertEquals(4, res2.getObject(res2.findColumn("colUmn_Name2")));
+//            Assert.assertEquals("value5", res2.getObject(res2.findColumn("colUmn_Name3")));
+//            res2.absolute(15);
+//            res2.first();
+//            Assert.assertEquals(4, res2.getObject(res2.findColumn("colUmn_Name2")));
+//            Assert.assertEquals("value5", res2.getObject(res2.findColumn("colUmn_Name3")));
 
             statement.close();
+        } catch (Throwable e) {
+            TestRunner.fail("Failed to test ORDER By", e);
+        }
+        connection.close();
+    }
+
+    @Test //
+    public void testUnion2() throws SQLException {
+        Connection connection = createUseDatabase("TestDB_Create");
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute(
+                    "CREATE TABLE table_name13(column_name1 varchar, column_name2 date, column_name3 varchar)");
+            int count1 = statement.executeUpdate(
+                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', '2011-2-1')");
+            Assert.assertEquals("Insert returned a number != 1", 1, count1);
+            boolean result1 = statement.execute(
+                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) VALUES ('value1', '2011-2-10', 'value5')");
+            Assert.assertFalse("Wrong return for insert record", result1);
+            int count3 = statement.executeUpdate(
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', 'value4', '2011-12-1')");
+            Assert.assertEquals("Insert returned a number != 1", 1, count3);
+            int count4 = statement.executeUpdate(
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value5', 'value6', '2011-2-11')");
+            Assert.assertEquals("Insert returned a number != 1", 1, count4);
+
+//            boolean result3 = statement.execute(
+//                    "SELECT column_name1 FROM table_name13 WHERE coluMN_NAME2 = 4 UNION SELECT column_name2 FROM table_name13 WHERE coluMN_NAME3 < 'value6'");
+//            Assert.assertTrue("Wrong return for select UNION existing records", result3);
+//            ResultSet res2 = statement.getResultSet();
+//            int rows2 = 0;
+//            while (res2.next())
+//                rows2++;
+//            Assert.assertEquals("Wrong number of rows", 3, rows2);
+
+            statement.close();
+        } catch (Throwable e) {
+            TestRunner.fail("Failed to test SELECT from table UNION", e);
+        }
+        connection.close();
+    }
+
+    @Test
+    public void testMetaData() throws SQLException {
+        final Connection connection = createUseDatabase("sqlDatabase");
+        try {
+            final Statement statement = connection.createStatement();
+            statement.execute("Create table tb (ID int, Name varchar, GradE float, Birth date)");
+            int count = statement.executeUpdate("INSERT INTO tb (ID, Name, GrAde, birth)"
+                    + " VALUES (-30, 'hello', -0.366, '2001-10-10')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count  = statement.executeUpdate("INSERT INTO tb"
+                    + " VALUES (-2 ,'A spaced string', 101.00002, '0001-01-01')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count  = statement.executeUpdate("INSERT INTO tb"
+                    + " VALUES (333 ,'a float is 003', 0.003, '8488-11-30')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            final ResultSet resultSet = statement.executeQuery("select birth, gRAde, id from tb order by id where birth > '0001-01-01'");
+            int rows = 0;
+            while (resultSet.next()) {
+                rows++;
+            }
+            Assert.assertEquals("Invalid Result Set Size", 2, rows);
+            Assert.assertEquals(3, resultSet.getMetaData().getColumnCount());
+            Assert.assertTrue(resultSet.getMetaData().
+                    getColumnLabel(1).equalsIgnoreCase("birth"));
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
+        connection.close();
+    }
+
+    @Test //
+    public void testOrderBy3() throws SQLException {
+        Connection connection = createUseDatabase("TestDB_Create");
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute(
+                    "CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 date)");
+            int count1 = statement.executeUpdate(
+                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', '2011-12-20', 4)");
+            Assert.assertEquals("Insert returned a number != 1", 1, count1);
+            boolean result1 = statement.execute(
+                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) VALUES ('value1', 4, '2011-12-20')");
+            Assert.assertFalse("Wrong return for insert record", result1);
+            int count3 = statement.executeUpdate(
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value1', '2011-12-20', 4)");
+            Assert.assertEquals("Insert returned a number != 1", 1, count3);
+            int count4 = statement.executeUpdate(
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value1', '2011-12-20', 6)");
+            Assert.assertEquals("Insert returned a number != 1", 1, count4);
+
+            boolean result3 = statement.execute(
+                    "SELECT * FROM table_name13 ORDER BY column_name1");
+            Assert.assertTrue("Wrong return for select UNION existing records", result3);
+
+            int count5 = statement.executeUpdate(
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value1', '2011-12-20', 6)");
+            Assert.assertEquals("Insert returned a number != 1", 1, count5);
+
+            boolean result4 = statement.execute(
+                    "SELECT * FROM table_name13");
+            Assert.assertTrue("Wrong return for select UNION existing records", result4);
+            ResultSet res2 = statement.getResultSet();
+            int rows2 = 0;
+            while (res2.next())
+                rows2++;
+            Assert.assertEquals("Wrong number of rows", 5, rows2);
+
+            while (res2.previous())
+                ;
+
+            res2.next();
+            Assert.assertEquals("Wrong order of rows", 4, res2.getInt("column_name2"));
+            Assert.assertEquals("Wrong order of rows", Date.valueOf("2011-12-20"), res2.getDate("column_name3"));
+
+            res2.next();
+            Assert.assertEquals("Wrong order of rows", 4, res2.getInt("column_name2"));
+            Assert.assertEquals("Wrong order of rows", Date.valueOf("2011-12-20"), res2.getDate("column_name3"));
+
+            res2.next();
+            Assert.assertEquals("Wrong order of rows", 4, res2.getInt("column_name2"));
+
+            statement.close();
+        } catch (Throwable e) {
+            TestRunner.fail("Failed to test ORDER By", e);
+        }
+        connection.close();
+    }
+
+    @Test
+    public void testOrder2() throws SQLException {
+        Connection connection = createUseDatabase("TestDB_Create");
+        try {
+            Statement statement = connection.createStatement();
+            statement
+                    .execute("CREATE TABLE table_name13(column_name1 varchar, column_name2 int, column_name3 varchar)");
+            int count1 = statement.executeUpdate(
+                    "INSERT INTO table_name13(column_NAME1, COLUMN_name3, column_name2) VALUES ('value1', 'value3', 4)");
+            Assert.assertEquals("Insert returned a number != 1", 1, count1);
+            boolean result1 = statement.execute(
+                    "INSERT INTO table_name13(column_NAME1, column_name2, COLUMN_name3) VALUES ('value1', 12, 'value5')");
+            Assert.assertFalse("Wrong return for insert record", result1);
+            int count3 = statement.executeUpdate(
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value2', 'value4', 5)");
+            Assert.assertEquals("Insert returned a number != 1", 1, count3);
+            int count4 = statement.executeUpdate(
+                    "INSERT INTO table_name13(column_name1, COLUMN_NAME3, column_NAME2) VALUES ('value5', 'value6', 6)");
+            Assert.assertEquals("Insert returned a number != 1", 1, count4);
+            boolean result3 = statement
+                    .execute("SELECT column_name1 FROM table_name13 ORDER BY column_name2 ASC, COLUMN_name3 DESC");
+            Assert.assertTrue("Wrong return for select UNION existing records", result3);
+            ResultSet res2 = statement.getResultSet();
         } catch (Throwable e) {
             TestRunner.fail("Failed to test ORDER By", e);
         }
