@@ -1,6 +1,6 @@
 package jdbc.imp.test.onlineTester;
 
-import jdbc.imp.driver.DriverAdapter;
+import jdbc.imp.driver.DBDriver;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -27,7 +27,7 @@ public class SmokeTest {
     }
 
     private Connection createUseDatabase(String databaseName) throws SQLException {
-        Driver driver = new DriverAdapter();
+        Driver driver = new DBDriver();
         Properties info = new Properties();
         File dbDir = new File(tmp + "/jdbc/" + Math.round((((float) Math.random()) * 100000)));
         info.put("path", dbDir.getAbsoluteFile());
