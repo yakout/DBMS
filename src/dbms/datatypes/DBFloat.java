@@ -1,6 +1,10 @@
 package dbms.datatypes;
 
 public class DBFloat implements DBDatatype {
+
+    /**
+     * Key identifier to DBString.
+     */
     public static final String KEY = "Float";
 
     static {

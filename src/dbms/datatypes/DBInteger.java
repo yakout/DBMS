@@ -2,6 +2,10 @@ package dbms.datatypes;
 
 
 public class DBInteger implements DBDatatype {
+
+    /**
+     * Key identifier to DBInteger.
+     */
     public static final String KEY = "Integer";
 
     static {
