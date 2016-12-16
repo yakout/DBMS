@@ -39,6 +39,12 @@ public class Union implements DMLStatement {
         RecordSet firstSelectRecordSet = firstSelect.getRecordSet();
         while (it.hasNext()) {
             Select select = it.next();
+            // TODO: check for datatype, optimize it
+            if (firstSelect.getColumns() != null || select.getColumns() != null) {
+                throw new SyntaxErrorException("wrong number of columns");
+            } else if (firstSelect.getColumns() != null && select.getColumns() != null && firstSelect.getColumns().size() != select.getColumns().size()) {
+                throw new SyntaxErrorException("wrong number of columns");
+            }
             select.execute();
             recordSet = firstSelectRecordSet.union(select.getRecordSet(), removeDuplicates);
         }
