@@ -867,4 +867,60 @@ public class JDBCTest {
         }
         connection.close();
     }
+
+    @Test
+    public void testJDBCTwentyTwo() throws SQLException {
+        final Connection connection = createUseDatabase("School");
+        try {
+            final Statement statement = connection.createStatement();
+            statement.execute("Create table Student (ID int, Name varchar, Grade float)");
+            int count = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
+                    + " VALUES (1 ,'Ahmed Khaled', 90.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
+                    + " VALUES (2 ,'Ahmed El Naggar', 90.2)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2,'tolba',155.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("upDATE Student set id = 500 where grade > 10.5 ");
+            Assert.assertEquals("Table Insertion did not return 1", 3, count);
+            count = statement.executeUpdate("delETE from StUDENT wheRE grade < 100.0");
+            Assert.assertEquals("Table Insertion did not return 1", 2, count);
+            final ResultSet resultSet = statement.executeQuery("SELECT * FROM Student");
+            resultSet.next();
+            Assert.assertEquals("Failed to get Correct Float Value",
+                    155.5, resultSet.getFloat("Grade"), 0.0001);
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
+        connection.close();
+    }
+
+    @Test
+    public void testJDBCTwentyThree() throws SQLException {
+        final Connection connection = createUseDatabase("School");
+        try {
+            final Statement statement = connection.createStatement();
+            statement.execute("Create table Student (ID int, Name varchar, Grade float)");
+            int count = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
+                    + " VALUES (1 ,'Ahmed Khaled', 90.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("INSERT INTO Student (ID, Name, Grade)"
+                    + " VALUES (2 ,'Ahmed El Naggar', 90.2)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student valUES (2,'tolba',155.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("upDATE Student set id = 500 where grade > 10.5 ");
+            Assert.assertEquals("Table Insertion did not return 1", 3, count);
+            count = statement.executeUpdate("delETE from StUDENT wheRE grade < 100.0");
+            Assert.assertEquals("Table Insertion did not return 1", 2, count);
+            final ResultSet resultSet = statement.executeQuery("SELECT * FROM Student");
+            resultSet.next();
+            Assert.assertEquals("Failed to get Correct Float Value",
+                    155.5, resultSet.getFloat("Grade"), 0.0001);
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
+        connection.close();
+    }
 }
