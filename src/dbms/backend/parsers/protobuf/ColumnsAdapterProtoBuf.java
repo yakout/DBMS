@@ -19,10 +19,10 @@ public class ColumnsAdapterProtoBuf {
     }
 
     public void desrializeColumns (byte[] deserialzedData, Table table) throws InvalidProtocolBufferException {
-        TableProtoBuf.Table_module tableModule = TableProtoBuf.Table_module.parseFrom(deserialzedData);
-        List<TableProtoBuf.Table_module.Column_module> columnsModule = tableModule.getColumnsList();
+        TableProtoBuf.TableModule tableModule = TableProtoBuf.TableModule.parseFrom(deserialzedData);
+        List<TableProtoBuf.TableModule.ColumnModule> columnsModule = tableModule.getColumnsList();
         List<Column> cloneColumns = new ArrayList<>();
-        for (TableProtoBuf.Table_module.Column_module col : columnsModule) {
+        for (TableProtoBuf.TableModule.ColumnModule col : columnsModule) {
             String columnName = col.getColumnName();
             String typeProp = col.getColumnDataType();
             Class<? extends DBDatatype> typeClass = DatatypeFactory.getFactory()
@@ -73,7 +73,7 @@ public class ColumnsAdapterProtoBuf {
 
     public byte[] serializeTable (Table table) throws IllegalAccessException, InstantiationException,
             NoSuchMethodException, InvocationTargetException {
-        List<TableProtoBuf.Table_module.Column_module> columnsModule = new ArrayList<>();
+        List<TableProtoBuf.TableModule.ColumnModule> columnsModule = new ArrayList<>();
         List<Column> columns = table.getColumns();
         for (Column col : columns) {
 
@@ -89,7 +89,7 @@ public class ColumnsAdapterProtoBuf {
 
             }
 
-            TableProtoBuf.Table_module.Column_module columnMod  =  TableProtoBuf.Table_module.Column_module
+            TableProtoBuf.TableModule.ColumnModule columnMod  =  TableProtoBuf.TableModule.ColumnModule
                     .newBuilder()
                     .setColumnName(col.getName())
                     .setColumnDataType((String) col.getType().getMethod(
@@ -100,7 +100,7 @@ public class ColumnsAdapterProtoBuf {
             columnsModule.add(columnMod);
         }
 
-        TableProtoBuf.Table_module tableProtoBuf = TableProtoBuf.Table_module
+        TableProtoBuf.TableModule tableProtoBuf = TableProtoBuf.TableModule
                 .newBuilder()
                 .setTableName(table.getName())
                 .setDatabaseName(table.getDatabase().getName())

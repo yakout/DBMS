@@ -124,129 +124,24 @@ public class JDBCTest {
         final Connection connection = createUseDatabase("sqlDatabase");
         try {
             final Statement statement = connection.createStatement();
-            statement.execute("Create table tb (ID int, Name varchar, Grade float, Birth datetime)");
+            statement.execute("Create table tb (ID int, Name varchar, Grade float, Birth date)");
             int count = statement.executeUpdate("INSERT INTO tb (ID, Name, Grade, birth)"
-                    + " VALUES (-30, 'hello', -.366, '2001-10-10 02:01:01')");
+                    + " VALUES (-30, 'hello', -0.366, '2001-10-10')");
             Assert.assertEquals("Table Insertion did not return 1", 1, count);
             count  = statement.executeUpdate("INSERT INTO tb"
-                    + " VALUES (-2 ,'A spaced string', 101.00002, '0001-01-01 01:01:01')");
+                    + " VALUES (-2 ,'A spaced string', 101.00002, '0001-01-01')");
             Assert.assertEquals("Table Insertion did not return 1", 1, count);
             count  = statement.executeUpdate("INSERT INTO tb"
-                    + " VALUES (333 ,'a float is .003', .003, '8488-11-30 05:06:07')");
+                    + " VALUES (333 ,'a float is 003', 0.003, '8488-11-30')");
             Assert.assertEquals("Table Insertion did not return 1", 1, count);
             final ResultSet resultSet =
-                    statement.executeQuery("SELECT * FROM tb WHERE birth != '1111-11-11 11:11:11'");
+                    statement.executeQuery("SELECT * FROM tb WHERE birth != '1111-11-11'");
             int rows = 0;
             while (resultSet.next()) {
                 rows++;
             }
             Assert.assertEquals("Invalid Result Set Size", 3, rows);
         } catch (final SQLException e) {
-            e.printStackTrace();
-        }
-        connection.close();
-    }
-
-    @Test
-    public void testMetaData() throws SQLException {
-        final Connection connection = createUseDatabase("sqlDatabase");
-        try {
-            final Statement statement = connection.createStatement();
-            statement.execute("Create table tb (ID int, Name varchar, GradE float, Birth date)");
-            int count = statement.executeUpdate("INSERT INTO tb (ID, Name, GrAde, birth)"
-                    + " VALUES (-30, 'hello', -.366, '2001-10-10')");
-            Assert.assertEquals("Table Insertion did not return 1", 1, count);
-            count  = statement.executeUpdate("INSERT INTO tb"
-                    + " VALUES (-2 ,'A spaced string', 101.00002, '0001-01-01')");
-            Assert.assertEquals("Table Insertion did not return 1", 1, count);
-            count  = statement.executeUpdate("INSERT INTO tb"
-                    + " VALUES (333 ,'a float is .003', .003, '8488-11-30')");
-            Assert.assertEquals("Table Insertion did not return 1", 1, count);
-            final ResultSet resultSet = statement.executeQuery("select birth, gRAde, id from tb where "
-                    + "birth > '0001-01-01' order by id");
-            int rows = 0;
-            while (resultSet.next()) {
-                rows++;
-            }
-            Assert.assertEquals("Invalid Result Set Size", 2, rows);
-            Assert.assertEquals(Types.DATE, resultSet.
-                    getMetaData().getColumnType(resultSet.findColumn("BirTh")));
-            Assert.assertEquals(Types.FLOAT, resultSet.
-                    getMetaData().getColumnType(resultSet.findColumn("gRAdE")));
-            Assert.assertEquals(Types.INTEGER, resultSet.
-                    getMetaData().getColumnType(resultSet.findColumn("iD")));
-            Assert.assertEquals(3, resultSet.getMetaData().getColumnCount());
-            Assert.assertTrue(resultSet.getMetaData().getTableName(1).equalsIgnoreCase("Tb"));
-            Assert.assertTrue(resultSet.getMetaData().
-                    getColumnLabel(1).equalsIgnoreCase("birth"));
-        } catch (final SQLException e) {
-            e.printStackTrace();
-        }
-        connection.close();
-    }
-
-    @Test
-    public void testResultSetGettersOrderBy() throws SQLException {
-        final Connection connection = createUseDatabase("sqlDatabase");
-        try {
-            final Statement statement = connection.createStatement();
-            statement.execute("Create table tb (CurrentTime dateTime,"
-                    + " Name varchar, GradE float, Birth date)");
-            int count = statement.executeUpdate("INSERT INTO tb (Name,"
-                    + " GrAde, birth, currentTime)"
-                    + " VALUES ('hello', -.366, '2001-10-10', '2000-09-03 11:02:09')");
-            Assert.assertEquals("Table Insertion did not return 1", 1, count);
-            count  = statement.executeUpdate("INSERT INTO tb"
-                    + " VALUES ('2001-09-03 11:02:09','A spaced string', 101.00002, '0001-01-01')");
-            Assert.assertEquals("Table Insertion did not return 1", 1, count);
-            count  = statement.executeUpdate("INSERT INTO tb"
-                    + " VALUES ('2001-09-03 11:02:09','a float is .003', .003, '8488-11-30')");
-            Assert.assertEquals("Table Insertion did not return 1", 1, count);
-            final ResultSet resultSet = statement.executeQuery("select biRth, gRAde, cuRRentTiMe, naMe from tb where "
-                    + "currenttime > '0001-01-01 01:01:01' order by currenttime, grade desc");
-            resultSet.first();
-            Assert.assertEquals(resultSet.getString(4), "hello");
-            Assert.assertEquals(resultSet.getFloat(2), -0.366, 0.001);
-            resultSet.next();
-            Assert.assertEquals(resultSet.getString("name"), "A spaced string");
-            Assert.assertEquals(resultSet.getFloat("grade"), 101.00002, 0.001);
-            try {
-                Assert.assertEquals(resultSet.getFloat("name"), 101.00002, 0.001);
-            } catch (final SQLException e) {
-            }
-
-        } catch (final SQLException e) {
-            e.printStackTrace();
-        }
-        connection.close();
-    }
-
-    @Test
-    public void testCreateTable() throws SQLException {
-        final Connection connection = createUseDatabase("TestDB_Create");
-        try {
-            final Statement statement = connection.createStatement();
-            statement.execute("CREATE TABLE table_name1(column_name1 varchar, column_name2 int, column_name3 date)");
-            statement.close();
-        } catch (final Throwable e) {
-            e.printStackTrace();
-        }
-        try {
-            final Statement statement = connection.createStatement();
-            statement.execute("CREATE TABLE table_name1(column_name1 varchar, column_name2 int, column_name3 date)");
-            Assert.fail("Created existing table successfully!");
-        } catch (final SQLException e) {
-
-        } catch (final Throwable e) {
-            e.printStackTrace();
-        }
-
-        try {
-            final Statement statement = connection.createStatement();
-            statement.execute("CREATE TABLE incomplete_table_name1");
-            Assert.fail("Create invalid table succeed");
-        } catch (final SQLException e) {
-        } catch (final Throwable e) {
             e.printStackTrace();
         }
         connection.close();
@@ -670,7 +565,8 @@ public class JDBCTest {
         connection.close();
     }
 
-    public void garb() throws SQLException {
+    @Test
+    public void sanityTestOnOrderBy() throws SQLException {
         final Connection connection = createUseDatabase("TestDB_Create");
         try {
             final Statement statement = connection.createStatement();
