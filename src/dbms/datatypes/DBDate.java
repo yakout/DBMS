@@ -18,7 +18,10 @@ public class DBDate implements DBDatatype {
     public DBDate() {
 
     }
-
+    /**
+     * 
+     * @param value {@link Date} sets the the local date to the fiven value.
+     */
     public DBDate(Date value) {
         this.value = value;
     }

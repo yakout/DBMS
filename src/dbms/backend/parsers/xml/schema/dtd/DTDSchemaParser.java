@@ -42,7 +42,14 @@ public class DTDSchemaParser {
         }
         return instance;
     }
-
+    
+    /**
+     * Creates the main flow to DTD file.
+     * Writes element and attributes to DTD file.
+     * @param dbName holds the name of the current database.
+     * @param tableName holds the name of the table.
+     * @throws DatabaseNotFoundException if no such database with the given name is found.
+     */
     public void createDTDSchema(String dbName, String tableName)
             throws DatabaseNotFoundException {
         // File database = new File(WORKSPACE_DIR + File.separator + dbName);
@@ -64,7 +71,7 @@ public class DTDSchemaParser {
             e.printStackTrace();
         }
     }
-
+    
     private void writeElements(File schema, PrintWriter pWriter) throws FileNotFoundException {
 
         DTDElementCreator.createElement(

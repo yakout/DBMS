@@ -16,9 +16,11 @@ import java.util.regex.Pattern;
  */
 public class SQLParser {
     private static final String[] reservedKeywords = new String[]{
-            "select", "create", "insert", "into", "delete", "update", "use", "from", "drop", "alter",
-            "where", "and", "or", "not", "distinct", "ASC", "DESC", "database", "table", "column", "row",
-            "int", "varchar", "float", "date", "order", "by", "add", "is", "union"
+            "select", "create", "insert", "into", "delete", "update",
+            "use", "from", "drop", "alter", "where", "and", "or", "not",
+            "distinct", "ASC", "DESC", "database", "table", "column", "row",
+            "int", "varchar", "float", "date", "order", "by", "add", "is",
+            "union"
     };
     /**
      * singleton instance of {@link SQLParser}.
@@ -31,7 +33,6 @@ public class SQLParser {
     /**
      * will returns the SQLParser singleton instance or create a new instance if
      * not found.
-     *
      * @return the singleton instance.
      */
     public static SQLParser getInstance() {
@@ -43,28 +44,22 @@ public class SQLParser {
 
     /**
      * validate the query.
-     *
      * @param regex the pattern to validate against.
      * @param query the sql statement.
      * @return return the index of the error
      */
-    public Matcher validate(Pattern regex, String query) throws SyntaxErrorException {
-//		for (int i = 0; i <= query.length(); i++) {
-//			Matcher m = regex.matcher(query.substring(0, i));
-//			if (!m.matches() && !m.hitEnd()) {
-//				throw new SyntaxErrorException("Error: near \"" + query.substring(i - 1, i) + "\" : syntax error");
-//			}
-//		}
+    public Matcher validate(Pattern regex, String query)
+    		throws SyntaxErrorException {
         if (regex.matcher(query).matches()) {
             return regex.matcher(query);
         } else {
-            throw new SyntaxErrorException("Error: statement must end with \";\": syntax error");
+            throw new SyntaxErrorException("Error:"
+            		+ " statement must end with \";\": syntax error");
         }
     }
 
     /**
      * parse the query.
-     *
      * @param query sql statement
      * @return {@link Expression}.
      * @throws SyntaxErrorException
@@ -72,7 +67,6 @@ public class SQLParser {
     public Expression parse(String query) throws SyntaxErrorException {
         Pattern rulePattern = SyntaxUtil.RULE_PATTERN;
         Matcher ruleMatcher = validate(rulePattern, query);
-
         ruleMatcher.matches();
         if (ruleMatcher.group(2) != null) {
             return parseUnion(query, ruleMatcher.group(2));
@@ -107,11 +101,11 @@ public class SQLParser {
         }
     }
 
-    private Expression parseAlter(Matcher matcher) {
+    private Expression parseAlter(final Matcher matcher) {
         matcher.matches();
         String tableName = matcher.group(1);
         String columnName;
-        Class<? extends DBDatatype> dataType = null;
+        Class< ? extends DBDatatype> dataType = null;
 
         if (matcher.group(7) != null) {
             columnName = matcher.group(8).toLowerCase();
@@ -137,24 +131,28 @@ public class SQLParser {
 
     /**
      * parse insert statement.
-     *
      * @param matcher matched pattern from query.
      * @return {@link Expression}.
-     * @throws SyntaxErrorException
+     * @throws SyntaxErrorException where the input syntax is invalid.
      */
-    private Expression parseInsert(Matcher matcher) throws SyntaxErrorException {
+    private Expression parseInsert(final Matcher matcher) throws
+    	SyntaxErrorException {
         matcher.matches();
         String tableName = matcher.group(1);
-        String[] columns = matcher.group(2) == null ? null : matcher.group(2).split(",");
+        String[] columns = matcher.group(2) == null ? null :
+        	matcher.group(2).split(",");
         String[] values = matcher.group(4).split(",");
         if (columns != null && columns.length != values.length) {
-            throw new SyntaxErrorException("Error: Columns number does not match values number");
+            throw new SyntaxErrorException("Error:"
+            		+ " Columns number does not match values number");
         }
         HashMap<String, DBDatatype> entryMap = new LinkedHashMap<>();
         for (int i = 0; i < values.length; i++) {
-            String column = columns == null ? String.valueOf(i) : columns[i].trim().toLowerCase();
+            String column = columns == null ? String.valueOf(i) :
+            	columns[i].trim().toLowerCase();
             String value = values[i].trim();
-            entryMap.put(column, DatatypeFactory.convertToDataType(DatatypeFactory.convertToObject(value)));
+            entryMap.put(column, DatatypeFactory.convertToDataType(
+            		DatatypeFactory.convertToObject(value)));
         }
         InsertIntoTable insertIntoTable = new InsertIntoTable(tableName, entryMap);
         if (columns == null) insertIntoTable.insertWithNoColumns(true);
@@ -163,11 +161,10 @@ public class SQLParser {
 
     /**
      * parse select statement
-     *
      * @param matcher matched pattern from query.
      * @return {@link Expression}.
      */
-    private Expression parseSelect(Matcher matcher) {
+    private Expression parseSelect(final Matcher matcher) {
         matcher.matches();
         String tableName = matcher.group(6);
         Select select = new Select(tableName);
@@ -197,7 +194,7 @@ public class SQLParser {
     /**
      * Helper Method for {@link SQLParser#parseSelect(Matcher)}
      */
-    private List<Pair<String, Boolean>> parseOrderby(String query) {
+    private List<Pair<String, Boolean>> parseOrderby(final String query) {
         List<Pair<String, Boolean>> columns = new ArrayList<>();
         String[] orderbyArray = query.trim().split(",");
         for (int i = 0; i < orderbyArray.length; i++) {
@@ -216,11 +213,13 @@ public class SQLParser {
     }
 
 
-    private Expression parseUnion(String query, String unionForm) throws SyntaxErrorException {
+    private Expression parseUnion(final String query, final String unionForm)
+    		throws SyntaxErrorException {
         List<Select> selectList = new ArrayList<>();
         String[] selects = query.split("(?i)(union\\s+all|union)");
         for (int i = 0; i < selects.length; i++) {
-            Select select = (Select) parseSelect(validate(SelectSyntax.getInstance().getPattern(), selects[i]));
+            Select select = (Select) parseSelect(validate(
+            		SelectSyntax.getInstance().getPattern(), selects[i]));
             selectList.add(select);
         }
         if (unionForm.toLowerCase().equals("union")) {
@@ -231,11 +230,10 @@ public class SQLParser {
 
     /**
      * parse drop statement.
-     *
      * @param matcher matched pattern from query.
      * @return {@link Expression}.
      */
-    private Expression parseDrop(Matcher matcher) {
+    private Expression parseDrop(final Matcher matcher) {
         matcher.matches();
         switch (matcher.group(1).toLowerCase()) {
             case "database":
@@ -249,11 +247,10 @@ public class SQLParser {
 
     /**
      * parse delete statement.
-     *
      * @param matcher matched pattern from query.
      * @return {@link Expression}.
      */
-    private Expression parseDelete(Matcher matcher) {
+    private Expression parseDelete(final Matcher matcher) {
         matcher.matches();
         Delete delete = new Delete(matcher.group(2));
 
@@ -263,7 +260,7 @@ public class SQLParser {
         return delete;
     }
 
-    private Expression parseUpdate(Matcher matcher) {
+    private Expression parseUpdate(final Matcher matcher) {
         matcher.matches();
         Map<String, DBDatatype> values = new LinkedHashMap<>();
         Map<String, String> columns = new LinkedHashMap<>();
@@ -272,15 +269,17 @@ public class SQLParser {
         for (int i = 0; i < setValues.length; i++) {
             String key = setValues[i].split("=")[0].trim().toLowerCase();
             String value = setValues[i].split("=")[1].trim();
-            if (value.startsWith("'") || value.startsWith("\"") || value.matches(SyntaxUtil.NUMBER_FORMAT)) {
-                values.put(key, DatatypeFactory.convertToDataType(DatatypeFactory.convertToObject(value)));
+            if (value.startsWith("'") || value.startsWith("\"")
+            		|| value.matches(SyntaxUtil.NUMBER_FORMAT)) {
+                values.put(key, DatatypeFactory.convertToDataType(
+                		DatatypeFactory.convertToObject(value)));
             } else {
                 columns.put(key, value.toLowerCase());
             }
         }
-        Update update = new Update(matcher.group(1).toLowerCase(), values, columns);
+        Update update = new Update(matcher.group(1).toLowerCase(),
+        		values, columns);
 
-        // if where is available
         if (matcher.group(7) != null) {
             update.setWhere(new Where(matcher.group(7)));
         }
@@ -289,11 +288,10 @@ public class SQLParser {
 
     /**
      * parse create statement.
-     *
      * @param matcher matched pattern from query.
      * @return {@link Expression}.
      */
-    private Expression parseCreate(Matcher matcher) {
+    private Expression parseCreate(final Matcher matcher) {
         matcher.matches();
 
         if (matcher.group(1).toLowerCase().startsWith("database")) {
@@ -301,7 +299,8 @@ public class SQLParser {
         }
 
         String[] columnsDesc = matcher.group(6).split(",");
-        Map<String, Class<? extends DBDatatype>> columns = new LinkedHashMap<>();
+        Map<String, Class< ? extends DBDatatype>> columns =
+        		new LinkedHashMap<>();
         for (int i = 0; i < columnsDesc.length; i++) {
             String key = columnsDesc[i].trim().split("\\s+")[0].toLowerCase();
             switch (columnsDesc[i].trim().split("\\s+")[1].toLowerCase()) {
@@ -324,7 +323,6 @@ public class SQLParser {
 
     /**
      * parse the use statement.
-     *
      * @param matcher matched pattern from query.
      * @return {@link Expression}.
      */

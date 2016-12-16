@@ -170,7 +170,7 @@ public class Table {
      * @param entries {@link Collection} collection of {@link DBDatatype}
      * of values to be inserted.
      * @return Update count (number of rows that are affected).
-     * @throws IncorrectDataEntryException In case a given value is incompatible
+     * @throws IncorrectDataEntryException In case a given value is incompatible.
      * with a column type.
      */
     public int insertRow(Collection<DBDatatype> entries)

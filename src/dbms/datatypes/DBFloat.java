@@ -16,7 +16,10 @@ public class DBFloat implements DBDatatype {
     public DBFloat() {
 
     }
-
+    /**
+     * 
+     * @param value {@link Float} sets the local value to the given value.
+     */
     public DBFloat(Float value) {
         this.value = value;
     }
