@@ -10,7 +10,7 @@ public class TableNotFoundException extends Exception {
         super();
     }
 
-    public TableNotFoundException(String message) {
+    public TableNotFoundException(final String message) {
         super(message);
         this.message = message;
     }

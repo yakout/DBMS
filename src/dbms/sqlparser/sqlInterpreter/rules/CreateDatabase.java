@@ -6,7 +6,7 @@ import dbms.exception.DatabaseAlreadyCreatedException;
 public class CreateDatabase implements DDLStatement {
     private String dbName;
 
-    public CreateDatabase(String dbName) {
+    public CreateDatabase(final String dbName) {
         this.dbName = dbName;
     }
 

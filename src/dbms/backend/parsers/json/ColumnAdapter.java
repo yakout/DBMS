@@ -14,10 +14,12 @@ import java.text.SimpleDateFormat;
 /**
  * Serializes/Deserializes a column to .JSON format.
  */
-public class ColumnAdapter implements JsonSerializer<Column>, JsonDeserializer<Column> {
+public class ColumnAdapter implements JsonSerializer<Column>,
+	JsonDeserializer<Column> {
 
     @Override
-    public JsonElement serialize(Column column, Type type, JsonSerializationContext jsc) {
+    public JsonElement serialize(final Column column, final Type type,
+    		final JsonSerializationContext jsc) {
         JsonObject columnObject = new JsonObject();
         columnObject.addProperty("name", column.getName());
         String typeProperty = null;
@@ -35,18 +37,20 @@ public class ColumnAdapter implements JsonSerializer<Column>, JsonDeserializer<C
     }
 
     @Override
-    public Column deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsc)
+    public Column deserialize(final JsonElement jsonElement, final Type type,
+    		final JsonDeserializationContext jsc)
             throws JsonParseException {
         Column column = new Column();
         String nameProp = jsonElement.getAsJsonObject().getAsJsonPrimitive(
                 "name").getAsString();
         String typeProp = jsonElement.getAsJsonObject().getAsJsonPrimitive(
                 "type").getAsString();
-        Class<? extends DBDatatype> typeClass = DatatypeFactory.getFactory()
+        Class< ? extends DBDatatype> typeClass = DatatypeFactory.getFactory()
                 .getRegisteredDatatype(typeProp);
         column.setName(nameProp);
         column.setType(typeClass);
-        JsonArray entries = jsonElement.getAsJsonObject().getAsJsonArray("entries");
+        JsonArray entries = jsonElement.getAsJsonObject().getAsJsonArray(
+        		"entries");
         for (JsonElement entry : entries) {
             if (typeProp.equals(DBInteger.KEY)) {
                 try {
@@ -79,7 +83,8 @@ public class ColumnAdapter implements JsonSerializer<Column>, JsonDeserializer<C
         return column;
     }
 
-    private JsonArray addSerializedEntries(Column column, String typeProperty) {
+    private JsonArray addSerializedEntries(final Column column,
+    		final String typeProperty) {
         JsonArray entries = new JsonArray();
         for (DBDatatype entry : column.getEntries()) {
             JsonPrimitive obj = null;

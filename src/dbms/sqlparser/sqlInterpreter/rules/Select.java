@@ -22,36 +22,62 @@ public class Select implements DMLStatement {
     private RecordSet recordSet;
 
     private Where where;
-
+    
+    /**
+     * Sets the name of the local table name. 
+     * @param tableName the name of current table.
+     */
     public Select(String tableName) {
         this.tableName = tableName;
     }
-
+    /**
+     * 
+     * @return {@link Where} the local where statement.
+     */
     public Where getWhere() {
         return where;
     }
-
-    public void setWhere(Where where) {
+    /**
+     * 
+     * @return {@link Where} the local where statement.
+     */
+    public void setWhere(final Where where) {
         this.where = where;
     }
-
+    /**
+     * 
+     * @return {@link Collecion} collection of columns.
+     */
     public Collection<String> getColumns() {
         return columns;
     }
-
-    public void setColumns(Collection<String> columns) {
+    /**
+     * Sets the local Collection of columns.
+     * @param columns {@link Collection} columns of current table.
+     */
+    public void setColumns(final Collection<String> columns) {
         this.columns = columns;
     }
-
+    
+    /**
+     * 
+     * @return the name of the table.
+     */
     public String getTableName() {
         return tableName;
     }
-
+    /**
+     * 
+     * @return {@link List} list of columns orders.
+     */
     public List<Pair<String, Boolean>> getOrderBy() {
         return orderBy;
     }
-
-    public void setOrderBy(List<Pair<String, Boolean>> orderBy) {
+    /**
+     * 
+     * @param orderBy {@link List} list of columns orders.
+     */
+    public void setOrderBy(final List<Pair<String, Boolean>> orderBy) {
         this.orderBy = orderBy;
     }
 
@@ -73,8 +99,11 @@ public class Select implements DMLStatement {
     }
 
     @Override
-    public void execute() throws DatabaseNotFoundException, TableNotFoundException, SyntaxErrorException, IncorrectDataEntryException {
-        recordSet = BackendController.getInstance().select(tableName, columns, where);
+    public void execute() throws DatabaseNotFoundException,
+    TableNotFoundException, SyntaxErrorException,
+    IncorrectDataEntryException {
+        recordSet = BackendController.getInstance().select(
+        		tableName, columns, where);
         if (isDistinct) recordSet.distinct();
         if (orderBy != null) recordSet.orderBy(orderBy);
         Formatter.getInstance().printTable(recordSet);

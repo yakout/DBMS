@@ -5,7 +5,7 @@ public class DataTypeNotSupportedException extends Exception {
         super();
     }
 
-    public DataTypeNotSupportedException(String message) {
+    public DataTypeNotSupportedException(final String message) {
         super(message);
     }
 }

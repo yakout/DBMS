@@ -11,7 +11,7 @@ public class TableAlreadyCreatedException extends Exception {
         super();
     }
 
-    public TableAlreadyCreatedException(String message) {
+    public TableAlreadyCreatedException(final String message) {
         super(message);
         this.message = message;
     }

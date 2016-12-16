@@ -22,12 +22,12 @@ public class DBDate implements DBDatatype {
      * 
      * @param value {@link Date} sets the the local date to the fiven value.
      */
-    public DBDate(Date value) {
+    public DBDate(final Date value) {
         this.value = value;
     }
 
     @Override
-    public Object toObj(String s) {
+    public Object toObj(final String s) {
         try {
             return Date.valueOf(s);
         } catch (Exception e) {
@@ -36,7 +36,7 @@ public class DBDate implements DBDatatype {
     }
 
     @Override
-    public int compareTo(DBDatatype data) {
+    public int compareTo(final DBDatatype data) {
         return value.compareTo((Date) data.getValue());
     }
 
@@ -56,12 +56,13 @@ public class DBDate implements DBDatatype {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         DBDate dbDate = (DBDate) o;
-        return value != null ? value.equals(dbDate.value) : dbDate.value == null;
+        return value != null ? value.equals(dbDate.value)
+        		: dbDate.value == null;
     }
 
     @Override

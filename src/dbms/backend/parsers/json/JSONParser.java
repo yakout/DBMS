@@ -61,7 +61,6 @@ public class JSONParser extends BackendParser {
 
     private JSONParser() {
         enhanceBuilder();
-
     }
 
     /**
@@ -75,10 +74,11 @@ public class JSONParser extends BackendParser {
         return instance;
     }
 
-    private static File openTable(String dbName, String tableName) throws TableNotFoundException,
+    private static File openTable(final String dbName, final String tableName)
+    		throws TableNotFoundException,
             DatabaseNotFoundException {
-        File tableFile = new File(openDB(dbName), tableName + CONSTANTS.getString(
-                "extension.json"));
+        File tableFile = new File(openDB(dbName), tableName + CONSTANTS
+        		.getString("extension.json"));
         if (!tableFile.exists()) {
             log.error("Error occured: " + tableName + " file is not found!");
             throw new TableNotFoundException();
@@ -86,8 +86,10 @@ public class JSONParser extends BackendParser {
         return tableFile;
     }
 
-    private static File openDB(String dbName) throws DatabaseNotFoundException {
-        File database = new File(BackendController.getInstance().getCurrentDatabaseDir()
+    private static File openDB(final String dbName)
+    		throws DatabaseNotFoundException {
+        File database = new File(BackendController.getInstance()
+        		.getCurrentDatabaseDir()
                 + File.separator + dbName);
         if (!database.exists()) {
             log.error("Error occured: Database is not found.");
@@ -97,10 +99,13 @@ public class JSONParser extends BackendParser {
     }
 
     private void enhanceBuilder() {
-        builder = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
+        builder = new GsonBuilder().setExclusionStrategies(
+        		new ExclusionStrategy() {
             @Override
-            public boolean shouldSkipField(FieldAttributes fieldAttributes) {
-                if (fieldAttributes.getDeclaringClass().equals(Database.class)) {
+            public boolean shouldSkipField(final
+            		FieldAttributes fieldAttributes) {
+                if (fieldAttributes.getDeclaringClass().equals(
+                		Database.class)) {
                     if (fieldAttributes.getName().equals("tables")) {
                         return true;
                     }
@@ -109,7 +114,7 @@ public class JSONParser extends BackendParser {
             }
 
             @Override
-            public boolean shouldSkipClass(Class<?> arg0) {
+            public boolean shouldSkipClass(Class< ? > arg0) {
                 return false;
             }
         });
@@ -125,7 +130,7 @@ public class JSONParser extends BackendParser {
     }
 
     @Override
-    public void loadTable(Table table) throws TableNotFoundException,
+    public void loadTable(final Table table) throws TableNotFoundException,
             DatabaseNotFoundException {
         BufferedReader bufferedReader;
         try {
@@ -140,9 +145,10 @@ public class JSONParser extends BackendParser {
     }
 
     @Override
-    public void writeToFile(Table table) throws TableNotFoundException,
+    public void writeToFile(final Table table) throws TableNotFoundException,
             DatabaseNotFoundException {
-        File tableFile = openTable(table.getDatabase().getName(), table.getName());
+        File tableFile = openTable(table.getDatabase().getName(),
+        		table.getName());
         try {
             write(table, tableFile);
         } catch (IOException e) {
@@ -153,7 +159,7 @@ public class JSONParser extends BackendParser {
     }
 
     @Override
-    public void createTable(Table table) throws DatabaseNotFoundException,
+    public void createTable(final Table table) throws DatabaseNotFoundException,
             TableAlreadyCreatedException {
         File tableFile = new File(openDB(table.getDatabase().getName()),
                 table.getName() + CONSTANTS.getString("extension.json"));
@@ -172,21 +178,24 @@ public class JSONParser extends BackendParser {
 
     }
 
-    private void write(Table table, File tableFile) throws IOException {
+    private void write(final Table table, final File tableFile)
+    		throws IOException {
         FileWriter writer = new FileWriter(tableFile);
         writer.write(gson.toJson(table));
         writer.close();
     }
 
     @Override
-    public void dropTable(Table table) throws DatabaseNotFoundException {
-        File tableFile = new File(openDB(table.getDatabase().getName()), table.getName()
+    public void dropTable(final Table table) throws DatabaseNotFoundException {
+        File tableFile = new File(openDB(table.getDatabase().getName()),
+        		table.getName()
                 + CONSTANTS.getString("extension.json"));
         if (tableFile.exists()) {
             tableFile.delete();
             log.debug(table.getName() + " file is successfully deleted.");
         } else {
-            log.error("Error occured: " + table.getName() + " file is not found!");
+            log.error("Error occured: " + table.getName() + " file is not"
+            		+ " found!");
         }
     }
 

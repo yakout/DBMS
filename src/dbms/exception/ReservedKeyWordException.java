@@ -7,7 +7,7 @@ public class ReservedKeyWordException extends Exception {
         super();
     }
 
-    public ReservedKeyWordException(String message) {
+    public ReservedKeyWordException(final String message) {
         super(message);
         this.message = message;
     }

@@ -13,19 +13,35 @@ public class BackendParserFactory {
         registeredParsers = new HashMap<>();
         loadParsers();
     }
-
+    /**
+     *
+     * @return {@link BackendParserFactory} return static instance of
+     *  factory by singleton.
+     */
     public static BackendParserFactory getFactory() {
         if (instance == null) {
             instance = new BackendParserFactory();
         }
         return instance;
     }
-
-    public void register(String key, BackendParser parser) {
+    
+    /**
+     * Registers the invoker class to the factory.
+     * @param key defines the key of the parser required to be registered.
+     * @param parser {@link BackendParser} shows value of the
+     *  registered class type.
+     */
+    public void register(final String key, final BackendParser parser) {
         registeredParsers.put(key, parser);
     }
-
-    public BackendParser getRegisteredParser(String key) {
+    
+    /**
+     * Links the invoker class to its instance
+     * @param key defines the the key of the required parser.
+     * @return {@link BackendParser} reference to the instance of
+     *  the required parser.
+     */
+    public BackendParser getRegisteredParser(final String key) {
         return registeredParsers.get(key).getParser();
     }
 
@@ -33,7 +49,7 @@ public class BackendParserFactory {
         return registeredParsers.get(currentKey).getParser();
     }
 
-    public void setCurrentParser(String key) {
+    public void setCurrentParser(final String key) {
         if (registeredParsers.get(key) == null) {
             throw new UnsupportedOperationException();
         }

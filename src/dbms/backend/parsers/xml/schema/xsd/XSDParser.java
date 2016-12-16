@@ -73,16 +73,18 @@ public class XSDParser {
 
     }
 
-    public void createSchema(String dbName, String tableName) throws
+    public void createSchema(final String dbName, final String tableName) throws
             DatabaseNotFoundException {
 
         // File database = new File(WORKSPACE_DIR + File.separator + dbName);
-        File database = new File(BackendController.getInstance().getCurrentDatabaseDir()
+        File database = new File(BackendController.getInstance()
+        		.getCurrentDatabaseDir()
                 + File.separator + dbName);
         if (!database.exists()) {
             throw new DatabaseNotFoundException();
         }
-        File schema = new File(database, tableName + CONSTANTS.getString("extension.schema"));
+        File schema = new File(database, tableName + CONSTANTS.getString(
+        		"extension.schema"));
         if (schema.exists()) {
             return;
         }
@@ -100,7 +102,7 @@ public class XSDParser {
         }
     }
 
-    private void setAllElements(Element root, Document doc) {
+    private void setAllElements(final Element root, final Document doc) {
         setRootAttribute(root, doc);
         Element table = doc.createElement(CONSTANTS.getString("xs.element"));
 
@@ -110,7 +112,8 @@ public class XSDParser {
         Element cmplx = doc.createElement(CONSTANTS.getString("xs.complex"));
         table.appendChild(cmplx);
 
-        Element sequence = doc.createElement(CONSTANTS.getString("xs.sequence"));
+        Element sequence = doc.createElement(CONSTANTS.getString(
+        		"xs.sequence"));
         cmplx.appendChild(sequence);
 
         Element column1 = doc.createElement(CONSTANTS.getString("xs.element"));
@@ -120,7 +123,8 @@ public class XSDParser {
         Element cmplx2 = doc.createElement(CONSTANTS.getString("xs.complex"));
         column1.appendChild(cmplx2);
 
-        Element sequence2 = doc.createElement(CONSTANTS.getString("xs.sequence"));
+        Element sequence2 = doc.createElement(CONSTANTS.getString(
+        		"xs.sequence"));
         cmplx2.appendChild(sequence2);
 
         Element row = doc.createElement(CONSTANTS.getString("xs.element"));
@@ -130,15 +134,19 @@ public class XSDParser {
         Element cmplx3 = doc.createElement(CONSTANTS.getString("xs.complex"));
         row.appendChild(cmplx3);
 
-        Element simpleContent = doc.createElement(CONSTANTS.getString("xs.simple"));
+        Element simpleContent = doc.createElement(CONSTANTS.getString(
+        		"xs.simple"));
         cmplx3.appendChild(simpleContent);
 
-        Element extension = doc.createElement(CONSTANTS.getString("xs.extension"));
+        Element extension = doc.createElement(CONSTANTS.getString(
+        		"xs.extension"));
         setExtensionAttribute(extension, doc);
         simpleContent.appendChild(extension);
 
-        Element rowAttribute = doc.createElement(CONSTANTS.getString("xs.attr"));
-        setAttrsToAttribute(rowAttribute, doc, CONSTANTS.getString("index.val"));
+        Element rowAttribute = doc.createElement(CONSTANTS.getString(
+        		"xs.attr"));
+        setAttrsToAttribute(rowAttribute, doc, CONSTANTS.getString(
+        		"index.val"));
         extension.appendChild(rowAttribute);
 
         Element colAttr = doc.createElement(CONSTANTS.getString("xs.attr"));
@@ -162,7 +170,8 @@ public class XSDParser {
         cmplx.appendChild(tableAttr3);
     }
 
-    private void setAttrsToAttribute(Element attribute, Document doc, String attrName) {
+    private void setAttrsToAttribute(final Element attribute, final Document doc,
+    		final String attrName) {
         Attr type = doc.createAttribute(CONSTANTS.getString("type.attr"));
 
         Attr name = doc.createAttribute(CONSTANTS.getString("name.attr"));
@@ -171,7 +180,8 @@ public class XSDParser {
 
         if (attrName.equals(CONSTANTS.getString("rows.attr"))) {
             type.setValue(CONSTANTS.getString("int.type"));
-            Attr defaultVal = doc.createAttribute(CONSTANTS.getString("default.attr"));
+            Attr defaultVal = doc.createAttribute(CONSTANTS.getString(
+            		"default.attr"));
             defaultVal.setValue("0");
             attribute.setAttributeNode(defaultVal);
         } else {
@@ -183,53 +193,60 @@ public class XSDParser {
         attribute.setAttributeNode(type);
     }
 
-    private void setExtensionAttribute(Element extension, Document doc) {
+    private void setExtensionAttribute(final Element extension,
+    		final Document doc) {
         Attr base = doc.createAttribute(CONSTANTS.getString("base.attr"));
         base.setValue(CONSTANTS.getString("string.type"));
         extension.setAttributeNode(base);
     }
 
-    private void setColumnAttribute(Element column, Document doc) {
+    private void setColumnAttribute(final Element column, final Document doc) {
         Attr name = doc.createAttribute(CONSTANTS.getString("name.attr"));
         name.setValue(CONSTANTS.getString("column.element"));
         column.setAttributeNode(name);
 
-        Attr maxOccurs = doc.createAttribute(CONSTANTS.getString("maxOccurs.attr"));
+        Attr maxOccurs = doc.createAttribute(CONSTANTS.getString(
+        		"maxOccurs.attr"));
         maxOccurs.setValue(CONSTANTS.getString("unbounded.val"));
         column.setAttributeNode(maxOccurs);
 
-        Attr minOccurs = doc.createAttribute(CONSTANTS.getString("minOccurs.attr"));
+        Attr minOccurs = doc.createAttribute(CONSTANTS.getString(
+        		"minOccurs.attr"));
         minOccurs.setValue(CONSTANTS.getString("nothing"));
         column.setAttributeNode(minOccurs);
     }
 
-    private void setRowAttribute(Element sequence, Document doc) {
+    private void setRowAttribute(final Element sequence, final Document doc) {
         Attr name = doc.createAttribute(CONSTANTS.getString("name.attr"));
         name.setValue(CONSTANTS.getString("row.element"));
         sequence.setAttributeNode(name);
 
-        Attr maxOccurs = doc.createAttribute(CONSTANTS.getString("maxOccurs.attr"));
+        Attr maxOccurs = doc.createAttribute(CONSTANTS.getString(
+        		"maxOccurs.attr"));
         maxOccurs.setValue(CONSTANTS.getString("unbounded.val"));
         sequence.setAttributeNode(maxOccurs);
 
-        Attr minOccurs = doc.createAttribute(CONSTANTS.getString("minOccurs.attr"));
+        Attr minOccurs = doc.createAttribute(CONSTANTS.getString(
+        		"minOccurs.attr"));
         minOccurs.setValue(CONSTANTS.getString("nothing"));
         sequence.setAttributeNode(minOccurs);
     }
 
-    private void setRootAttribute(Element root, Document doc) {
+    private void setRootAttribute(final Element root, final Document doc) {
         Attr xmlns = doc.createAttribute(CONSTANTS.getString("xmlns.attr"));
         xmlns.setValue(CONSTANTS.getString("xmlns.val"));
         root.setAttributeNode(xmlns);
-        Attr eFormDefault = doc.createAttribute(CONSTANTS.getString("elementFormDefault.attr"));
+        Attr eFormDefault = doc.createAttribute(CONSTANTS.getString(
+        		"elementFormDefault.attr"));
         eFormDefault.setValue(CONSTANTS.getString("elementFormDefault.val"));
         root.setAttributeNode(eFormDefault);
-        Attr formAttr = doc.createAttribute(CONSTANTS.getString("formDefault.attr"));
+        Attr formAttr = doc.createAttribute(CONSTANTS.getString(
+        		"formDefault.attr"));
         formAttr.setValue(CONSTANTS.getString("formDefault.val"));
         root.setAttributeNode(formAttr);
     }
 
-    private void setTableAtrribute(Element table, Document doc) {
+    private void setTableAtrribute(final Element table, final Document doc) {
         Attr name = doc.createAttribute(CONSTANTS.getString("name.attr"));
         name.setValue(CONSTANTS.getString("table.element"));
         table.setAttributeNode(name);

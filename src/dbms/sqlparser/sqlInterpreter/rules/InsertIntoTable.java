@@ -17,12 +17,13 @@ public class InsertIntoTable implements DMLStatement {
     private int updateCount;
     private boolean insertWithNoColumns = false;
 
-    public InsertIntoTable(String tableName, Map<String, DBDatatype> entryMap) {
+    public InsertIntoTable(final String tableName,
+    		final Map<String, DBDatatype> entryMap) {
         this.tableName = tableName;
         this.entryMap = entryMap;
     }
 
-    public void insertWithNoColumns(boolean insertWithNoColumns) {
+    public void insertWithNoColumns(final boolean insertWithNoColumns) {
         this.insertWithNoColumns = insertWithNoColumns;
     }
 
@@ -40,17 +41,21 @@ public class InsertIntoTable implements DMLStatement {
     }
 
     @Override
-    public void execute() throws DatabaseNotFoundException, TableNotFoundException, IncorrectDataEntryException {
+    public void execute() throws DatabaseNotFoundException,
+    TableNotFoundException, IncorrectDataEntryException {
         if (insertWithNoColumns) {
             Collection<DBDatatype> entries = new ArrayList<>();
-            Iterator<Map.Entry<String, DBDatatype>> it = entryMap.entrySet().iterator();
+            Iterator<Map.Entry<String, DBDatatype>> it
+            = entryMap.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry) it.next();
                 entries.add((DBDatatype) pair.getValue());
             }
-            updateCount = BackendController.getInstance().insertIntoTable(tableName, entries);
+            updateCount = BackendController.getInstance()
+            		.insertIntoTable(tableName, entries);
             return;
         }
-        updateCount = BackendController.getInstance().insertIntoTable(tableName, entryMap);
+        updateCount = BackendController.getInstance()
+        		.insertIntoTable(tableName, entryMap);
     }
 }

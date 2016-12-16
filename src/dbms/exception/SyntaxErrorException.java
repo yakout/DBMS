@@ -10,7 +10,7 @@ public class SyntaxErrorException extends Exception {
         super();
     }
 
-    public SyntaxErrorException(String message) {
+    public SyntaxErrorException(final String message) {
         super(message);
         this.message = message;
     }

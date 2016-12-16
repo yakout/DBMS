@@ -11,7 +11,7 @@ public class DatabaseAlreadyCreatedException extends Exception {
         super();
     }
 
-    public DatabaseAlreadyCreatedException(String message) {
+    public DatabaseAlreadyCreatedException(final String message) {
         super(message);
         this.message = message;
     }

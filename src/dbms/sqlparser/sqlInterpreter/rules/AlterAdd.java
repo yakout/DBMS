@@ -7,9 +7,10 @@ import dbms.exception.*;
 public class AlterAdd implements DDLStatement {
     private String tableName;
     private String columnName;
-    private Class<? extends DBDatatype> dataType;
+    private Class< ? extends DBDatatype> dataType;
 
-    public AlterAdd(String tableName, String columnName, Class<? extends DBDatatype> dataType) {
+    public AlterAdd(String tableName, String columnName,
+    		Class< ? extends DBDatatype> dataType) {
         this.tableName = tableName;
         this.columnName = columnName;
         this.dataType = dataType;
@@ -28,9 +29,10 @@ public class AlterAdd implements DDLStatement {
     }
 
     @Override
-    public void execute() throws DatabaseNotFoundException, TableNotFoundException,
-            SyntaxErrorException, DataTypeNotSupportedException, TableAlreadyCreatedException,
-            DatabaseAlreadyCreatedException, IncorrectDataEntryException {
+    public void execute() throws DatabaseNotFoundException,
+    TableNotFoundException, SyntaxErrorException,
+    DataTypeNotSupportedException, TableAlreadyCreatedException,
+    DatabaseAlreadyCreatedException, IncorrectDataEntryException {
         BackendController.getInstance().alterAdd(tableName, columnName, dataType);
     }
 

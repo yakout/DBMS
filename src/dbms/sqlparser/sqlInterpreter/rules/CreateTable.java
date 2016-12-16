@@ -12,7 +12,8 @@ public class CreateTable implements DDLStatement {
     private String tableName;
     private Map<String, Class<? extends DBDatatype>> columns;
 
-    public CreateTable(String tableName, Map<String, Class<? extends DBDatatype>> columns) {
+    public CreateTable(final String tableName, final Map<String,
+    		Class< ? extends DBDatatype>> columns) {
         this.tableName = tableName;
         this.columns = columns;
     }

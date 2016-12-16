@@ -37,14 +37,16 @@ public class PatternsHolder {
 
     static synchronized Pattern getAlterPattern() {
         if (alterPattern == null) {
-            alterPattern = Pattern.compile(SQLRegexProperties.getString("alter.regex"));
+            alterPattern = Pattern.compile(SQLRegexProperties.getString(
+            		"alter.regex"));
         }
         return alterPattern;
     }
 
     static synchronized Pattern getCreatePattern() {
         if (createPattern == null) {
-            createPattern = Pattern.compile(SQLRegexProperties.getString("create.regex"));
+            createPattern = Pattern.compile(SQLRegexProperties.getString(
+            		"create.regex"));
         }
         return createPattern;
     }
@@ -52,7 +54,8 @@ public class PatternsHolder {
 
     static synchronized Pattern getRulePattern() {
         if (rulePattern == null) {
-            rulePattern = Pattern.compile(SQLRegexProperties.getString("rule.regex"));
+            rulePattern = Pattern.compile(SQLRegexProperties.getString(
+            		"rule.regex"));
         }
         return rulePattern;
     }
@@ -94,7 +97,8 @@ public class PatternsHolder {
 
     static synchronized Pattern getDropPattern() {
         if (dropPattern == null) {
-            dropPattern = Pattern.compile(SQLRegexProperties.getString("drop.regex"));
+            dropPattern = Pattern.compile(SQLRegexProperties.getString(
+            		"drop.regex"));
         }
         return dropPattern;
     }

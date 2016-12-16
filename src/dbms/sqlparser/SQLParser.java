@@ -48,7 +48,7 @@ public class SQLParser {
      * @param query the sql statement.
      * @return return the index of the error
      */
-    public Matcher validate(Pattern regex, String query)
+    public Matcher validate(final Pattern regex, final String query)
     		throws SyntaxErrorException {
         if (regex.matcher(query).matches()) {
             return regex.matcher(query);
@@ -64,7 +64,7 @@ public class SQLParser {
      * @return {@link Expression}.
      * @throws SyntaxErrorException
      */
-    public Expression parse(String query) throws SyntaxErrorException {
+    public Expression parse(final String query) throws SyntaxErrorException {
         Pattern rulePattern = SyntaxUtil.RULE_PATTERN;
         Matcher ruleMatcher = validate(rulePattern, query);
         ruleMatcher.matches();

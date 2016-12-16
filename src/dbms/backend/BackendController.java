@@ -20,8 +20,8 @@ import java.util.Map;
 public class BackendController {
     private static BackendController instance = null;
     private String dbName;
-    private String currentDatabaseDir =
-            System.getProperty("user.home") + File.separator + "databases"; // by default
+    private String currentDatabaseDir = // by default
+            System.getProperty("user.home") + File.separator + "databases"; 
 
     private BackendController() {
     }

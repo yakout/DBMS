@@ -10,7 +10,7 @@ public class IncorrectDataEntryException extends Exception {
         super();
     }
 
-    public IncorrectDataEntryException(String message) {
+    public IncorrectDataEntryException(final String message) {
         super(message);
         this.message = message;
     }

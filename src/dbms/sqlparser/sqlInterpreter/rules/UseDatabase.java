@@ -5,8 +5,12 @@ import dbms.exception.DatabaseNotFoundException;
 
 public class UseDatabase implements DDLStatement {
     private String dbName;
-
-    public UseDatabase(String dbName) {
+    /**
+     * 
+     * @param dbName sets the name of database(locally0 with the
+     *  required value.
+     */
+    public UseDatabase(final String dbName) {
         this.dbName = dbName;
     }
 

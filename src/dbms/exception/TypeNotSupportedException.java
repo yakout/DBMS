@@ -10,7 +10,7 @@ public class TypeNotSupportedException extends Exception {
         super();
     }
 
-    public TypeNotSupportedException(String message) {
+    public TypeNotSupportedException(final String message) {
         super(message);
         this.message = message;
     }

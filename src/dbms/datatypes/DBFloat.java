@@ -20,12 +20,12 @@ public class DBFloat implements DBDatatype {
      * 
      * @param value {@link Float} sets the local value to the given value.
      */
-    public DBFloat(Float value) {
+    public DBFloat(final Float value) {
         this.value = value;
     }
 
     @Override
-    public Object toObj(String s) {
+    public Object toObj(final String s) {
         try {
             return Float.parseFloat(s);
         } catch (Exception e) {
@@ -34,7 +34,7 @@ public class DBFloat implements DBDatatype {
     }
 
     @Override
-    public int compareTo(DBDatatype data) {
+    public int compareTo(final DBDatatype data) {
         return value.compareTo((Float) data.getValue());
     }
 
@@ -54,13 +54,14 @@ public class DBFloat implements DBDatatype {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         DBFloat dbFloat = (DBFloat) o;
 
-        return value != null ? value.equals(dbFloat.value) : dbFloat.value == null;
+        return value != null ? value.equals(dbFloat.value)
+        		: dbFloat.value == null;
     }
 
     @Override

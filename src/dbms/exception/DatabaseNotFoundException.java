@@ -10,7 +10,7 @@ public class DatabaseNotFoundException extends Exception {
         super();
     }
 
-    public DatabaseNotFoundException(String message) {
+    public DatabaseNotFoundException(final String message) {
         super(message);
         this.message = message;
     }

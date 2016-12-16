@@ -16,13 +16,13 @@ public class DBInteger implements DBDatatype {
 
     public DBInteger() {
     }
-
-    public DBInteger(Integer value) {
+    
+    public DBInteger(final Integer value) {
         this.value = value;
     }
 
     @Override
-    public Object toObj(String s) {
+    public Object toObj(final String s) {
         try {
             return Integer.parseInt(s);
         } catch (Exception e) {
@@ -31,7 +31,7 @@ public class DBInteger implements DBDatatype {
     }
 
     @Override
-    public int compareTo(DBDatatype data) {
+    public int compareTo(final DBDatatype data) {
         return value.compareTo((Integer) data.getValue());
     }
 
@@ -51,13 +51,14 @@ public class DBInteger implements DBDatatype {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         DBInteger dbInteger = (DBInteger) o;
 
-        return value != null ? value.equals(dbInteger.value) : dbInteger.value == null;
+        return value != null ? value.equals(dbInteger.value)
+        		: dbInteger.value == null;
     }
 
     @Override
