@@ -11,6 +11,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+/**
+ * Serializes/Deserializes a column to .JSON format.
+ */
 public class ColumnAdapter implements JsonSerializer<Column>, JsonDeserializer<Column> {
 
     @Override

@@ -19,25 +19,55 @@ import org.apache.logging.log4j.Logger;
 import java.io.*;
 import java.util.ResourceBundle;
 
+/**
+ * Table parser to .JSON format.
+ */
 public class JSONParser extends BackendParser {
+
+    /**
+     * Key to JSON parser that is used to register to factory.
+     */
     public static final String KEY = "alt";
+
+    /**
+     * Resource bundle to constants.
+     */
     private static final ResourceBundle CONSTANTS = ResourceBundle.getBundle(
             "dbms.backend.parsers.json.Constants");
+
+    /**
+     * Logger.
+     */
     private static Logger log = LogManager.getLogger(JSONParser.class);
+
+    /**
+     * {@link GsonBuilder} Builds GSON objects.
+     */
+    private GsonBuilder builder;
+
+    /**
+     * {@link Gson} Google Gson object that is used to parse tables.
+     */
+    private Gson gson;
+
+    /**
+     * Static singleton instance.
+     */
     private static JSONParser instance = null;
 
     static {
         BackendParserFactory.getFactory().register(KEY, getInstance());
     }
 
-    Gson gson;
-    private GsonBuilder builder;
-
     private JSONParser() {
         enhanceBuilder();
 
     }
 
+    /**
+     * Gets static instance.
+     * @return static instance.
+     */
     public static JSONParser getInstance() {
         if (instance == null) {
             instance = new JSONParser();
