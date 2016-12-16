@@ -6,7 +6,7 @@ import dbms.exception.DatabaseNotFoundException;
 public class DropTable implements DDLStatement {
     private String tableName;
 
-    public DropTable(String tableName) {
+    public DropTable(final String tableName) {
         this.tableName = tableName;
     }
 

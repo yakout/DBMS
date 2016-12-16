@@ -6,7 +6,7 @@ import dbms.exception.DatabaseNotFoundException;
 public class DropDatabase implements DDLStatement {
     private String dbName;
 
-    public DropDatabase(String dbName) {
+    public DropDatabase(final String dbName) {
         this.dbName = dbName;
     }
 
