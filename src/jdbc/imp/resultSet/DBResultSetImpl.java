@@ -15,14 +15,45 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Implementation of Result Set.
+ */
 public class DBResultSetImpl extends DBResultSet {
+    /**
+     * Reference to {@link RecordSet}.
+     */
     private RecordSet recordSet = null;
+
+    /**
+     * Current record that cursor is on.
+     */
     private Record current = null;
+
+    /**
+     * State of the result set.
+     */
     private State state = null;
+
+    /**
+     * Position of the current cursor.
+     */
     private Position position = null;
+
+    /**
+     * Reference to be {@link ResultSetMetaData}.
+     */
     private DBResultSetMetaDataImpl metaData = null;
+
+    /**
+     * {@link Statement} SQL statement that triggered this result set.
+     */
     private Statement statement = null;
 
+    /**
+     * Constructs a new Result set.
+     * @param statement SQL statement that triggered this result set.
+     * @param recordSet {@link RecordSet} that contains entries.
+     */
     public DBResultSetImpl(Statement statement, RecordSet recordSet) {
         this.recordSet = recordSet;
         position = Position.BEFORE_FIRST;
@@ -379,6 +410,11 @@ public class DBResultSetImpl extends DBResultSet {
         }
     }
 
+    /**
+     * Gets record set.
+     * @return {@link RecordSet} record set that contains
+     * these entries.
+     */
     public RecordSet getRecordSet() {
         return recordSet;
     }

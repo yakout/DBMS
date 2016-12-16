@@ -40,32 +40,25 @@ public class RecordSet implements Iterable<Record>, Cloneable {
         }
     }
 
+    /**
+     * Gets column list inside record set.
+     * @return {@link List} list of pairs of column names and column types.
+     */
     public List<Pair<String, Class<? extends DBDatatype>>> getColumnList() {
         return columns;
     }
 
+    /**
+     * Sets column list inside record set.
+     * @param  {@link List} list of pairs of column names and column types.
+     */
     public void setColumnList(List<Pair<String, Class<
             ? extends DBDatatype>>> columnList) {
         columns = columnList;
     }
 
     /**
-     * Gets a {@link List} representation of the set.
-     *
-     * @return {@link List} if records.
-     */
-    public List<Map<String, DBDatatype>> getMapList() {
-        List<Map<String, DBDatatype>> mapRepresent = new LinkedList<Map<String, DBDatatype>>();
-        for (int j = 0; j < records.size(); j++) {
-            mapRepresent.add(records.get(j).getRecord());
-        }
-
-        return mapRepresent;
-    }
-
-    /**
      * Adds a new {@link Record} to the set of records.
-     *
      * @param record {@link Record} to be added.
      */
     public void add(Record record) {
@@ -75,7 +68,6 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 
     /**
      * Add all elements of {@link Record} in given Collection to records.
-     *
      * @param records {@link Collection<Record>}.
      */
     public void addAll(Collection<Record> records) {
@@ -86,7 +78,6 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 
     /**
      * Gets number of records in set.
-     *
      * @return size.
      */
     public int size() {
@@ -94,8 +85,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
     }
 
     /**
-     * Checks if a set has a next result when using an iterator.
-     *
+     * Checks if a set has a next record when using an iterator.
      * @return boolean value.
      */
     public boolean hasNext() {
@@ -109,8 +99,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
     }
 
     /**
-     * Gets the next result in line when using an iterator.
-     *
+     * Gets the next record in line when using an iterator.
      * @return next {@link Record}.
      */
     public Record next() {
@@ -122,6 +111,10 @@ public class RecordSet implements Iterable<Record>, Cloneable {
         return null;
     }
 
+    /**
+     * Checks if a set has a previous record when using an iterator.
+     * @return boolean value.
+     */
     public boolean hasPrev() {
         if (i > 0) {
             return true;
@@ -129,6 +122,10 @@ public class RecordSet implements Iterable<Record>, Cloneable {
         return false;
     }
 
+    /**
+     * Gets the previous record in line when using an iterator.
+     * @return previous {@link Record}.
+     */
     public Record prev() {
         if (i == 0) {
             i = -1;
@@ -140,6 +137,10 @@ public class RecordSet implements Iterable<Record>, Cloneable {
         return null;
     }
 
+    /**
+     * Gets current record.
+     * @return {@link} Current record.
+     */
     public Record curr() {
         if (isEmpty() || i == -1) {
             return null;
@@ -154,8 +155,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
     }
 
     /**
-     * Checks if the result set is empty.
-     *
+     * Checks if the record set is empty.
      * @return boolean value.
      */
     public boolean isEmpty() {
@@ -164,7 +164,11 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 
 
     /**
-     * @param columns
+     * Orders record set.
+     * @param columns list of pairs between columns to be ordered and a boolean
+     * value that represents if columns are ordered in an ascending or a descending
+     * order; <strong>TRUE</strong> means ascending and <strong>FALSE</strong>
+     * means descending.
      */
     public void orderBy(final List<Pair<String, Boolean>> columns) {
 //		for (Pair<String, Boolean> pair : columns) {
@@ -191,6 +195,10 @@ public class RecordSet implements Iterable<Record>, Cloneable {
         records.sort(comparatorChain);
     }
 
+    /**
+     * Gets list of records inside record set.
+     * @return
+     */
     public List<Record> getRecords() {
         return records;
     }
@@ -234,6 +242,11 @@ public class RecordSet implements Iterable<Record>, Cloneable {
         return newRecSet;
     }
 
+    /**
+     * Moves cursor to a given index and returns {@link Record}.
+     * @param index Index to move cursor to.
+     * @return {@link Record} record that has the given index.
+     */
     public Record moveTo(int index) {
         if (index >= 0 && index < records.size()) {
             i = index;

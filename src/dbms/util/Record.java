@@ -33,18 +33,25 @@ public class Record implements Cloneable {
     /**
      * Adds a single piece of data to Record.
      *
-     * @param key    key to be used to access an DBDatatype.
+     * @param key key to be used to access an DBDatatype.
      * @param {@link DBDatatype} to be accessed.
      */
     public void add(String key, DBDatatype DBDatatype) {
         record.put(key, DBDatatype);
     }
 
-    public DBDatatype get(String columnName) {
+    /**
+     * Gets value inside record given a key (column name in case
+     * of using records with columns).
+     * @param key Key to get value inside record.
+     * @return {@link DBDatatype} value that has given key,
+     * returns null if no value is found.
+     */
+    public DBDatatype get(String key) {
         for (Map.Entry<String, DBDatatype> entry
                 : record.entrySet()) {
             if (entry.getKey().equalsIgnoreCase(
-                    columnName)) {
+                    key)) {
                 return entry.getValue();
             }
         }
@@ -60,10 +67,16 @@ public class Record implements Cloneable {
         return record;
     }
 
-    public DBDatatype get(int columnIndex) {
+    /**
+     * Gets value inside record given its index.
+     * @param index Index of needed value.
+     * @return {@link DBDatatype} value to be found.
+     * @throws IndexOutOfBoundsException In case index is out of bounds.
+     */
+    public DBDatatype get(int index) {
         DBDatatype ret = null;
         try {
-            ret = (new ArrayList<DBDatatype>(record.values()).get(columnIndex));
+            ret = (new ArrayList<DBDatatype>(record.values()).get(index));
         } catch (IndexOutOfBoundsException e) {
         }
         return ret;

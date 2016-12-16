@@ -16,7 +16,7 @@ public class DBDriver implements Driver {
 
     static {
         try {
-            DriverManager.registerDriver(new DriverAdapter());
+            DriverManager.registerDriver(new DBDriver());
         } catch (SQLException e) {
         }
     }

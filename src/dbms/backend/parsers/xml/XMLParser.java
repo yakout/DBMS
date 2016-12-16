@@ -26,13 +26,40 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+/**
+ * Table parser to .XML format.
+ */
 public class XMLParser extends BackendParser {
+
+    /**
+     * Key to JSON parser that is used to register to factory.
+     */
     public static final String KEY = "xml";
+
+    /**
+     * Resource bundle to constants.
+     */
     private static final ResourceBundle CONSTANTS =
             ResourceBundle.getBundle("dbms.backend.parsers.xml.Constants");
+
+    /**
+     * Logger.
+     */
     private static Logger log = LogManager.getLogger(XMLParser.class);
+
+    /**
+     * Static singleton instance.
+     */
     private static XMLParser instance = null;
+
+    /**
+     * Builds {@link Document}s that are used to parse tables.
+     */
     private static DocumentBuilder docBuilder = null;
+
+    /**
+     * Transforms a {@link Document} to a
+     */
     private static Transformer transformer = null;
 
     static {
@@ -57,6 +84,10 @@ public class XMLParser extends BackendParser {
                 CONSTANTS.getString("indentation.val"));
     }
 
+    /**
+     * Gets static singleton instance.
+     * @return Static singleton instance.
+     */
     public static synchronized XMLParser getInstance() {
         if (instance == null) {
             instance = new XMLParser();

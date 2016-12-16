@@ -15,19 +15,39 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.util.ResourceBundle;
 
+/**
+ * Creates a .XSD schema that is used to validate .XML files.
+ */
 public class XSDParser {
-    private static final String WORKSPACE_DIR =
-            System.getProperty("user.home") + File.separator + "databases";
+    /**
+     * Resource bundle to constants.
+     */
     private static final ResourceBundle CONSTANTS =
             ResourceBundle.getBundle("dbms.backend.parsers.xml.Constants");
+
+    /**
+     * Static singleton instance.
+     */
     private static XSDParser instance = null;
+
+    /**
+     * Transforms a {@link Document} to a
+     */
     private static Transformer transformer = null;
+
+    /**
+     * Builds {@link Document}s that are used to parse tables.
+     */
     private static DocumentBuilder docBuilder = null;
 
     private XSDParser() {
         initialize();
     }
 
+    /**
+     * Gets static singleton instance.
+     * @return Static singleton instance.
+     */
     public static XSDParser getInstance() {
         if (instance == null) {
             instance = new XSDParser();
