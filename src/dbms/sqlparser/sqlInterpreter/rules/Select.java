@@ -10,8 +10,7 @@ import dbms.ui.Formatter;
 import dbms.util.RecordSet;
 import javafx.util.Pair;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class Select implements DMLStatement {
     private String tableName;
@@ -98,13 +97,29 @@ public class Select implements DMLStatement {
         return updateCount;
     }
 
+
+    private Collection<String> getOrderByColumnsName() {
+        Collection<String> orderbyColumnsName = new ArrayList<>();
+        for (Pair<String, Boolean> pair : orderBy) {
+            orderbyColumnsName.add(pair.getKey());
+        }
+        return orderbyColumnsName;
+    }
+
     @Override
     public void execute() throws DatabaseNotFoundException,
     TableNotFoundException, SyntaxErrorException,
     IncorrectDataEntryException {
         if (orderBy != null) {
-            recordSet = BackendController.getInstance().select(
-                    tableName, null, where);
+            if (columns == null) {
+                recordSet = BackendController.getInstance().select(
+                        tableName, null, where);
+            } else {
+                Collection<String> necessaryColumns = new LinkedHashSet<>(columns);
+                necessaryColumns.addAll(getOrderByColumnsName());
+                recordSet = BackendController.getInstance().select(
+                        tableName, necessaryColumns, where);
+            }
             recordSet.orderBy(orderBy, columns);
         } else {
             recordSet = BackendController.getInstance().select(
