@@ -16,9 +16,11 @@ import org.junit.Test;
 
 import java.sql.*;
 
+import static org.junit.Assert.fail;
+
 
 public class JDBCTest {
-    private final String protocol = "altdb";
+    private final String protocol = "xmldb";
     private final String tmp = System.getProperty("java.io.tmpdir");
 
     public static Class<?> getSpecifications() {
@@ -273,7 +275,7 @@ public class JDBCTest {
                     "INSERT INTO table_name5(invalid_column_name1, "
                             + "column_name3, " +
                             "column_name2) VALUES ('value1', 'value3', 4)");
-            Assert.fail("Inserted with invalid column name!!");
+            fail("Inserted with invalid column name!!");
             statement.close();
         } catch (final SQLException e) {
         } catch (final Throwable e) {
@@ -386,7 +388,7 @@ public class JDBCTest {
             statement.executeUpdate(
                     "UPDATE wrong_table_name9 SET column_name1='value1'," +
                             " column_name2=15, column_name3='value2'");
-            Assert.fail("Updated empty table retruned non-zero count!");
+            fail("Updated empty table retruned non-zero count!");
             statement.close();
         } catch (final SQLException e) {
         } catch (final Throwable e) {
@@ -945,7 +947,7 @@ public class JDBCTest {
             statement.execute("CREATE TABLE table_name1(column_name1 varchar,"
                     + " column_name2 int," +
                     " column_name3 date)");
-            Assert.fail("Created existing table successfully!");
+            fail("Created existing table successfully!");
         } catch (final SQLException e) {
 
         } catch (final Throwable e) {
@@ -955,7 +957,7 @@ public class JDBCTest {
         try {
             final Statement statement = connection.createStatement();
             statement.execute("CREATE TABLE incomplete_table_name1");
-            Assert.fail("Create invalid table succeed");
+            fail("Create invalid table succeed");
         } catch (final SQLException e) {
         } catch (final Throwable e) {
             e.printStackTrace();
@@ -1168,6 +1170,63 @@ public class JDBCTest {
             Assert.assertEquals("Table Insertion did not return 1", 1, count);
             final ResultSet resultSet = statement.executeQuery("SELECT * FROM"
                     + " Student1");
+            resultSet.next();
+            resultSet.next();
+            Assert.assertEquals("Failed to get Correct Float Value",
+                    15.0, resultSet.getFloat("Grade"), 0.0001);
+
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testJDBCTwentyFive() throws SQLException {
+        final Connection connection = createUseDatabase("Students");
+        try {
+            final Statement statement = connection.createStatement();
+            statement.execute("CREATE TABLE STUDENT1 (ID INT, NAME VARCHAR ,GRADE FLOAT , BIRTH DATE )");
+            int count = statement.executeUpdate("INSERT INTO Student1 (ID, "
+                    + "Name, Grade)"
+                    + " VALUES (1 ,'Ahmed Khaled', 90.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("INSERT INTO Student1 (ID, "
+                    + "Name, Grade)"
+                    + " VALUES (1 ,'Ahmed Khaled', 15.0)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("INSERT INTO Student1 (ID, "
+                    + "Name, Grade)"
+                    + " VALUES (1 ,'Ahmed NAGGAR', 27.0)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student1 valUES "
+                    + "(2828,'barrs',158828.5,'2001-10-05')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student1 valUES "
+                    + "(2828,'walid',158828.5 , '1996-12-01')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("upDATE Student1 set id = 10 "
+                    + "where birth > '1995-10-01' ");
+            Assert.assertEquals("Table Insertion did not return 1", 2, count);
+            statement.execute("CREATE TABLE STUDENT2 (ID INT, NAME VARCHAR ,GRADE FLOAT , BIRTH DATE )");
+            count = statement.executeUpdate("InseRT inTO Student1 valUES "
+                    + "(2828,'500658478278722287822711787fcbgfuybe7298786bcryte68718',158828.5 , '1996-12-01')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student1 valUES "
+                    + "(2828,'500658478278722287822711787729878668718',1588280000000.00000000005 , '1996-12-30')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            final ResultSet resultSet = statement.executeQuery("SELECT * FROM"
+                    + " Student1");
+            resultSet.next();
+            resultSet.next();
+            Assert.assertEquals("Failed to get Correct date Value",
+                    null, resultSet.getDate("birth"));
+            resultSet.next();
+            resultSet.next();
+            resultSet.next();
+            resultSet.next();
+            resultSet.next();
+            Assert.assertEquals("Failed to get Correct float value",
+                    1588280033280.00000000005,(double)resultSet.getFloat("grade"),0.0000000000001);
         } catch (final SQLException e) {
             e.printStackTrace();
         }
