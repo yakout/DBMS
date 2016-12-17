@@ -42,13 +42,15 @@ public class SelectTest extends SqlParserRef {
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         }
         try {
-            sqlParserObjTest.parse("SELECT * FROM TABLE_NAME WHERE country = 'Mexico' ;");
+            sqlParserObjTest.parse("SELECT * FROM TABLE_NAME WHERE country = "
+                    + "'Mexico' ;");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         }
         try {
-            sqlParserObjTest.parse("SELECT COL_NAME FROM TABLE_NAME WHERE country = 'Brazil' ;");
+            sqlParserObjTest.parse("SELECT COL_NAME FROM TABLE_NAME WHERE "
+                    + "country = 'Brazil' ;");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -58,7 +60,8 @@ public class SelectTest extends SqlParserRef {
     @Test
     public void testSelectSyntaxValidateTwo() {
         try {
-            sqlParserObjTest.parse("SELECT COLUMN_NAME , COLUMN_NAME1, COLUMN_NAME2 FROM TABLE_NAME ;");
+            sqlParserObjTest.parse("SELECT COLUMN_NAME , COLUMN_NAME1, "
+                    + "COLUMN_NAME2 FROM TABLE_NAME ;");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -70,13 +73,15 @@ public class SelectTest extends SqlParserRef {
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         }
         try {
-            sqlParserObjTest.parse("SELECT * FROM TABLE_NAME WHERE country = 'Mexico' ;");
+            sqlParserObjTest.parse("SELECT * FROM TABLE_NAME WHERE country = "
+                    + "'Mexico' ;");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         }
         try {
-            sqlParserObjTest.parse("SELECT COL_NAME, COL_NAME1 ,COL_NAME2 FROM TABLE_NAME WHERE country = 'Brazil' ;");
+            sqlParserObjTest.parse("SELECT COL_NAME, COL_NAME1 ,COL_NAME2 "
+                    + "FROM TABLE_NAME WHERE country = 'Brazil' ;");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -103,13 +108,15 @@ public class SelectTest extends SqlParserRef {
             e.printStackTrace();
         }
         try {
-            sqlParserObjTest.parse("SELECT * FROM TABLE_NAME WHERE country  'Mexico' ;");
+            sqlParserObjTest.parse("SELECT * FROM TABLE_NAME WHERE country  "
+                    + "'Mexico' ;");
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
         }
         try {
-            sqlParserObjTest.parse("SELECT COL_NAME FROM TABLE_NAME WHERE country = Brazil' ;");
+            sqlParserObjTest.parse("SELECT COL_NAME FROM TABLE_NAME WHERE "
+                    + "country = Brazil' ;");
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
@@ -131,13 +138,15 @@ public class SelectTest extends SqlParserRef {
             e.printStackTrace();
         }
         try {
-            sqlParserObjTest.parse("SELECT * FROM TABLE_NAME WHRE country = 'Mexico' ;");
+            sqlParserObjTest.parse("SELECT * FROM TABLE_NAME WHRE country = "
+                    + "'Mexico' ;");
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
         }
         try {
-            sqlParserObjTest.parse("SELECT COL_NAME FROM  WHERE country = 'Brazil' ;");
+            sqlParserObjTest.parse("SELECT COL_NAME FROM  WHERE country = "
+                    + "'Brazil' ;");
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
@@ -157,21 +166,24 @@ public class SelectTest extends SqlParserRef {
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         }
         try {
-            sqlParserObjTest.parse("           SELECT           *           FROM            TABLE_NAME     ;      ");
+            sqlParserObjTest.parse("           SELECT           *           "
+                    + "FROM            TABLE_NAME     ;      ");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         }
         try {
             sqlParserObjTest.parse(
-                    "     sElEcT     *       FrOM      TaBLe_nAMe     wHeRe      cOuNtrY     =       'Mexico'    ;    ");
+                    "     sElEcT     *       FrOM      TaBLe_nAMe     wHeRe  "
+                            + "    cOuNtrY     =       'Mexico'    ;    ");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         }
         try {
             sqlParserObjTest.parse(
-                    "           SeLeCT         CoL_nAMe         FrOm     TaBlE_NaMe WheRe couNtry = 'Brazil' ;     ");
+                    "           SeLeCT         CoL_nAMe         FrOm     "
+                            + "TaBlE_NaMe WheRe couNtry = 'Brazil' ;     ");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -181,27 +193,32 @@ public class SelectTest extends SqlParserRef {
     @Test
     public void testSelectSyntaxValidateSix() {
         try {
-            sqlParserObjTest.parse("SeLEcT cOLuMn_NAmE FrOm TAbLE_NamE  where col = 5266;");
+            sqlParserObjTest.parse("SeLEcT cOLuMn_NAmE FrOm TAbLE_NamE  where"
+                    + " col = 5266;");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         }
         try {
-            sqlParserObjTest.parse("           SELECT           *           FROM            TABLE_NAME   where col >= 55523  ;      ");
+            sqlParserObjTest.parse("           SELECT           *           "
+                    + "FROM            TABLE_NAME   where col >= 55523  ;    "
+                    + "  ");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         }
         try {
             sqlParserObjTest.parse(
-                    "     sElEcT     *       FrOM      TaBLe_nAMe     wHeRe      cOuNtrY     =       \"Mexico\"    ;    ");
+                    "     sElEcT     *       FrOM      TaBLe_nAMe     wHeRe  "
+                            + "    cOuNtrY     =       \"Mexico\"    ;    ");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         }
         try {
             sqlParserObjTest.parse(
-                    "           SeLeCT         CoL_nAMe         FrOm     TaBlE_NaMe WheRe couNtry >= 'Brazil' ;     ");
+                    "           SeLeCT         CoL_nAMe         FrOm     "
+                            + "TaBlE_NaMe WheRe couNtry >= 'Brazil' ;     ");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -211,27 +228,32 @@ public class SelectTest extends SqlParserRef {
     @Test
     public void testSelectSyntaxValidateSeven() {
         try {
-            sqlParserObjTest.parse("SeLEcT cOLuMn_NAmE FrOm TAbLE_NamE  where col >= 5266;");
+            sqlParserObjTest.parse("SeLEcT cOLuMn_NAmE FrOm TAbLE_NamE  where"
+                    + " col >= 5266;");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         }
         try {
-            sqlParserObjTest.parse("           SELECT           *           FROM            TABLE_NAME   where col <= 55523  ;      ");
+            sqlParserObjTest.parse("           SELECT           *           "
+                    + "FROM            TABLE_NAME   where col <= 55523  ;    "
+                    + "  ");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         }
         try {
             sqlParserObjTest.parse(
-                    "     sElEcT     *       FrOM      TaBLe_nAMe     wHeRe      cOuNtrY     <=       \"Mexico\"    ;    ");
+                    "     sElEcT     *       FrOM      TaBLe_nAMe     wHeRe  "
+                            + "    cOuNtrY     <=       \"Mexico\"    ;    ");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         }
         try {
             sqlParserObjTest.parse(
-                    "           SeLeCT         CoL_nAMe         FrOm     TaBlE_NaMe WheRe couNtry != \"Brazil\" ;     ");
+                    "           SeLeCT         CoL_nAMe         FrOm     "
+                            + "TaBlE_NaMe WheRe couNtry != \"Brazil\" ;     ");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -242,41 +264,50 @@ public class SelectTest extends SqlParserRef {
     @Test
     public void testSelectSyntaxValidateEight() {
         try {
-            sqlParserObjTest.parse("SeLEcT cOLuMn_NAmE FrOm TAbLE_NamE  where col = col2;");
+            sqlParserObjTest.parse("SeLEcT cOLuMn_NAmE FrOm TAbLE_NamE  where"
+                    + " col = col2;");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         }
         try {
-            sqlParserObjTest.parse("           SELECT           *           FROM            TABLE_NAME   where col <= countries2  ;      ");
-        } catch (SyntaxErrorException e) {
-            e.printStackTrace();
-            fail("SyntaxErrorException thrown or AssertionError occurred!");
-        }
-        try {
-            sqlParserObjTest.parse(
-                    "     sElEcT     *       FrOM      TaBLe_nAMe     wHeRe      cOuNtrY     >=     countries2      ;    ");
-        } catch (SyntaxErrorException e) {
-            e.printStackTrace();
-            fail("SyntaxErrorException thrown or AssertionError occurred!");
-        }
-        try {
-            sqlParserObjTest.parse(
-                    "           SeLeCT         CoL_nAMe         FrOm     TaBlE_NaMe WheRe couNtry != countries2 ;     ");
+            sqlParserObjTest.parse("           SELECT           *           "
+                    + "FROM            TABLE_NAME   where col <= countries2  "
+                    + ";      ");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         }
         try {
             sqlParserObjTest.parse(
-                    "           SeLeCT         Col_nAMe6546239         FrOm     TaBlE_NaMe WheRe couNtry > countries2 ;     ");
+                    "     sElEcT     *       FrOM      TaBLe_nAMe     wHeRe  "
+                            + "    cOuNtrY     >=     countries2      ;    ");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         }
         try {
             sqlParserObjTest.parse(
-                    "           SeLeCT         Col_nAMe6546239          FrOm          TaBlE_NaMe   WheRe couNtry < countries2 ;     ");
+                    "           SeLeCT         CoL_nAMe         FrOm     "
+                            + "TaBlE_NaMe WheRe couNtry != countries2 ;     ");
+        } catch (SyntaxErrorException e) {
+            e.printStackTrace();
+            fail("SyntaxErrorException thrown or AssertionError occurred!");
+        }
+        try {
+            sqlParserObjTest.parse(
+                    "           SeLeCT         Col_nAMe6546239         FrOm  "
+                            + "   TaBlE_NaMe WheRe couNtry > countries2 ;    "
+                            + " ");
+        } catch (SyntaxErrorException e) {
+            e.printStackTrace();
+            fail("SyntaxErrorException thrown or AssertionError occurred!");
+        }
+        try {
+            sqlParserObjTest.parse(
+                    "           SeLeCT         Col_nAMe6546239          FrOm "
+                            + "         TaBlE_NaMe   WheRe couNtry < "
+                            + "countries2 ;     ");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -285,26 +316,49 @@ public class SelectTest extends SqlParserRef {
 
 
 	/*
-	 * Performance tests with heavy load.
+     * Performance tests with heavy load.
 	 */
 
     @Test
     public void testSelectSyntaxValidateNine() {
         try {
-            selectObjAct = sqlParserObjTest.parse("select               col1                ,  "
-                    + "  col2            ,      ol3     ,             col4              ,           "
-                    + "  col5             ,          col6         ,       col7             ,        col8,              col9,        "
-                    + "       col10           ,            col11         ,             col12      ,                    col13        , col14     , col15     , col16             , col17            ,  col18          ,         col19     ,        col20           , col21, col22, col23       "
-                    + "        , col24               , col25,               col26,            col27     , col28       , col29     ,                 col30,                   col31               ,                col32            ,                                  col33             ,                 col34            , col35         ,       "
-                    + "   col36                            ,        col37       , col38      ,  col39       ,   col40,           col41,         col42, col43         , col44           , col45 ,                 col46 ,      "
-                    + "     col47 ,                col48         ,           col49             ,col50"
-                    + ", col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61,col62, "
-                    + "col63, col64, col65, col66, col67, col68, col69, col70, col71, col72,col73, col74, col75 , col76,"
-                    + " col77, col78, col79, col80, col81, col82, col83,col84,               "
-                    + "col85, col86, col87, col88, col89, col90, col91, col92, col93, col94,  "
+            selectObjAct = sqlParserObjTest.parse("select               col1 "
+                    + "               ,  "
+                    + "  col2            ,      ol3     ,             col4   "
+                    + "           ,           "
+                    + "  col5             ,          col6         ,       "
+                    + "col7             ,        col8,              col9,    "
+                    + "    "
+                    + "       col10           ,            col11         ,   "
+                    + "          col12      ,                    col13       "
+                    + " , col14     , col15     , col16             , col17  "
+                    + "          ,  col18          ,         col19     ,     "
+                    + "   col20           , col21, col22, col23       "
+                    + "        , col24               , col25,               "
+                    + "col26,            col27     , col28       , col29     "
+                    + ",                 col30,                   col31      "
+                    + "         ,                col32            ,          "
+                    + "                        col33             ,           "
+                    + "      col34            , col35         ,       "
+                    + "   col36                            ,        col37    "
+                    + "   , col38      ,  col39       ,   col40,           "
+                    + "col41,         col42, col43         , col44           "
+                    + ", col45 ,                 col46 ,      "
+                    + "     col47 ,                col48         ,           "
+                    + "col49             ,col50"
+                    + ", col51, col52, col53, col54, col55, col56, col57, "
+                    + "col58, col59, col60, col61,col62, "
+                    + "col63, col64, col65, col66, col67, col68, col69, "
+                    + "col70, col71, col72,col73, col74, col75 , col76,"
+                    + " col77, col78, col79, col80, col81, col82, col83,"
+                    + "col84,               "
+                    + "col85, col86, col87, col88, col89, col90, col91, "
+                    + "col92, col93, col94,  "
                     + " col95 ,col96 ,col97 ,col98 ,col99 ,col100"
-                    + " from               table_name      where                     col1                    =              col2;");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    + " from               table_name      where             "
+                    + "        col1                    =              col2;");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -315,14 +369,32 @@ public class SelectTest extends SqlParserRef {
     public void testSelectSyntaxValidateTen() {
 
         try {
-            sqlParserObjTest.parse("select               col1                ,  "
-                    + "  col2            ,      ol3     ,             col4              ,           "
-                    + "  col5             ,          col6         ,       col7             ,        col8,              col9,        "
-                    + "       col10           ,            col11         ,             col12      ,                    col13        , col14     , col15     , col16             , col17            ,  col18          ,         col19     ,        col20           , col21, col22, col23       "
-                    + "        , col24               , col25,               col26,            col27     , col28       , col29     ,                 col30,                   col31               ,                col32            ,                                  col33             ,                 col34            , col35         ,       "
-                    + "   col36                            ,        col37       , col38      ,  col39       ,   col40,           col41,         col42, col43         , col44           , col45 ,                 col46 ,      "
-                    + "     col47 ,                col48         ,           col49             ,col50"
-                    + " from               table_name             where               col1                    =              col2;");
+            sqlParserObjTest.parse("select               col1                "
+                    + ",  "
+                    + "  col2            ,      ol3     ,             col4   "
+                    + "           ,           "
+                    + "  col5             ,          col6         ,       "
+                    + "col7             ,        col8,              col9,    "
+                    + "    "
+                    + "       col10           ,            col11         ,   "
+                    + "          col12      ,                    col13       "
+                    + " , col14     , col15     , col16             , col17  "
+                    + "          ,  col18          ,         col19     ,     "
+                    + "   col20           , col21, col22, col23       "
+                    + "        , col24               , col25,               "
+                    + "col26,            col27     , col28       , col29     "
+                    + ",                 col30,                   col31      "
+                    + "         ,                col32            ,          "
+                    + "                        col33             ,           "
+                    + "      col34            , col35         ,       "
+                    + "   col36                            ,        col37    "
+                    + "   , col38      ,  col39       ,   col40,           "
+                    + "col41,         col42, col43         , col44           "
+                    + ", col45 ,                 col46 ,      "
+                    + "     col47 ,                col48         ,           "
+                    + "col49             ,col50"
+                    + " from               table_name             where      "
+                    + "         col1                    =              col2;");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -330,7 +402,7 @@ public class SelectTest extends SqlParserRef {
     }
 
 	/*
-	 * This test checks the correctness of the parsed data from SELECT SQL
+     * This test checks the correctness of the parsed data from SELECT SQL
 	 * command.
 	 */
 
@@ -350,7 +422,8 @@ public class SelectTest extends SqlParserRef {
         }
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SELECT               *          FROM          CUrr_915634            ;            ");
+                    "        SELECT               *          FROM          "
+                            + "CUrr_915634            ;            ");
 
             Select select = (Select) selectObjAct;
             assertEquals("curr_915634", select.getTableName().toLowerCase());
@@ -371,26 +444,33 @@ public class SelectTest extends SqlParserRef {
     }
 
 	/*
-	 * SELECT COL_NAME FROM TABLE_NAME;
+     * SELECT COL_NAME FROM TABLE_NAME;
 	 */
 
     @Test
     public void testSelectParsingValidateTwo() {
         try {
-            selectObjAct = sqlParserObjTest.parse("SELECT COL_NAME FROM TABLE_NAME ;");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+            selectObjAct = sqlParserObjTest.parse("SELECT COL_NAME FROM "
+                    + "TABLE_NAME ;");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             String[] strArray = {"col_name"};
-            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns().toArray());
+            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns()
+                    .toArray());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
         }
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SELECT               col_name, col_naMe2 , COLname8          FROM          CUrr_915634            ;            ");
-            assertEquals("curr_915634", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SELECT               col_name, col_naMe2 , "
+                            + "COLname8          FROM          CUrr_915634   "
+                            + "         ;            ");
+            assertEquals("curr_915634", ((Select) selectObjAct).getTableName
+                    ().toLowerCase());
             String[] strArray = {"col_name", "col_name2", "colname8"};
-            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns().toArray());
+            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns()
+                    .toArray());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -398,21 +478,29 @@ public class SelectTest extends SqlParserRef {
     }
 
 	/*
-	 * SELECT COL_NAME FROM TABLE_NAME WHERE CERTAIN CONDITION;
+     * SELECT COL_NAME FROM TABLE_NAME WHERE CERTAIN CONDITION;
 	 */
 
     @Test
     public void testSelectParsingValidateThree() {
         try {
-            selectObjAct = sqlParserObjTest.parse("SELECT COL_NAME FROM TABLE_NAME WHERE COL1 = COL2;");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+            selectObjAct = sqlParserObjTest.parse("SELECT COL_NAME FROM "
+                    + "TABLE_NAME WHERE COL1 = COL2;");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Object[] columnsCpy = {"col_name"};
-            assertArrayEquals(columnsCpy, ((Select) selectObjAct).getColumns().toArray());
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue());
-            assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            assertArrayEquals(columnsCpy, ((Select) selectObjAct).getColumns
+                    ().toArray());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue
+                    ());
+            assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()
+            ).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -423,15 +511,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateFour() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SELECT               col_name, col_naMe2 , COLname8          FROM          CUrr_915634    WheRe Col1 = Col2        ;            ");
-            assertEquals("curr_915634", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SELECT               col_name, col_naMe2 , "
+                            + "COLname8          FROM          CUrr_915634   "
+                            + " WheRe Col1 = Col2        ;            ");
+            assertEquals("curr_915634", ((Select) selectObjAct).getTableName
+                    ().toLowerCase());
             String[] strArray = {"col_name", "col_name2", "colname8"};
-            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns().toArray());
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue());
-            assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns()
+                    .toArray());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue
+                    ());
+            assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()
+            ).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -442,15 +539,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateFive() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SELECT               col_name, col_naMe2 , COLname8          FROM          CUrr_915634    WheRe Col1 = 'ValUe'        ;            ");
-            assertEquals("curr_915634", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SELECT               col_name, col_naMe2 , "
+                            + "COLname8          FROM          CUrr_915634   "
+                            + " WheRe Col1 = 'ValUe'        ;            ");
+            assertEquals("curr_915634", ((Select) selectObjAct).getTableName
+                    ().toLowerCase());
             String[] strArray = {"col_name", "col_name2", "colname8"};
-            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns().toArray());
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("ValUe", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns()
+                    .toArray());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("ValUe", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()
+            ).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -461,15 +567,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateSix() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SELECT               col_name, col_naMe2 , COLname8          FROM          CUrr_915634    WheRe Col1 > 5        ;            ");
-            assertEquals("curr_915634", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SELECT               col_name, col_naMe2 , "
+                            + "COLname8          FROM          CUrr_915634   "
+                            + " WheRe Col1 > 5        ;            ");
+            assertEquals("curr_915634", ((Select) selectObjAct).getTableName
+                    ().toLowerCase());
             String[] strArray = {"col_name", "col_name2", "colname8"};
-            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns().toArray());
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals(5, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns()
+                    .toArray());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals(5, ((SQLPredicate) sqlPredicateQ.peek()).getValue()
+                    .getValue());
+            assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -480,15 +595,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateSeven() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SELECT               col_name, col_naMe2 , COLname8          FROM          CUrr_915634    WheRe Col1 < 5        ;            ");
-            assertEquals("curr_915634", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SELECT               col_name, col_naMe2 , "
+                            + "COLname8          FROM          CUrr_915634   "
+                            + " WheRe Col1 < 5        ;            ");
+            assertEquals("curr_915634", ((Select) selectObjAct).getTableName
+                    ().toLowerCase());
             String[] strArray = {"col_name", "col_name2", "colname8"};
-            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns().toArray());
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals(5, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.SmallerThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns()
+                    .toArray());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals(5, ((SQLPredicate) sqlPredicateQ.peek()).getValue()
+                    .getValue());
+            assertEquals(Operator.SmallerThan, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -496,22 +620,29 @@ public class SelectTest extends SqlParserRef {
     }
 
 	/*
-	 * SELECT * FROM TABLE_NAME WHERE CERTAIN CONDITION;
+     * SELECT * FROM TABLE_NAME WHERE CERTAIN CONDITION;
 	 */
 
     @Test
     public void testSelectParsingValidateEight() {
         try {
-            selectObjAct = sqlParserObjTest.parse("select * FROM TABLE_NAME WHERE COL1 = COL2;");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+            selectObjAct = sqlParserObjTest.parse("select * FROM TABLE_NAME "
+                    + "WHERE COL1 = COL2;");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue());
-            assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue
+                    ());
+            assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()
+            ).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -521,16 +652,23 @@ public class SelectTest extends SqlParserRef {
     @Test
     public void testSelectParsingValidateNine() {
         try {
-            selectObjAct = sqlParserObjTest.parse("SELECT * FROM TABLE_NAME WHERE COL1 = 'vALue';");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+            selectObjAct = sqlParserObjTest.parse("SELECT * FROM TABLE_NAME "
+                    + "WHERE COL1 = 'vALue';");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("vALue", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("vALue", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()
+            ).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -540,16 +678,24 @@ public class SelectTest extends SqlParserRef {
     @Test
     public void testSelectParsingValidateTen() {
         try {
-            selectObjAct = sqlParserObjTest.parse("       SELECT       *                      FROM       TABLE_NAME      WHERE    COL1    =     153           ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+            selectObjAct = sqlParserObjTest.parse("       SELECT       *     "
+                    + "                 FROM       TABLE_NAME      WHERE    "
+                    + "COL1    =     153           ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals(153, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals(153, ((SQLPredicate) sqlPredicateQ.peek()).getValue
+                    ().getValue());
+            assertEquals(Operator.Equal, ((SQLPredicate) sqlPredicateQ.peek()
+            ).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -560,16 +706,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateEleven() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      CoL1     >        153       ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      CoL1     >        "
+                            + "153       ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals(153, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals(153, ((SQLPredicate) sqlPredicateQ.peek()).getValue
+                    ().getValue());
+            assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -581,16 +735,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateTwelve() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      CoL1     >        COll2       ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      CoL1     >        "
+                            + "COll2       ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals("coll2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue());
-            assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals("coll2", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue
+                    ());
+            assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -601,16 +763,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateThirteen() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      CoL1     <        COll2       ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      CoL1     <        "
+                            + "COll2       ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals("coll2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue());
-            assertEquals(Operator.SmallerThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals("coll2", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue
+                    ());
+            assertEquals(Operator.SmallerThan, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -621,16 +791,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateFourteen() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      CoL1     <        'STrInG'      ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      CoL1     <        "
+                            + "'STrInG'      ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("STrInG", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.SmallerThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("STrInG", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.SmallerThan, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -642,16 +820,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateFifteen() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      CoL1     >        'STrInG'      ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      CoL1     >        "
+                            + "'STrInG'      ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("STrInG", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("STrInG", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -662,16 +848,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateSixteen() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      CoL1     >=        'STrInG'      ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      CoL1     >=       "
+                            + " 'STrInG'      ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("STrInG", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("STrInG", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -682,16 +876,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateSeventeen() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      CoL1     <=        'STrInG'      ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      CoL1     <=       "
+                            + " 'STrInG'      ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("STrInG", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("STrInG", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -702,16 +904,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateEighteen() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      CoL1     !=        'STrInG'      ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      CoL1     !=       "
+                            + " 'STrInG'      ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("STrInG", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("STrInG", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -722,16 +932,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateNineteen() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      CoL1     !=        \"STrInG\"      ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      CoL1     !=       "
+                            + " \"STrInG\"      ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("STrInG", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("STrInG", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -742,16 +960,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateTwenty() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      CoL1     <=        \"STrInG\"      ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      CoL1     <=       "
+                            + " \"STrInG\"      ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("STrInG", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("STrInG", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -762,16 +988,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateTwentyOne() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      CoL1     >=        \"STrInG\"      ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      CoL1     >=       "
+                            + " \"STrInG\"      ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("STrInG", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("STrInG", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -782,16 +1016,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateTwentyTwo() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      CoL1     >=        Col2      ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      CoL1     >=       "
+                            + " Col2      ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue());
-            assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue
+                    ());
+            assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -802,16 +1044,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateTwentyThree() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      CoL1     <=        Col2      ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      CoL1     <=       "
+                            + " Col2      ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue());
-            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue
+                    ());
+            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -822,16 +1072,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateTwentyFour() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      CoL1     !=        Col2      ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      CoL1     !=       "
+                            + " Col2      ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue());
-            assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue
+                    ());
+            assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -842,16 +1100,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateTwentyFive() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      CoL1     !=        555633      ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      CoL1     !=       "
+                            + " 555633      ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals(555633, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals(555633, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -862,16 +1128,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateTwentySix() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      CoL1     >=        555633      ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      CoL1     >=       "
+                            + " 555633      ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals(555633, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals(555633, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -882,16 +1156,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateTwentySeven() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      CoL1     <=        555633      ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      CoL1     <=       "
+                            + " 555633      ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals(555633, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals(555633, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -902,16 +1184,24 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateTwentyEight() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe      (CoL1     <=        555633)      ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe      (CoL1     <=      "
+                            + "  555633)      ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals(555633, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals(555633, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -923,29 +1213,42 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateTwentyNine() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe   (   (CoL1     <=        555633)  oR (col2 >= \"HelLO\"))    ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe   (   (CoL1     <=     "
+                            + "   555633)  oR (col2 >= \"HelLO\"))    ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
 
 
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals(555633, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
-
-            sqlPredicateQ.poll();
-
-            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("HelLO", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals(555633, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
 
             sqlPredicateQ.poll();
 
-            assertEquals(BooleanOperator.Operator.Or, ((BooleanOperator) sqlPredicateQ.peek()).getOperator());
+            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("HelLO", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
+
+            sqlPredicateQ.poll();
+
+            assertEquals(BooleanOperator.Operator.Or, ((BooleanOperator)
+                    sqlPredicateQ.peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -956,28 +1259,41 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateThirty() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe   (   (CoL1     <=        555633)  AnD (col2 >= \"HelLO\"))    ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe   (   (CoL1     <=     "
+                            + "   555633)  AnD (col2 >= \"HelLO\"))    ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
 
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals(555633, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
-
-            sqlPredicateQ.poll();
-
-            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("HelLO", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals(555633, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
 
             sqlPredicateQ.poll();
 
-            assertEquals(BooleanOperator.Operator.And, ((BooleanOperator) sqlPredicateQ.peek()).getOperator());
+            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("HelLO", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
+
+            sqlPredicateQ.poll();
+
+            assertEquals(BooleanOperator.Operator.And, ((BooleanOperator)
+                    sqlPredicateQ.peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -988,28 +1304,41 @@ public class SelectTest extends SqlParserRef {
     public void testSelectParsingValidateThirtyOne() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SElEct         *          FrOm               TaBLe_NaMe       wHeRe   (   (CoL1     <=        column)  AnD (col2 >= \"HelLO\"))    ;     ");
-            assertEquals("table_name", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SElEct         *          FrOm               "
+                            + "TaBLe_NaMe       wHeRe   (   (CoL1     <=     "
+                            + "   column)  AnD (col2 >= \"HelLO\"))    ;     ");
+            assertEquals("table_name", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             Select select = (Select) selectObjAct;
             assertEquals("table_name", select.getTableName().toLowerCase());
             assertEquals(true, select.getColumns() == null);
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
 
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals("column", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue());
-            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
-
-            sqlPredicateQ.poll();
-
-            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("HelLO", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals("column", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getValue
+                    ());
+            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
 
             sqlPredicateQ.poll();
 
-            assertEquals(BooleanOperator.Operator.And, ((BooleanOperator) sqlPredicateQ.peek()).getOperator());
+            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("HelLO", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.GreaterThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
+
+            sqlPredicateQ.poll();
+
+            assertEquals(BooleanOperator.Operator.And, ((BooleanOperator)
+                    sqlPredicateQ.peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -1020,51 +1349,74 @@ public class SelectTest extends SqlParserRef {
     public void testSelectTableSyntaxParsingThirtyTwo() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "       Select         * FROM             TABLE_NAME_88         " +
+                    "       Select         * FROM             TABLE_NAME_88  "
+                            + "       " +
                             " wHeRe      (   (   col  !=   -1500   )  and  " +
                             "  (  col2 <      \"TOLBA\"     )  or " +
                             "( col33 <= 0.50082602600000454     )  and " +
-                            "(  col55_NAME    >      '1988-1-17'  ) )     ;    ");
-            assertEquals("table_name_88", ((Select) selectObjAct).getTableName().toLowerCase());
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
+                            "(  col55_NAME    >      '1988-1-17'  ) )     ;  "
+                            + "  ");
+            assertEquals("table_name_88", ((Select) selectObjAct)
+                    .getTableName().toLowerCase());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
 
-            assertEquals("col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals(-1500, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
-
-            sqlPredicateQ.poll();
-
-            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("TOLBA", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.SmallerThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
-
-            sqlPredicateQ.poll();
-
-            assertEquals(BooleanOperator.Operator.And, ((BooleanOperator) sqlPredicateQ.peek()).getOperator());
+            assertEquals("col", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals(-1500, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
 
             sqlPredicateQ.poll();
 
-            assertEquals("col33", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals((float) 0.50082602600000454, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("TOLBA", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.SmallerThan, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
 
             sqlPredicateQ.poll();
 
-            assertEquals("col55_name", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("1988-01-17", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue().toString());
-            assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            assertEquals(BooleanOperator.Operator.And, ((BooleanOperator)
+                    sqlPredicateQ.peek()).getOperator());
 
             sqlPredicateQ.poll();
 
-            assertEquals(BooleanOperator.Operator.And, ((BooleanOperator) sqlPredicateQ.peek()).getOperator());
+            assertEquals("col33", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals((float) 0.50082602600000454, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getValue().getValue());
+            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
 
             sqlPredicateQ.poll();
 
-            assertEquals(BooleanOperator.Operator.Or, ((BooleanOperator) sqlPredicateQ.peek()).getOperator());
+            assertEquals("col55_name", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("1988-01-17", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue().toString());
+            assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
+
+            sqlPredicateQ.poll();
+
+            assertEquals(BooleanOperator.Operator.And, ((BooleanOperator)
+                    sqlPredicateQ.peek()).getOperator());
+
+            sqlPredicateQ.poll();
+
+            assertEquals(BooleanOperator.Operator.Or, ((BooleanOperator)
+                    sqlPredicateQ.peek()).getOperator());
 
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
@@ -1077,51 +1429,74 @@ public class SelectTest extends SqlParserRef {
     public void testSelectTableSyntaxParsingThirtyThree() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "       Select         * FROM             TABLE_NAME_88         " +
+                    "       Select         * FROM             TABLE_NAME_88  "
+                            + "       " +
                             " wHeRe      (   (   col  !=   -1500   )  and  " +
                             "  (  col2 <      'YakoutAnas'     )  or " +
                             "( col33 <= 0.50082602600000454     )  and " +
-                            "(  col55_NAME    >      '1988-1-17'  ) )     ;    ");
-            assertEquals("table_name_88", ((Select) selectObjAct).getTableName().toLowerCase());
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
+                            "(  col55_NAME    >      '1988-1-17'  ) )     ;  "
+                            + "  ");
+            assertEquals("table_name_88", ((Select) selectObjAct)
+                    .getTableName().toLowerCase());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
 
-            assertEquals("col", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals(-1500, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
-
-            sqlPredicateQ.poll();
-
-            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("YakoutAnas", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.SmallerThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
-
-            sqlPredicateQ.poll();
-
-            assertEquals(BooleanOperator.Operator.And, ((BooleanOperator) sqlPredicateQ.peek()).getOperator());
+            assertEquals("col", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals(-1500, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.NotEqual, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
 
             sqlPredicateQ.poll();
 
-            assertEquals("col33", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals((float) 0.50082602600000454, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            assertEquals("col2", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("YakoutAnas", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue());
+            assertEquals(Operator.SmallerThan, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
 
             sqlPredicateQ.poll();
 
-            assertEquals("col55_name", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("1988-01-17", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue().toString());
-            assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            assertEquals(BooleanOperator.Operator.And, ((BooleanOperator)
+                    sqlPredicateQ.peek()).getOperator());
 
             sqlPredicateQ.poll();
 
-            assertEquals(BooleanOperator.Operator.And, ((BooleanOperator) sqlPredicateQ.peek()).getOperator());
+            assertEquals("col33", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals((float) 0.50082602600000454, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getValue().getValue());
+            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
 
             sqlPredicateQ.poll();
 
-            assertEquals(BooleanOperator.Operator.Or, ((BooleanOperator) sqlPredicateQ.peek()).getOperator());
+            assertEquals("col55_name", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("1988-01-17", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue().toString());
+            assertEquals(Operator.GreaterThan, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
+
+            sqlPredicateQ.poll();
+
+            assertEquals(BooleanOperator.Operator.And, ((BooleanOperator)
+                    sqlPredicateQ.peek()).getOperator());
+
+            sqlPredicateQ.poll();
+
+            assertEquals(BooleanOperator.Operator.Or, ((BooleanOperator)
+                    sqlPredicateQ.peek()).getOperator());
 
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
@@ -1134,16 +1509,25 @@ public class SelectTest extends SqlParserRef {
     public void testSelectTableSyntaxParsingThirtyFour() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SELECT               col3, col2 , col1         FROM       " +
-                            "   CUrr_915634    WheRe Col1 < 5        ;            ");
-            assertEquals("curr_915634", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SELECT               col3, col2 , col1         "
+                            + "FROM       " +
+                            "   CUrr_915634    WheRe Col1 < 5        ;       "
+                            + "     ");
+            assertEquals("curr_915634", ((Select) selectObjAct).getTableName
+                    ().toLowerCase());
             String[] strArray = {"col3", "col2", "col1"};
-            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns().toArray());
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals(5, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.SmallerThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns()
+                    .toArray());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals(5, ((SQLPredicate) sqlPredicateQ.peek()).getValue()
+                    .getValue());
+            assertEquals(Operator.SmallerThan, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -1154,16 +1538,25 @@ public class SelectTest extends SqlParserRef {
     public void testSelectTableSyntaxParsingThirtyFive() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SELECT               col3, col2 , col1         FROM         " +
-                            " CUrr_915634    WheRe Col1 < 5.2323526        ;            ");
-            assertEquals("curr_915634", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SELECT               col3, col2 , col1         "
+                            + "FROM         " +
+                            " CUrr_915634    WheRe Col1 < 5.2323526        ; "
+                            + "           ");
+            assertEquals("curr_915634", ((Select) selectObjAct).getTableName
+                    ().toLowerCase());
             String[] strArray = {"col3", "col2", "col1"};
-            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns().toArray());
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals((float) 5.2323526, ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue());
-            assertEquals(Operator.SmallerThan, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns()
+                    .toArray());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals((float) 5.2323526, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getValue().getValue());
+            assertEquals(Operator.SmallerThan, ((SQLPredicate) sqlPredicateQ
+                    .peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -1174,16 +1567,25 @@ public class SelectTest extends SqlParserRef {
     public void testSelectTableSyntaxParsingThirtySix() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SELECT               col3, col2 , col1         FROM         " +
-                            " CUrr_915634    WheRe Col1 <= '2000-18-40'        ;            ");
-            assertEquals("curr_915634", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SELECT               col3, col2 , col1         "
+                            + "FROM         " +
+                            " CUrr_915634    WheRe Col1 <= '2000-18-40'      "
+                            + "  ;            ");
+            assertEquals("curr_915634", ((Select) selectObjAct).getTableName
+                    ().toLowerCase());
             String[] strArray = {"col3", "col2", "col1"};
-            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns().toArray());
-            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere().getPostfix();
-            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek()).getColumnName().toLowerCase());
-            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek()).getColumnName2());
-            assertEquals("2001-07-10", ((SQLPredicate) sqlPredicateQ.peek()).getValue().getValue().toString());
-            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate) sqlPredicateQ.peek()).getOperator());
+            assertArrayEquals(strArray, ((Select) selectObjAct).getColumns()
+                    .toArray());
+            Queue<Object> sqlPredicateQ = ((Select) selectObjAct).getWhere()
+                    .getPostfix();
+            assertEquals("col1", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName().toLowerCase());
+            assertEquals(null, ((SQLPredicate) sqlPredicateQ.peek())
+                    .getColumnName2());
+            assertEquals("2001-07-10", ((SQLPredicate) sqlPredicateQ.peek())
+                    .getValue().getValue().toString());
+            assertEquals(Operator.SmallerThanOrEqual, ((SQLPredicate)
+                    sqlPredicateQ.peek()).getOperator());
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
             fail("SyntaxErrorException thrown or AssertionError occurred!");
@@ -1196,8 +1598,10 @@ public class SelectTest extends SqlParserRef {
             selectObjAct = sqlParserObjTest.parse(
                     "        SELECT       *      FROM   customers      " +
                             "     order by country  ;            ");
-            assertEquals("customers", ((Select) selectObjAct).getTableName().toLowerCase());
-            Object[] orderByAct = ((Select) selectObjAct).getOrderBy().toArray();
+            assertEquals("customers", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
+            Object[] orderByAct = ((Select) selectObjAct).getOrderBy()
+                    .toArray();
             Pair columns = new Pair<>("country", true);
             Object[] orderByExp = new Object[1];
             orderByExp[0] = columns;
@@ -1214,8 +1618,10 @@ public class SelectTest extends SqlParserRef {
             selectObjAct = sqlParserObjTest.parse(
                     "        SELECT       *      FROM   customers      " +
                             "     order by country DESC  ;            ");
-            assertEquals("customers", ((Select) selectObjAct).getTableName().toLowerCase());
-            Object[] orderByAct = ((Select) selectObjAct).getOrderBy().toArray();
+            assertEquals("customers", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
+            Object[] orderByAct = ((Select) selectObjAct).getOrderBy()
+                    .toArray();
             Pair columns = new Pair<>("country", true);
             Object[] orderByExp = new Object[1];
             orderByExp[0] = columns;
@@ -1232,8 +1638,10 @@ public class SelectTest extends SqlParserRef {
             selectObjAct = sqlParserObjTest.parse(
                     "        SELECT       *      FROM   customers      " +
                             "     order by country ASC  ;            ");
-            assertEquals("customers", ((Select) selectObjAct).getTableName().toLowerCase());
-            Object[] orderByAct = ((Select) selectObjAct).getOrderBy().toArray();
+            assertEquals("customers", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
+            Object[] orderByAct = ((Select) selectObjAct).getOrderBy()
+                    .toArray();
             Pair columns = new Pair<>("country", false);
             Object[] orderByExp = new Object[1];
             orderByExp[0] = columns;
@@ -1249,9 +1657,12 @@ public class SelectTest extends SqlParserRef {
         try {
             selectObjAct = sqlParserObjTest.parse(
                     "        SELECT       *      FROM   customers      " +
-                            "     order by country ASC, cities DESC  ;            ");
-            assertEquals("customers", ((Select) selectObjAct).getTableName().toLowerCase());
-            Object[] orderByAct = ((Select) selectObjAct).getOrderBy().toArray();
+                            "     order by country ASC, cities DESC  ;       "
+                            + "     ");
+            assertEquals("customers", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
+            Object[] orderByAct = ((Select) selectObjAct).getOrderBy()
+                    .toArray();
             Pair columns = new Pair<>("country", false);
             Object[] orderByExp = new Object[2];
             orderByExp[0] = columns;
@@ -1269,9 +1680,12 @@ public class SelectTest extends SqlParserRef {
         try {
             selectObjAct = sqlParserObjTest.parse(
                     "        SELECT       *      FROM   customers      " +
-                            "     order by country ASC      ,   cities DESC     , towns ASC       ;            ");
-            assertEquals("customers", ((Select) selectObjAct).getTableName().toLowerCase());
-            Object[] orderByAct = ((Select) selectObjAct).getOrderBy().toArray();
+                            "     order by country ASC      ,   cities DESC  "
+                            + "   , towns ASC       ;            ");
+            assertEquals("customers", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
+            Object[] orderByAct = ((Select) selectObjAct).getOrderBy()
+                    .toArray();
             Pair columns = new Pair<>("country", false);
             Object[] orderByExp = new Object[3];
             orderByExp[0] = columns;
@@ -1290,12 +1704,17 @@ public class SelectTest extends SqlParserRef {
     public void testSelectTableSyntaxParsingFortyTwo() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SELECT       col1 , col2 , col3      FROM   customers      " +
-                            "     order by country ASC      ,   cities DESC     , towns ASC       ;            ");
-            assertEquals("customers", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SELECT       col1 , col2 , col3      FROM   "
+                            + "customers      " +
+                            "     order by country ASC      ,   cities DESC  "
+                            + "   , towns ASC       ;            ");
+            assertEquals("customers", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             String[] columnsStr = {"col1", "col2", "col3"};
-            assertArrayEquals(columnsStr, ((Select) selectObjAct).getColumns().toArray());
-            Object[] orderByAct = ((Select) selectObjAct).getOrderBy().toArray();
+            assertArrayEquals(columnsStr, ((Select) selectObjAct).getColumns
+                    ().toArray());
+            Object[] orderByAct = ((Select) selectObjAct).getOrderBy()
+                    .toArray();
             Pair columns = new Pair<>("country", false);
             Object[] orderByExp = new Object[3];
             orderByExp[0] = columns;
@@ -1315,13 +1734,18 @@ public class SelectTest extends SqlParserRef {
     public void testSelectTableSyntaxParsingFortyThree() {
         try {
             selectObjAct = sqlParserObjTest.parse(
-                    "        SELECT       distinct col1 , col2 , col3      FROM   customers      " +
-                            "     order by country ASC      ,   cities DESC     , towns ASC       ;            ");
-            assertEquals("customers", ((Select) selectObjAct).getTableName().toLowerCase());
+                    "        SELECT       distinct col1 , col2 , col3      "
+                            + "FROM   customers      " +
+                            "     order by country ASC      ,   cities DESC  "
+                            + "   , towns ASC       ;            ");
+            assertEquals("customers", ((Select) selectObjAct).getTableName()
+                    .toLowerCase());
             String[] columnsStr = {"col1", "col2", "col3"};
-            assertArrayEquals(columnsStr, ((Select) selectObjAct).getColumns().toArray());
+            assertArrayEquals(columnsStr, ((Select) selectObjAct).getColumns
+                    ().toArray());
             assertEquals(true, ((Select) selectObjAct).isDistinct());
-            Object[] orderByAct = ((Select) selectObjAct).getOrderBy().toArray();
+            Object[] orderByAct = ((Select) selectObjAct).getOrderBy()
+                    .toArray();
             Pair columns = new Pair<>("country", false);
             Object[] orderByExp = new Object[3];
             orderByExp[0] = columns;

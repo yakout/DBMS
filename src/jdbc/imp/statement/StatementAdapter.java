@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StatementAdapter extends DBStatement {
-    /**
-     *
-     */
     private Connection connection;
     private List<String> batch;
     private ResultSet resultSet;
@@ -60,7 +57,8 @@ public class StatementAdapter extends DBStatement {
         try {
             Expression expression = SQLParser.getInstance().parse(sql);
             expression.execute();
-            log.debug(expression.getClass().toString().replace("dbms.sqlparser.sqlInterpreter.rules.", "")
+            log.debug(expression.getClass().toString().replace("dbms"
+                    + ".sqlparser.sqlInterpreter.rules.", "")
                     + " Command executed successfully");
             if (expression.getClass() == Select.class) {
                 RecordSet recordSet = ((Select) expression).getRecordSet();
@@ -80,7 +78,8 @@ public class StatementAdapter extends DBStatement {
         } catch (dbms.exception.SyntaxErrorException
                 | IncorrectDataEntryException | DataTypeNotSupportedException
                 | DatabaseNotFoundException | TableNotFoundException
-                | DatabaseAlreadyCreatedException | TableAlreadyCreatedException e) {
+                | DatabaseAlreadyCreatedException |
+                TableAlreadyCreatedException e) {
             log.error("Invalid sql command " + e.toString());
             throw new SQLException();
         }
@@ -92,7 +91,8 @@ public class StatementAdapter extends DBStatement {
         try {
             Expression expression = SQLParser.getInstance().parse(sql);
             expression.execute();
-            log.debug(expression.getClass().toString().replace("dbms.sqlparser.sqlInterpreter.rules.", "")
+            log.debug(expression.getClass().toString().replace("dbms"
+                    + ".sqlparser.sqlInterpreter.rules.", "")
                     + " Command executed successfully");
             RecordSet recordSet = ((Select) expression).getRecordSet();
             resultSet = new DBResultSetImpl(this, recordSet);
@@ -108,7 +108,8 @@ public class StatementAdapter extends DBStatement {
         try {
             Expression expression = SQLParser.getInstance().parse(sql);
             expression.execute();
-            log.debug(expression.getClass().toString().replace("dbms.sqlparser.sqlInterpreter.rules.", "")
+            log.debug(expression.getClass().toString().replace("dbms"
+                    + ".sqlparser.sqlInterpreter.rules.", "")
                     + " Command executed successfully");
             if (expression instanceof DDLStatement) {
                 return 0;
@@ -117,7 +118,8 @@ public class StatementAdapter extends DBStatement {
         } catch (SyntaxErrorException
                 | IncorrectDataEntryException | DataTypeNotSupportedException
                 | DatabaseNotFoundException | TableNotFoundException
-                | DatabaseAlreadyCreatedException | TableAlreadyCreatedException e) {
+                | DatabaseAlreadyCreatedException |
+                TableAlreadyCreatedException e) {
             log.error("Invalid sql command " + e.toString());
             throw new SQLException();
         }

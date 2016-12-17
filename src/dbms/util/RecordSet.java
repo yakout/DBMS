@@ -26,7 +26,6 @@ public class RecordSet implements Iterable<Record>, Cloneable {
     /**
      * Constructor for a {@link RecordSet} that takes in an {@link ArrayList}
      * if records and copies data from it.
-     *
      * @param records {@link ArrayList} of records.
      */
     public RecordSet(Collection<Record> records) {
@@ -50,7 +49,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 
     /**
      * Sets column list inside record set.
-     * @param  {@link List} list of pairs of column names and column types.
+     * @param {@link List} list of pairs of column names and column types.
      */
     public void setColumnList(List<Pair<String, Class<
             ? extends DBDatatype>>> columnList) {
@@ -166,7 +165,8 @@ public class RecordSet implements Iterable<Record>, Cloneable {
     /**
      * Orders record set.
      * @param columns list of pairs between columns to be ordered and a boolean
-     * value that represents if columns are ordered in an ascending or a descending
+     * value that represents if columns are ordered in an ascending or a
+     * descending
      * order; <strong>TRUE</strong> means ascending and <strong>FALSE</strong>
      * means descending.
      */

@@ -40,7 +40,8 @@ public class Formatter {
         LinkedHashMap<String, DBDatatype> map4 = new LinkedHashMap<>();
         map4.put("ID", DatatypeFactory.convertToDataType(9));
         map4.put("Name", null);
-        map4.put("Part", DatatypeFactory.convertToDataType("XML Parser                          "));
+        map4.put("Part", DatatypeFactory.convertToDataType("XML Parser       "
+                + "                   "));
 
         Record record = new Record(map);
         Record record2 = new Record(map2);
@@ -75,7 +76,8 @@ public class Formatter {
         return max;
     }
 
-    private void printTableLine(Record firstRecord, List<Integer> widthOfColumns) {
+    private void printTableLine(Record firstRecord, List<Integer>
+            widthOfColumns) {
         Iterator it = firstRecord.getRecord().entrySet().iterator();
         int currentColumn = 0;
         while (it.hasNext()) {
@@ -89,7 +91,8 @@ public class Formatter {
         System.out.println("+");
     }
 
-    private List<Integer> getAllColumnsWidth(RecordSet recordSet, Record firstRecord) {
+    private List<Integer> getAllColumnsWidth(RecordSet recordSet, Record
+            firstRecord) {
         Iterator it = firstRecord.getRecord().entrySet().iterator();
         List<Integer> widthOfColumns = new ArrayList<>();
         while (it.hasNext()) {
@@ -99,7 +102,8 @@ public class Formatter {
         return widthOfColumns;
     }
 
-    private void printFirstRow(Record firstRecord, List<Integer> widthOfColumns) {
+    private void printFirstRow(Record firstRecord, List<Integer>
+            widthOfColumns) {
         Iterator it = firstRecord.getRecord().entrySet().iterator();
         int currentColumn = 0;
         while (it.hasNext()) {
@@ -112,7 +116,8 @@ public class Formatter {
                     System.out.print(" ");
             } else {
                 System.out.print(value);
-                for (int i = 0; i < widthOfColumns.get(currentColumn) - value.toString().length(); i++)
+                for (int i = 0; i < widthOfColumns.get(currentColumn) - value
+                        .toString().length(); i++)
                     System.out.print(" ");
             }
             currentColumn++;
@@ -120,7 +125,8 @@ public class Formatter {
         System.out.println("|");
     }
 
-    private void printAllRows(RecordSet recordSet, Record firstRecord, List<Integer> widthOfColumns) {
+    private void printAllRows(RecordSet recordSet, Record firstRecord,
+                              List<Integer> widthOfColumns) {
         int currentColumn = 0;
         while (recordSet.hasNext()) {
             Iterator it4 = recordSet.next().getRecord().entrySet().iterator();
@@ -134,7 +140,8 @@ public class Formatter {
                         System.out.print(" ");
                 } else {
                     System.out.print(value);
-                    for (int i = 0; i < widthOfColumns.get(currentColumn) - value.toString().length(); i++)
+                    for (int i = 0; i < widthOfColumns.get(currentColumn) -
+                            value.toString().length(); i++)
                         System.out.print(" ");
                 }
                 currentColumn++;
@@ -145,14 +152,16 @@ public class Formatter {
         }
     }
 
-    private void printHeaders(Record firstRecord, List<Integer> widthOfColumns) {
+    private void printHeaders(Record firstRecord, List<Integer>
+            widthOfColumns) {
         int currentColumn = 0;
         Iterator it = firstRecord.getRecord().entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
             System.out.print("|");
             System.out.print(ANSI_GREEN + pair.getKey() + ANSI_RESET);
-            for (int i = 0; i < widthOfColumns.get(currentColumn) - pair.getKey().toString().length(); i++) {
+            for (int i = 0; i < widthOfColumns.get(currentColumn) - pair
+                    .getKey().toString().length(); i++) {
                 System.out.print(" ");
             }
             currentColumn++;
@@ -165,7 +174,8 @@ public class Formatter {
             return;
         }
         Record firstRecord = recordSet.next();
-        List<Integer> widthOfColumns = getAllColumnsWidth(recordSet, firstRecord);
+        List<Integer> widthOfColumns = getAllColumnsWidth(recordSet,
+                firstRecord);
 
         printTableLine(firstRecord, widthOfColumns);
 

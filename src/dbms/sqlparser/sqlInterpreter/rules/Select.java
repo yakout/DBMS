@@ -22,35 +22,36 @@ public class Select implements DMLStatement {
     private RecordSet recordSet;
 
     private Where where;
-    
+
     /**
-     * Sets the name of the local table name. 
+     * Sets the name of the local table name.
      * @param tableName the name of current table.
      */
     public Select(String tableName) {
         this.tableName = tableName;
     }
+
     /**
-     * 
      * @return {@link Where} the local where statement.
      */
     public Where getWhere() {
         return where;
     }
+
     /**
-     * 
      * @return {@link Where} the local where statement.
      */
     public void setWhere(final Where where) {
         this.where = where;
     }
+
     /**
-     * 
      * @return {@link Collecion} collection of columns.
      */
     public Collection<String> getColumns() {
         return columns;
     }
+
     /**
      * Sets the local Collection of columns.
      * @param columns {@link Collection} columns of current table.
@@ -58,23 +59,22 @@ public class Select implements DMLStatement {
     public void setColumns(final Collection<String> columns) {
         this.columns = columns;
     }
-    
+
     /**
-     * 
      * @return the name of the table.
      */
     public String getTableName() {
         return tableName;
     }
+
     /**
-     * 
      * @return {@link List} list of columns orders.
      */
     public List<Pair<String, Boolean>> getOrderBy() {
         return orderBy;
     }
+
     /**
-     * 
      * @param orderBy {@link List} list of columns orders.
      */
     public void setOrderBy(final List<Pair<String, Boolean>> orderBy) {
@@ -100,10 +100,10 @@ public class Select implements DMLStatement {
 
     @Override
     public void execute() throws DatabaseNotFoundException,
-    TableNotFoundException, SyntaxErrorException,
-    IncorrectDataEntryException {
+            TableNotFoundException, SyntaxErrorException,
+            IncorrectDataEntryException {
         recordSet = BackendController.getInstance().select(
-        		tableName, columns, where);
+                tableName, columns, where);
         if (isDistinct) recordSet.distinct();
         if (orderBy != null) recordSet.orderBy(orderBy);
         Formatter.getInstance().printTable(recordSet);

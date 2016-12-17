@@ -18,7 +18,7 @@ public class InsertIntoTable implements DMLStatement {
     private boolean insertWithNoColumns = false;
 
     public InsertIntoTable(final String tableName,
-    		final Map<String, DBDatatype> entryMap) {
+                           final Map<String, DBDatatype> entryMap) {
         this.tableName = tableName;
         this.entryMap = entryMap;
     }
@@ -42,20 +42,20 @@ public class InsertIntoTable implements DMLStatement {
 
     @Override
     public void execute() throws DatabaseNotFoundException,
-    TableNotFoundException, IncorrectDataEntryException {
+            TableNotFoundException, IncorrectDataEntryException {
         if (insertWithNoColumns) {
             Collection<DBDatatype> entries = new ArrayList<>();
             Iterator<Map.Entry<String, DBDatatype>> it
-            = entryMap.entrySet().iterator();
+                    = entryMap.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry) it.next();
                 entries.add((DBDatatype) pair.getValue());
             }
             updateCount = BackendController.getInstance()
-            		.insertIntoTable(tableName, entries);
+                    .insertIntoTable(tableName, entries);
             return;
         }
         updateCount = BackendController.getInstance()
-        		.insertIntoTable(tableName, entryMap);
+                .insertIntoTable(tableName, entryMap);
     }
 }

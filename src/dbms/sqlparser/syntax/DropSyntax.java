@@ -5,7 +5,8 @@ import java.util.regex.Pattern;
 public class DropSyntax implements SQLSyntax {
 
     private static DropSyntax instance = null;
-    private final String DROP_REGEX = "(?i)^\\s*drop\\s+(table|database){1}\\s+("
+    private final String DROP_REGEX = "(?i)^\\s*drop\\s+(table|database)"
+            + "{1}\\s+("
             + SyntaxUtil.TABLE_NAME // OR SyntaxUtil.DATABASE_NAME
             + "){1}"
             + SyntaxUtil.SEMI_COLON

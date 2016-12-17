@@ -1,6 +1,7 @@
 package dbms.util;
 
 import dbms.datatypes.DBDatatype;
+import dbms.datatypes.DBInteger;
 import dbms.exception.IncorrectDataEntryException;
 import dbms.exception.SyntaxErrorException;
 import dbms.sqlparser.sqlInterpreter.Condition;
@@ -146,10 +147,12 @@ public class Table {
 
     /**
      * Inserts a new row inside this table.
-     * @param entryMap {@link Map} mapping between column names (case-insensitive)
+     * @param entryMap {@link Map} mapping between column names
+     * (case-insensitive)
      * and their {@link DBDatatype} values.
      * @return Update count (number of rows that are affected).
-     * @throws IncorrectDataEntryException In case a given column name or a value are invalid.
+     * @throws IncorrectDataEntryException In case a given column name or a
+     * value are invalid.
      */
     public int insertRow(Map<String, DBDatatype> entryMap)
             throws IncorrectDataEntryException {
@@ -170,7 +173,8 @@ public class Table {
      * @param entries {@link Collection} collection of {@link DBDatatype}
      * of values to be inserted.
      * @return Update count (number of rows that are affected).
-     * @throws IncorrectDataEntryException In case a given value is incompatible.
+     * @throws IncorrectDataEntryException In case a given value is
+     * incompatible.
      * with a column type.
      */
     public int insertRow(Collection<DBDatatype> entries)
@@ -199,10 +203,12 @@ public class Table {
     /**
      * Deletes rows from table given a condition.
      * @param condition {@link Condition} condition specified to validate row
-     * deletion (can be null which means it deletes all rows inside table).
+     * deletion (can be null which means it deletes all rows
+     * inside table).
      * @return Update count (number of rows that are affected).
      * @throws IncorrectDataEntryException In case condition is invalid.
-     * @throws SyntaxErrorException In case syntax of condition is invalid.
+     * @throws SyntaxErrorException In case syntax of condition is
+     * invalid.
      */
     public int delete(Condition condition)
             throws IncorrectDataEntryException, SyntaxErrorException {
@@ -225,8 +231,10 @@ public class Table {
     /**
      * Selects and returns a number of rows that are contained
      * inside a {@link RecordSet}.
-     * @param columns {@link Collection} collection of column names (case-insensitive).
-     * @param condition {@link Condition} condition to be specified in order of a row
+     * @param columns {@link Collection} collection of column names
+     * (case-insensitive).
+     * @param condition {@link Condition} condition to be specified in order
+     * of a row
      * to be selected.
      * @return {@link RecordSet} that contains the selected rows.
      * @throws IncorrectDataEntryException
@@ -248,14 +256,16 @@ public class Table {
         RecordSet res = new RecordSet();
         if (columns == null) {
             for (Column col : this.columns) {
-                columnsResultSet.add(new Pair<String, Class<? extends DBDatatype>>(col.getName(),
+                columnsResultSet.add(new Pair<String, Class<? extends
+                        DBDatatype>>(col.getName(),
                         col.getType()));
             }
         } else {
             for (String colName : columns) {
                 for (Column col : this.columns) {
                     if (col.getName().equalsIgnoreCase(colName)) {
-                        columnsResultSet.add(new Pair<String, Class<? extends DBDatatype>>(colName,
+                        columnsResultSet.add(new Pair<String, Class<? extends
+                                DBDatatype>>(colName,
                                 col.getType()));
                     }
                 }
@@ -266,7 +276,8 @@ public class Table {
             LinkedHashMap<String, DBDatatype> row =
                     getRow(i, columns);
             if (!row.isEmpty() && (condition == null || Evaluator.getInstance()
-                    .evaluate(getRow(i, null), condition.getPostfix(), mapColumns()))) {
+                    .evaluate(getRow(i, null), condition.getPostfix(),
+                            mapColumns()))) {
                 res.add(new Record(row));
             }
         }
@@ -276,16 +287,22 @@ public class Table {
     /**
      * Update entries inside table given a condition and a mapping
      * of values to be set.
-     * @param values {@link Map} mapping between column names and values to be
+     * @param values {@link Map} mapping between column names and values
+     * to be
      * set in case condition is met.
-     * @param columns {@link Map} mapping between two column names, the first column name
-     * value copies the second column name value if condition is met.
+     * @param columns {@link Map} mapping between two column names, the
+     * first column name
+     * value copies the second column name value if
+     * condition is met.
      * @param condition {@link Condition} condition to be met in order of
      * update to get applied.
      * @return Update count (number of rows that are affected).
-     * @throws IncorrectDataEntryException In case given values are incompatible with column
-     * types or a given column is not found inside table.
-     * @throws SyntaxErrorException In case syntax of condition is invalid.
+     * @throws IncorrectDataEntryException In case given values are
+     * incompatible with column
+     * types or a given column is not
+     * found inside table.
+     * @throws SyntaxErrorException In case syntax of condition is
+     * invalid.
      */
     public int update(Map<String, DBDatatype> values,
                       Map<String, String> columns, Condition condition)
@@ -309,9 +326,11 @@ public class Table {
      * Alters table to add a new column that its values are set to have
      * null values with the same number of rows inside table.
      * @param colName Column name to be added.
-     * @param datatype {@link Class<extends DBDatatype>} class that is registered
+     * @param datatype {@link Class<extends DBDatatype>} class that is
+     * registered
      * as one of the supported data types for table.
-     * @throws IncorrectDataEntryException In case a given column name or data type are invalid.
+     * @throws IncorrectDataEntryException In case a given column name or
+     * data type are invalid.
      */
     public void alterAdd(String colName, Class<? extends DBDatatype> datatype)
             throws IncorrectDataEntryException {
@@ -325,7 +344,8 @@ public class Table {
     /**
      * Alters table to remove an existing column from table.
      * @param colName Name of the column to be removed from table.
-     * @throws IncorrectDataEntryException In case the given column doesn't exist.
+     * @throws IncorrectDataEntryException In case the given column doesn't
+     * exist.
      */
     public void alterDrop(String colName)
             throws IncorrectDataEntryException {
@@ -336,7 +356,8 @@ public class Table {
         columns.remove(col);
     }
 
-    private void updateRow(Map<String, DBDatatype> values, Map<String, String> columns, int index) {
+    private void updateRow(Map<String, DBDatatype> values, Map<String,
+            String> columns, int index) {
         if (values != null) {
             for (Map.Entry<String, DBDatatype> entry : values.entrySet()) {
                 Column col = getColumn(entry.getKey());
@@ -352,7 +373,9 @@ public class Table {
         }
     }
 
-    private LinkedHashMap<String, DBDatatype> getRow(int index, Collection<String> columns) {
+    private LinkedHashMap<String, DBDatatype> getRow(int index,
+                                                     Collection<String>
+                                                             columns) {
         LinkedHashMap<String, DBDatatype> ret =
                 new LinkedHashMap<String, DBDatatype>();
         Collection<String> columnsLower = new ArrayList<>();
@@ -395,7 +418,8 @@ public class Table {
         for (Column col : columns) {
             String type = null;
             try {
-                type = (String) col.getType().getField("KEY").get(col.getType().newInstance());
+                type = (String) col.getType().getField("KEY").get(col
+                        .getType().newInstance());
             } catch (NoSuchFieldException | SecurityException
                     | IllegalArgumentException
                     | IllegalAccessException | InstantiationException e) {
@@ -422,7 +446,8 @@ public class Table {
         }
     }
 
-    private void validateValues(Map<String, DBDatatype> values) throws IncorrectDataEntryException {
+    private void validateValues(Map<String, DBDatatype> values) throws
+            IncorrectDataEntryException {
         if (values == null) {
             return;
         }
