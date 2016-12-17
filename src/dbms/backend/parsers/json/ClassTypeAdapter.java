@@ -26,8 +26,8 @@ public class ClassTypeAdapter extends TypeAdapter<Class<?>> {
 
 
     @Override
-    public void write(JsonWriter jsonWriter, Class<?> clazz)
-    		throws IOException {
+    public void write(JsonWriter jsonWriter, Class<?> clazz) throws
+            IOException {
         if (clazz == null) {
             jsonWriter.nullValue();
             return;

@@ -12,6 +12,6 @@ public class ClassTypeAdapterFactory implements TypeAdapterFactory {
         if (!Class.class.isAssignableFrom(typeToken.getRawType())) {
             return null;
         }
-        return (TypeAdapter< T >) new ClassTypeAdapter();
+        return (TypeAdapter<T>) new ClassTypeAdapter();
     }
 }

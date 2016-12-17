@@ -8,6 +8,7 @@ public interface DBDatatype extends Comparable<DBDatatype> {
      * @return Equivalent object.
      */
     Object toObj(String s);
+
     /**
      * Gets the java primitive equivalent to the {@link DBDatatype}.
      * @return equivalent primitive java object.

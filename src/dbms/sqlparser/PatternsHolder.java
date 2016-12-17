@@ -13,7 +13,7 @@ public class PatternsHolder {
      * reference to SQLRegex.properties file.
      */
     private static ResourceBundle SQLRegexProperties = ResourceBundle.
-    		getBundle(propFileName);
+            getBundle(propFileName);
     private static Pattern rulePattern;
     private static Pattern selectPattern;
     private static Pattern updatePattern;
@@ -29,8 +29,8 @@ public class PatternsHolder {
         if (selectPattern == null) {
             selectPattern = Pattern.compile(
                     SQLRegexProperties.getString("select.regex")
-                  + SQLRegexProperties.getString("orderby.regex")
-                  + SQLRegexProperties.getString("where.regex"));
+                            + SQLRegexProperties.getString("orderby.regex")
+                            + SQLRegexProperties.getString("where.regex"));
         }
         return selectPattern;
     }
@@ -38,7 +38,7 @@ public class PatternsHolder {
     static synchronized Pattern getAlterPattern() {
         if (alterPattern == null) {
             alterPattern = Pattern.compile(SQLRegexProperties.getString(
-            		"alter.regex"));
+                    "alter.regex"));
         }
         return alterPattern;
     }
@@ -46,7 +46,7 @@ public class PatternsHolder {
     static synchronized Pattern getCreatePattern() {
         if (createPattern == null) {
             createPattern = Pattern.compile(SQLRegexProperties.getString(
-            		"create.regex"));
+                    "create.regex"));
         }
         return createPattern;
     }
@@ -55,7 +55,7 @@ public class PatternsHolder {
     static synchronized Pattern getRulePattern() {
         if (rulePattern == null) {
             rulePattern = Pattern.compile(SQLRegexProperties.getString(
-            		"rule.regex"));
+                    "rule.regex"));
         }
         return rulePattern;
     }
@@ -64,7 +64,7 @@ public class PatternsHolder {
         if (updatePattern == null) {
             updatePattern = Pattern.compile(
                     SQLRegexProperties.getString("update.regex")
-                  + SQLRegexProperties.getString("where.regex"));
+                            + SQLRegexProperties.getString("where.regex"));
         }
         return updatePattern;
     }
@@ -72,7 +72,7 @@ public class PatternsHolder {
     static synchronized Pattern getUsePattern() {
         if (usePattern == null) {
             usePattern = Pattern.compile(SQLRegexProperties.getString(
-            		"use.database.regex"));
+                    "use.database.regex"));
         }
         return usePattern;
     }
@@ -82,7 +82,7 @@ public class PatternsHolder {
         if (dropPattern == null) {
             deletePattern = Pattern.compile(
                     SQLRegexProperties.getString("delete.regex")
-                    + SQLRegexProperties.getString("where.regex"));
+                            + SQLRegexProperties.getString("where.regex"));
         }
         return deletePattern;
     }
@@ -90,7 +90,7 @@ public class PatternsHolder {
     static synchronized Pattern getInsertIntoPattern() {
         if (insertIntoPattern == null) {
             insertIntoPattern = Pattern.compile(SQLRegexProperties.getString(
-            		"insert.regex"));
+                    "insert.regex"));
         }
         return insertIntoPattern;
     }
@@ -98,7 +98,7 @@ public class PatternsHolder {
     static synchronized Pattern getDropPattern() {
         if (dropPattern == null) {
             dropPattern = Pattern.compile(SQLRegexProperties.getString(
-            		"drop.regex"));
+                    "drop.regex"));
         }
         return dropPattern;
     }

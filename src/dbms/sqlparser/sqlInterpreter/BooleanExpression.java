@@ -28,7 +28,6 @@ public class BooleanExpression {
 
     /**
      * main for testing toPostfix converter
-     *
      * @param args cmd arguments
      */
     public static void main(String[] args) {
@@ -36,8 +35,8 @@ public class BooleanExpression {
         Queue<Object> postfix = new LinkedList<>();
         try {
             postfix = new BooleanExpression().toPostfix(""
-            		+ "(    (    col      !=      '1996-08-17'  )"
-            		+ "   and   (     col2    =    6.255   )     )");
+                    + "(    (    col      !=      '1996-08-17'  )"
+                    + "   and   (     col2    =    6.255   )     )");
         } catch (SyntaxErrorException e) {
             e.printStackTrace();
         }
@@ -49,14 +48,14 @@ public class BooleanExpression {
 
     /**
      * infix to postfix converter.
-     *
      * @param infix
      * @return a queue of (SQLPredicates and/or BooleanOperator) contains
      * the postfix representation of boolean expression.
      * @throws SyntaxErrorException if the boolean expression
-     *  is badly constructed.
+     * is badly constructed.
      */
-    public Queue<Object> toPostfix(final String infix) throws SyntaxErrorException {
+    public Queue<Object> toPostfix(final String infix) throws
+            SyntaxErrorException {
         List<SQLPredicate> sqlPredicates = getPredicates(infix);
         Queue<Object> postfix = new LinkedList<Object>();
         Stack<Object> helperStack = new Stack<>();
@@ -82,11 +81,11 @@ public class BooleanExpression {
                 }
                 helperStack.pop();
             } else if (i + 3 < infix.length() && infix.substring(i, i + 3)
-            		.toLowerCase().equals("and")) {
+                    .toLowerCase().equals("and")) {
                 pushAndToPostfix(postfix, helperStack);
                 i += 2;
             } else if (i + 2 < infix.length() && infix.substring(i, i + 2)
-            		.toLowerCase().equals("or")) {
+                    .toLowerCase().equals("or")) {
                 pushOrToPostfix(postfix, helperStack);
                 i++;
             } else if (currentChar == ' ') {
@@ -96,8 +95,8 @@ public class BooleanExpression {
                     postfix.add(sqlPredicates.get(predicateNumber++));
                     while (infix.charAt(++i) != ')') {
                         if (i + 3 < infix.length() && infix.substring(i, i + 3)
-                        		.equals(" or") || i + 4 < infix.length()
-                        		&& infix.substring(i, i + 4).equals(" and")) {
+                                .equals(" or") || i + 4 < infix.length()
+                                && infix.substring(i, i + 4).equals(" and")) {
                             throw new SyntaxErrorException(errorMessage);
                         }
                     }
@@ -112,7 +111,7 @@ public class BooleanExpression {
                 throw new SyntaxErrorException(errorMessage);
             } else { // in case the user didn't put parenthesis
                 // around the whole expression some operator
-            	//will remain in helper stack
+                //will remain in helper stack
                 while (!helperStack.isEmpty()) {
                     postfix.add(helperStack.pop());
                 }
@@ -123,17 +122,16 @@ public class BooleanExpression {
 
     /**
      * helper method for toPostfix() that adds BooleanOperator
-     *  (AND) to postfix queue.
-     *
+     * (AND) to postfix queue.
      * @param postfix
      * @param helperStack
      */
     private void pushAndToPostfix(final Queue<Object> postfix,
-    		final Stack<Object> helperStack) {
+                                  final Stack<Object> helperStack) {
         if (helperStack.isEmpty() || helperStack.peek() instanceof Character) {
             helperStack.push(new BooleanOperator(BooleanOperator.Operator.And));
         } else if (((BooleanOperator) helperStack.peek()).getOperator()
-        		== BooleanOperator.Operator.And) {
+                == BooleanOperator.Operator.And) {
             postfix.add(new BooleanOperator(BooleanOperator.Operator.And));
         } else {
             helperStack.push(new BooleanOperator(BooleanOperator.Operator.And));
@@ -142,21 +140,20 @@ public class BooleanExpression {
 
     /**
      * helper method for toPostfix() that adds BooleanOperator
-     *  (OR) to postfix queue.
-     *
+     * (OR) to postfix queue.
      * @param postfix
      * @param helperStack
      */
     private void pushOrToPostfix(final Queue<Object> postfix,
-    		final Stack<Object> helperStack) {
+                                 final Stack<Object> helperStack) {
         if (helperStack.isEmpty() || helperStack.peek() instanceof Character) {
             helperStack.push(new BooleanOperator(BooleanOperator.Operator.Or));
         } else {
             if (((BooleanOperator) helperStack.peek()).getOperator()
-            		== BooleanOperator.Operator.And) {
+                    == BooleanOperator.Operator.And) {
                 postfix.add(helperStack.pop());
                 helperStack.push(new BooleanOperator(BooleanOperator
-                		.Operator.Or));
+                        .Operator.Or));
             } else { // or in helper stack
                 postfix.add(new BooleanOperator(BooleanOperator.Operator.Or));
             }
@@ -165,9 +162,8 @@ public class BooleanExpression {
 
     /**
      * this helper function used to to extract predicates from
-     *  infix representation
+     * infix representation
      * of boolean expression.
-     *
      * @param infix infix representation for boolean expression.
      * @return list of SQLPredicates extracted from infix.
      */
@@ -184,12 +180,13 @@ public class BooleanExpression {
             }
 
             SQLPredicate sqlPredicate;
-            if (matcher.group(4).startsWith("'") || matcher.group(4).startsWith("\"")
+            if (matcher.group(4).startsWith("'") || matcher.group(4)
+                    .startsWith("\"")
                     || matcher.group(4).matches(SyntaxUtil.NUMBER_FORMAT)) {
                 // TODO: remove lower case and let the backend handles the logic
                 sqlPredicate = new SQLPredicate(matcher.group(2).toLowerCase(),
-                		matcher.group(3), DatatypeFactory.convertToDataType(
-                				DatatypeFactory.convertToObject(matcher.group(4))));
+                        matcher.group(3), DatatypeFactory.convertToDataType(
+                        DatatypeFactory.convertToObject(matcher.group(4))));
             } else {
                 sqlPredicate = new SQLPredicate(matcher.group(2).toLowerCase(),
                         matcher.group(3), matcher.group(4));

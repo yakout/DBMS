@@ -22,10 +22,10 @@ public class AlterDrop implements DDLStatement {
 
     @Override
     public void execute() throws DatabaseNotFoundException,
-    TableNotFoundException, SyntaxErrorException, DataTypeNotSupportedException,
-    TableAlreadyCreatedException, DatabaseAlreadyCreatedException,
-    IncorrectDataEntryException {
+            TableNotFoundException, SyntaxErrorException,
+            DataTypeNotSupportedException,
+            TableAlreadyCreatedException, DatabaseAlreadyCreatedException,
+            IncorrectDataEntryException {
         BackendController.getInstance().alterDrop(tableName, columnName);
-
     }
 }

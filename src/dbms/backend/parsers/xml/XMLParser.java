@@ -13,13 +13,24 @@ import dbms.util.Column;
 import dbms.util.Table;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.w3c.dom.*;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
@@ -29,8 +40,7 @@ import java.util.ResourceBundle;
 /**
  * Table parser to .XML format.
  */
-public class XMLParser extends BackendParser {
-
+public final class XMLParser extends BackendParser {
     /**
      * Key to JSON parser that is used to register to factory.
      */
@@ -65,6 +75,9 @@ public class XMLParser extends BackendParser {
         BackendParserFactory.getFactory().register(KEY, getInstance());
     }
 
+    /**
+     * Default constructor.
+     */
     private XMLParser() {
         try {
             docBuilder = DocumentBuilderFactory
@@ -103,8 +116,9 @@ public class XMLParser extends BackendParser {
     public void createTable(Table table)
             throws DatabaseNotFoundException,
             TableAlreadyCreatedException {
-        File tableFile = new File(openDB(table.getDatabase().getName()), table.getName()
-                + CONSTANTS.getString("extension.xml"));
+        File tableFile = new File(openDB(table.getDatabase().getName()),
+                table.getName()
+                        + CONSTANTS.getString("extension.xml"));
         if (tableFile.exists()) {
             log.error("Can't create table with name" + table.getName()
                     + " this nameDatabase already created");
@@ -112,16 +126,17 @@ public class XMLParser extends BackendParser {
         }
         log.debug("\'" + table.getName() + "\' is created successfully.");
         write(table, tableFile);
-        XSDParser.getInstance().createSchema(table.getDatabase().getName()
-                , table.getName());
-        DTDSchemaParser.getInstance().createDTDSchema(table.getDatabase().getName()
-                , table.getName());
+        XSDParser.getInstance().createSchema(table.getDatabase().getName(),
+                table.getName());
+        DTDSchemaParser.getInstance().createDTDSchema(table.getDatabase()
+                .getName(), table.getName());
     }
 
     @Override
     public void loadTable(Table table)
             throws TableNotFoundException, DatabaseNotFoundException {
-        File tableFile = openTable(table.getDatabase().getName(), table.getName());
+        File tableFile = openTable(table.getDatabase().getName(), table
+                .getName());
         Document doc = null;
         try {
             doc = docBuilder.parse(tableFile);
@@ -136,8 +151,10 @@ public class XMLParser extends BackendParser {
     }
 
     @Override
-    public void writeToFile(Table table) throws TableNotFoundException, DatabaseNotFoundException {
-        File tableFile = openTable(table.getDatabase().getName(), table.getName());
+    public void writeToFile(Table table) throws TableNotFoundException,
+            DatabaseNotFoundException {
+        File tableFile = openTable(table.getDatabase().getName(), table
+                .getName());
         write(table, tableFile);
         log.debug("Saved into file successfully.");
     }
@@ -145,11 +162,14 @@ public class XMLParser extends BackendParser {
     @Override
     public void dropTable(Table table)
             throws DatabaseNotFoundException {
-        File tableFile = new File(openDB(table.getDatabase().getName()), table.getName()
-                + CONSTANTS.getString("extension.xml"));
-        File xsdFile = new File(openDB(table.getDatabase().getName()), table.getName()
+        File tableFile = new File(openDB(table.getDatabase().getName()),
+                table.getName()
+                        + CONSTANTS.getString("extension.xml"));
+        File xsdFile = new File(openDB(table.getDatabase().getName()), table
+                .getName()
                 + CONSTANTS.getString("extension.schema"));
-        File dtdFile = new File(openDB(table.getDatabase().getName()), table.getName()
+        File dtdFile = new File(openDB(table.getDatabase().getName()), table
+                .getName()
                 + CONSTANTS.getString("extensionDTD.schema"));
         if (tableFile.exists()) {
             tableFile.delete();
@@ -165,6 +185,11 @@ public class XMLParser extends BackendParser {
         }
     }
 
+    /**
+     * Writes table content to file.
+     * @param table Table.
+     * @param tableFile Table file.
+     */
     private void write(Table table, File tableFile) {
         Document doc = docBuilder.newDocument();
         Element tableElement = doc.createElement(
@@ -180,6 +205,12 @@ public class XMLParser extends BackendParser {
         transform(doc, tableFile, table.getName());
     }
 
+    /**
+     * Adds columns to table.
+     * @param doc XML Document.
+     * @param table Table.
+     * @param tableElement Table Element in JAVA DOM.
+     */
     private void addColumns(Document doc, Table table, Element tableElement) {
         for (Column col : table.getColumns()) {
             Element colElement = doc.createElement(
@@ -189,7 +220,8 @@ public class XMLParser extends BackendParser {
             try {
                 colElement.setAttribute(
                         CONSTANTS.getString("type.attr"), (String) col
-                                .getType().getField("KEY").get(col.getType().newInstance()));
+                                .getType().getField("KEY").get(col.getType()
+                                        .newInstance()));
             } catch (DOMException | IllegalArgumentException
                     | IllegalAccessException | NoSuchFieldException
                     | SecurityException | InstantiationException e) {
@@ -243,13 +275,22 @@ public class XMLParser extends BackendParser {
                 }
                 Object entry = DatatypeFactory.getFactory().toObj(
                         row.getTextContent(), colType);
-                col.addEntry(DatatypeFactory.getFactory().convertToDataType(entry));
+                col.addEntry(DatatypeFactory.getFactory().convertToDataType(
+                        entry));
             }
             table.addColumn(col);
         }
         log.debug("Data is reloaded successfully");
     }
 
+    /**
+     * Opens table file.
+     * @param dbName Database name.
+     * @param tableName Table name.
+     * @return Table file.
+     * @throws TableNotFoundException In case table wasn't found.
+     * @throws DatabaseNotFoundException In case database wasn't found.
+     */
     private File openTable(String dbName, String tableName)
             throws TableNotFoundException, DatabaseNotFoundException {
         File tableFile = new File(openDB(dbName), tableName
@@ -263,7 +304,8 @@ public class XMLParser extends BackendParser {
 
     private File openDB(String dbName)
             throws DatabaseNotFoundException {
-        File database = new File(BackendController.getInstance().getCurrentDatabaseDir()
+        File database = new File(BackendController.getInstance()
+                .getCurrentDatabaseDir()
                 + File.separator + dbName);
         if (!database.exists()) {
             log.error("Error occured: Database is not found.");
@@ -288,9 +330,12 @@ public class XMLParser extends BackendParser {
         transformer.setOutputProperty(OutputKeys.METHOD, "xml");
         DOMImplementation domImpl = doc.getImplementation();
         DocumentType doctype = domImpl.createDocumentType("doctype",
-                "-//DBMS//DBMS v1.0//EN", tableName + CONSTANTS.getString("extensionDTD.schema"));
-        transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, doctype.getPublicId());
-        transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doctype.getSystemId());
+                "-//DBMS//DBMS v1.0//EN", tableName
+                        + CONSTANTS.getString("extensionDTD.schema"));
+        transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, doctype
+                .getPublicId());
+        transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doctype
+                .getSystemId());
         DOMSource source = new DOMSource(doc);
         StreamResult result =
                 new StreamResult(tableFile);

@@ -6,9 +6,6 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 public class DBConnection implements Connection {
-    public static void main(String[] args) {
-        System.out.print(System.getProperty("java.io.tmpdir"));
-    }
 
     @Override
     public Statement createStatement() throws SQLException {
@@ -16,37 +13,37 @@ public class DBConnection implements Connection {
     }
 
     @Override
-    public PreparedStatement prepareStatement(String sql) throws SQLException {
+    public final PreparedStatement prepareStatement(String sql) throws SQLException {
         return null;
     }
 
     @Override
-    public CallableStatement prepareCall(String sql) throws SQLException {
+    public final CallableStatement prepareCall(String sql) throws SQLException {
         return null;
     }
 
     @Override
-    public String nativeSQL(String sql) throws SQLException {
+    public final String nativeSQL(String sql) throws SQLException {
         return null;
     }
 
     @Override
-    public boolean getAutoCommit() throws SQLException {
+    public final boolean getAutoCommit() throws SQLException {
         return false;
     }
 
     @Override
-    public void setAutoCommit(boolean autoCommit) throws SQLException {
+    public final void setAutoCommit(boolean autoCommit) throws SQLException {
 
     }
 
     @Override
-    public void commit() throws SQLException {
+    public final void commit() throws SQLException {
 
     }
 
     @Override
-    public void rollback() throws SQLException {
+    public final void rollback() throws SQLException {
 
     }
 
@@ -56,245 +53,245 @@ public class DBConnection implements Connection {
     }
 
     @Override
-    public boolean isClosed() throws SQLException {
+    public final boolean isClosed() throws SQLException {
         return false;
     }
 
     @Override
-    public DatabaseMetaData getMetaData() throws SQLException {
+    public final DatabaseMetaData getMetaData() throws SQLException {
         return null;
     }
 
     @Override
-    public boolean isReadOnly() throws SQLException {
+    public final boolean isReadOnly() throws SQLException {
         return false;
     }
 
     @Override
-    public void setReadOnly(boolean readOnly) throws SQLException {
+    public final void setReadOnly(boolean readOnly) throws SQLException {
 
     }
 
     @Override
-    public String getCatalog() throws SQLException {
+    public final String getCatalog() throws SQLException {
         return null;
     }
 
     @Override
-    public void setCatalog(String catalog) throws SQLException {
+    public final void setCatalog(String catalog) throws SQLException {
 
     }
 
     @Override
-    public int getTransactionIsolation() throws SQLException {
+    public final int getTransactionIsolation() throws SQLException {
         return 0;
     }
 
     @Override
-    public void setTransactionIsolation(int level) throws SQLException {
+    public final void setTransactionIsolation(int level) throws SQLException {
 
     }
 
     @Override
-    public SQLWarning getWarnings() throws SQLException {
+    public final SQLWarning getWarnings() throws SQLException {
         return null;
     }
 
     @Override
-    public void clearWarnings() throws SQLException {
+    public final void clearWarnings() throws SQLException {
 
     }
 
     @Override
-    public Statement createStatement(int resultSetType, int
+    public final Statement createStatement(int resultSetType, int
             resultSetConcurrency) throws SQLException {
         return null;
     }
 
     @Override
-    public PreparedStatement prepareStatement(String sql, int resultSetType,
+    public final PreparedStatement prepareStatement(String sql, int resultSetType,
                                               int resultSetConcurrency)
             throws SQLException {
         return null;
     }
 
     @Override
-    public CallableStatement prepareCall(String sql, int resultSetType, int
+    public final CallableStatement prepareCall(String sql, int resultSetType, int
             resultSetConcurrency) throws SQLException {
         return null;
     }
 
     @Override
-    public Map<String, Class<?>> getTypeMap() throws SQLException {
+    public final Map<String, Class<?>> getTypeMap() throws SQLException {
         return null;
     }
 
     @Override
-    public void setTypeMap(Map<String, Class<?>> map) throws SQLException {
+    public final void setTypeMap(Map<String, Class<?>> map) throws SQLException {
 
     }
 
     @Override
-    public int getHoldability() throws SQLException {
+    public final int getHoldability() throws SQLException {
         return 0;
     }
 
     @Override
-    public void setHoldability(int holdability) throws SQLException {
+    public final void setHoldability(int holdability) throws SQLException {
 
     }
 
     @Override
-    public Savepoint setSavepoint() throws SQLException {
+    public final Savepoint setSavepoint() throws SQLException {
         return null;
     }
 
     @Override
-    public Savepoint setSavepoint(String name) throws SQLException {
+    public final Savepoint setSavepoint(String name) throws SQLException {
         return null;
     }
 
     @Override
-    public void rollback(Savepoint savepoint) throws SQLException {
+    public final void rollback(Savepoint savepoint) throws SQLException {
 
     }
 
     @Override
-    public void releaseSavepoint(Savepoint savepoint) throws SQLException {
+    public final void releaseSavepoint(Savepoint savepoint) throws SQLException {
 
     }
 
     @Override
-    public Statement createStatement(int resultSetType, int
+    public final Statement createStatement(int resultSetType, int
             resultSetConcurrency, int resultSetHoldability) throws
             SQLException {
         return null;
     }
 
     @Override
-    public PreparedStatement prepareStatement(String sql, int resultSetType,
+    public final PreparedStatement prepareStatement(String sql, int resultSetType,
                                               int resultSetConcurrency, int
                                                           resultSetHoldability) throws SQLException {
         return null;
     }
 
     @Override
-    public CallableStatement prepareCall(String sql, int resultSetType, int
+    public final CallableStatement prepareCall(String sql, int resultSetType, int
             resultSetConcurrency, int resultSetHoldability) throws
             SQLException {
         return null;
     }
 
     @Override
-    public PreparedStatement prepareStatement(String sql, int
+    public final PreparedStatement prepareStatement(String sql, int
             autoGeneratedKeys) throws SQLException {
         return null;
     }
 
     @Override
-    public PreparedStatement prepareStatement(String sql, int[]
+    public final PreparedStatement prepareStatement(String sql, int[]
             columnIndexes) throws SQLException {
         return null;
     }
 
     @Override
-    public PreparedStatement prepareStatement(String sql, String[]
+    public final PreparedStatement prepareStatement(String sql, String[]
             columnNames) throws SQLException {
         return null;
     }
 
     @Override
-    public Clob createClob() throws SQLException {
+    public final Clob createClob() throws SQLException {
         return null;
     }
 
     @Override
-    public Blob createBlob() throws SQLException {
+    public final Blob createBlob() throws SQLException {
         return null;
     }
 
     @Override
-    public NClob createNClob() throws SQLException {
+    public final NClob createNClob() throws SQLException {
         return null;
     }
 
     @Override
-    public SQLXML createSQLXML() throws SQLException {
+    public final SQLXML createSQLXML() throws SQLException {
         return null;
     }
 
     @Override
-    public boolean isValid(int timeout) throws SQLException {
+    public final boolean isValid(int timeout) throws SQLException {
         return false;
     }
 
     @Override
-    public void setClientInfo(String name, String value) throws
+    public final void setClientInfo(String name, String value) throws
             SQLClientInfoException {
 
     }
 
     @Override
-    public String getClientInfo(String name) throws SQLException {
+    public final String getClientInfo(String name) throws SQLException {
         return null;
     }
 
     @Override
-    public Properties getClientInfo() throws SQLException {
+    public final Properties getClientInfo() throws SQLException {
         return null;
     }
 
     @Override
-    public void setClientInfo(Properties properties) throws
+    public final void setClientInfo(Properties properties) throws
             SQLClientInfoException {
 
     }
 
     @Override
-    public Array createArrayOf(String typeName, Object[] elements) throws
+    public final Array createArrayOf(String typeName, Object[] elements) throws
             SQLException {
         return null;
     }
 
     @Override
-    public Struct createStruct(String typeName, Object[] attributes) throws
+    public final Struct createStruct(String typeName, Object[] attributes) throws
             SQLException {
         return null;
     }
 
     @Override
-    public String getSchema() throws SQLException {
+    public final String getSchema() throws SQLException {
         return null;
     }
 
     @Override
-    public void setSchema(String schema) throws SQLException {
+    public final void setSchema(String schema) throws SQLException {
 
     }
 
     @Override
-    public void abort(Executor executor) throws SQLException {
+    public final void abort(Executor executor) throws SQLException {
 
     }
 
     @Override
-    public void setNetworkTimeout(Executor executor, int milliseconds) throws
+    public final void setNetworkTimeout(Executor executor, int milliseconds) throws
             SQLException {
 
     }
 
     @Override
-    public int getNetworkTimeout() throws SQLException {
+    public final int getNetworkTimeout() throws SQLException {
         return 0;
     }
 
     @Override
-    public <T> T unwrap(Class<T> iface) throws SQLException {
+    public final <T> T unwrap(Class<T> iface) throws SQLException {
         return null;
     }
 
     @Override
-    public boolean isWrapperFor(Class<?> iface) throws SQLException {
+    public final boolean isWrapperFor(Class<?> iface) throws SQLException {
         return false;
     }
 }

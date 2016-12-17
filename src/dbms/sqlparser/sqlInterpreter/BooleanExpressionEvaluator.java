@@ -25,7 +25,8 @@ public abstract class BooleanExpressionEvaluator {
     }
 
     protected abstract boolean evaluate(Map<String, DBDatatype> row,
-    		Queue<Object> postfix, Map<String, String> columns)
-    				throws IncorrectDataEntryException;
+                                        Queue<Object> postfix, Map<String,
+            String> columns)
+            throws IncorrectDataEntryException;
 
 }

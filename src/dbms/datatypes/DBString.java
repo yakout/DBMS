@@ -53,7 +53,7 @@ public class DBString implements DBDatatype {
 
         DBString dbString = (DBString) o;
         return value != null ? value.equals(dbString.value) :
-        	dbString.value == null;
+                dbString.value == null;
     }
 
     @Override
