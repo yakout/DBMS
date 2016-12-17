@@ -141,7 +141,7 @@ public final class XMLParser extends BackendParser {
         try {
             doc = docBuilder.parse(tableFile);
         } catch (SAXException | IOException e) {
-            log.error("Error occured while loading the table.");
+            log.error("Error occured while loading the table @: " + e.toString());
             e.printStackTrace();
         }
         validateDB(doc, table.getDatabase().getName());
@@ -225,7 +225,7 @@ public final class XMLParser extends BackendParser {
             } catch (DOMException | IllegalArgumentException
                     | IllegalAccessException | NoSuchFieldException
                     | SecurityException | InstantiationException e) {
-                log.error("Error occured while parsing!");
+                log.error("Error occured while parsing @: " + e.toString());
                 e.printStackTrace();
             }
             addRows(doc, col, colElement);
@@ -275,7 +275,8 @@ public final class XMLParser extends BackendParser {
                 }
                 Object entry = DatatypeFactory.getFactory().toObj(
                         row.getTextContent(), colType);
-                col.addEntry(DatatypeFactory.getFactory().convertToDataType(
+                DatatypeFactory.getFactory();
+				col.addEntry(DatatypeFactory.convertToDataType(
                         entry));
             }
             table.addColumn(col);
@@ -320,7 +321,7 @@ public final class XMLParser extends BackendParser {
                 "table.element")).item(0).getAttributes().getNamedItem(
                 CONSTANTS.getString("db.attr")).getTextContent();
         if (!db.equals(dbName)) {
-            log.error("Error occured:" + dbName + " database is not found.");
+            log.error("Error occured:" + dbName + " database is not found!");
             throw new DatabaseNotFoundException();
         }
     }
@@ -342,7 +343,7 @@ public final class XMLParser extends BackendParser {
         try {
             transformer.transform(source, result);
         } catch (TransformerException e) {
-            log.error("Error occured while transforming to XML file.");
+            log.error("Error occured while transforming to XML file @: " + e.toString());
             e.printStackTrace();
         }
         log.debug("Data is parsed successfully.");

@@ -53,7 +53,7 @@ public class ProtocolBufferParser extends BackendParser {
         try {
             load(table, tableFile);
         } catch (IOException e) {
-            log.error("Error occured while loading the table!");
+            log.error("Error occured while loading the table at: " + e.toString());
             e.printStackTrace();
         }
         log.debug("Table is loaded successfully.");
@@ -70,7 +70,7 @@ public class ProtocolBufferParser extends BackendParser {
         } catch (IOException | NoSuchMethodException
                 | InstantiationException | IllegalAccessException
                 | InvocationTargetException e) {
-            log.error("Error occured while parsing!");
+            log.error("Error occured while parsing at: " + e.toString());
             e.printStackTrace();
         }
         log.debug("Data is saved successfully.");
@@ -91,7 +91,7 @@ public class ProtocolBufferParser extends BackendParser {
         } catch (IOException | NoSuchMethodException
                 | InstantiationException | IllegalAccessException
                 | InvocationTargetException e) {
-            log.error("Error occured while creating table!");
+            log.error("Error occured while creating table at: " + e.toString());
             e.printStackTrace();
         }
         log.debug("Table data is created successfully.");

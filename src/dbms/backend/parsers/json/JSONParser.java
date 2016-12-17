@@ -145,7 +145,7 @@ public class JSONParser extends BackendParser {
             bufferedReader = new BufferedReader(new FileReader(openTable(
                     table.getDatabase().getName(), table.getName())));
         } catch (FileNotFoundException e) {
-            log.error("Error occured while loading the table @: " + e.printStackTrace().to);
+            log.error("Error occured while loading the table at: " + e.toString());
             throw new TableNotFoundException();
         }
         log.debug("\'" + table.getName() + "\' is loaded successfully.");
@@ -160,7 +160,7 @@ public class JSONParser extends BackendParser {
         try {
             write(table, tableFile);
         } catch (IOException e) {
-            log.error("Error occured while saving in JSON file.");
+            log.error("Error occured while saving in JSON file at: " + e.toString());
             e.printStackTrace();
         }
         log.debug("Saved into JSON file successfully.");
@@ -179,7 +179,7 @@ public class JSONParser extends BackendParser {
         try {
             write(table, tableFile);
         } catch (IOException e) {
-            log.error("Error ocurred while parsing!");
+            log.error("Error ocurred while parsing at: " + e.toString());
             e.printStackTrace();
         }
         log.debug("\'" + table.getName() + "\' is created successfully.");
