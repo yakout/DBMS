@@ -1,17 +1,23 @@
 package dbms.backend;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.Map;
+
 import dbms.datatypes.DBDatatype;
-import dbms.exception.*;
+import dbms.exception.DatabaseAlreadyCreatedException;
+import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.IncorrectDataEntryException;
+import dbms.exception.SyntaxErrorException;
+import dbms.exception.TableAlreadyCreatedException;
+import dbms.exception.TableNotFoundException;
+import dbms.exception.TypeNotSupportedException;
 import dbms.sqlparser.SQLParser;
 import dbms.sqlparser.sqlInterpreter.Condition;
 import dbms.util.Column;
 import dbms.util.Database;
 import dbms.util.RecordSet;
 import dbms.util.Table;
-
-import java.io.File;
-import java.util.Collection;
-import java.util.Map;
 
 /**
  * Controller that controls data entry and queries between
@@ -73,11 +79,13 @@ public class BackendController {
      * @throws TypeNotSupportedException
      * @throws IncorrectDataEntryException
      */
-    public void createTable(String tableName, Map<String, Class<? extends DBDatatype>> columns)
+    public void createTable(String tableName,
+    		Map<String, Class<? extends DBDatatype>> columns)
             throws DatabaseNotFoundException,
             TableAlreadyCreatedException, IncorrectDataEntryException {
         Table table = new Database(dbName).createTable(tableName);
-        for (Map.Entry<String, Class<? extends DBDatatype>> col : columns.entrySet()) {
+        for (Map.Entry<String, Class<? extends DBDatatype>> col
+        		: columns.entrySet()) {
             table.addColumn(new Column(col.getKey(), col.getValue()));
         }
         BackendParserFactory.getFactory().getCurrentParser().createTable(table);
@@ -91,7 +99,8 @@ public class BackendController {
      * @throws TableNotFoundException
      * @throws DatabaseNotFoundException
      */
-    public void dropTable(String tableName) throws DatabaseNotFoundException {
+    public void dropTable(String tableName)
+    		throws DatabaseNotFoundException {
         Table table = new Database(dbName).createTable(tableName);
         BackendParserFactory.getFactory().getCurrentParser().dropTable(
                 table);
@@ -109,7 +118,8 @@ public class BackendController {
      * @throws TypeNotSupportedException
      * @throws IncorrectDataEntryException
      */
-    public int insertIntoTable(String tableName, Map<String, DBDatatype> entryMap)
+    public int insertIntoTable(String tableName, Map<String,
+    		DBDatatype> entryMap)
             throws DatabaseNotFoundException,
             TableNotFoundException, IncorrectDataEntryException {
         Table table = new Database(dbName).createTable(tableName);
@@ -120,8 +130,10 @@ public class BackendController {
         return updateCount;
     }
 
-    public int insertIntoTable(String tableName, Collection<DBDatatype> entries)
-            throws DatabaseNotFoundException, TableNotFoundException, IncorrectDataEntryException {
+    public int insertIntoTable(String tableName,
+    		Collection<DBDatatype> entries)
+            throws DatabaseNotFoundException, TableNotFoundException,
+            IncorrectDataEntryException {
         Table table = new Database(dbName).createTable(tableName);
         BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
         int updateCount = table.insertRow(entries);
@@ -198,9 +210,11 @@ public class BackendController {
             throws DatabaseNotFoundException, TableNotFoundException,
             SyntaxErrorException, IncorrectDataEntryException {
         Table table = new Database(dbName).createTable(tableName);
-        BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
+        BackendParserFactory.getFactory().getCurrentParser()
+        .loadTable(table);
         int updateCount = table.update(values, columns, condition);
-        BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
+        BackendParserFactory.getFactory().getCurrentParser()
+        .writeToFile(table);
         table.clear();
         return updateCount;
     }
@@ -211,7 +225,8 @@ public class BackendController {
      * @param dbName Name of database.
      * @throws DatabaseNotFoundException
      */
-    public void useDatabase(String dbName) throws DatabaseNotFoundException {
+    public void useDatabase(String dbName)
+    		throws DatabaseNotFoundException {
         try {
             this.createDatabase(dbName);
             this.dropDatabase(dbName);
@@ -243,14 +258,17 @@ public class BackendController {
      * @throws DatabaseNotFoundException
      * @throws IncorrectDataEntryException
      */
-    public void alterAdd(String tableName, String columnName, Class<? extends DBDatatype> datatype)
+    public void alterAdd(String tableName, String columnName,
+    		Class<? extends DBDatatype> datatype)
             throws DatabaseNotFoundException, TableNotFoundException
             , IncorrectDataEntryException {
         Table table = new Table(tableName);
         table.setDatabase(new Database(dbName));
-        BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
+        BackendParserFactory.getFactory().getCurrentParser()
+        .loadTable(table);
         table.alterAdd(columnName, datatype);
-        BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
+        BackendParserFactory.getFactory().getCurrentParser()
+        .writeToFile(table);
         table.clear();
     }
 
@@ -268,9 +286,11 @@ public class BackendController {
             , IncorrectDataEntryException {
         Table table = new Table(tableName);
         table.setDatabase(new Database(dbName));
-        BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
+        BackendParserFactory.getFactory().getCurrentParser()
+        .loadTable(table);
         table.alterDrop(columnName);
-        BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
+        BackendParserFactory.getFactory().getCurrentParser()
+        .writeToFile(table);
         table.clear();
     }
 
