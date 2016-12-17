@@ -187,7 +187,6 @@ public class RecordSet implements Iterable<Record>, Cloneable {
             comparatorChain.addComparator(recordComparator, pair.getValue());
         }
         records.sort(comparatorChain);
-
         if (returnColumns != null) {
             filter(getUnselectedColumns(returnColumns));
         }
@@ -201,7 +200,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
     private Collection<String> getUnselectedColumns(Collection<String> returnColumns) {
         Collection<String> filteredColumns = new ArrayList<>();
         Iterator it = records.get(0).getRecord().entrySet().iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
             boolean found = false;
             for (String columnName : returnColumns) {
@@ -217,14 +216,15 @@ public class RecordSet implements Iterable<Record>, Cloneable {
         return filteredColumns;
     }
 
+
     private void filter(final Collection<String> filteredColumns) {
         for (Record record : records) {
             for (String columnName : filteredColumns) {
                 record.getRecord().remove(columnName);
             }
         }
-
-        List<Pair<String, Class<? extends DBDatatype>>> toRemove = new ArrayList<>();
+        List<Pair<String, Class<? extends DBDatatype>>> toRemove
+                = new ArrayList<>();
         for (Pair<String, Class<? extends DBDatatype>> pair : columns) {
             for (String columnName : filteredColumns) {
                 if (pair.getKey().equalsIgnoreCase(columnName)) {

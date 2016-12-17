@@ -11,11 +11,6 @@ public class BackendParserFactory {
 
     private BackendParserFactory() {
         registeredParsers = new HashMap<>();
-        try {
-            loadParsers();
-        } catch (Throwable e) {
-            e.getStackTrace();
-        }
     }
     /**
      *
@@ -60,7 +55,7 @@ public class BackendParserFactory {
         currentKey = key;
     }
 
-    private void loadParsers() {
+    public static void loadParsers() {
         try {
             Class.forName("dbms.backend.parsers.xml.XMLParser");
             Class.forName("dbms.backend.parsers.json.JSONParser");

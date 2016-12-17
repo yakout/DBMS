@@ -6,7 +6,11 @@
 package jdbc.imp.resultSetMetaData;
 
 
-import dbms.datatypes.*;
+import dbms.datatypes.DBDatatype;
+import dbms.datatypes.DBDate;
+import dbms.datatypes.DBFloat;
+import dbms.datatypes.DBInteger;
+import dbms.datatypes.DBString;
 import jdbc.imp.resultSet.DBResultSetImpl;
 
 import java.sql.SQLException;
@@ -15,7 +19,7 @@ import java.sql.Types;
 /**
  * Result Set Metadata implamentation.
  */
-public class DBResultSetMetaDataImpl extends DBResultSetMetaData {
+public final class DBResultSetMetaDataImpl extends DBResultSetMetaData {
     /**
      * Reference to re{@link DBResultSetImpl} that has this metadata.
      */

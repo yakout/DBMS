@@ -13,7 +13,7 @@ public class CreateTable implements DDLStatement {
     private Map<String, Class<? extends DBDatatype>> columns;
 
     public CreateTable(final String tableName, final Map<String,
-    		Class< ? extends DBDatatype>> columns) {
+            Class<? extends DBDatatype>> columns) {
         this.tableName = tableName;
         this.columns = columns;
     }
@@ -22,13 +22,13 @@ public class CreateTable implements DDLStatement {
         return tableName;
     }
 
-    public Map<String, Class< ? extends DBDatatype>> getColumns() {
+    public Map<String, Class<? extends DBDatatype>> getColumns() {
         return columns;
     }
 
     @Override
     public void execute() throws DatabaseNotFoundException,
-    TableAlreadyCreatedException, IncorrectDataEntryException {
+            TableAlreadyCreatedException, IncorrectDataEntryException {
         BackendController.getInstance().createTable(tableName, columns);
     }
 }

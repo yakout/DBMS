@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import dbms.backend.BackendController;
+import dbms.backend.parsers.xml.XMLParser;
 import dbms.datatypes.DBDatatype;
 import dbms.datatypes.DBInteger;
 import dbms.datatypes.DBString;

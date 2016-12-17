@@ -8,6 +8,7 @@ class DTDElementCreator {
 
     private DTDElementCreator() {
     }
+
     /**
      * Creates DTD element in DTD file.
      * @param elName defines element name.
@@ -15,7 +16,8 @@ class DTDElementCreator {
      * @param out {@link PrintWriter} Reference on the file.
      * @throws FileNotFoundException if the named file is no found.
      */
-    protected static void createElement(String elName, String property, PrintWriter out)
+    protected static void createElement(String elName, String property,
+                                        PrintWriter out)
             throws FileNotFoundException {
         out.println("<!ELEMENT " + elName + " (" + property + ")>");
     }

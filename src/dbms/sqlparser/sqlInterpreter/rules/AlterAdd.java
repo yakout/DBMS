@@ -2,14 +2,20 @@ package dbms.sqlparser.sqlInterpreter.rules;
 
 import dbms.backend.BackendController;
 import dbms.datatypes.DBDatatype;
-import dbms.exception.*;
+import dbms.exception.DataTypeNotSupportedException;
+import dbms.exception.DatabaseAlreadyCreatedException;
+import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.IncorrectDataEntryException;
+import dbms.exception.SyntaxErrorException;
+import dbms.exception.TableAlreadyCreatedException;
+import dbms.exception.TableNotFoundException;
 
 public class AlterAdd implements DDLStatement {
     private String tableName;
     private String columnName;
     private Class<? extends DBDatatype> dataType;
 
-    public AlterAdd(String tableName, String columnName,
+    public AlterAdd(final String tableName, final String columnName,
                     Class<? extends DBDatatype> dataType) {
         this.tableName = tableName;
         this.columnName = columnName;
@@ -33,7 +39,8 @@ public class AlterAdd implements DDLStatement {
             TableNotFoundException, SyntaxErrorException,
             DataTypeNotSupportedException, TableAlreadyCreatedException,
             DatabaseAlreadyCreatedException, IncorrectDataEntryException {
-        BackendController.getInstance().alterAdd(tableName, columnName, dataType);
+        BackendController.getInstance().alterAdd(tableName, columnName,
+                dataType);
     }
 
 }

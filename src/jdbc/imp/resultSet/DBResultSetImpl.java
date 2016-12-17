@@ -5,7 +5,11 @@
 
 package jdbc.imp.resultSet;
 
-import dbms.datatypes.*;
+import dbms.datatypes.DBDatatype;
+import dbms.datatypes.DBDate;
+import dbms.datatypes.DBFloat;
+import dbms.datatypes.DBInteger;
+import dbms.datatypes.DBString;
 import dbms.util.Record;
 import dbms.util.RecordSet;
 import jdbc.imp.resultSetMetaData.DBResultSetMetaDataImpl;
@@ -18,7 +22,7 @@ import java.sql.Statement;
 /**
  * Implementation of Result Set.
  */
-public class DBResultSetImpl extends DBResultSet {
+public final class DBResultSetImpl extends DBResultSet {
     /**
      * Reference to {@link RecordSet}.
      */

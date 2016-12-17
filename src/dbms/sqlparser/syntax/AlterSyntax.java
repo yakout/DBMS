@@ -13,6 +13,7 @@ public class AlterSyntax implements SQLSyntax {
     private Pattern alterPattern = null;
 
     private AlterSyntax() {
+
     }
 
     public static AlterSyntax getInstance() {

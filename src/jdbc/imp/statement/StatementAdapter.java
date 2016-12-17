@@ -130,7 +130,6 @@ public class StatementAdapter extends DBStatement {
         return resultSet;
     }
 
-
     @Override
     public int getUpdateCount() throws SQLException {
         return super.getUpdateCount();

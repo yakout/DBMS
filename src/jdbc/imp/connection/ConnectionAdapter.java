@@ -1,6 +1,7 @@
 package jdbc.imp.connection;
 
 import dbms.backend.BackendController;
+import dbms.backend.BackendParser;
 import dbms.backend.BackendParserFactory;
 import jdbc.imp.statement.StatementAdapter;
 
@@ -12,6 +13,7 @@ public class ConnectionAdapter extends DBConnection {
 
     public ConnectionAdapter(String url, String databaseDir) {
         BackendController.getInstance().setCurrentDatabaseDir(databaseDir);
+        BackendParserFactory.loadParsers();
         BackendParserFactory.getFactory().setCurrentParser(url);
     }
 
