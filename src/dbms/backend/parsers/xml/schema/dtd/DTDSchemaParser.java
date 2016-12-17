@@ -42,18 +42,20 @@ public class DTDSchemaParser {
         }
         return instance;
     }
-    
+
     /**
      * Creates the main flow to DTD file.
      * Writes element and attributes to DTD file.
      * @param dbName holds the name of the current database.
      * @param tableName holds the name of the table.
-     * @throws DatabaseNotFoundException if no such database with the given name is found.
+     * @throws DatabaseNotFoundException if no such database with the given
+     * name is found.
      */
     public void createDTDSchema(String dbName, String tableName)
             throws DatabaseNotFoundException {
         // File database = new File(WORKSPACE_DIR + File.separator + dbName);
-        File database = new File(BackendController.getInstance().getCurrentDatabaseDir() + File.separator + dbName);
+        File database = new File(BackendController.getInstance()
+                .getCurrentDatabaseDir() + File.separator + dbName);
         if (!database.exists()) {
             throw new DatabaseNotFoundException();
         }
@@ -71,8 +73,9 @@ public class DTDSchemaParser {
             e.printStackTrace();
         }
     }
-    
-    private void writeElements(File schema, PrintWriter pWriter) throws FileNotFoundException {
+
+    private void writeElements(File schema, PrintWriter pWriter) throws
+            FileNotFoundException {
 
         DTDElementCreator.createElement(
                 CONSTANTS.getString("table.element"),
@@ -85,19 +88,25 @@ public class DTDSchemaParser {
                 CONSTANTS.getString("pc.data"), pWriter);
     }
 
-    private void writeAttributes(File schema, PrintWriter pWriter) throws FileNotFoundException {
+    private void writeAttributes(File schema, PrintWriter pWriter) throws
+            FileNotFoundException {
         DTDAttributeCreator.createElement(CONSTANTS.getString("table.element"),
-                CONSTANTS.getString("db.attr"), CONSTANTS.getString("req.type"), pWriter);
+                CONSTANTS.getString("db.attr"), CONSTANTS.getString("req"
+                        + ".type"), pWriter);
         DTDAttributeCreator.createElement(CONSTANTS.getString("table.element"),
-                CONSTANTS.getString("name.attr"), CONSTANTS.getString("req.type"), pWriter);
+                CONSTANTS.getString("name.attr"), CONSTANTS.getString("req"
+                        + ".type"), pWriter);
         DTDAttributeCreator.createElement(CONSTANTS.getString("table.element"),
                 CONSTANTS.getString("rows.attr"), "\"0\"", pWriter);
         DTDAttributeCreator.createElement(CONSTANTS.getString("column.element"),
-                CONSTANTS.getString("name.attr"), CONSTANTS.getString("req.type"), pWriter);
+                CONSTANTS.getString("name.attr"), CONSTANTS.getString("req"
+                        + ".type"), pWriter);
         DTDAttributeCreator.createElement(CONSTANTS.getString("column.element"),
-                CONSTANTS.getString("type.attr"), CONSTANTS.getString("req.type"), pWriter);
+                CONSTANTS.getString("type.attr"), CONSTANTS.getString("req"
+                        + ".type"), pWriter);
         DTDAttributeCreator.createElement(CONSTANTS.getString("row.element"),
-                CONSTANTS.getString("index.val"), CONSTANTS.getString("req.type"), pWriter);
+                CONSTANTS.getString("index.val"), CONSTANTS.getString("req"
+                        + ".type"), pWriter);
 
     }
 }

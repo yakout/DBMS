@@ -52,7 +52,7 @@ public class DatatypeFactory {
         if (o == null) {
             return null;
         }
-        Class< ? > classType = o.getClass();
+        Class<?> classType = o.getClass();
         if (classType == Integer.class) {
             return new DBInteger((Integer) o);
         } else if (classType == Date.class) {
@@ -101,8 +101,8 @@ public class DatatypeFactory {
      * @param key datatype key.
      * @param datatype Class of the datatype.
      */
-    public void register(final String key, 
-    		final Class< ? extends DBDatatype> datatype) {
+    public void register(final String key,
+                         final Class<? extends DBDatatype> datatype) {
         registeredDataTypes.put(key, datatype);
     }
 
@@ -111,8 +111,8 @@ public class DatatypeFactory {
      * @param name
      * @return
      */
-    public Class< ? extends DBDatatype> getRegisteredDatatype(
-    		final String name) {
+    public Class<? extends DBDatatype> getRegisteredDatatype(
+            final String name) {
         return registeredDataTypes.get(name);
     }
 
@@ -124,7 +124,7 @@ public class DatatypeFactory {
      * @return Object.
      */
     public Object toObj(String s, String key) {
-        Class< ? extends DBDatatype> datatype = registeredDataTypes
+        Class<? extends DBDatatype> datatype = registeredDataTypes
                 .get(key);
         if (datatype == null) {
             return null;

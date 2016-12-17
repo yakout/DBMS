@@ -188,9 +188,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
             comparatorChain.addComparator(recordComparator, pair.getValue());
         }
         records.sort(comparatorChain);
-
         Collection<String> filteredColumns = new ArrayList<>();
-
         Iterator it = records.get(0).getRecord().entrySet().iterator();
         while(it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();

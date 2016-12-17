@@ -100,8 +100,8 @@ public class Select implements DMLStatement {
 
     @Override
     public void execute() throws DatabaseNotFoundException,
-    TableNotFoundException, SyntaxErrorException,
-    IncorrectDataEntryException {
+            TableNotFoundException, SyntaxErrorException,
+            IncorrectDataEntryException {
         if (orderBy != null) {
             recordSet = BackendController.getInstance().select(
                     tableName, null, where);

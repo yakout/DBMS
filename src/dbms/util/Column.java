@@ -49,7 +49,7 @@ public class Column {
      * @throws RuntimeException In case the type of entry is incompatible.
      */
     public void addEntry(DBDatatype o) {
-        if ( o != null && o.getClass() != type) {
+        if (o != null && o.getClass() != type) {
             throw new RuntimeException();
         }
         entries.add(o);

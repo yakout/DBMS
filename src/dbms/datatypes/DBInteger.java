@@ -16,7 +16,7 @@ public class DBInteger implements DBDatatype {
 
     public DBInteger() {
     }
-    
+
     public DBInteger(final Integer value) {
         this.value = value;
     }
@@ -58,7 +58,7 @@ public class DBInteger implements DBDatatype {
         DBInteger dbInteger = (DBInteger) o;
 
         return value != null ? value.equals(dbInteger.value)
-        		: dbInteger.value == null;
+                : dbInteger.value == null;
     }
 
     @Override

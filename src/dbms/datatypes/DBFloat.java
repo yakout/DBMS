@@ -16,8 +16,8 @@ public class DBFloat implements DBDatatype {
     public DBFloat() {
 
     }
+
     /**
-     * 
      * @param value {@link Float} sets the local value to the given value.
      */
     public DBFloat(final Float value) {
@@ -61,7 +61,7 @@ public class DBFloat implements DBDatatype {
         DBFloat dbFloat = (DBFloat) o;
 
         return value != null ? value.equals(dbFloat.value)
-        		: dbFloat.value == null;
+                : dbFloat.value == null;
     }
 
     @Override

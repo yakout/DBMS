@@ -50,7 +50,6 @@ public class Evaluator extends BooleanExpressionEvaluator {
             SQLPredicate sqlPredicate = ((SQLPredicate) postfix.poll());
             if (sqlPredicate.isAlwaysTrue() || sqlPredicate.isAlwaysFalse()) {
                 return sqlPredicate.isAlwaysTrue();
-
             } else if (sqlPredicate.getColumnName2() == null) {
                 DBDatatype o = get(sqlPredicate.getValue(), columns,
                         rowLower, sqlPredicate.getColumnName()); //column1
@@ -60,7 +59,6 @@ public class Evaluator extends BooleanExpressionEvaluator {
                         rowLower, sqlPredicate.getColumnName()); //column1
                 DBDatatype o2 = get(sqlPredicate.getValue(), columns,
                         rowLower, sqlPredicate.getColumnName2()); //column2
-
                 return sqlPredicate.test(o1, o2);
             }
         }
@@ -73,16 +71,16 @@ public class Evaluator extends BooleanExpressionEvaluator {
                 SQLPredicate sqlPredicate1 = (SQLPredicate) helperStack.pop();
                 SQLPredicate sqlPredicate2 = (SQLPredicate) helperStack.pop();
 
-                if (predicateHasResult(sqlPredicate1) &&
-                        sqlPredicate2.getColumnName2() == null) {
+                if (predicateHasResult(sqlPredicate1)
+                        && sqlPredicate2.getColumnName2() == null) {
                     DBDatatype o1 = get(sqlPredicate2.getValue(), columns,
                             rowLower, sqlPredicate2.getColumnName());
 
-                    if (((BooleanOperator) object).getOperator() ==
-                            BooleanOperator.Operator.And) {
-                        helperStack.push(new SQLPredicate(sqlPredicate2.and
-                                (sqlPredicate1, o1, null, null
-                                        , null)));
+                    if (((BooleanOperator) object).getOperator()
+                            == BooleanOperator.Operator.And) {
+                        helperStack.push(new SQLPredicate(sqlPredicate2
+                                .and(sqlPredicate1, o1, null,
+                                        null, null)));
                     } else {
                         helperStack.push(new SQLPredicate(sqlPredicate2.or
                                 (sqlPredicate1, o1, null, null
@@ -127,8 +125,8 @@ public class Evaluator extends BooleanExpressionEvaluator {
 
                     if (((BooleanOperator) object).getOperator() ==
                             BooleanOperator.Operator.And) {
-                        helperStack.push(new SQLPredicate(sqlPredicate2.and
-                                (sqlPredicate1, null, null, o3, o4)));
+                        helperStack.push(new SQLPredicate(sqlPredicate2
+                                .and(sqlPredicate1, null, null, o3, o4)));
                     } else {
                         helperStack.push(new SQLPredicate(sqlPredicate2.or
                                 (sqlPredicate1, null, null, o3, o4)));
@@ -186,24 +184,24 @@ public class Evaluator extends BooleanExpressionEvaluator {
                         helperStack.push(new SQLPredicate(sqlPredicate2.and
                                 (sqlPredicate1, o1, o2, o3, null)));
                     } else {
-                        helperStack.push(new SQLPredicate(sqlPredicate2.or
-                                (sqlPredicate1, o1, o2, o3, null)));
+                        helperStack.push(new SQLPredicate(sqlPredicate2
+                                .or(sqlPredicate1, o1, o2, o3, null)));
                     }
-                } else if (sqlPredicate1.getColumnName2() == null &&
-                        sqlPredicate2.getColumnName2() == null) {
+                } else if (sqlPredicate1.getColumnName2() == null
+                        && sqlPredicate2.getColumnName2() == null) {
                     DBDatatype o1 = get(sqlPredicate2.getValue(), columns,
                             rowLower, sqlPredicate2.getColumnName());
 
                     DBDatatype o3 = get(sqlPredicate1.getValue(), columns,
                             rowLower, sqlPredicate1.getColumnName());
 
-                    if (((BooleanOperator) object).getOperator() ==
-                            BooleanOperator.Operator.And) {
-                        helperStack.push(new SQLPredicate(sqlPredicate2.and
-                                (sqlPredicate1, o1, null, o3, null)));
+                    if (((BooleanOperator) object).getOperator()
+                            == BooleanOperator.Operator.And) {
+                        helperStack.push(new SQLPredicate(sqlPredicate2
+                                .and(sqlPredicate1, o1, null, o3, null)));
                     } else {
-                        helperStack.push(new SQLPredicate(sqlPredicate2.or
-                                (sqlPredicate1, o1, null, o3, null)));
+                        helperStack.push(new SQLPredicate(sqlPredicate2
+                                .or(sqlPredicate1, o1, null, o3, null)));
                     }
                 }
             }

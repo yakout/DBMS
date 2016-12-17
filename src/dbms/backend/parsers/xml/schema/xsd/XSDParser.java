@@ -78,13 +78,13 @@ public class XSDParser {
 
         // File database = new File(WORKSPACE_DIR + File.separator + dbName);
         File database = new File(BackendController.getInstance()
-        		.getCurrentDatabaseDir()
+                .getCurrentDatabaseDir()
                 + File.separator + dbName);
         if (!database.exists()) {
             throw new DatabaseNotFoundException();
         }
         File schema = new File(database, tableName + CONSTANTS.getString(
-        		"extension.schema"));
+                "extension.schema"));
         if (schema.exists()) {
             return;
         }
@@ -113,7 +113,7 @@ public class XSDParser {
         table.appendChild(cmplx);
 
         Element sequence = doc.createElement(CONSTANTS.getString(
-        		"xs.sequence"));
+                "xs.sequence"));
         cmplx.appendChild(sequence);
 
         Element column1 = doc.createElement(CONSTANTS.getString("xs.element"));
@@ -124,7 +124,7 @@ public class XSDParser {
         column1.appendChild(cmplx2);
 
         Element sequence2 = doc.createElement(CONSTANTS.getString(
-        		"xs.sequence"));
+                "xs.sequence"));
         cmplx2.appendChild(sequence2);
 
         Element row = doc.createElement(CONSTANTS.getString("xs.element"));
@@ -135,18 +135,18 @@ public class XSDParser {
         row.appendChild(cmplx3);
 
         Element simpleContent = doc.createElement(CONSTANTS.getString(
-        		"xs.simple"));
+                "xs.simple"));
         cmplx3.appendChild(simpleContent);
 
         Element extension = doc.createElement(CONSTANTS.getString(
-        		"xs.extension"));
+                "xs.extension"));
         setExtensionAttribute(extension, doc);
         simpleContent.appendChild(extension);
 
         Element rowAttribute = doc.createElement(CONSTANTS.getString(
-        		"xs.attr"));
+                "xs.attr"));
         setAttrsToAttribute(rowAttribute, doc, CONSTANTS.getString(
-        		"index.val"));
+                "index.val"));
         extension.appendChild(rowAttribute);
 
         Element colAttr = doc.createElement(CONSTANTS.getString("xs.attr"));
@@ -170,8 +170,9 @@ public class XSDParser {
         cmplx.appendChild(tableAttr3);
     }
 
-    private void setAttrsToAttribute(final Element attribute, final Document doc,
-    		final String attrName) {
+    private void setAttrsToAttribute(final Element attribute, final Document
+            doc,
+                                     final String attrName) {
         Attr type = doc.createAttribute(CONSTANTS.getString("type.attr"));
 
         Attr name = doc.createAttribute(CONSTANTS.getString("name.attr"));
@@ -181,7 +182,7 @@ public class XSDParser {
         if (attrName.equals(CONSTANTS.getString("rows.attr"))) {
             type.setValue(CONSTANTS.getString("int.type"));
             Attr defaultVal = doc.createAttribute(CONSTANTS.getString(
-            		"default.attr"));
+                    "default.attr"));
             defaultVal.setValue("0");
             attribute.setAttributeNode(defaultVal);
         } else {
@@ -194,7 +195,7 @@ public class XSDParser {
     }
 
     private void setExtensionAttribute(final Element extension,
-    		final Document doc) {
+                                       final Document doc) {
         Attr base = doc.createAttribute(CONSTANTS.getString("base.attr"));
         base.setValue(CONSTANTS.getString("string.type"));
         extension.setAttributeNode(base);
@@ -206,12 +207,12 @@ public class XSDParser {
         column.setAttributeNode(name);
 
         Attr maxOccurs = doc.createAttribute(CONSTANTS.getString(
-        		"maxOccurs.attr"));
+                "maxOccurs.attr"));
         maxOccurs.setValue(CONSTANTS.getString("unbounded.val"));
         column.setAttributeNode(maxOccurs);
 
         Attr minOccurs = doc.createAttribute(CONSTANTS.getString(
-        		"minOccurs.attr"));
+                "minOccurs.attr"));
         minOccurs.setValue(CONSTANTS.getString("nothing"));
         column.setAttributeNode(minOccurs);
     }
@@ -222,12 +223,12 @@ public class XSDParser {
         sequence.setAttributeNode(name);
 
         Attr maxOccurs = doc.createAttribute(CONSTANTS.getString(
-        		"maxOccurs.attr"));
+                "maxOccurs.attr"));
         maxOccurs.setValue(CONSTANTS.getString("unbounded.val"));
         sequence.setAttributeNode(maxOccurs);
 
         Attr minOccurs = doc.createAttribute(CONSTANTS.getString(
-        		"minOccurs.attr"));
+                "minOccurs.attr"));
         minOccurs.setValue(CONSTANTS.getString("nothing"));
         sequence.setAttributeNode(minOccurs);
     }
@@ -237,11 +238,11 @@ public class XSDParser {
         xmlns.setValue(CONSTANTS.getString("xmlns.val"));
         root.setAttributeNode(xmlns);
         Attr eFormDefault = doc.createAttribute(CONSTANTS.getString(
-        		"elementFormDefault.attr"));
+                "elementFormDefault.attr"));
         eFormDefault.setValue(CONSTANTS.getString("elementFormDefault.val"));
         root.setAttributeNode(eFormDefault);
         Attr formAttr = doc.createAttribute(CONSTANTS.getString(
-        		"formDefault.attr"));
+                "formDefault.attr"));
         formAttr.setValue(CONSTANTS.getString("formDefault.val"));
         root.setAttributeNode(formAttr);
     }

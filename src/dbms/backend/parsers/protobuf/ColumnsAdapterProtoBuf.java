@@ -19,8 +19,8 @@ public class ColumnsAdapterProtoBuf {
     }
 
 
-    public void deserializeColumns (final byte[] deserialzedData,
-                                    final Table table)
+    public void deserializeColumns(final byte[] deserialzedData,
+                                   final Table table)
             throws InvalidProtocolBufferException {
         TableProtoBuf.TableModule tableModule = TableProtoBuf
                 .TableModule.parseFrom(deserialzedData);
@@ -76,8 +76,10 @@ public class ColumnsAdapterProtoBuf {
 
 
     public byte[] serializeTable(Table table) throws IllegalAccessException,
-            InstantiationException, NoSuchMethodException, InvocationTargetException {
-        List<TableProtoBuf.TableModule.ColumnModule> columnsModule = new ArrayList<>();
+            InstantiationException, NoSuchMethodException,
+            InvocationTargetException {
+        List<TableProtoBuf.TableModule.ColumnModule> columnsModule = new
+                ArrayList<>();
         List<Column> columns = table.getColumns();
         for (Column col : columns) {
 
