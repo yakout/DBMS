@@ -21,53 +21,6 @@ public class Formatter {
         return instance;
     }
 
-    public static void main(String[] args) {
-        LinkedHashMap<String, DBDatatype> map = new LinkedHashMap<>();
-        map.put("ID", DatatypeFactory.convertToDataType(1));
-        map.put("Name", DatatypeFactory.convertToDataType("Ahmed"));
-        map.put("Part", DatatypeFactory.convertToDataType("XML Parser"));
-
-        LinkedHashMap<String, DBDatatype> map2 = new LinkedHashMap<>();
-        map2.put("ID", DatatypeFactory.convertToDataType(5));
-        map2.put("Name", DatatypeFactory.convertToDataType("Tolba"));
-        map2.put("Part", DatatypeFactory.convertToDataType("SQL Parser"));
-
-        LinkedHashMap<String, DBDatatype> map3 = new LinkedHashMap<>();
-        map3.put("ID", DatatypeFactory.convertToDataType(1));
-        map3.put("Name", DatatypeFactory.convertToDataType("Ahmed"));
-        map3.put("Part", DatatypeFactory.convertToDataType("XML Parser"));
-
-        LinkedHashMap<String, DBDatatype> map4 = new LinkedHashMap<>();
-        map4.put("ID", DatatypeFactory.convertToDataType(9));
-        map4.put("Name", null);
-        map4.put("Part", DatatypeFactory.convertToDataType("XML Parser       "
-                + "                   "));
-
-        Record record = new Record(map);
-        Record record2 = new Record(map2);
-        Record record3 = new Record(map3);
-        Record record4 = new Record(map4);
-
-        ArrayList<Record> records = new ArrayList<>();
-        records.add(record);
-        records.add(record2);
-        records.add(record3);
-        records.add(record4);
-
-        RecordSet recordSet = new RecordSet(records);
-        List<Pair<String, Boolean>> order = new ArrayList<>();
-        // order.add(new Pair<>("ID", false));
-        order.add(new Pair<>("Name", true));
-        order.add(new Pair<>("Part", false));
-        List<String> returnColumns = new ArrayList<String>();
-        returnColumns.add("ID");
-        returnColumns.add("Part");
-        returnColumns.add("Name");
-        recordSet.orderBy(order, returnColumns);
-        recordSet.distinct();
-        new Formatter().printTable(recordSet.union(recordSet, true));
-    }
-
     private int getColumnWidth(Object key, RecordSet recordSet) {
         int max = key.toString().length();
         for (Record record : recordSet) {
@@ -190,5 +143,53 @@ public class Formatter {
         printTableLine(firstRecord, widthOfColumns);
 
         printAllRows(recordSet, firstRecord, widthOfColumns);
+    }
+
+
+    public static void main(String[] args) {
+        LinkedHashMap<String, DBDatatype> map = new LinkedHashMap<>();
+        map.put("ID", DatatypeFactory.convertToDataType(1));
+        map.put("Name", DatatypeFactory.convertToDataType("Ahmed"));
+        map.put("Part", DatatypeFactory.convertToDataType("XML Parser1"));
+
+        LinkedHashMap<String, DBDatatype> map2 = new LinkedHashMap<>();
+        map2.put("ID", DatatypeFactory.convertToDataType(5));
+        map2.put("Name", DatatypeFactory.convertToDataType("Tolba"));
+        map2.put("Part", DatatypeFactory.convertToDataType("SQL Parser1"));
+
+        LinkedHashMap<String, DBDatatype> map3 = new LinkedHashMap<>();
+        map3.put("ID", DatatypeFactory.convertToDataType(1));
+        map3.put("Name", DatatypeFactory.convertToDataType("Ahmed"));
+        map3.put("Part", DatatypeFactory.convertToDataType("XML Parser1"));
+
+        LinkedHashMap<String, DBDatatype> map4 = new LinkedHashMap<>();
+        map4.put("ID", DatatypeFactory.convertToDataType(9));
+        map4.put("Name", null);
+        map4.put("Part", DatatypeFactory.convertToDataType("XML Parser3      "
+                + "                   "));
+
+        Record record = new Record(map);
+        Record record2 = new Record(map2);
+        Record record3 = new Record(map3);
+        Record record4 = new Record(map4);
+
+        ArrayList<Record> records = new ArrayList<>();
+        records.add(record);
+        records.add(record2);
+        records.add(record3);
+        records.add(record4);
+
+        RecordSet recordSet = new RecordSet(records);
+         List<Pair<String, Boolean>> order = new ArrayList<>();
+          order.add(new Pair<>("ID", false));
+          order.add(new Pair<>("Part", false));
+         order.add(new Pair<>("Name", false));
+         List<String> returnColumns = new ArrayList<>();
+         returnColumns.add("ID");
+         returnColumns.add("Part");
+          returnColumns.add("Name");
+         recordSet.orderBy(order, returnColumns);
+        // recordSet.distinct();
+        new Formatter().printTable(recordSet.union(recordSet, false));
     }
 }

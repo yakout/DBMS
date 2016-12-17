@@ -11,7 +11,7 @@ import java.util.*;
 public class RecordSet implements Iterable<Record>, Cloneable {
     private List<Record> records = null;
     private List<Pair<String, Class<? extends DBDatatype>>> columns = null;
-    private int i;
+    private int i = -1;
 
     /**
      * Constructor for a {@link RecordSet}, initiates an empty
@@ -20,7 +20,6 @@ public class RecordSet implements Iterable<Record>, Cloneable {
     public RecordSet() {
         records = new ArrayList<>();
         columns = new ArrayList<>();
-        i = -1;
     }
 
     /**
@@ -189,8 +188,16 @@ public class RecordSet implements Iterable<Record>, Cloneable {
         }
         records.sort(comparatorChain);
 
-        Collection<String> filteredColumns = new ArrayList<>();
+        filter(getUnselectedColumns(returnColumns));
+    }
 
+    /**
+     *
+     * @param returnColumns
+     * @return
+     */
+    private Collection<String> getUnselectedColumns(Collection<String> returnColumns) {
+        Collection<String> filteredColumns = new ArrayList<>();
         Iterator it = records.get(0).getRecord().entrySet().iterator();
         while(it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
@@ -205,13 +212,20 @@ public class RecordSet implements Iterable<Record>, Cloneable {
                 filteredColumns.add((String) pair.getKey());
             }
         }
-        filter(filteredColumns);
+        return filteredColumns;
     }
 
     private void filter(final Collection<String> filteredColumns) {
         for (Record record : records) {
             for (String columnName : filteredColumns) {
                 record.getRecord().remove(columnName);
+            }
+        }
+
+        for (Pair<String, Class<? extends DBDatatype>> pair : columns) {
+            for (String columnName : filteredColumns) {
+                // if (pair.getKey() != nu)
+                columns.remove(pair);
             }
         }
     }
