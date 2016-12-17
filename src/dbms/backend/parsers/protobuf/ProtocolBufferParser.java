@@ -18,13 +18,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ResourceBundle;
 
 public class ProtocolBufferParser extends BackendParser {
-
     private static Logger log = LogManager.getFormatterLogger();
     public static final String KEY = "alt";
     private static final ResourceBundle CONSTANTS
             = ResourceBundle.getBundle("dbms.backend.parsers.protobuf"
             + ".Constants");
-
     private static ProtocolBufferParser instance = null;
 
     static {

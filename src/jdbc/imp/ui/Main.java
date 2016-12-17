@@ -63,7 +63,7 @@ public class Main {
     }
 
     private static Connection getConnection() throws SQLException, ClassNotFoundException {
-        Class.forName("jdbc.imp.driver.DBDriver");
+        // Class.forName("jdbc.imp.driver.DBDriver");
         String url = "jdbc:xmldb://localhost";
         final Properties info = new Properties();
         String currentDatabaseDir =
