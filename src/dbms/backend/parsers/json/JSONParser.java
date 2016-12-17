@@ -144,7 +144,7 @@ public class JSONParser extends BackendParser {
             bufferedReader = new BufferedReader(new FileReader(openTable(
                     table.getDatabase().getName(), table.getName())));
         } catch (FileNotFoundException e) {
-            log.error("Error occured while loading the table.");
+            log.error("Error occured while loading the table @: " + e.printStackTrace().to);
             throw new TableNotFoundException();
         }
         log.debug("\'" + table.getName() + "\' is loaded successfully.");
