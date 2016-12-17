@@ -187,7 +187,9 @@ public class RecordSet implements Iterable<Record>, Cloneable {
             comparatorChain.addComparator(recordComparator, pair.getValue());
         }
         records.sort(comparatorChain);
-        filter(getUnselectedColumns(returnColumns));
+        if (returnColumns != null) {
+            filter(getUnselectedColumns(returnColumns));
+        }
     }
 
     /**
