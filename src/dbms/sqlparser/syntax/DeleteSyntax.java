@@ -4,7 +4,8 @@ import java.util.regex.Pattern;
 
 public class DeleteSyntax implements SQLSyntax {
     private static DeleteSyntax instance = null;
-    private final String DELETE_REGEX = "(?i)^\\s*delete\\s+([*]{1}\\s+)?from\\s+("
+    private final String DELETE_REGEX = "(?i)^\\s*delete\\s+([*]{1}\\s+)"
+            + "?from\\s+("
             + SyntaxUtil.TABLE_NAME + ")"
             + WhereSyntax.getInstance().getRegex();
     private Pattern deletePattern = Pattern.compile(DELETE_REGEX);

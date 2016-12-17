@@ -11,7 +11,7 @@ import java.util.*;
 public class RecordSet implements Iterable<Record>, Cloneable {
     private List<Record> records = null;
     private List<Pair<String, Class<? extends DBDatatype>>> columns = null;
-    private int i;
+    private int i = -1;
 
     /**
      * Constructor for a {@link RecordSet}, initiates an empty
@@ -20,13 +20,11 @@ public class RecordSet implements Iterable<Record>, Cloneable {
     public RecordSet() {
         records = new ArrayList<>();
         columns = new ArrayList<>();
-        i = -1;
     }
 
     /**
      * Constructor for a {@link RecordSet} that takes in an {@link ArrayList}
      * if records and copies data from it.
-     *
      * @param records {@link ArrayList} of records.
      */
     public RecordSet(Collection<Record> records) {
@@ -50,7 +48,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
 
     /**
      * Sets column list inside record set.
-     * @param  {@link List} list of pairs of column names and column types.
+     * @param {@link List} list of pairs of column names and column types.
      */
     public void setColumnList(List<Pair<String, Class<
             ? extends DBDatatype>>> columnList) {
@@ -166,16 +164,12 @@ public class RecordSet implements Iterable<Record>, Cloneable {
     /**
      * Orders record set.
      * @param columns list of pairs between columns to be ordered and a boolean
-     * value that represents if columns are ordered in an ascending or a descending
+     * value that represents if columns are ordered in an ascending or a
+     * descending
      * order; <strong>TRUE</strong> means ascending and <strong>FALSE</strong>
      * means descending.
      */
-    public void orderBy(final List<Pair<String, Boolean>> columns) {
-//		for (Pair<String, Boolean> pair : columns) {
-//			if (this.columns.size() == 1) {
-//				return;
-//			}
-//		}
+    public void orderBy(final List<Pair<String, Boolean>> columns, final Collection<String> returnColumns) {
         DBComparatorChain<Record> comparatorChain = new DBComparatorChain<>();
         for (final Pair<String, Boolean> pair : columns) {
             Comparator<Record> recordComparator = new Comparator<Record>() {
@@ -193,6 +187,51 @@ public class RecordSet implements Iterable<Record>, Cloneable {
             comparatorChain.addComparator(recordComparator, pair.getValue());
         }
         records.sort(comparatorChain);
+
+        filter(getUnselectedColumns(returnColumns));
+    }
+
+    /**
+     *
+     * @param returnColumns
+     * @return
+     */
+    private Collection<String> getUnselectedColumns(Collection<String> returnColumns) {
+        Collection<String> filteredColumns = new ArrayList<>();
+        Iterator it = records.get(0).getRecord().entrySet().iterator();
+        while(it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            boolean found = false;
+            for (String columnName : returnColumns) {
+                if (pair.getKey().equals(columnName)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                filteredColumns.add((String) pair.getKey());
+            }
+        }
+        return filteredColumns;
+    }
+
+    private void filter(final Collection<String> filteredColumns) {
+        for (Record record : records) {
+            for (String columnName : filteredColumns) {
+                record.getRecord().remove(columnName);
+            }
+        }
+
+        List<Pair<String, Class<? extends DBDatatype>>> toRemove = new ArrayList<>();
+
+        for (Pair<String, Class<? extends DBDatatype>> pair : columns) {
+            for (String columnName : filteredColumns) {
+                if (pair.getKey().equals(columnName)) {
+                    toRemove.add(pair);
+                }
+            }
+        }
+        columns.removeAll(toRemove);
     }
 
     /**

@@ -22,16 +22,16 @@ import dbms.util.Table;
 public class ColumnsAdapterProtoBuf {
 
     public ColumnsAdapterProtoBuf() {
-}
+    }
 
 
     public void deserializeColumns (final byte[] deserialzedData,
-    		final Table table)
-    		throws InvalidProtocolBufferException {
+                                    final Table table)
+            throws InvalidProtocolBufferException {
         TableProtoBuf.TableModule tableModule = TableProtoBuf
-        		.TableModule.parseFrom(deserialzedData);
+                .TableModule.parseFrom(deserialzedData);
         List<TableProtoBuf.TableModule.ColumnModule> columnsModule
-        = tableModule.getColumnsList();
+                = tableModule.getColumnsList();
         List<Column> cloneColumns = new ArrayList<>();
         for (TableProtoBuf.TableModule.ColumnModule col : columnsModule) {
             String columnName = col.getColumnName();
@@ -82,7 +82,7 @@ public class ColumnsAdapterProtoBuf {
 
 
     public byte[] serializeTable(Table table) throws IllegalAccessException,
-    InstantiationException, NoSuchMethodException, InvocationTargetException {
+            InstantiationException, NoSuchMethodException, InvocationTargetException {
         List<TableProtoBuf.TableModule.ColumnModule> columnsModule = new ArrayList<>();
         List<Column> columns = table.getColumns();
         for (Column col : columns) {
@@ -100,7 +100,7 @@ public class ColumnsAdapterProtoBuf {
             }
 
             TableProtoBuf.TableModule.ColumnModule columnMod
-            = TableProtoBuf.TableModule.ColumnModule.newBuilder()
+                    = TableProtoBuf.TableModule.ColumnModule.newBuilder()
                     .setColumnName(col.getName())
                     .setColumnDataType((String) col.getType().getMethod(
                             "getKey").invoke(col.getType().newInstance()))

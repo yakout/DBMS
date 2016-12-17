@@ -18,8 +18,8 @@ public class DBDate implements DBDatatype {
     public DBDate() {
 
     }
+
     /**
-     * 
      * @param value {@link Date} sets the the local date to the fiven value.
      */
     public DBDate(final Date value) {
@@ -62,7 +62,7 @@ public class DBDate implements DBDatatype {
 
         DBDate dbDate = (DBDate) o;
         return value != null ? value.equals(dbDate.value)
-        		: dbDate.value == null;
+                : dbDate.value == null;
     }
 
     @Override

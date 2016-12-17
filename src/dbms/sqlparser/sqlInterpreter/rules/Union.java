@@ -29,7 +29,7 @@ public class Union implements DMLStatement {
 
     @Override
     public void execute() throws DatabaseNotFoundException,
-    		TableNotFoundException,
+            TableNotFoundException,
             SyntaxErrorException, DataTypeNotSupportedException,
             TableAlreadyCreatedException, DatabaseAlreadyCreatedException,
             IncorrectDataEntryException {
@@ -42,16 +42,16 @@ public class Union implements DMLStatement {
             Select select = it.next();
             // TODO: check for datatype, optimize it
             if (firstSelect.getColumns() != null || select.getColumns()
-            		!= null) {
+                    != null) {
                 throw new SyntaxErrorException("wrong number of columns");
             } else if (firstSelect.getColumns() != null && select.getColumns()
-            		!= null && firstSelect.getColumns().size()
-            		!= select.getColumns().size()) {
+                    != null && firstSelect.getColumns().size()
+                    != select.getColumns().size()) {
                 throw new SyntaxErrorException("wrong number of columns");
             }
             select.execute();
             recordSet = firstSelectRecordSet.union(select.getRecordSet(),
-            		removeDuplicates);
+                    removeDuplicates);
         }
 
         Formatter.getInstance().printTable(recordSet);

@@ -22,7 +22,6 @@ public class Test {
             SQLParser.getInstance().parse("INSERT INTO table1 (ID, Name, Gender) VALUES (18, 'tolbas', 'Female');").execute();
             SQLParser.getInstance().parse("SELEC	T * FROM table1 where id < 18 UNION SELECT * FROM table1 WHERE gender = 'Male';").execute();
 
-
         } catch (DatabaseNotFoundException
                 | TableNotFoundException | SyntaxErrorException
                 | DataTypeNotSupportedException | TableAlreadyCreatedException

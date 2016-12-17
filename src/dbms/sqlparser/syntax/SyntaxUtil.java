@@ -24,11 +24,13 @@ public class SyntaxUtil {
      * Regex to support spaces in values between double quotes.
      * TODO: support 'afloatis 0.3'
      */
-    public static final String MULTIPLE_WORDS_DOUBLE_QUOTES = "\"(?:\\s*\\w+\\s*)*\"";
+    public static final String MULTIPLE_WORDS_DOUBLE_QUOTES = "\""
+            + "(?:\\s*\\w+\\s*)*\"";
     /**
      * Regex to support spaces in values between single quotes.
      */
-    public static final String MULTIPLE_WORDS_SINGLE_QUOTES = "'(?:\\s*\\w+\\s*)*'";
+    public static final String MULTIPLE_WORDS_SINGLE_QUOTES = "'"
+            + "(?:\\s*\\w+\\s*)*'";
 
     /**
      * Regex for date format.
@@ -43,17 +45,20 @@ public class SyntaxUtil {
      * Regex to support semi-colon in sql statement.
      * To remove support for semi-colon just replace "\s*\;\s*" with "\s*"
      */
-    public static final String SEMI_COLON = "\\s*\\;\\s*";
+//    public static final String SEMI_COLON = "\\s*\\;\\s*";
+    public static final String SEMI_COLON = "\\s*";
 
     /**
      * The supported data types.
      */
-    public static final String SUPPORTED_DATA_TYPES = "(int|varchar|date|float)";
+    public static final String SUPPORTED_DATA_TYPES = ""
+            + "(int|varchar|date|float)";
 
     /**
      * Regex for the supported sql statements (rules).
      */
-    public static final String RULE_REGEX = "(?i)^\\s*(.*(union\\s+all|union)|select|" +
+    public static final String RULE_REGEX = "(?i)^\\s*(.*(union\\s+all|union)"
+            + "|select|" +
             "drop|insert|update|delete|create|where|use|alter).*";
 
     /**

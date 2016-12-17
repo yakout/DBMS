@@ -43,12 +43,14 @@ public class DBDriver implements Driver {
     @Override
     public DriverPropertyInfo[] getPropertyInfo(String url, Properties info)
             throws SQLException {
-        DriverPropertyInfo propertyInfos[] = new DriverPropertyInfo[info.keySet().size()];
+        DriverPropertyInfo propertyInfos[] = new DriverPropertyInfo[info
+                .keySet().size()];
         Iterator<Object> itr = info.keySet().iterator();
         int counter = 0;
         while (itr.hasNext()) {
             String str = (String) itr.next();
-            propertyInfos[counter++] = new DriverPropertyInfo(str, info.getProperty(str));
+            propertyInfos[counter++] = new DriverPropertyInfo(str, info
+                    .getProperty(str));
         }
         return propertyInfos;
     }

@@ -41,7 +41,6 @@ public class XMLParser extends BackendParser {
      */
     private static final ResourceBundle CONSTANTS =
             ResourceBundle.getBundle("dbms.backend.parsers.xml.Constants");
-
     /**
      * Logger.
      */

@@ -1067,7 +1067,7 @@ public class XMLTestingSelect {
 
             RecordSet actualRes = xmlParser.select("table_name", selectedColumns, whereConditionDel);
             RecordSet actualResUpdated = new RecordSet(actualRes.getRecords());
-            actualResUpdated.orderBy(orderByCols);
+            actualResUpdated.orderBy(orderByCols, selectedColumns);
             Object[] recordsAct = actualResUpdated.getRecords().toArray();
             Object[] recordsExp = new Object[2];
 
@@ -1154,7 +1154,7 @@ public class XMLTestingSelect {
 
             RecordSet actualRes = xmlParser.select("table_name", selectedColumns, whereConditionDel);
             RecordSet actualResUpdated = new RecordSet(actualRes.getRecords());
-            actualResUpdated.orderBy(orderByCols);
+            actualResUpdated.orderBy(orderByCols, selectedColumns);
             Object[] recordsAct = actualResUpdated.getRecords().toArray();
             Object[] recordsExp = new Object[2];
 
@@ -1237,7 +1237,7 @@ public class XMLTestingSelect {
 
             RecordSet actualRes = xmlParser.select("table_name", selectedColumns, whereConditionDel);
             RecordSet actualResUpdated = new RecordSet(actualRes.getRecords());
-            actualResUpdated.orderBy(orderByCols);
+            actualResUpdated.orderBy(orderByCols, selectedColumns);
             Object[] recordsAct = actualResUpdated.getRecords().toArray();
             Object[] recordsExp = new Object[2];
 

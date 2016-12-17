@@ -23,7 +23,6 @@ public class Record implements Cloneable {
     /**
      * Constructor for a Record that takes in a
      * {@link Map} as a data holder.
-     *
      * @param record {@link Map} map of data.
      */
     public Record(LinkedHashMap<String, DBDatatype> record) {
@@ -32,7 +31,6 @@ public class Record implements Cloneable {
 
     /**
      * Adds a single piece of data to Record.
-     *
      * @param key key to be used to access an DBDatatype.
      * @param {@link DBDatatype} to be accessed.
      */
@@ -60,7 +58,6 @@ public class Record implements Cloneable {
 
     /**
      * Returns a {@link Map} representation of result.
-     *
      * @return {@link Map} to be accessed.
      */
     public LinkedHashMap<String, DBDatatype> getRecord() {
@@ -96,7 +93,8 @@ public class Record implements Cloneable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Record record1 = (Record) o;
-        return record != null ? record.equals(record1.record) : record1.record == null;
+        return record != null ? record.equals(record1.record) :
+                record1.record == null;
     }
 
     @Override

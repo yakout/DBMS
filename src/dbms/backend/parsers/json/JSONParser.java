@@ -87,7 +87,7 @@ public class JSONParser extends BackendParser {
         File tableFile = new File(openDB(dbName), tableName + CONSTANTS
         		.getString("extension.json"));
         if (!tableFile.exists()) {
-            log.error("Error occured: " + tableName + " file is not found!");
+            // log.error("Error occured: " + tableName + " file is not found!");
             throw new TableNotFoundException();
         }
         return tableFile;
@@ -99,7 +99,7 @@ public class JSONParser extends BackendParser {
         		.getCurrentDatabaseDir()
                 + File.separator + dbName);
         if (!database.exists()) {
-            log.error("Error occured: Database is not found.");
+            // log.error("Error occured: Database is not found.");
             throw new DatabaseNotFoundException();
         }
         return database;
