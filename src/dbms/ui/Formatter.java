@@ -56,10 +56,14 @@ public class Formatter {
 
         RecordSet recordSet = new RecordSet(records);
         List<Pair<String, Boolean>> order = new ArrayList<>();
-        order.add(new Pair<>("ID", false));
+        // order.add(new Pair<>("ID", false));
         order.add(new Pair<>("Name", true));
         order.add(new Pair<>("Part", false));
-        recordSet.orderBy(order);
+        List<String> returnColumns = new ArrayList<String>();
+        returnColumns.add("ID");
+        returnColumns.add("Part");
+        returnColumns.add("Name");
+        recordSet.orderBy(order, returnColumns);
         recordSet.distinct();
         new Formatter().printTable(recordSet.union(recordSet, true));
     }

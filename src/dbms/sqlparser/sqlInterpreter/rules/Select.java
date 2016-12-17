@@ -46,7 +46,7 @@ public class Select implements DMLStatement {
     }
 
     /**
-     * @return {@link Collecion} collection of columns.
+     * @return {@link Collection} collection of columns.
      */
     public Collection<String> getColumns() {
         return columns;
@@ -100,12 +100,17 @@ public class Select implements DMLStatement {
 
     @Override
     public void execute() throws DatabaseNotFoundException,
-            TableNotFoundException, SyntaxErrorException,
-            IncorrectDataEntryException {
-        recordSet = BackendController.getInstance().select(
-                tableName, columns, where);
+    TableNotFoundException, SyntaxErrorException,
+    IncorrectDataEntryException {
+        if (orderBy != null) {
+            recordSet = BackendController.getInstance().select(
+                    tableName, null, where);
+            recordSet.orderBy(orderBy, columns);
+        } else {
+            recordSet = BackendController.getInstance().select(
+                    tableName, columns, where);
+        }
         if (isDistinct) recordSet.distinct();
-        if (orderBy != null) recordSet.orderBy(orderBy);
         Formatter.getInstance().printTable(recordSet);
         recordSet.reset();
     }

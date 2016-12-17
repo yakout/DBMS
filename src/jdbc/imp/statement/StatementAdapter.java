@@ -81,7 +81,7 @@ public class StatementAdapter extends DBStatement {
                 | DatabaseAlreadyCreatedException |
                 TableAlreadyCreatedException e) {
             log.error("Invalid sql command " + e.toString());
-            throw new SQLException();
+            throw new SQLException(e.toString());
         }
         return false; // insert, update, delete, drop, create, use, alter ...
     }
@@ -99,7 +99,7 @@ public class StatementAdapter extends DBStatement {
             return resultSet;
         } catch (Exception e) {
             log.error("Invalid sql command " + e.toString());
-            throw new SQLException();
+            throw new SQLException(e.toString());
         }
     }
 
@@ -121,7 +121,7 @@ public class StatementAdapter extends DBStatement {
                 | DatabaseAlreadyCreatedException |
                 TableAlreadyCreatedException e) {
             log.error("Invalid sql command " + e.toString());
-            throw new SQLException();
+            throw new SQLException(e.toString());
         }
     }
 

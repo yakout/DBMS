@@ -78,7 +78,12 @@ public class Main {
                 printHelpPanel();
             } else {
                 try {
+                    long t1 = System.nanoTime();
                     sqlParserObj.parse(inputQuery).execute();
+                    long t2 = System.nanoTime();
+                    long elapsedTime = t2 -t1;
+                    console.format("Query successfully executed: "
+                            +  (double)elapsedTime / 1000000000.0 + " sec %n");
                 } catch (IncorrectDataEntryException
                         | DataTypeNotSupportedException
                         | SyntaxErrorException

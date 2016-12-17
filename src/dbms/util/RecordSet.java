@@ -170,12 +170,7 @@ public class RecordSet implements Iterable<Record>, Cloneable {
      * order; <strong>TRUE</strong> means ascending and <strong>FALSE</strong>
      * means descending.
      */
-    public void orderBy(final List<Pair<String, Boolean>> columns) {
-//		for (Pair<String, Boolean> pair : columns) {
-//			if (this.columns.size() == 1) {
-//				return;
-//			}
-//		}
+    public void orderBy(final List<Pair<String, Boolean>> columns, final Collection<String> returnColumns) {
         DBComparatorChain<Record> comparatorChain = new DBComparatorChain<>();
         for (final Pair<String, Boolean> pair : columns) {
             Comparator<Record> recordComparator = new Comparator<Record>() {
@@ -193,6 +188,32 @@ public class RecordSet implements Iterable<Record>, Cloneable {
             comparatorChain.addComparator(recordComparator, pair.getValue());
         }
         records.sort(comparatorChain);
+
+        Collection<String> filteredColumns = new ArrayList<>();
+
+        Iterator it = records.get(0).getRecord().entrySet().iterator();
+        while(it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            boolean found = false;
+            for (String columnName : returnColumns) {
+                if (pair.getKey().equals(columnName)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                filteredColumns.add((String) pair.getKey());
+            }
+        }
+        filter(filteredColumns);
+    }
+
+    private void filter(final Collection<String> filteredColumns) {
+        for (Record record : records) {
+            for (String columnName : filteredColumns) {
+                record.getRecord().remove(columnName);
+            }
+        }
     }
 
     /**

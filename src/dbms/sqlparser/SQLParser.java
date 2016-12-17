@@ -53,8 +53,7 @@ public class SQLParser {
         if (regex.matcher(query).matches()) {
             return regex.matcher(query);
         } else {
-            throw new SyntaxErrorException("Error:"
-            		+ " statement must end with \";\": syntax error");
+            throw new SyntaxErrorException(); //"Error: statement must end with \";\": syntax error");
         }
     }
 

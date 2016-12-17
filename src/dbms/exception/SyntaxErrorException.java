@@ -17,8 +17,6 @@ public class SyntaxErrorException extends Exception {
 
     @Override
     public String toString() {
-        return "SyntaxErrorException{" +
-                "message='" + message + '\'' +
-                '}';
+        return "Syntax Error " + message ;
     }
 }

@@ -41,11 +41,10 @@ public class XMLParser extends BackendParser {
      */
     private static final ResourceBundle CONSTANTS =
             ResourceBundle.getBundle("dbms.backend.parsers.xml.Constants");
-
     /**
      * Logger.
      */
-    private static Logger log = LogManager.getLogger(XMLParser.class);
+    private Logger log = LogManager.getLogger(XMLParser.class);
 
     /**
      * Static singleton instance.
