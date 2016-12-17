@@ -82,7 +82,7 @@ public class ProtocolBufferParser extends BackendParser {
     		throws DatabaseNotFoundException, TableAlreadyCreatedException {
         File tableFile = new File(openDB(table.getDatabase().getName()),
                 table.getName()
-                        + CONSTANTS.getString("extension.proto"));
+                        + CONSTANTS.getString("extension.protoBuf"));
         if (tableFile.exists()) {
             log.error("Error occured: table is already created!");
             throw new TableAlreadyCreatedException();
@@ -102,7 +102,7 @@ public class ProtocolBufferParser extends BackendParser {
     public void dropTable(Table table) throws DatabaseNotFoundException {
         File tableFile = new File(openDB(table.getDatabase().getName()),
                 table.getName()
-                        + CONSTANTS.getString("extension.proto") );
+                        + CONSTANTS.getString("extension.protoBuf") );
 
         if (tableFile.exists()) {
             tableFile.delete();
@@ -147,7 +147,7 @@ public class ProtocolBufferParser extends BackendParser {
     		throws TableNotFoundException,
             DatabaseNotFoundException {
         File tableFile = new File(openDB(dbName), tableName
-                + CONSTANTS.getString("extension.proto"));
+                + CONSTANTS.getString("extension.protoBuf"));
         if (!tableFile.exists()) {
         	log.error("Error occured: " + tableName + " is not found!");
             throw new TableNotFoundException();

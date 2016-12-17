@@ -189,7 +189,7 @@ public class JDBCTest {
                     + "float, Birth date)");
             int count = statement.executeUpdate("INSERT INTO tb (ID, Name, "
                     + "GrAde, birth)"
-                    + " VALUES (-30, 'hello', -.366, '2001-10-10')");
+                    + " VALUES (-30, 'hello', -0.366, '2001-10-10')");
             Assert.assertEquals("Table Insertion did not return 1", 1, count);
             count = statement.executeUpdate("INSERT INTO tb"
                     + " VALUES (-2 ,'A spaced string', 101.00002, "
@@ -1119,5 +1119,57 @@ public class JDBCTest {
         }
         connection.close();
 
+    }
+
+
+    @Test
+    public void testJDBCTwentyFour() throws SQLException {
+        final Connection connection = createUseDatabase("Students");
+        try {
+            final Statement statement = connection.createStatement();
+            statement.execute("CREATE TABLE STUDENT1 (ID INT, NAME VARCHAR ,GRADE FLOAT , BIRTH DATE )");
+            int count = statement.executeUpdate("INSERT INTO Student1 (ID, "
+                    + "Name, Grade)"
+                    + " VALUES (1 ,'Ahmed Khaled', 90.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("INSERT INTO Student1 (ID, "
+                    + "Name, Grade)"
+                    + " VALUES (1 ,'Ahmed Khaled', 15.0)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("INSERT INTO Student1 (ID, "
+                    + "Name, Grade)"
+                    + " VALUES (1 ,'Ahmed NAGGAR', 27.0)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student1 valUES "
+                    + "(2828,'barrs',158828.5,'2001-10-05')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student1 valUES "
+                    + "(2828,'walid',158828.5 , '1996-12-01')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("upDATE Student1 set id = 10 "
+                    + "where birth > '1995-10-01' ");
+            Assert.assertEquals("Table Insertion did not return 1", 2, count);
+            statement.execute("CREATE TABLE STUDENT2 (ID INT, NAME VARCHAR ,GRADE FLOAT , BIRTH DATE )");
+            //TODO check regex for the below test.
+//            count = statement.executeUpdate("INSERT INTO Student2 (ID, "
+//                    + "Name, Grade)"
+//                    + " VALUES (,'',)");
+//            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            //TODO check the date regex for accepting 0yrs 0 months and 0 days.
+            count = statement.executeUpdate("INSERT INTO Student2 (ID, "
+                    + "Name, Grade , birth)"
+                    + " VALUES (500,'tolba', 15.0000001,'0000-03-00' )");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student1 valUES "
+                    + "(2828,'500658478278722287822711787fcbgfuybe7298786bcryte68718',158828.5 , '1996-12-01')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student1 valUES "
+                    + "(2828,'500658478278722287822711787729878668718',158828.5 , '1996-12-30')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            final ResultSet resultSet = statement.executeQuery("SELECT * FROM"
+                    + " Student1");
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

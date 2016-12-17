@@ -34,7 +34,7 @@ public class JSONParser extends BackendParser {
     /**
      * Key to JSON parser that is used to register to factory.
      */
-    public static final String KEY = "alt";
+    public static final String KEY = "mm";
 
     /**
      * Resource bundle to constants.
