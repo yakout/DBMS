@@ -22,12 +22,13 @@ public class CreateTable implements DDLStatement {
         return tableName;
     }
 
-    public Map<String, Class<? extends DBDatatype>> getColumns() {
+    public Map<String, Class< ? extends DBDatatype>> getColumns() {
         return columns;
     }
 
     @Override
-    public void execute() throws DatabaseNotFoundException, TableAlreadyCreatedException, IncorrectDataEntryException {
+    public void execute() throws DatabaseNotFoundException,
+    TableAlreadyCreatedException, IncorrectDataEntryException {
         BackendController.getInstance().createTable(tableName, columns);
     }
 }

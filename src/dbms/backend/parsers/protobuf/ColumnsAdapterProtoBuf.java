@@ -19,12 +19,13 @@ public class ColumnsAdapterProtoBuf {
     }
 
 
-    public void deserializeColumns(byte[] deserialzedData, Table table)
+    public void deserializeColumns (final byte[] deserialzedData,
+                                    final Table table)
             throws InvalidProtocolBufferException {
-        TableProtoBuf.TableModule tableModule = TableProtoBuf.TableModule
-                .parseFrom(deserialzedData);
-        List<TableProtoBuf.TableModule.ColumnModule> columnsModule =
-                tableModule.getColumnsList();
+        TableProtoBuf.TableModule tableModule = TableProtoBuf
+                .TableModule.parseFrom(deserialzedData);
+        List<TableProtoBuf.TableModule.ColumnModule> columnsModule
+                = tableModule.getColumnsList();
         List<Column> cloneColumns = new ArrayList<>();
         for (TableProtoBuf.TableModule.ColumnModule col : columnsModule) {
             String columnName = col.getColumnName();
@@ -75,10 +76,8 @@ public class ColumnsAdapterProtoBuf {
 
 
     public byte[] serializeTable(Table table) throws IllegalAccessException,
-            InstantiationException,
-            NoSuchMethodException, InvocationTargetException {
-        List<TableProtoBuf.TableModule.ColumnModule> columnsModule = new
-                ArrayList<>();
+            InstantiationException, NoSuchMethodException, InvocationTargetException {
+        List<TableProtoBuf.TableModule.ColumnModule> columnsModule = new ArrayList<>();
         List<Column> columns = table.getColumns();
         for (Column col : columns) {
 
@@ -94,9 +93,8 @@ public class ColumnsAdapterProtoBuf {
 
             }
 
-            TableProtoBuf.TableModule.ColumnModule columnMod = TableProtoBuf
-                    .TableModule.ColumnModule
-                    .newBuilder()
+            TableProtoBuf.TableModule.ColumnModule columnMod
+                    = TableProtoBuf.TableModule.ColumnModule.newBuilder()
                     .setColumnName(col.getName())
                     .setColumnDataType((String) col.getType().getMethod(
                             "getKey").invoke(col.getType().newInstance()))
@@ -115,4 +113,9 @@ public class ColumnsAdapterProtoBuf {
 
         return tableProtoBuf.toByteArray();
     }
+
+    //TODO
+    // check null or empty entries and how I will check them.
+    // the extension of the output file.
+
 }
