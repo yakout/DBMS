@@ -1,5 +1,7 @@
 package dbms.backend;
 
+import java.io.File;
+
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.TableAlreadyCreatedException;
@@ -7,12 +9,11 @@ import dbms.exception.TableNotFoundException;
 import dbms.util.Database;
 import dbms.util.Table;
 
-import java.io.File;
-
 public abstract class BackendParser {
     public static void createDatabase(Database database)
             throws DatabaseAlreadyCreatedException {
-        File workspace = new File(BackendController.getInstance().getCurrentDatabaseDir());
+        File workspace = new File(BackendController.getInstance()
+        		.getCurrentDatabaseDir());
         if (!workspace.exists()) {
             workspace.mkdirs();
         }
@@ -27,7 +28,8 @@ public abstract class BackendParser {
 
     public static void dropDatabase(Database database)
             throws DatabaseNotFoundException {
-        File databaseDir = new File(BackendController.getInstance().getCurrentDatabaseDir()
+        File databaseDir = new File(BackendController.getInstance()
+        		.getCurrentDatabaseDir()
                 + File.separator + database.getName());
         if (databaseDir.exists()) {
             String[] files = databaseDir.list();

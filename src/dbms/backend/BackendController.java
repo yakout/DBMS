@@ -3,6 +3,10 @@
  */
 package dbms.backend;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.Map;
+
 import dbms.datatypes.DBDatatype;
 import dbms.exception.DatabaseAlreadyCreatedException;
 import dbms.exception.DatabaseNotFoundException;
@@ -17,10 +21,6 @@ import dbms.util.Column;
 import dbms.util.Database;
 import dbms.util.RecordSet;
 import dbms.util.Table;
-
-import java.io.File;
-import java.util.Collection;
-import java.util.Map;
 
 /**
  * Controller that controls data entry and queries between
@@ -113,7 +113,8 @@ public final class BackendController {
      * @throws TableNotFoundException In case table wasn't found.
      * @throws DatabaseNotFoundException In case database wasn't found.
      */
-    public void dropTable(String tableName) throws DatabaseNotFoundException {
+    public void dropTable(String tableName)
+    		throws DatabaseNotFoundException {
         Table table = new Database(dbName).createTable(tableName);
         BackendParserFactory.getFactory().getCurrentParser().dropTable(
                 table);
@@ -227,9 +228,11 @@ public final class BackendController {
             throws DatabaseNotFoundException, TableNotFoundException,
             SyntaxErrorException, IncorrectDataEntryException {
         Table table = new Database(dbName).createTable(tableName);
-        BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
+        BackendParserFactory.getFactory().getCurrentParser()
+        .loadTable(table);
         int updateCount = table.update(values, columns, condition);
-        BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
+        BackendParserFactory.getFactory().getCurrentParser()
+        .writeToFile(table);
         table.clear();
         return updateCount;
     }
@@ -239,7 +242,8 @@ public final class BackendController {
      * @param dbName Name of database.
      * @throws DatabaseNotFoundException In case database wasn't found.
      */
-    public void useDatabase(String dbName) throws DatabaseNotFoundException {
+    public void useDatabase(String dbName)
+    		throws DatabaseNotFoundException {
         try {
             this.createDatabase(dbName);
             this.dropDatabase(dbName);
@@ -275,9 +279,11 @@ public final class BackendController {
             IncorrectDataEntryException {
         Table table = new Table(tableName);
         table.setDatabase(new Database(dbName));
-        BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
+        BackendParserFactory.getFactory().getCurrentParser()
+        .loadTable(table);
         table.alterAdd(columnName, datatype);
-        BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
+        BackendParserFactory.getFactory().getCurrentParser()
+        .writeToFile(table);
         table.clear();
     }
 
@@ -294,9 +300,11 @@ public final class BackendController {
             IncorrectDataEntryException {
         Table table = new Table(tableName);
         table.setDatabase(new Database(dbName));
-        BackendParserFactory.getFactory().getCurrentParser().loadTable(table);
+        BackendParserFactory.getFactory().getCurrentParser()
+        .loadTable(table);
         table.alterDrop(columnName);
-        BackendParserFactory.getFactory().getCurrentParser().writeToFile(table);
+        BackendParserFactory.getFactory().getCurrentParser()
+        .writeToFile(table);
         table.clear();
     }
 

@@ -1,15 +1,29 @@
 package dbms.backend.parsers.json;
 
-import com.google.gson.*;
-import dbms.datatypes.*;
-import dbms.util.Column;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+
+import dbms.datatypes.DBDatatype;
+import dbms.datatypes.DBDate;
+import dbms.datatypes.DBFloat;
+import dbms.datatypes.DBInteger;
+import dbms.datatypes.DBString;
+import dbms.datatypes.DatatypeFactory;
+import dbms.util.Column;
 
 /**
  * Serializes/Deserializes a column to .JSON format.

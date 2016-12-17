@@ -7,7 +7,8 @@ import com.google.gson.reflect.TypeToken;
 
 public class ClassTypeAdapterFactory implements TypeAdapterFactory {
     @Override
-    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
+    public <T> TypeAdapter<T> create(final	Gson gson,
+    		final TypeToken<T> typeToken) {
         if (!Class.class.isAssignableFrom(typeToken.getRawType())) {
             return null;
         }

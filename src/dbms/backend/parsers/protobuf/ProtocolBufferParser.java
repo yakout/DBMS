@@ -1,5 +1,15 @@
 package dbms.backend.parsers.protobuf;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ResourceBundle;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import dbms.backend.BackendController;
 import dbms.backend.BackendParser;
 import dbms.backend.BackendParserFactory;
@@ -7,15 +17,6 @@ import dbms.exception.DatabaseNotFoundException;
 import dbms.exception.TableAlreadyCreatedException;
 import dbms.exception.TableNotFoundException;
 import dbms.util.Table;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ResourceBundle;
 
 public class ProtocolBufferParser extends BackendParser {
     private static Logger log = LogManager.getFormatterLogger();
