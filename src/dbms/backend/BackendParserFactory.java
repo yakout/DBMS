@@ -11,7 +11,12 @@ public class BackendParserFactory {
 
     private BackendParserFactory() {
         registeredParsers = new HashMap<>();
-        loadParsers();
+        try {
+            loadParsers();
+        } catch (Throwable e) {
+            // TODO
+            e.getStackTrace();
+        }
     }
     /**
      *

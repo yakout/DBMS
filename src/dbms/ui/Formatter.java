@@ -180,16 +180,16 @@ public class Formatter {
         records.add(record4);
 
         RecordSet recordSet = new RecordSet(records);
-         List<Pair<String, Boolean>> order = new ArrayList<>();
-          order.add(new Pair<>("ID", false));
-          order.add(new Pair<>("Part", false));
-         order.add(new Pair<>("Name", false));
-         List<String> returnColumns = new ArrayList<>();
-         returnColumns.add("ID");
-         returnColumns.add("Part");
-          returnColumns.add("Name");
-         recordSet.orderBy(order, returnColumns);
-        // recordSet.distinct();
+        List<Pair<String, Boolean>> order = new ArrayList<>();
+        order.add(new Pair<>("ID", false));
+        order.add(new Pair<>("Part", false));
+        order.add(new Pair<>("Name", false));
+        List<String> returnColumns = new ArrayList<>();
+        returnColumns.add("ID");
+        returnColumns.add("Part");
+        returnColumns.add("Name");
+        recordSet.orderBy(order, returnColumns);
+        recordSet.distinct();
         new Formatter().printTable(recordSet.union(recordSet, false));
     }
 }

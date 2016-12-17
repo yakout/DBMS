@@ -38,7 +38,7 @@ public class JSONParser extends BackendParser {
     /**
      * Logger.
      */
-    private Logger log = LogManager.getLogger(JSONParser.class);
+    private static Logger log = LogManager.getLogger(JSONParser.class);
 
     /**
      * {@link GsonBuilder} Builds GSON objects.

@@ -222,12 +222,16 @@ public class RecordSet implements Iterable<Record>, Cloneable {
             }
         }
 
+        List<Pair<String, Class<? extends DBDatatype>>> toRemove = new ArrayList<>();
+
         for (Pair<String, Class<? extends DBDatatype>> pair : columns) {
             for (String columnName : filteredColumns) {
-                // if (pair.getKey() != nu)
-                columns.remove(pair);
+                if (pair.getKey().equals(columnName)) {
+                    toRemove.add(pair);
+                }
             }
         }
+        columns.removeAll(toRemove);
     }
 
     /**

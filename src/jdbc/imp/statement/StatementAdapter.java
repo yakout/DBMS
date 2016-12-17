@@ -18,7 +18,7 @@ public class StatementAdapter extends DBStatement {
     private Connection connection;
     private List<String> batch;
     private ResultSet resultSet;
-    private Logger log = LogManager.getLogger(StatementAdapter.class.getName());
+    private static Logger log = LogManager.getLogger(StatementAdapter.class.getName());
 
     public StatementAdapter(Connection connection) {
         this.connection = connection;

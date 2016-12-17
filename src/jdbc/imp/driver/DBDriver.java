@@ -14,12 +14,12 @@ public class DBDriver implements Driver {
     private static final String URL_REGEX = "jdbc:(\\w+)db://localhost";
     private static final Pattern urlPattern = Pattern.compile(URL_REGEX);
 
-//    static {
-//        try {
-//            DriverManager.registerDriver(new DBDriver());
-//        } catch (SQLException e) {
-//        }
-//    }
+    static {
+        try {
+            DriverManager.registerDriver(new DBDriver());
+        } catch (SQLException e) {
+        }
+    }
 
 
     private final String INVALID_URL = "Invalid url Format";

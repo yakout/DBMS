@@ -44,7 +44,7 @@ public class XMLParser extends BackendParser {
     /**
      * Logger.
      */
-    private Logger log = LogManager.getLogger(XMLParser.class);
+    private static Logger log = LogManager.getLogger(XMLParser.class);
 
     /**
      * Static singleton instance.
