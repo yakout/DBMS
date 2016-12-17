@@ -1231,4 +1231,54 @@ public class JDBCTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void testJDBCTwentySix() throws SQLException {
+        final Connection connection = createUseDatabase("Students");
+        try {
+            final Statement statement = connection.createStatement();
+            statement.execute("CREATE TABLE STUDENT1 (ID INT, NAME VARCHAR ,GRADE FLOAT , BIRTH DATE )");
+            int count = statement.executeUpdate("INSERT INTO Student1 (ID, "
+                    + "Name, Grade)"
+                    + " VALUES (1 ,'Ahmed Khaled', 90.5)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("INSERT INTO Student1 (ID, "
+                    + "Name, Grade)"
+                    + " VALUES (1 ,'Ahmed Khaled', 15.0)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("INSERT INTO Student1 (ID, "
+                    + "Name, Grade)"
+                    + " VALUES (1 ,'Ahmed NAGGAR', 27.0)");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student1 valUES "
+                    + "(2828,'barrs',158828.5,'2001-10-05')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student1 valUES "
+                    + "(2828,'walid',158828.5 , '1996-12-01')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("upDATE Student1 set id = 10 "
+                    + "where birth > '1995-10-01' ");
+            Assert.assertEquals("Table Insertion did not return 1", 2, count);
+            statement.execute("CREATE TABLE STUDENT2 (ID INT, NAME VARCHAR ,GRADE FLOAT , BIRTH DATE )");
+            count = statement.executeUpdate("InseRT inTO Student1 valUES "
+                    + "(2828,'500658478278722287822711787fcbgfuybe7298786bcryte68718',158828.5 , '1996-12-01')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            count = statement.executeUpdate("InseRT inTO Student1 valUES "
+                    + "(2828,'500658478278722287822711787729878668718',1588280000000.00000000005 , '1996-12-30')");
+            Assert.assertEquals("Table Insertion did not return 1", 1, count);
+            final ResultSet resultSet = statement.executeQuery("SELECT * FROM"
+                    + " Student1 order by birth DESC where ((birth >= '2000-01-02') or (grade >= 90.6))");
+
+            resultSet.next();
+            resultSet.next();
+            Assert.assertEquals("Failed to get Correct name value",
+                    "500658478278722287822711787729878668718",resultSet.getString("name"));
+
+            final ResultSet resultSetMod = statement.executeQuery("SELECT * FROM"
+                    + " Student1 order by birth DESC where ((birth >= '2000-01-02') and (id >= 10))");
+
+        } catch (final SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
