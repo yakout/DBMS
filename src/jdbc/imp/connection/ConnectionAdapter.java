@@ -13,7 +13,6 @@ public class ConnectionAdapter extends DBConnection {
 
     public ConnectionAdapter(String url, String databaseDir) {
         BackendController.getInstance().setCurrentDatabaseDir(databaseDir);
-        BackendParserFactory.loadParsers();
         BackendParserFactory.getFactory().setCurrentParser(url);
     }
 

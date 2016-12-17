@@ -11,6 +11,7 @@ public class BackendParserFactory {
 
     private BackendParserFactory() {
         registeredParsers = new HashMap<>();
+        loadParsers();
     }
     /**
      *
