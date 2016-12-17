@@ -1,10 +1,5 @@
 package dbms.backend.parsers.protobuf;
 
-import com.google.protobuf.InvalidProtocolBufferException;
-import dbms.datatypes.*;
-import dbms.util.Column;
-import dbms.util.Table;
-
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.text.DateFormat;
@@ -12,6 +7,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.protobuf.InvalidProtocolBufferException;
+
+import dbms.datatypes.DBDatatype;
+import dbms.datatypes.DBDate;
+import dbms.datatypes.DBFloat;
+import dbms.datatypes.DBInteger;
+import dbms.datatypes.DBString;
+import dbms.datatypes.DatatypeFactory;
+import dbms.util.Column;
+import dbms.util.Table;
 
 public class ColumnsAdapterProtoBuf {
 

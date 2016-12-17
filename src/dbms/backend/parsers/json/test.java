@@ -1,20 +1,26 @@
 package dbms.backend.parsers.json;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import dbms.backend.BackendController;
 import dbms.datatypes.DBDatatype;
 import dbms.datatypes.DBInteger;
 import dbms.datatypes.DBString;
 import dbms.datatypes.DatatypeFactory;
-import dbms.exception.*;
+import dbms.exception.DatabaseAlreadyCreatedException;
+import dbms.exception.DatabaseNotFoundException;
+import dbms.exception.IncorrectDataEntryException;
+import dbms.exception.SyntaxErrorException;
+import dbms.exception.TableAlreadyCreatedException;
+import dbms.exception.TableNotFoundException;
 import dbms.util.RecordSet;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 
 public class test {
 
-    private final static BackendController JSONParserConc = BackendController.getInstance();
+    private final static BackendController JSONParserConc
+    = BackendController.getInstance();
 
     public static void main(String[] args) {
         try {
@@ -27,7 +33,8 @@ public class test {
         passMap.put("column_2", DBString.class);
         try {
             JSONParserConc.createTable("table11", passMap);
-        } catch (DatabaseNotFoundException | TableAlreadyCreatedException | IncorrectDataEntryException e) {
+        } catch (DatabaseNotFoundException | TableAlreadyCreatedException 
+        		| IncorrectDataEntryException e) {
             e.printStackTrace();
         }
         Map<String, DBDatatype> entriesMap = new LinkedHashMap<String, DBDatatype>();
@@ -36,7 +43,8 @@ public class test {
         try {
             JSONParserConc.insertIntoTable("table11", entriesMap);
             RecordSet rs = JSONParserConc.select("table11", null, null);
-        } catch (DatabaseNotFoundException | TableNotFoundException | IncorrectDataEntryException e) {
+        } catch (DatabaseNotFoundException | TableNotFoundException
+        		| IncorrectDataEntryException e) {
             e.printStackTrace();
         } catch (SyntaxErrorException e) {
             e.printStackTrace();

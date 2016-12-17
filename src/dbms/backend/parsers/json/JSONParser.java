@@ -1,9 +1,21 @@
 package dbms.backend.parsers.json;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ResourceBundle;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import dbms.backend.BackendController;
 import dbms.backend.BackendParser;
 import dbms.backend.BackendParserFactory;
@@ -13,11 +25,6 @@ import dbms.exception.TableNotFoundException;
 import dbms.util.Column;
 import dbms.util.Database;
 import dbms.util.Table;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.io.*;
-import java.util.ResourceBundle;
 
 /**
  * Table parser to .JSON format.

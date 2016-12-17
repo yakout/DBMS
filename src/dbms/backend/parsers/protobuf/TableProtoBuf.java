@@ -19,16 +19,18 @@ public final class TableProtoBuf {
 
     static {
         java.lang.String[] descriptorData = {
-                "\n\013Table.proto\022\004dbms\"\274\001\n\014Table_module\022\025\n\r" +
-                        "database_name\030\001 \002(\t\022\022\n\ntable_name\030\002 \002(\t\022" +
-                        "1\n\007columns\030\003 \003(\0132 .dbms.TableModule.Col" +
-                        "umn_module\032N\n\rColumnModule\022\023\n\013column_na" +
-                        "me\030\001 \001(\t\022\027\n\017column_dataType\030\002 \001(\t\022\017\n\007ent" +
-                        "ries\030\003 \003(\tB.\n\035dbms.backend.parsers.proto" +
-                        "bufB\rTableProtoBuf"
+                "\n\013Table.proto\022\004dbms\"\274\001\n\014Table_module\0"
+                + "22\025\n\rdatabase_name\030\001 \002(\t\022\022\n"
+                + "\ntable_name\030\002 \002(\t\0221\n\007columns\030\003 \003("
+                + "\0132 .dbms.TableModule.Column_module\032N\n\rColumnModule\022"
+                + "\023\n\013column_name\030\001 \001(\t\022\027\n\017column_dataType\030\002"
+                + " \001(\t\022\017\n\007entries\030\003 \003(\tB.\n\035dbms.backend"
+                + ".parsers.protobufB\rTableProtoBuf"
         };
-        com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-                new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
+        com.google.protobuf.Descriptors.FileDescriptor
+        .InternalDescriptorAssigner assigner =
+                new com.google.protobuf.Descriptors.FileDescriptor
+                .InternalDescriptorAssigner() {
                     public com.google.protobuf.ExtensionRegistry assignDescriptors(
                             com.google.protobuf.Descriptors.FileDescriptor root) {
                         descriptor = root;
