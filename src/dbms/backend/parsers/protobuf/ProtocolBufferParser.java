@@ -20,7 +20,7 @@ import dbms.util.Table;
 
 public class ProtocolBufferParser extends BackendParser {
     private static Logger log = LogManager.getFormatterLogger();
-    public static final String KEY = "alt";
+    public static final String KEY = "pb";
     private static final ResourceBundle CONSTANTS
             = ResourceBundle.getBundle("dbms.backend.parsers.protobuf"
             + ".Constants");
