@@ -55,5 +55,5 @@
 This project is public, feel free to create pull requests or open issues.
 
 ## Screen Shots
-![picture alt](https://github.com/yakout/circus-of-plates/blob/master/screenshots/ScreenShot_1.png)
-![picture alt](https://github.com/yakout/circus-of-plates/blob/master/screenshots/ScreenShot_2.png)
+![picture alt](https://github.com/yakout/DBMS/blob/master/screenshots/ScreenShot_1.png)
+![picture alt](https://github.com/yakout/DBMS/blob/master/screenshots/ScreenShot_2.png)
